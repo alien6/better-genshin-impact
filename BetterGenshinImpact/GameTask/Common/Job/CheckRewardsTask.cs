@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using BetterGenshinImpact.Core.Localization;
 using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.Core.Simulator.Extensions;
@@ -14,7 +15,6 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using static BetterGenshinImpact.GameTask.Common.TaskControl;
 
-
 namespace BetterGenshinImpact.GameTask.Common.Job;
 
 /// <summary>
@@ -23,27 +23,30 @@ namespace BetterGenshinImpact.GameTask.Common.Job;
 public class CheckRewardsTask
 {
     private readonly ILogger<CheckRewardsTask> _logger = App.GetLogger<CheckRewardsTask>();
-
     private readonly string _dailyRewardsClaimedLocalizedString;
+    private readonly string[] _dailyCommissionRewardsLocalizedStrings;
+    private readonly string[] _commissionLocalizedStrings;
 
     public CheckRewardsTask()
     {
         IStringLocalizer<CheckRewardsTask> stringLocalizer = App.GetService<IStringLocalizer<CheckRewardsTask>>() ?? throw new NullReferenceException();
-        CultureInfo cultureInfo = new CultureInfo(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
-        this._dailyRewardsClaimedLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "今日奖励已领取");
+        CultureInfo cultureInfo = new(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
+        _dailyRewardsClaimedLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "今日奖励已领取");
+        _dailyCommissionRewardsLocalizedStrings = [.. GameTextCatalog.GetAll(GameTextKey.DailyCommissionRewards, cultureInfo)];
+        _commissionLocalizedStrings = [.. GameTextCatalog.GetAll(GameTextKey.Commission, cultureInfo)];
     }
 
     public string Name => "检查奖励并通知的任务";
-    
-    private static RecognitionObject GetConfirmRa(bool isOcrMatch = false,params string[] targetText)
+
+    private static RecognitionObject GetConfirmRa(bool isOcrMatch = false, params string[] targetText)
     {
         using var screenArea = CaptureToRectArea();
         var x = (int)(screenArea.Width * 0.1);
         var y = (int)(screenArea.Height * 0.1);
         var width = (int)(screenArea.Width * 0.3);
         var height = (int)(screenArea.Height * 0.7);
-        
-        return isOcrMatch ? RecognitionObject.OcrMatch(x, y, width, height, targetText) : 
+
+        return isOcrMatch ? RecognitionObject.OcrMatch(x, y, width, height, targetText) :
             RecognitionObject.Ocr(x, y, width, height);
     }
 
@@ -52,22 +55,24 @@ public class CheckRewardsTask
         try
         {
             await new ReturnMainUiTask().Start(ct);
-            
+
             _ = await NewRetry.WaitForElementAppear(
-                GetConfirmRa(true,"每日委托奖励"),
-                ()=>
+                GetConfirmRa(true, _dailyCommissionRewardsLocalizedStrings),
+                () =>
                 {
-                    Simulation.SendInput.SimulateAction(GIActions.OpenAdventurerHandbook); 
+                    Simulation.SendInput.SimulateAction(GIActions.OpenAdventurerHandbook);
                     using var screen = CaptureToRectArea();
                     var ra = screen.FindMulti(GetConfirmRa())
-                        .FirstOrDefault(btn => btn.Text == "委托");
-                        ra?.Click();
-                },ct,4,1000);
-            
+                        .FirstOrDefault(btn => _commissionLocalizedStrings.Any(text =>
+                            string.Equals(btn.Text, text, StringComparison.OrdinalIgnoreCase)
+                            || btn.Text.Contains(text, StringComparison.OrdinalIgnoreCase)));
+                    ra?.Click();
+                }, ct, 4, 1000);
+
             // OCR识别每日是否完成
             var done = await NewRetry.WaitForElementAppear(
-                GetConfirmRa(true,_dailyRewardsClaimedLocalizedString),null,
-                ct,4,500);
+                GetConfirmRa(true, _dailyRewardsClaimedLocalizedString), null,
+                ct, 4, 500);
             if (done)
             {
                 Logger.LogInformation("检查每日奖励结果：{Msg}", "今日奖励已领取");
