@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Audit BetterGI core for functional Simplified-Chinese text dependencies.
-
-The scanner is intentionally heuristic. It reports CJK string literals used in
-OCR matching, text comparisons, UI waits, and recognition JSON configuration,
-while ignoring comments, logging-only lines, and strings explicitly resolved
-through WithCultureGet/IStringLocalizer.
-"""
-
+"""Audit BetterGI core for functional Simplified-Chinese text dependencies."""
 from __future__ import annotations
 
 import json
@@ -21,38 +14,15 @@ REPORT = ROOT / "reports" / "ptbr-core-hardcodes.json"
 CJK_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff]")
 CS_STRING_RE = re.compile(r'(?<!@)"(?P<value>(?:\\.|[^"\\])*)"|@"(?P<verbatim>(?:""|[^"])*)"')
 FUNCTIONAL_TOKENS = (
-    "OcrMatch",
-    "AllContainMatchText",
-    "OneContainMatchText",
-    "RegexMatchText",
-    ".Contains(",
-    ".Equals(",
-    "==",
-    "!=",
-    "FirstOrDefault",
-    "WaitForElement",
-    "ChooseTalkOption",
-    "SingleSelectText",
-    ".Text",
+    "OcrMatch", "AllContainMatchText", "OneContainMatchText", "RegexMatchText",
+    ".Contains(", ".Equals(", "==", "!=", "FirstOrDefault", "WaitForElement",
+    "ChooseTalkOption", "SingleSelectText", ".Text",
 )
 IGNORE_TOKENS = (
-    "WithCultureGet",
-    "LogInformation",
-    "LogDebug",
-    "LogWarning",
-    "LogError",
-    "Logger.",
-    "_logger.",
-    "Notify.",
-    "ThemedMessageBox",
+    "WithCultureGet", "LogInformation", "LogDebug", "LogWarning", "LogError",
+    "Logger.", "_logger.", "Notify.", "ThemedMessageBox",
 )
-JSON_MATCH_KEYS = {
-    "allContainMatchText",
-    "oneContainMatchText",
-    "regexMatchText",
-    "text",
-    "matchText",
-}
+JSON_MATCH_KEYS = {"allContainMatchText", "oneContainMatchText", "regexMatchText", "text", "matchText"}
 
 
 def line_comment_index(line: str) -> int:
@@ -79,7 +49,7 @@ def scan_cs(path: Path) -> list[dict[str, object]]:
     findings: list[dict[str, object]] = []
     try:
         text = path.read_text(encoding="utf-8-sig")
-    except UnicodeDecodeError:
+    except (UnicodeDecodeError, OSError):
         return findings
 
     in_block_comment = False
@@ -104,9 +74,7 @@ def scan_cs(path: Path) -> list[dict[str, object]]:
         idx = line_comment_index(line)
         if idx >= 0:
             line = line[:idx]
-        if not CJK_RE.search(line):
-            continue
-        if any(token in line for token in IGNORE_TOKENS):
+        if not CJK_RE.search(line) or any(token in line for token in IGNORE_TOKENS):
             continue
         if not any(token in line for token in FUNCTIONAL_TOKENS):
             continue
@@ -116,18 +84,17 @@ def scan_cs(path: Path) -> list[dict[str, object]]:
             value = match.group("value") if match.group("value") is not None else match.group("verbatim")
             if value and CJK_RE.search(value):
                 literals.append(value.replace('""', '"'))
-        if not literals:
-            continue
-        findings.append({
-            "path": path.relative_to(ROOT).as_posix(),
-            "line": number,
-            "literals": literals,
-            "source": original_line.strip()[:600],
-        })
+        if literals:
+            findings.append({
+                "path": path.relative_to(ROOT).as_posix(),
+                "line": number,
+                "literals": literals,
+                "source": original_line.strip()[:600],
+            })
     return findings
 
 
-def walk_json(node: object, path_stack: list[str], found: list[str]) -> None:
+def walk_json(node: object, found: list[str]) -> None:
     if isinstance(node, dict):
         for key, value in node.items():
             if key in JSON_MATCH_KEYS:
@@ -135,19 +102,19 @@ def walk_json(node: object, path_stack: list[str], found: list[str]) -> None:
                     found.append(value)
                 elif isinstance(value, list):
                     found.extend(item for item in value if isinstance(item, str) and CJK_RE.search(item))
-            walk_json(value, path_stack + [str(key)], found)
+            walk_json(value, found)
     elif isinstance(node, list):
-        for index, value in enumerate(node):
-            walk_json(value, path_stack + [str(index)], found)
+        for value in node:
+            walk_json(value, found)
 
 
 def scan_json(path: Path) -> list[dict[str, object]]:
     try:
         data = json.loads(path.read_text(encoding="utf-8-sig"))
-    except (UnicodeDecodeError, json.JSONDecodeError):
+    except (UnicodeDecodeError, json.JSONDecodeError, OSError):
         return []
     found: list[str] = []
-    walk_json(data, [], found)
+    walk_json(data, found)
     if not found:
         return []
     return [{
@@ -179,12 +146,13 @@ def main() -> int:
     }
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    # ASCII-safe stdout for Windows runners; report remains readable UTF-8.
     print(json.dumps({
         "functional_cjk_count": len(findings),
         "top_literals": frequency.most_common(40),
         "top_files": file_frequency.most_common(30),
         "report": REPORT.relative_to(ROOT).as_posix(),
-    }, ensure_ascii=False, indent=2))
+    }, ensure_ascii=True, indent=2))
     return 0
 
 
