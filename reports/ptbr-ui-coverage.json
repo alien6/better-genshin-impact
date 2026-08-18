@@ -7,20 +7,7 @@
   "extra": [],
   "empty_count": 0,
   "empty": [],
-  "cjk_value_count": 3,
-  "cjk_values": [
-    {
-      "key": "装备「王树瑞佑」，通过循环重启游戏刷新并收集木材 - ",
-      "value": "Equipe \"王树瑞佑\", atualize e colete madeira reiniciando o jogo repetidamente -"
-    },
-    {
-      "key": "根据填入人或人和cd，来决定当此人元素战技cd未结束时，跳过此人出招，来优化战斗流程，可填入人名或人名数字（用逗号分隔），多种用分号分隔，例如:白术;钟离,12;，如果人名，则用内置cd检查（或填入数字也小于0），如果是人名和数字，则把数字当做出招cd(秒)。",
-      "value": "Com base no(s) personagem(s) inserido(s) ou personagem+CD, pule a ação de um personagem quando seu CD de Habilidade Elemental não tiver terminado para otimizar o fluxo de combate. Insira um nome ou nome, número (separado por vírgula) e separe várias entradas com ponto e vírgula, por exemplo. 白术;钟离,12;. Se for um nome, use a verificação de CD integrada (ou um número <= 0). Se for nome+número, trate o número como o CD da ação (segundos)."
-    },
-    {
-      "key": "检查战斗结束的延时，不同角色招式结束后的延时不一定相同，默认为1.5秒。也可以指定特定角色之后延时多少秒检查，未指定角色名，则默认为该值。格式如：2.5;白术,1.5;钟离,1.0;",
-      "value": "O atraso pós-movimento antes de verificar se o combate terminou pode variar de acordo com o personagem. O padrão é 1,5s. Você também pode especificar um atraso por caractere; se nenhum nome de caractere for especificado, esse valor será usado. Formato: 2,5;白术,1,5;钟离,1,0;"
-    }
-  ],
-  "ok": false
+  "cjk_value_count": 0,
+  "cjk_values": [],
+  "ok": true
 }
