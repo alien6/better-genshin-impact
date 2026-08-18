@@ -23,6 +23,17 @@ public partial class Genshin
     public string[] GetTextLiterals(string canonicalZhHans) =>
         [.. GameLiteralCatalog.GetAll(canonicalZhHans, GetConfiguredGameCulture())];
 
+    /// <summary>
+    /// Resolve a historical Chinese string embedded in an older JavaScript script.
+    /// Semantic game-text entries are preferred, followed by audited literal mappings.
+    /// Unknown strings are preserved verbatim for backward compatibility.
+    /// </summary>
+    public string GetLegacyText(string canonicalText) =>
+        LegacyScriptTextResolver.Get(canonicalText, GetConfiguredGameCulture());
+
+    public string[] GetLegacyTexts(string canonicalText) =>
+        [.. LegacyScriptTextResolver.GetAll(canonicalText, GetConfiguredGameCulture())];
+
     public bool TextContainsLiteral(string actualText, string canonicalZhHans) =>
         MatchLiteral(actualText, canonicalZhHans, static (actual, expected) =>
             actual.Contains(expected, StringComparison.OrdinalIgnoreCase));
