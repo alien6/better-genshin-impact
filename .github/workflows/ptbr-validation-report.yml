@@ -1,0 +1,91 @@
+name: PT-BR Validation Report
+
+on:
+  push:
+    branches:
+      - feature/pt-br-support
+    paths:
+      - '.github/workflows/ptbr-validation-report.yml'
+      - 'BetterGenshinImpact/**'
+      - 'Test/BetterGenshinImpact.UnitTest/**'
+      - 'tools/generate_ptbr_ui.py'
+      - 'tools/ptbr_core_scan.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-report:
+    runs-on: windows-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/pt-br-support
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Validate and write report
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path reports | Out-Null
+          $lines = @('# PT-BR Validation Status', '', ('Generated: ' + (Get-Date).ToUniversalTime().ToString('u')), '')
+
+          python tools/generate_ptbr_ui.py --check
+          $ui = $LASTEXITCODE
+          $lines += ('- UI dictionary coverage: ' + $(if ($ui -eq 0) {'PASS'} else {'FAIL'}))
+
+          dotnet restore BetterGenshinImpact.sln
+          $restore = $LASTEXITCODE
+          $lines += ('- dotnet restore: ' + $(if ($restore -eq 0) {'PASS'} else {'FAIL'}))
+
+          if ($restore -eq 0) {
+            dotnet build BetterGenshinImpact.sln -c Debug --no-restore
+            $build = $LASTEXITCODE
+          } else {
+            $build = 99
+          }
+          $lines += ('- dotnet build Debug: ' + $(if ($build -eq 0) {'PASS'} else {'FAIL'}))
+
+          if ($build -eq 0) {
+            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests"
+            $tests = $LASTEXITCODE
+          } else {
+            $tests = 99
+          }
+          $lines += ('- PT-BR regression tests: ' + $(if ($tests -eq 0) {'PASS'} else {'FAIL'}))
+
+          python tools/ptbr_core_scan.py
+          $audit = $LASTEXITCODE
+          $lines += ('- Core hardcode audit generated: ' + $(if ($audit -eq 0) {'PASS'} else {'FAIL'}))
+          $lines += ''
+          $lines += ('Overall: ' + $(if (($ui -eq 0) -and ($restore -eq 0) -and ($build -eq 0) -and ($tests -eq 0) -and ($audit -eq 0)) {'PASS'} else {'FAIL'}))
+          $lines | Set-Content -Path reports/ptbr-validation-status.md -Encoding UTF8
+          Get-Content reports/ptbr-validation-status.md
+          exit 0
+
+      - name: Commit validation evidence
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/ptbr-validation-status.md reports/ptbr-core-hardcodes.json
+          if git diff --cached --quiet; then
+            echo "Validation evidence unchanged."
+            exit 0
+          fi
+          git commit -m "chore: update PT-BR validation evidence"
+          git push origin HEAD:feature/pt-br-support
