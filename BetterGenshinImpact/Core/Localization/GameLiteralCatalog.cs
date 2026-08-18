@@ -79,7 +79,12 @@ public static class GameLiteralCatalog
             ["装置"] = ["dispositivo", "mecanismo"],
             ["挂起来吧"] = ["Pendure-o.", "Pendure-o"],
             ["申请造访"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"],
-            ["申請造訪"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"]
+            ["申請造訪"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"],
+
+            // Chest UI wording used by OCR-heavy scripts.
+            ["箱"] = ["Baú"],
+            ["珍贵"] = ["Precioso"],
+            ["珍貴"] = ["Precioso"]
         }.ToFrozenDictionary(StringComparer.Ordinal);
 
     public static string Get(string canonicalZhHans, CultureInfo culture) =>
