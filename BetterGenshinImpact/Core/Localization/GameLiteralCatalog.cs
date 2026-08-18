@@ -7,8 +7,9 @@ namespace BetterGenshinImpact.Core.Localization;
 
 /// <summary>
 /// PT-BR translations for script-specific game text that does not yet have a
-/// stable semantic key. TextMap entries come from shared CHS/PT hashes; a small
-/// alias table covers Traditional-Chinese spellings of already-known labels.
+/// stable semantic key. Most entries come from shared TextMap CHS/PT hashes;
+/// context-audited entries are limited to terms whose PT wording is visible in
+/// paired TextMap phrases. Traditional-Chinese aliases share the audited value.
 /// </summary>
 public static class GameLiteralCatalog
 {
@@ -41,7 +42,7 @@ public static class GameLiteralCatalog
             ["点击领取"] = ["Pressione para resgatar"],
             ["申请加入"] = ["Solicitar Entrada"],
             ["秒"] = ["s"],
-            // TextMap has "{0}分钟" -> "{0}m".
+            // TextMap: "{0}分钟" -> "{0}m".
             ["分钟"] = ["m"],
             ["空月祝福"] = ["Bênção da Lua Nova"],
             ["继续"] = ["Continuar"],
@@ -59,7 +60,26 @@ public static class GameLiteralCatalog
             ["开始挑战"] = ["Iniciar", "Iniciar Desafio"],
             ["打倒所有敌人"] = ["Derrotar todos os oponentes", "Derrote todos os inimigos", "Derrote todos os oponentes"],
             ["替换"] = ["Substituir", "Trocar"],
-            ["设置"] = ["Ajustes", "Configurações"]
+            ["设置"] = ["Ajustes", "Configurações"],
+
+            // Context-audited interaction/Ley Line terms.
+            ["使用"] = ["Usar", "Use"],
+            ["补充"] = ["Recarregar", "Reabastecer", "Reabastecimento"],
+            ["激活地脉之花"] = ["Ativar a Flor da Linha Ley", "Ativar Flor da Linha Ley"],
+            ["选择激活方式"] = ["Selecionar modo de ativação", "Escolha o método de ativação"],
+            ["接触"] = ["Toque", "Tocar"],
+            ["之花"] = ["Flor"],
+            ["溢口"] = ["Abertura", "Aberturas"],
+            ["双倍"] = ["dobro", "em dobro", "2x"],
+            ["2倍产出"] = ["2x", "2 vezes", "dobro"],
+            ["2倍"] = ["2x", "2 vezes", "dobro"],
+            ["20个"] = ["20"],
+            ["40个"] = ["40"],
+            ["晶蝶"] = ["Borboleta de Cristal", "Borboletas de Cristal"],
+            ["装置"] = ["dispositivo", "mecanismo"],
+            ["挂起来吧"] = ["Pendure-o.", "Pendure-o"],
+            ["申请造访"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"],
+            ["申請造訪"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"]
         }.ToFrozenDictionary(StringComparer.Ordinal);
 
     public static string Get(string canonicalZhHans, CultureInfo culture) =>
