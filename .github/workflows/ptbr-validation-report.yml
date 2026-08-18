@@ -42,33 +42,41 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path reports | Out-Null
+          Remove-Item reports/ptbr-validation-log.txt -ErrorAction SilentlyContinue
           $lines = @('# PT-BR Validation Status', '', ('Generated: ' + (Get-Date).ToUniversalTime().ToString('u')), '')
 
-          python tools/generate_ptbr_ui.py --check
+          '=== UI COVERAGE ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          python tools/generate_ptbr_ui.py --check 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           $ui = $LASTEXITCODE
           $lines += ('- UI dictionary coverage: ' + $(if ($ui -eq 0) {'PASS'} else {'FAIL'}))
 
-          dotnet restore BetterGenshinImpact.sln
+          '=== RESTORE ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          dotnet restore BetterGenshinImpact.sln 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           $restore = $LASTEXITCODE
           $lines += ('- dotnet restore: ' + $(if ($restore -eq 0) {'PASS'} else {'FAIL'}))
 
+          '=== BUILD ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           if ($restore -eq 0) {
-            dotnet build BetterGenshinImpact.sln -c Debug --no-restore
+            dotnet build BetterGenshinImpact.sln -c Debug --no-restore 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
             $build = $LASTEXITCODE
           } else {
             $build = 99
+            'SKIPPED: restore failed' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           }
           $lines += ('- dotnet build Debug: ' + $(if ($build -eq 0) {'PASS'} else {'FAIL'}))
 
+          '=== TESTS ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           if ($build -eq 0) {
-            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests"
+            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests" 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
             $tests = $LASTEXITCODE
           } else {
             $tests = 99
+            'SKIPPED: build failed' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           }
           $lines += ('- PT-BR regression tests: ' + $(if ($tests -eq 0) {'PASS'} else {'FAIL'}))
 
-          python tools/ptbr_core_scan.py
+          '=== CORE AUDIT ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          python tools/ptbr_core_scan.py 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           $audit = $LASTEXITCODE
           $lines += ('- Core hardcode audit generated: ' + $(if ($audit -eq 0) {'PASS'} else {'FAIL'}))
           $lines += ''
@@ -82,7 +90,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add reports/ptbr-validation-status.md reports/ptbr-core-hardcodes.json
+          git add -f reports/ptbr-validation-status.md reports/ptbr-validation-log.txt
+          if [ -f reports/ptbr-core-hardcodes.json ]; then git add -f reports/ptbr-core-hardcodes.json; fi
           if git diff --cached --quiet; then
             echo "Validation evidence unchanged."
             exit 0
