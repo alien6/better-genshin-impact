@@ -39,6 +39,7 @@ public static class GameTextKey
     public const string AwaitingActivation = "awaiting_activation";
     public const string CommissionCompleted = "commission_completed";
     public const string Commission = "commission";
+    public const string DailyCommissionRewards = "daily_commission_rewards";
     public const string Manage = "manage";
     public const string ReturnToLobby = "return_to_lobby";
     public const string InsufficientMaterials = "insufficient_materials";
