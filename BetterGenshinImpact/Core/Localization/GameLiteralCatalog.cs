@@ -80,6 +80,7 @@ public static class GameLiteralCatalog
             ["挂起来吧"] = ["Pendure-o.", "Pendure-o"],
             ["申请造访"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"],
             ["申請造訪"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"],
+            ["委託"] = ["Comissão"],
 
             // Chest UI wording used by OCR-heavy scripts.
             ["箱"] = ["Baú"],
