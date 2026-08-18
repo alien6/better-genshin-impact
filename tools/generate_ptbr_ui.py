@@ -26,6 +26,7 @@ TOOLS_I18N = ROOT / "tools" / "i18n"
 CACHE_PATH = TOOLS_I18N / "pt-BR.machine-cache.json"
 OVERRIDES_PATH = TOOLS_I18N / "pt-BR.overrides.json"
 KEY_OVERRIDES_PATH = TOOLS_I18N / "pt-BR.key-overrides.json"
+REPORT_PATH = ROOT / "reports" / "ptbr-ui-coverage.json"
 
 CJK_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff]")
 TRANSLATABLE_RE = re.compile(r"[A-Za-z\u3400-\u4dbf\u4e00-\u9fff]")
@@ -62,7 +63,7 @@ def load_json(path: Path) -> dict[str, str]:
     return {str(key): str(value) for key, value in data.items()}
 
 
-def save_json(path: Path, data: dict[str, str]) -> None:
+def save_json(path: Path, data: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -101,7 +102,7 @@ def google_translate(text: str) -> str:
         "q": protected_text,
     })
     url = "https://translate.googleapis.com/translate_a/single?" + params
-    request = urllib.request.Request(url, headers={"User-Agent": "BetterGI-PTBR-Generator/1.2"})
+    request = urllib.request.Request(url, headers={"User-Agent": "BetterGI-PTBR-Generator/1.3"})
 
     last_error: Exception | None = None
     for attempt in range(6):
@@ -116,23 +117,34 @@ def google_translate(text: str) -> str:
     raise RuntimeError(f"Translation failed after retries: {text!r}") from last_error
 
 
-def validate(en: dict[str, str], pt: dict[str, str]) -> list[str]:
-    errors: list[str] = []
+def validation_details(en: dict[str, str], pt: dict[str, str]) -> dict[str, object]:
     missing = sorted(set(en) - set(pt))
     extra = sorted(set(pt) - set(en))
-    if missing:
-        errors.append(f"missing {len(missing)} keys; first: {missing[:10]}")
-    if extra:
-        errors.append(f"extra {len(extra)} keys; first: {extra[:10]}")
-
     empty = [key for key in en if not pt.get(key, "").strip()]
-    if empty:
-        errors.append(f"empty {len(empty)} values; first: {empty[:10]}")
+    cjk_values = [
+        {"key": key, "value": value}
+        for key, value in pt.items()
+        if CJK_RE.search(value)
+    ]
+    return {
+        "source_key_count": len(en),
+        "pt_br_key_count": len(pt),
+        "missing_count": len(missing),
+        "missing": missing,
+        "extra_count": len(extra),
+        "extra": extra,
+        "empty_count": len(empty),
+        "empty": empty,
+        "cjk_value_count": len(cjk_values),
+        "cjk_values": cjk_values,
+        "ok": not missing and not extra and not empty and not cjk_values,
+    }
 
-    cjk_values = [key for key, value in pt.items() if CJK_RE.search(value)]
-    if cjk_values:
-        errors.append(f"PT-BR values still containing CJK: {len(cjk_values)}; first: {cjk_values[:10]}")
-    return errors
+
+def save_validation_report(en: dict[str, str], pt: dict[str, str]) -> dict[str, object]:
+    details = validation_details(en, pt)
+    save_json(REPORT_PATH, details)
+    return details
 
 
 def generate() -> None:
@@ -144,7 +156,7 @@ def generate() -> None:
 
     unknown_override_keys = sorted(set(key_overrides) - set(en))
     if unknown_override_keys:
-        print(f"Warning: {len(unknown_override_keys)} key overrides are not currently present in en.json: {unknown_override_keys[:20]}")
+        print("WARNING unknown key overrides: " + json.dumps(unknown_override_keys[:20], ensure_ascii=True))
 
     result: dict[str, str] = {}
     translated_now = 0
@@ -174,22 +186,35 @@ def generate() -> None:
 
     save_json(CACHE_PATH, dict(sorted(cache.items())))
     save_json(PT_PATH, result)
-    errors = validate(en, result)
-    if errors:
-        raise RuntimeError("; ".join(errors))
-    print(f"PT-BR UI generated: {len(result)} keys; translated now={translated_now}; cache reused={reused}; key overrides={len(key_overrides)}")
+    details = save_validation_report(en, result)
+    print(json.dumps({
+        "pt_br_keys": len(result),
+        "translated_now": translated_now,
+        "cache_reused": reused,
+        "key_overrides": len(key_overrides),
+        "coverage_ok": details["ok"],
+        "missing": details["missing_count"],
+        "empty": details["empty_count"],
+        "cjk_values": details["cjk_value_count"],
+        "report": REPORT_PATH.relative_to(ROOT).as_posix(),
+    }, ensure_ascii=True, indent=2))
 
 
 def check() -> int:
     en = load_json(EN_PATH)
     pt = load_json(PT_PATH)
-    errors = validate(en, pt)
-    if errors:
-        for error in errors:
-            print("ERROR:", error)
-        return 2
-    print(f"PT-BR UI coverage OK: {len(pt)}/{len(en)} keys")
-    return 0
+    details = save_validation_report(en, pt)
+    print(json.dumps({
+        "ok": details["ok"],
+        "source_key_count": details["source_key_count"],
+        "pt_br_key_count": details["pt_br_key_count"],
+        "missing_count": details["missing_count"],
+        "extra_count": details["extra_count"],
+        "empty_count": details["empty_count"],
+        "cjk_value_count": details["cjk_value_count"],
+        "report": REPORT_PATH.relative_to(ROOT).as_posix(),
+    }, ensure_ascii=True, indent=2))
+    return 0 if details["ok"] else 2
 
 
 def main() -> int:
