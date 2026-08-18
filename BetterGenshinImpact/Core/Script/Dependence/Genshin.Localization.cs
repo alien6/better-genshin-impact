@@ -52,6 +52,41 @@ public partial class Genshin
     }
 
     /// <summary>
+    /// Return true when a semantic text key is currently visible inside an existing image region.
+    /// </summary>
+    public bool HasTextKey(string key, ImageRegion region)
+    {
+        return !FindTextKey(key, region).IsEmpty();
+    }
+
+    /// <summary>
+    /// Return true when a semantic text key is currently visible in a game-capture rectangle.
+    /// </summary>
+    public bool HasTextKey(string key, double x, double y, double width, double height)
+    {
+        return !FindTextKey(key, x, y, width, height).IsEmpty();
+    }
+
+    /// <summary>
+    /// Return the actual OCR text matched by a semantic key, or an empty string when no match exists.
+    /// This is useful when migrating scripts that historically expected a string from findText helpers.
+    /// </summary>
+    public string FindTextKeyText(string key, ImageRegion region)
+    {
+        var result = FindTextKey(key, region);
+        return result.IsEmpty() ? string.Empty : result.Text ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Return the actual OCR text matched by a semantic key in a game-capture rectangle, or an empty string.
+    /// </summary>
+    public string FindTextKeyText(string key, double x, double y, double width, double height)
+    {
+        var result = FindTextKey(key, x, y, width, height);
+        return result.IsEmpty() ? string.Empty : result.Text ?? string.Empty;
+    }
+
+    /// <summary>
     /// Find a semantic text key inside an existing image region and click the exact matching OCR result.
     /// Returns false when OCR did not find any accepted localized variant.
     /// </summary>
