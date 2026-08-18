@@ -42,7 +42,7 @@ public class LegacyScriptLocalizationCompatibilityTests
         Assert.True((bool)engine.Evaluate("'Confirmar'.includes('确认')"));
     }
 
-    private sealed class FakeGenshin
+    public sealed class FakeGenshin
     {
         public string[] GetLegacyTexts(string canonicalText) => canonicalText switch
         {
