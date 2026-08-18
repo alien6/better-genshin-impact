@@ -5,6 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SETTINGS_VM = ROOT / "BetterGenshinImpact" / "ViewModel" / "Pages" / "CommonSettingsPageViewModel.cs"
+BV_STATUS = ROOT / "BetterGenshinImpact" / "GameTask" / "Common" / "BgiVision" / "BvStatus.cs"
 
 OLD_LANGUAGE_BLOCK = '''    [ObservableProperty] private FrozenDictionary<string, string> _languageDict =
         new[] { "zh-Hans", "zh-Hant", "en", "ja" }
@@ -16,21 +17,44 @@ NEW_LANGUAGE_BLOCK = '''    [ObservableProperty] private FrozenDictionary<string
             .ToFrozenDictionary(c => c, c => CultureInfoNameToKVPConverter.GetDisplayName(c));
 '''
 
+OLD_REVIVE_BLOCK = '''        using var r = list.FirstOrDefault(r => r.Text.Contains("复苏"));
+        if (r != null)
+'''
 
-def patch_settings_language_list() -> bool:
-    text = SETTINGS_VM.read_text(encoding="utf-8-sig")
-    if NEW_LANGUAGE_BLOCK in text:
+NEW_REVIVE_BLOCK = '''        CultureInfo cultureInfo = new CultureInfo(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
+        IStringLocalizer stringLocalizer = App.GetService<IStringLocalizer<BvResxHelper>>() ?? throw new Exception();
+        string revival = stringLocalizer.WithCultureGet(cultureInfo, "复苏");
+        using var r = list.FirstOrDefault(r => r.Text.Contains(revival));
+        if (r != null)
+'''
+
+
+def replace_once(path: Path, old: str, new: str, label: str) -> bool:
+    text = path.read_text(encoding="utf-8-sig")
+    if new in text:
         return False
-    if OLD_LANGUAGE_BLOCK not in text:
-        raise RuntimeError("Could not locate CommonSettingsPageViewModel language dictionary block")
-    text = text.replace(OLD_LANGUAGE_BLOCK, NEW_LANGUAGE_BLOCK, 1)
-    SETTINGS_VM.write_text(text, encoding="utf-8", newline="\n")
+    if old not in text:
+        raise RuntimeError(f"Could not locate {label} in {path}")
+    newline = "\r\n" if "\r\n" in text else "\n"
+    updated = text.replace(old, new, 1).replace("\r\n", "\n").replace("\r", "\n")
+    path.write_text(updated.replace("\n", newline), encoding="utf-8", newline="")
     return True
 
 
+def patch_settings_language_list() -> bool:
+    return replace_once(SETTINGS_VM, OLD_LANGUAGE_BLOCK, NEW_LANGUAGE_BLOCK, "language dictionary block")
+
+
+def patch_revive_text() -> bool:
+    return replace_once(BV_STATUS, OLD_REVIVE_BLOCK, NEW_REVIVE_BLOCK, "revive OCR block")
+
+
 def main() -> int:
-    changed = patch_settings_language_list()
-    print(f"CommonSettingsPageViewModel language list patched: {changed}")
+    changes = {
+        "language_list": patch_settings_language_list(),
+        "revive_text": patch_revive_text(),
+    }
+    print(changes)
     return 0
 
 
