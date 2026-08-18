@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 """Generate BetterGI's bundled pt-BR UI dictionary from en.json.
 
-The source keys stay identical to BetterGI's canonical Chinese keys. Values are
-translated from the maintained English dictionary, with a committed cache and
-PT-BR glossary/overrides so upstream additions can be generated incrementally.
-
-Normal CI uses --check and never performs network requests. --generate may use
-Google's public translation endpoint only for English values not already in the
-cache/overrides; generated translations are committed to the fork and remain
-fully local at runtime.
+Canonical keys stay identical to BetterGI's Chinese keys. Values are produced
+from the maintained English dictionary, but source-language auto detection is
+used because some upstream English values still contain Chinese fragments.
+A committed cache plus curated PT-BR overrides keeps generation incremental.
+Runtime BetterGI never calls an online translator.
 """
 
 from __future__ import annotations
@@ -31,6 +28,7 @@ CACHE_PATH = TOOLS_I18N / "pt-BR.machine-cache.json"
 OVERRIDES_PATH = TOOLS_I18N / "pt-BR.overrides.json"
 
 CJK_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff]")
+TRANSLATABLE_RE = re.compile(r"[A-Za-z\u3400-\u4dbf\u4e00-\u9fff]")
 TOKEN_RE = re.compile(
     r"(https?://\S+|\{[^{}\r\n]+\}|%\d*\$?[sdif]|\\[nrt]|"
     r"BetterGI|Genshin Impact|Starward|HoYoLAB|PaddleOCR|Paddle|OCR|"
@@ -39,14 +37,11 @@ TOKEN_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Normalize common official/community PT-BR Genshin terminology after machine
-# translation. Overrides remain the source of truth when exact wording matters.
 TERM_REPLACEMENTS = {
     "Resina original": "Resina Original",
     "Resina condensada": "Resina Condensada",
     "Resina frágil": "Resina Frágil",
     "Resina transitória": "Resina Transitória",
-    "Estátua dos Sete": "Estátua dos Sete",
     "Guilda dos Aventureiros": "Guilda de Aventureiros",
     "Guilda de aventureiros": "Guilda de Aventureiros",
     "Bule Serenitea": "Bule de Relachá",
@@ -100,13 +95,13 @@ def google_translate(text: str) -> str:
     protected_text, protected = protect_tokens(text)
     params = urllib.parse.urlencode({
         "client": "gtx",
-        "sl": "en",
+        "sl": "auto",
         "tl": "pt",
         "dt": "t",
         "q": protected_text,
     })
     url = "https://translate.googleapis.com/translate_a/single?" + params
-    request = urllib.request.Request(url, headers={"User-Agent": "BetterGI-PTBR-Generator/1.0"})
+    request = urllib.request.Request(url, headers={"User-Agent": "BetterGI-PTBR-Generator/1.1"})
 
     last_error: Exception | None = None
     for attempt in range(6):
@@ -150,23 +145,23 @@ def generate() -> None:
     translated_now = 0
     reused = 0
 
-    for index, (key, english) in enumerate(en.items(), start=1):
-        if english in overrides:
-            value = overrides[english]
-        elif english in cache:
-            value = cache[english]
+    for index, (key, source_text) in enumerate(en.items(), start=1):
+        if source_text in overrides:
+            value = overrides[source_text]
+        elif source_text in cache and not CJK_RE.search(cache[source_text]):
+            value = cache[source_text]
             reused += 1
         elif key in existing_pt and existing_pt[key].strip() and not CJK_RE.search(existing_pt[key]):
             value = existing_pt[key]
-        elif not re.search(r"[A-Za-z]", english):
-            value = english
+        elif not TRANSLATABLE_RE.search(source_text):
+            value = source_text
         else:
-            value = google_translate(english)
-            cache[english] = value
+            value = google_translate(source_text)
+            cache[source_text] = value
             translated_now += 1
             if translated_now % 20 == 0:
                 save_json(CACHE_PATH, dict(sorted(cache.items())))
-                print(f"Translated {translated_now} new values ({index}/{len(en)})")
+                print(f"Translated {translated_now} new/mixed values ({index}/{len(en)})")
                 time.sleep(0.3)
         result[key] = normalize_terms(value)
 
