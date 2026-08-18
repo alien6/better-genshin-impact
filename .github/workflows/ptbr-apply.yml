@@ -1,4 +1,4 @@
-name: PT-BR Core Patch
+name: PT-BR Core Apply and Validate
 
 on:
   push:
@@ -6,6 +6,13 @@ on:
       - feature/pt-br-support
     paths:
       - tools/ptbr_apply.py
+      - tools/generate_ptbr_ui.py
+      - tools/ptbr_core_scan.py
+      - tools/i18n/pt-BR.overrides.json
+      - tools/i18n/pt-BR.key-overrides.json
+      - 'BetterGenshinImpact/Core/Localization/**'
+      - 'BetterGenshinImpact/Core/Script/Dependence/Genshin.Localization.cs'
+      - 'Test/BetterGenshinImpact.UnitTest/CoreTests/**'
       - .github/workflows/ptbr-apply.yml
   workflow_dispatch:
 
@@ -13,10 +20,10 @@ permissions:
   contents: write
 
 jobs:
-  apply:
+  apply-validate:
     if: github.actor != 'github-actions[bot]'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: windows-latest
+    timeout-minutes: 40
 
     steps:
       - name: Checkout branch
@@ -24,25 +31,82 @@ jobs:
         with:
           ref: feature/pt-br-support
           fetch-depth: 0
+          submodules: recursive
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Apply PT-BR core patch
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Apply deterministic PT-BR core patches
         run: python tools/ptbr_apply.py
 
-      - name: Commit patch
+      - name: Generate complete PT-BR UI dictionary
+        run: python tools/generate_ptbr_ui.py --generate
+
+      - name: Validate, build and test
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path reports | Out-Null
+          Remove-Item reports/ptbr-validation-log.txt -ErrorAction SilentlyContinue
+          $status = @('# PT-BR Validation Status', '', ('Generated: ' + (Get-Date).ToUniversalTime().ToString('u')), '')
+
+          '=== UI COVERAGE ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          python tools/generate_ptbr_ui.py --check 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          $ui = $LASTEXITCODE
+          $status += ('- UI dictionary coverage: ' + $(if ($ui -eq 0) {'PASS'} else {'FAIL'}))
+
+          '=== RESTORE ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          dotnet restore BetterGenshinImpact.sln 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          $restore = $LASTEXITCODE
+          $status += ('- dotnet restore: ' + $(if ($restore -eq 0) {'PASS'} else {'FAIL'}))
+
+          '=== BUILD ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          if ($restore -eq 0) {
+            dotnet build BetterGenshinImpact.sln -c Debug --no-restore 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+            $build = $LASTEXITCODE
+          } else { $build = 99 }
+          $status += ('- dotnet build Debug: ' + $(if ($build -eq 0) {'PASS'} else {'FAIL'}))
+
+          '=== TESTS ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          if ($build -eq 0) {
+            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~GameLiteralCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests" 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+            $tests = $LASTEXITCODE
+          } else { $tests = 99 }
+          $status += ('- PT-BR regression tests: ' + $(if ($tests -eq 0) {'PASS'} else {'FAIL'}))
+
+          '=== CORE AUDIT ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          python tools/ptbr_core_scan.py 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          $audit = $LASTEXITCODE
+          $status += ('- Core hardcode audit generated: ' + $(if ($audit -eq 0) {'PASS'} else {'FAIL'}))
+
+          $overall = ($ui -eq 0) -and ($restore -eq 0) -and ($build -eq 0) -and ($tests -eq 0) -and ($audit -eq 0)
+          $status += ''
+          $status += ('Overall: ' + $(if ($overall) {'PASS'} else {'FAIL'}))
+          $status | Set-Content reports/ptbr-validation-status.md -Encoding UTF8
+          Get-Content reports/ptbr-validation-status.md
+          exit 0
+
+      - name: Commit generated PT-BR files and validation evidence
         shell: bash
         run: |
-          if git diff --quiet; then
-            echo "No core patch changes to commit."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs \
-                  BetterGenshinImpact/GameTask/Common/BgiVision/BvStatus.cs
-          git commit -m "fix: apply deterministic PT-BR core text patches"
+                  BetterGenshinImpact/GameTask/Common/BgiVision/BvStatus.cs \
+                  BetterGenshinImpact/User/I18n/pt-BR.json \
+                  reports/ptbr-validation-status.md \
+                  reports/ptbr-validation-log.txt \
+                  reports/ptbr-core-hardcodes.json
+          git add -f tools/i18n/pt-BR.machine-cache.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No generated PT-BR changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: update PT-BR generated files and validation"
           git push origin HEAD:feature/pt-br-support
