@@ -32,4 +32,4 @@ jobs:
         run: dotnet build BetterGenshinImpact.sln -c Debug --no-restore
 
       - name: Test PT-BR localization
-        run: dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~PaddleOcrCultureTests"
+        run: dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests"
