@@ -22,9 +22,6 @@
     "循环长E": 2,
     "点击空白区域继续": 2,
     "树脂": 2,
-    "获得": 2,
-    "流浪者": 2,
-    "坊": 2,
     "数量不足": 2,
     "原粹树脂40": 2,
     "脆弱树脂": 2,
@@ -43,53 +40,38 @@
     "钟离": 2,
     "连续赶路": 2,
     "自动": 2,
-    "当前位置": 2,
-    "未识别": 2,
-    "时间缩短": 2,
-    "奖励增加": 2,
-    "暂无加成": 2,
-    "探险完成": 2,
-    "探险中": 2,
+    "坊": 2,
     "存在Y轴偏差过大的结果，忽略:{item.Text}": 2,
     "每日": 2,
     "委托": 2,
     "探索": 2,
     "派遣": 2,
+    "时间缩短": 2,
+    "奖励增加": 2,
+    "暂无加成": 2,
+    "探险完成": 2,
+    "探险中": 2,
     "返回": 2,
     "激活": 2,
-    "每天重复": 2,
+    "当前位置": 2,
+    "未识别": 2,
+    "获得": 2,
+    "流浪者": 2,
     "增加": 2,
     "减少": 2,
-    "暂无描述": 1,
+    "每天重复": 2,
     "自动七圣召唤": 1,
     "自动音游": 1,
-    "脚本仓库已经 {daysSinceUpdate} 天未更新\\n\\n温馨提示：\\n脚本内容跟随仓库版本，旧版仓库会订阅到旧版脚本。\\n更新仓库后需要重新订阅脚本，以更新脚本内容。\\n\\n是否立即更新？": 1,
-    "匹配": 1,
-    "不匹配": 1,
-    "【国内】直接从 CNB 下载并更新": 1,
-    "【国外】直接从 Github 下载并更新": 1,
+    "暂无描述": 1,
     "文字[{locator.RecognitionObject.Text}]": 1,
     "识别文字[{RecognitionObject.Text}]在 {actualTimeout}ms 后超时未出现！": 1,
-    "仓库HEAD未指向任何提交": 1,
     "动作": 1,
     "循环短E": 1,
     "作为主要行走角色": 1,
+    "仓库HEAD未指向任何提交": 1,
     "PaddleOcrService 预热完成，使用模型: {modelType.DetectionModel.Name} 和 {modelType.RecognitionModel.Name}，结果: {preHeatResult.Text}": 1,
     "无法识别的KeyPoint格式": 1,
     "错误的脚本数据 Info.Width == 0 || Info.Height == 0": 1,
-    "\\n=== BetterGI 控制台输出 ===": 1,
-    "NotificationService 未初始化": 1,
-    "遮罩文字透明度": 1,
-    "调整遮罩上所有文字的透明度，1 表示完全不透明，0 表示完全透明。": 1,
-    "地方特产": 1,
-    "蓝花（经验书）": 1,
-    "黄花（摩拉）": 1,
-    "全部格式": 1,
-    "全部乐器": 1,
-    "此追踪脚本未正常走完！": 1,
-    "战斗超时结束": 1,
-    "疑似卡死，尝试脱离...": 1,
-    "未登录": 1,
     "未找到主词条对应的行：\\n{mainAffixText}": 1,
     "未找到主词条数值对应的行：\\n{mainAffixText}": 1,
     "未找到等级对应的行：\\n{levelAndMinorAffixLines}": 1,
@@ -97,8 +79,38 @@
     "使用数量": 1,
     "接触征讨之花": 1,
     "使用原粹树脂": 1,
-    "天赋介绍": 1,
-    "旅行者": 1,
+    "复活": 1,
+    "芬德尼尔之顶": 1,
+    "无妄引咎密宫": 1,
+    "太山府": 1,
+    "是否仍要挑战该秘境": 1,
+    "石化古树": 1,
+    "是否仍要": 1,
+    "挑战": 1,
+    "秘境": 1,
+    "取消": 1,
+    "{g.Key.ChineseName}{g.Count()}条": 1,
+    "（忽略）": 1,
+    "角色定义:": 1,
+    "策略定义:": 1,
+    "角色未定义": 1,
+    "策略中的行动命令解析错误": 1,
+    "角色未定义，请确认策略文本格式是否为UTF-8": 1,
+    "藏金之花": 1,
+    "战斗失败": 1,
+    "溢口": 1,
+    "接触": 1,
+    "复苏": 1,
+    "挪德卡莱": 1,
+    "挪德卡": 1,
+    "停止": 1,
+    "衍出": 1,
+    "所有": 1,
+    "白术": 1,
+    "希格雯": 1,
+    "珊瑚宫心海": 1,
+    "探索派遣奖励": 1,
+    "精准靠近": 1,
     "长时间": 1,
     "我在": 1,
     "声望": 1,
@@ -114,41 +126,6 @@
     "望崖营壁": 1,
     "魔女的花园": 1,
     "月谕圣牌": 1,
-    "套装包含": 1,
-    "所有": 1,
-    "复活": 1,
-    "芬德尼尔之顶": 1,
-    "无妄引咎密宫": 1,
-    "太山府": 1,
-    "是否仍要挑战该秘境": 1,
-    "石化古树": 1,
-    "是否仍要": 1,
-    "挑战": 1,
-    "秘境": 1,
-    "取消": 1,
-    "角色定义:": 1,
-    "策略定义:": 1,
-    "角色未定义": 1,
-    "策略中的行动命令解析错误": 1,
-    "角色未定义，请确认策略文本格式是否为UTF-8": 1,
-    "观看": 1,
-    "米游社直播间": 1,
-    "藏金之花": 1,
-    "战斗失败": 1,
-    "溢口": 1,
-    "接触": 1,
-    "复苏": 1,
-    "挪德卡莱": 1,
-    "挪德卡": 1,
-    "停止": 1,
-    "衍出": 1,
-    "{g.Key.ChineseName}{g.Count()}条": 1,
-    "（忽略）": 1,
-    "白术": 1,
-    "希格雯": 1,
-    "珊瑚宫心海": 1,
-    "探索派遣奖励": 1,
-    "精准靠近": 1,
     "优先选择第一个选项": 1,
     "随机选择选项": 1,
     "不选择选项": 1,
@@ -167,28 +144,51 @@
     "常规挑战": 1,
     "困难": 1,
     "预设队伍": 1,
+    "天赋介绍": 1,
+    "旅行者": 1,
     "适龄": 1,
     "监护": 1,
-    "末次检测到 {lastDetectedCardCount} 张卡片，成功识别 {characterNames.Count(name => name != null)} 个头像": 1,
-    "精锻用": 1,
-    "枫丹": 1,
-    "无法领取好感经验": 1,
-    "地图传送": 1,
-    "风物之诗琴": 1,
+    "套装包含": 1,
+    "此追踪脚本未正常走完！": 1,
+    "战斗超时结束": 1,
+    "疑似卡死，尝试脱离...": 1,
+    "未登录": 1,
+    "观看": 1,
+    "米游社直播间": 1,
     "玛薇卡": 1,
     "纳西": 1,
-    "缺少右括号": 1,
-    "函数 {name} 缺少右括号": 1,
     "walk方法必须有两个入参，第一个参数是方向，第二个参数是行走时间。例：walk(s, 0.2)": 1,
     "w/a/s/d方法必须有一个入参，代表行走时间。例：d(0.5)": 1,
     "moveby方法必须有两个入参，分别是x和y。例：moveby(100, 100))": 1,
     "{Method.Alias[0]}方法必须有一个入参，代表按键": 1,
     "scroll方法必须有一个入参，代表滚动格数。例：scroll(1) 或 scroll(-1)": 1,
+    "缺少右括号": 1,
+    "函数 {name} 缺少右括号": 1,
+    "被动技能": 1,
     "【{Character.Name}】使用【技能{TargetIndex}】{(DiceDelta != 0 ? $": 1,
     "【{Character.Name}】使用【{Character.Skills[TargetIndex].Name}】{(DiceDelta != 0 ? $": 1,
     "刻晴": 1,
     "莫娜": 1,
-    "被动技能": 1
+    "精锻用": 1,
+    "枫丹": 1,
+    "无法领取好感经验": 1,
+    "地图传送": 1,
+    "末次检测到 {lastDetectedCardCount} 张卡片，成功识别 {characterNames.Count(name => name != null)} 个头像": 1,
+    "风物之诗琴": 1,
+    "\\n=== BetterGI 控制台输出 ===": 1,
+    "NotificationService 未初始化": 1,
+    "匹配": 1,
+    "不匹配": 1,
+    "【国内】直接从 CNB 下载并更新": 1,
+    "【国外】直接从 Github 下载并更新": 1,
+    "脚本仓库已经 {daysSinceUpdate} 天未更新\\n\\n温馨提示：\\n脚本内容跟随仓库版本，旧版仓库会订阅到旧版脚本。\\n更新仓库后需要重新订阅脚本，以更新脚本内容。\\n\\n是否立即更新？": 1,
+    "遮罩文字透明度": 1,
+    "调整遮罩上所有文字的透明度，1 表示完全不透明，0 表示完全透明。": 1,
+    "全部格式": 1,
+    "全部乐器": 1,
+    "地方特产": 1,
+    "蓝花（经验书）": 1,
+    "黄花（摩拉）": 1
   },
   "file_frequency": {
     "BetterGenshinImpact/GameTask/AutoLeyLineOutcrop/AutoLeyLineOutcropTask.cs": 44,
@@ -203,66 +203,58 @@
     "BetterGenshinImpact/GameTask/AutoGeniusInvokation/ScriptParser.cs": 5,
     "BetterGenshinImpact/GameTask/AutoPathing/SkillBoostHelper.cs": 5,
     "BetterGenshinImpact/GameTask/GameLoading/GameLoading.cs": 5,
-    "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs": 5,
     "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs": 5,
+    "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs": 5,
     "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs": 4,
     "BetterGenshinImpact/GameTask/Common/Job/GoToSereniteaPotTask.cs": 4,
-    "BetterGenshinImpact/View/Windows/ScriptRepoWindow.xaml.cs": 3,
-    "BetterGenshinImpact/ViewModel/Pages/TaskSettingsPageViewModel.cs": 3,
-    "BetterGenshinImpact/GameTask/LogParse/LogParse.cs": 3,
     "BetterGenshinImpact/GameTask/AutoArtifactSalvage/AutoArtifactSalvageTask.cs": 3,
     "BetterGenshinImpact/GameTask/AutoSkip/AutoSkipConfig.cs": 3,
-    "BetterGenshinImpact/GameTask/Common/Job/SwitchCharacterStateMachineTask.cs": 3,
+    "BetterGenshinImpact/GameTask/LogParse/LogParse.cs": 3,
     "BetterGenshinImpact/GameTask/AutoFight/Model/CombatScenes.cs": 3,
+    "BetterGenshinImpact/GameTask/Common/Job/SwitchCharacterStateMachineTask.cs": 3,
+    "BetterGenshinImpact/View/Windows/ScriptRepoWindow.xaml.cs": 3,
+    "BetterGenshinImpact/ViewModel/Pages/TaskSettingsPageViewModel.cs": 3,
     "BetterGenshinImpact/GameTask/TaskRunner.cs": 2,
     "BetterGenshinImpact/Core/Script/ScriptRepoUpdater.cs": 2,
-    "BetterGenshinImpact/ViewModel/Pages/MusicPageViewModel.cs": 2,
+    "BetterGenshinImpact/GameTask/AutoFight/AutoFightJsonTask.cs": 2,
+    "BetterGenshinImpact/GameTask/AutoFight/AutoFightParam.cs": 2,
+    "BetterGenshinImpact/GameTask/AutoFight/AutoFightTask.cs": 2,
+    "BetterGenshinImpact/GameTask/AutoMusicGame/AutoAlbumTask.cs": 2,
+    "BetterGenshinImpact/GameTask/AutoStygianOnslaught/AutoStygianOnslaughtParam.cs": 2,
     "BetterGenshinImpact/GameTask/AutoWood/AutoWoodTask.cs": 2,
     "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterSelectionHelper.cs": 2,
-    "BetterGenshinImpact/GameTask/AutoMusicGame/AutoAlbumTask.cs": 2,
-    "BetterGenshinImpact/GameTask/AutoFight/AutoFightJsonTask.cs": 2,
-    "BetterGenshinImpact/GameTask/AutoFight/AutoFightTask.cs": 2,
-    "BetterGenshinImpact/GameTask/AutoFight/AutoFightParam.cs": 2,
-    "BetterGenshinImpact/GameTask/AutoStygianOnslaught/AutoStygianOnslaughtParam.cs": 2,
     "BetterGenshinImpact/GameTask/AutoFight/Script/ConditionEvaluator.cs": 2,
     "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/ActionCommand.cs": 2,
     "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/Duel.cs": 2,
+    "BetterGenshinImpact/ViewModel/Pages/MusicPageViewModel.cs": 2,
     "BetterGenshinImpact/ViewModel/MaskMapPointInfoPopupViewModel.cs": 1,
-    "BetterGenshinImpact/View/Windows/RepoUpdateDialog.xaml.cs": 1,
-    "BetterGenshinImpact/View/Windows/ArtifactOcrDialog.xaml.cs": 1,
-    "BetterGenshinImpact/View/Windows/CheckUpdateWindow.xaml.cs": 1,
     "BetterGenshinImpact/Core/BgiVision/BvFlowAction.cs": 1,
     "BetterGenshinImpact/Core/BgiVision/BvLocator.cs": 1,
     "BetterGenshinImpact/Core/Recognition/OCR/Paddle/PaddleOcrService.cs": 1,
     "BetterGenshinImpact/Core/Recognition/OpenCv/FeatureMatch/FeatureStorage.cs": 1,
     "BetterGenshinImpact/Core/Recorder/Model/KeyMouseScript.cs": 1,
-    "BetterGenshinImpact/Helpers/Win32/ConsoleHelper.cs": 1,
-    "BetterGenshinImpact/Service/Notification/NotificationService.cs": 1,
-    "BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs": 1,
-    "BetterGenshinImpact/ViewModel/Pages/ScriptControlViewModel.cs": 1,
-    "BetterGenshinImpact/GameTask/LogParse/YsHttp.cs": 1,
+    "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainParam.cs": 1,
+    "BetterGenshinImpact/GameTask/AutoFishing/Behaviours.cs": 1,
     "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs": 1,
     "BetterGenshinImpact/GameTask/GetGridIcons/GetGridIconsTask.cs": 1,
-    "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainParam.cs": 1,
+    "BetterGenshinImpact/GameTask/LogParse/YsHttp.cs": 1,
     "BetterGenshinImpact/GameTask/UseRedeemCode/GetLiveRedeemCode.cs": 1,
-    "BetterGenshinImpact/GameTask/AutoFishing/Behaviours.cs": 1,
-    "BetterGenshinImpact/GameTask/Common/Job/LowerHeadThenWalkToTask.cs": 1,
+    "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Config/CharacterCard.cs": 1,
+    "BetterGenshinImpact/GameTask/AutoPathing/Handler/AutoFightHandler.cs": 1,
+    "BetterGenshinImpact/GameTask/Common/Job/ChooseTalkOptionTask.cs": 1,
     "BetterGenshinImpact/GameTask/Common/Job/CountInventoryItem.cs": 1,
     "BetterGenshinImpact/GameTask/Common/Job/GoToCraftingBenchTask.cs": 1,
-    "BetterGenshinImpact/GameTask/Common/Job/ChooseTalkOptionTask.cs": 1,
+    "BetterGenshinImpact/GameTask/Common/Job/LowerHeadThenWalkToTask.cs": 1,
     "BetterGenshinImpact/GameTask/Music/Service/InstrumentProfileService.cs": 1,
-    "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Config/CharacterCard.cs": 1,
-    "BetterGenshinImpact/GameTask/AutoPathing/Handler/AutoFightHandler.cs": 1
+    "BetterGenshinImpact/Helpers/Win32/ConsoleHelper.cs": 1,
+    "BetterGenshinImpact/Service/Notification/NotificationService.cs": 1,
+    "BetterGenshinImpact/View/Windows/ArtifactOcrDialog.xaml.cs": 1,
+    "BetterGenshinImpact/View/Windows/CheckUpdateWindow.xaml.cs": 1,
+    "BetterGenshinImpact/View/Windows/RepoUpdateDialog.xaml.cs": 1,
+    "BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs": 1,
+    "BetterGenshinImpact/ViewModel/Pages/ScriptControlViewModel.cs": 1
   },
   "findings": [
-    {
-      "path": "BetterGenshinImpact/ViewModel/MaskMapPointInfoPopupViewModel.cs",
-      "line": 95,
-      "literals": [
-        "暂无描述"
-      ],
-      "source": "Text = string.IsNullOrEmpty(info.Text) ? \"暂无描述\" : info.Text;"
-    },
     {
       "path": "BetterGenshinImpact/GameTask/TaskRunner.cs",
       "line": 133,
@@ -281,54 +273,12 @@
       "source": "!soloTask.Name.Contains(\"幽境危战\");"
     },
     {
-      "path": "BetterGenshinImpact/View/Windows/RepoUpdateDialog.xaml.cs",
-      "line": 31,
+      "path": "BetterGenshinImpact/ViewModel/MaskMapPointInfoPopupViewModel.cs",
+      "line": 95,
       "literals": [
-        "脚本仓库已经 {daysSinceUpdate} 天未更新\\n\\n温馨提示：\\n脚本内容跟随仓库版本，旧版仓库会订阅到旧版脚本。\\n更新仓库后需要重新订阅脚本，以更新脚本内容。\\n\\n是否立即更新？"
+        "暂无描述"
       ],
-      "source": "MessageTextBlock.Text = $\"脚本仓库已经 {daysSinceUpdate} 天未更新\\n\\n温馨提示：\\n脚本内容跟随仓库版本，旧版仓库会订阅到旧版脚本。\\n更新仓库后需要重新订阅脚本，以更新脚本内容。\\n\\n是否立即更新？\";"
-    },
-    {
-      "path": "BetterGenshinImpact/View/Windows/ArtifactOcrDialog.xaml.cs",
-      "line": 77,
-      "literals": [
-        "匹配",
-        "不匹配"
-      ],
-      "source": "this.RegexResult.Text = isMatch ? \"匹配\" : \"不匹配\";"
-    },
-    {
-      "path": "BetterGenshinImpact/View/Windows/ScriptRepoWindow.xaml.cs",
-      "line": 81,
-      "literals": [
-        "自定义"
-      ],
-      "source": "return SelectedRepoChannel.Name == \"自定义\" ? Config.CustomRepoUrl : SelectedRepoChannel.Url;"
-    },
-    {
-      "path": "BetterGenshinImpact/View/Windows/ScriptRepoWindow.xaml.cs",
-      "line": 108,
-      "literals": [
-        "自定义"
-      ],
-      "source": "IsRepoUrlReadOnly = SelectedRepoChannel == null || SelectedRepoChannel.Name != \"自定义\";"
-    },
-    {
-      "path": "BetterGenshinImpact/View/Windows/ScriptRepoWindow.xaml.cs",
-      "line": 253,
-      "literals": [
-        "自定义"
-      ],
-      "source": "IsRepoUrlReadOnly = SelectedRepoChannel.Name != \"自定义\";"
-    },
-    {
-      "path": "BetterGenshinImpact/View/Windows/CheckUpdateWindow.xaml.cs",
-      "line": 35,
-      "literals": [
-        "【国内】直接从 CNB 下载并更新",
-        "【国外】直接从 Github 下载并更新"
-      ],
-      "source": "public string GitSourceDescription => SelectedGitSource == \"CNB\" ? \"【国内】直接从 CNB 下载并更新\" : \"【国外】直接从 Github 下载并更新\";"
+      "source": "Text = string.IsNullOrEmpty(info.Text) ? \"暂无描述\" : info.Text;"
     },
     {
       "path": "BetterGenshinImpact/Core/BgiVision/BvFlowAction.cs",
@@ -345,22 +295,6 @@
         "识别文字[{RecognitionObject.Text}]在 {actualTimeout}ms 后超时未出现！"
       ],
       "source": "return new TimeoutException($\"识别文字[{RecognitionObject.Text}]在 {actualTimeout}ms 后超时未出现！\");"
-    },
-    {
-      "path": "BetterGenshinImpact/Core/Script/ScriptRepoUpdater.cs",
-      "line": 533,
-      "literals": [
-        "自定义"
-      ],
-      "source": "if (channelName == \"自定义\")"
-    },
-    {
-      "path": "BetterGenshinImpact/Core/Script/ScriptRepoUpdater.cs",
-      "line": 2828,
-      "literals": [
-        "仓库HEAD未指向任何提交"
-      ],
-      "source": "if (commit == null) throw new Exception(\"仓库HEAD未指向任何提交\");"
     },
     {
       "path": "BetterGenshinImpact/Core/Config/PathingConditionConfig.cs",
@@ -413,6 +347,22 @@
       "source": "if (avatarCondition.Result == \"作为主要行走角色\")"
     },
     {
+      "path": "BetterGenshinImpact/Core/Script/ScriptRepoUpdater.cs",
+      "line": 533,
+      "literals": [
+        "自定义"
+      ],
+      "source": "if (channelName == \"自定义\")"
+    },
+    {
+      "path": "BetterGenshinImpact/Core/Script/ScriptRepoUpdater.cs",
+      "line": 2828,
+      "literals": [
+        "仓库HEAD未指向任何提交"
+      ],
+      "source": "if (commit == null) throw new Exception(\"仓库HEAD未指向任何提交\");"
+    },
+    {
       "path": "BetterGenshinImpact/Core/Recognition/OCR/Paddle/PaddleOcrService.cs",
       "line": 264,
       "literals": [
@@ -435,111 +385,6 @@
         "错误的脚本数据 Info.Width == 0 || Info.Height == 0"
       ],
       "source": "Debug.WriteLine(\"错误的脚本数据 Info.Width == 0 || Info.Height == 0\");"
-    },
-    {
-      "path": "BetterGenshinImpact/Helpers/Win32/ConsoleHelper.cs",
-      "line": 55,
-      "literals": [
-        "\\n=== BetterGI 控制台输出 ==="
-      ],
-      "source": "Console.WriteLine(\"\\n=== BetterGI 控制台输出 ===\");"
-    },
-    {
-      "path": "BetterGenshinImpact/Service/Notification/NotificationService.cs",
-      "line": 86,
-      "literals": [
-        "NotificationService 未初始化"
-      ],
-      "source": "if (_instance == null) throw new InvalidOperationException(\"NotificationService 未初始化\");"
-    },
-    {
-      "path": "BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs",
-      "line": 668,
-      "literals": [
-        "遮罩文字透明度",
-        "调整遮罩上所有文字的透明度，1 表示完全不透明，0 表示完全透明。"
-      ],
-      "source": "yield return OverlayStyleSettingItem.Slider(config, nameof(MaskWindowConfig.TextOpacity), \"遮罩文字透明度\", \"调整遮罩上所有文字的透明度，1 表示完全不透明，0 表示完全透明。\", 0, 1, 0.1, onChanged);"
-    },
-    {
-      "path": "BetterGenshinImpact/ViewModel/Pages/ScriptControlViewModel.cs",
-      "line": 1332,
-      "literals": [
-        "地方特产"
-      ],
-      "source": "if (parentFolderName == \"地方特产\")"
-    },
-    {
-      "path": "BetterGenshinImpact/ViewModel/Pages/TaskSettingsPageViewModel.cs",
-      "line": 311,
-      "literals": [
-        "蓝花（经验书）"
-      ],
-      "source": "if (type == \"蓝花（经验书）\")"
-    },
-    {
-      "path": "BetterGenshinImpact/ViewModel/Pages/TaskSettingsPageViewModel.cs",
-      "line": 317,
-      "literals": [
-        "黄花（摩拉）"
-      ],
-      "source": "if (type == \"黄花（摩拉）\")"
-    },
-    {
-      "path": "BetterGenshinImpact/ViewModel/Pages/TaskSettingsPageViewModel.cs",
-      "line": 491,
-      "literals": [
-        "根据队伍自动选择"
-      ],
-      "source": "if (\"根据队伍自动选择\".Equals(strategyName))"
-    },
-    {
-      "path": "BetterGenshinImpact/ViewModel/Pages/MusicPageViewModel.cs",
-      "line": 788,
-      "literals": [
-        "全部格式"
-      ],
-      "source": "|| SelectedFormatFilter == \"全部格式\""
-    },
-    {
-      "path": "BetterGenshinImpact/ViewModel/Pages/MusicPageViewModel.cs",
-      "line": 791,
-      "literals": [
-        "全部乐器"
-      ],
-      "source": "|| SelectedInstrumentFilter == \"全部乐器\""
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/LogParse/LogParse.cs",
-      "line": 137,
-      "literals": [
-        "此追踪脚本未正常走完！"
-      ],
-      "source": "if (logstr.Contains(\"此追踪脚本未正常走完！\"))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/LogParse/LogParse.cs",
-      "line": 157,
-      "literals": [
-        "战斗超时结束"
-      ],
-      "source": "if (logstr == \"战斗超时结束\")"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/LogParse/LogParse.cs",
-      "line": 169,
-      "literals": [
-        "疑似卡死，尝试脱离..."
-      ],
-      "source": "if (logstr == \"疑似卡死，尝试脱离...\")"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/LogParse/YsHttp.cs",
-      "line": 136,
-      "literals": [
-        "未登录"
-      ],
-      "source": "if (apiResponse.Message == \"未登录\")"
     },
     {
       "path": "BetterGenshinImpact/GameTask/AutoArtifactSalvage/AutoArtifactSalvageTask.cs",
@@ -644,143 +489,6 @@
         "点击空白区域继续"
       ],
       "source": ".FirstOrDefault(r => r.Text.Contains(\"点击空白区域继续\", StringComparison.Ordinal));"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoWood/AutoWoodTask.cs",
-      "line": 252,
-      "literals": [
-        "获得"
-      ],
-      "source": "recognizedText.Contains(\"获得\");"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoWood/AutoWoodTask.cs",
-      "line": 256,
-      "literals": [
-        "获得"
-      ],
-      "source": "recognizedText.Contains(\"获得\") &&"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs",
-      "line": 890,
-      "literals": [
-        "天赋介绍"
-      ],
-      "source": "var matched = text.Contains(\"天赋介绍\", StringComparison.Ordinal);"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterSelectionHelper.cs",
-      "line": 68,
-      "literals": [
-        "旅行者"
-      ],
-      "source": "if (standardName == \"旅行者\")"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterSelectionHelper.cs",
-      "line": 96,
-      "literals": [
-        "流浪者"
-      ],
-      "source": "isOddity || standardName == \"流浪者\","
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
-      "line": 409,
-      "literals": [
-        "长时间"
-      ],
-      "source": "if (text.Contains(\"长时间\"))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
-      "line": 415,
-      "literals": [
-        "我在",
-        "声望",
-        "回声",
-        "悬木人"
-      ],
-      "source": "if (text.Contains(\"我在\") && (text.Contains(\"声望\") || text.Contains(\"回声\") || text.Contains(\"悬木人\") ||"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
-      "line": 416,
-      "literals": [
-        "流泉"
-      ],
-      "source": "text.Contains(\"流泉\")))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
-      "line": 422,
-      "literals": [
-        "聚所"
-      ],
-      "source": "if (text.Contains(\"聚所\"))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
-      "line": 427,
-      "literals": [
-        "霜月",
-        "坊"
-      ],
-      "source": "if (text.Contains(\"霜月\") && text.Contains(\"坊\"))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
-      "line": 432,
-      "literals": [
-        "叮铃",
-        "眶螂",
-        "蛋卷",
-        "坊"
-      ],
-      "source": "if (text.Contains(\"叮铃\") || text.Contains(\"眶螂\") || (text.Contains(\"蛋卷\") && text.Contains(\"坊\")))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
-      "line": 437,
-      "literals": [
-        "西风成垒",
-        "望崖营壁",
-        "魔女的花园"
-      ],
-      "source": "if (text.Contains(\"西风成垒\") || text.Contains(\"望崖营壁\") || text.Contains(\"魔女的花园\"))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
-      "line": 442,
-      "literals": [
-        "月谕圣牌"
-      ],
-      "source": "if (text.Contains(\"月谕圣牌\"))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/GetGridIcons/GetGridIconsTask.cs",
-      "line": 167,
-      "literals": [
-        "套装包含"
-      ],
-      "source": "var flowerWithGlyph = ocrResult.Regions.OrderBy(r => r.Rect.Center.Y).SkipWhile(r => !r.Text.Contains(\"套装包含\")).Skip(1).FirstOrDefault();"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoMusicGame/AutoAlbumTask.cs",
-      "line": 61,
-      "literals": [
-        "全部"
-      ],
-      "source": "if (ocrRes.Any(region => region.Text.Contains(\"全部\")))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoMusicGame/AutoAlbumTask.cs",
-      "line": 85,
-      "literals": [
-        "所有"
-      ],
-      "source": "if (musicLevel != \"所有\")"
     },
     {
       "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainParam.cs",
@@ -934,6 +642,22 @@
       "source": "else if (picker.Name == \"琴\")"
     },
     {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/AutoFightParam.cs",
+      "line": 131,
+      "literals": [
+        "根据队伍自动选择"
+      ],
+      "source": "if (\"根据队伍自动选择\".Equals(strategyName))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/AutoFightParam.cs",
+      "line": 149,
+      "literals": [
+        "根据队伍自动选择"
+      ],
+      "source": "if (\"根据队伍自动选择\".Equals(strategyName))"
+    },
+    {
       "path": "BetterGenshinImpact/GameTask/AutoFight/AutoFightTask.cs",
       "line": 748,
       "literals": [
@@ -950,20 +674,13 @@
       "source": "else if (picker.Name == \"琴\")"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/AutoFightParam.cs",
-      "line": 131,
+      "path": "BetterGenshinImpact/GameTask/AutoFishing/Behaviours.cs",
+      "line": 112,
       "literals": [
-        "根据队伍自动选择"
+        "{g.Key.ChineseName}{g.Count()}条",
+        "（忽略）"
       ],
-      "source": "if (\"根据队伍自动选择\".Equals(strategyName))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/AutoFightParam.cs",
-      "line": 149,
-      "literals": [
-        "根据队伍自动选择"
-      ],
-      "source": "if (\"根据队伍自动选择\".Equals(strategyName))"
+      "source": ".Select(g => $\"{g.Key.ChineseName}{g.Count()}条\" + ((chooseBaitfailuresIgnoredBaits.Contains(g.Key.BaitType) || throwRodNoTargetFishfailuresIgnoredBaits.Contains(g.Key.BaitType)) ? \"（忽略）\" : \"\"))"
     },
     {
       "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/ScriptParser.cs",
@@ -1005,15 +722,6 @@
         "角色未定义，请确认策略文本格式是否为UTF-8"
       ],
       "source": "MyAssert(duel.Characters[3] != null, \"角色未定义，请确认策略文本格式是否为UTF-8\");"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/UseRedeemCode/GetLiveRedeemCode.cs",
-      "line": 111,
-      "literals": [
-        "观看",
-        "米游社直播间"
-      ],
-      "source": "if ((insert.Contains(\"观看\") || insert.Contains(\"米游社直播间\")) && !string.IsNullOrEmpty(link))"
     },
     {
       "path": "BetterGenshinImpact/GameTask/AutoLeyLineOutcrop/AutoLeyLineOutcropTask.cs",
@@ -1373,13 +1081,20 @@
       "source": "var leyLine = list.FirstOrDefault(r => r.Text.Contains(\"地脉\", StringComparison.Ordinal) || r.Text.Contains(\"衍出\", StringComparison.Ordinal));"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFishing/Behaviours.cs",
-      "line": 112,
+      "path": "BetterGenshinImpact/GameTask/AutoMusicGame/AutoAlbumTask.cs",
+      "line": 61,
       "literals": [
-        "{g.Key.ChineseName}{g.Count()}条",
-        "（忽略）"
+        "全部"
       ],
-      "source": ".Select(g => $\"{g.Key.ChineseName}{g.Count()}条\" + ((chooseBaitfailuresIgnoredBaits.Contains(g.Key.BaitType) || throwRodNoTargetFishfailuresIgnoredBaits.Contains(g.Key.BaitType)) ? \"（忽略）\" : \"\"))"
+      "source": "if (ocrRes.Any(region => region.Text.Contains(\"全部\")))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoMusicGame/AutoAlbumTask.cs",
+      "line": 85,
+      "literals": [
+        "所有"
+      ],
+      "source": "if (musicLevel != \"所有\")"
     },
     {
       "path": "BetterGenshinImpact/GameTask/AutoPathing/PathExecutor.cs",
@@ -1478,88 +1193,77 @@
       "source": "if (string.IsNullOrEmpty(name) || name == \"自动\") continue;"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs",
-      "line": 2207,
+      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
+      "line": 409,
       "literals": [
-        "当前位置"
+        "长时间"
       ],
-      "source": "if (targetCountry != \"当前位置\")"
+      "source": "if (text.Contains(\"长时间\"))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs",
-      "line": 2325,
+      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
+      "line": 415,
       "literals": [
-        "当前位置"
+        "我在",
+        "声望",
+        "回声",
+        "悬木人"
       ],
-      "source": "if (minCountry != \"当前位置\")"
+      "source": "if (text.Contains(\"我在\") && (text.Contains(\"声望\") || text.Contains(\"回声\") || text.Contains(\"悬木人\") ||"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs",
-      "line": 2601,
+      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
+      "line": 416,
       "literals": [
-        "未识别"
+        "流泉"
       ],
-      "source": "string.IsNullOrWhiteSpace(candidate.Text) ? \"未识别\" : candidate.Text);"
+      "source": "text.Contains(\"流泉\")))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs",
-      "line": 3219,
+      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
+      "line": 422,
       "literals": [
-        "未识别"
+        "聚所"
       ],
-      "source": "string.IsNullOrWhiteSpace(currentCandidate.Text) ? \"未识别\" : currentCandidate.Text,"
+      "source": "if (text.Contains(\"聚所\"))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
-      "line": 169,
+      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
+      "line": 427,
       "literals": [
-        "时间缩短",
-        "奖励增加"
+        "霜月",
+        "坊"
       ],
-      "source": "if (ocrResultRect.Text.Contains(\"时间缩短\") || ocrResultRect.Text.Contains(\"奖励增加\") ||"
+      "source": "if (text.Contains(\"霜月\") && text.Contains(\"坊\"))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
-      "line": 170,
+      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
+      "line": 432,
       "literals": [
-        "暂无加成"
+        "叮铃",
+        "眶螂",
+        "蛋卷",
+        "坊"
       ],
-      "source": "ocrResultRect.Text.Contains(\"暂无加成\"))"
+      "source": "if (text.Contains(\"叮铃\") || text.Contains(\"眶螂\") || (text.Contains(\"蛋卷\") && text.Contains(\"坊\")))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
-      "line": 181,
+      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
+      "line": 437,
       "literals": [
-        "探险完成",
-        "探险中"
+        "西风成垒",
+        "望崖营壁",
+        "魔女的花园"
       ],
-      "source": "if (ocrResultRect2.Text.Contains(\"探险完成\") || ocrResultRect2.Text.Contains(\"探险中\"))"
+      "source": "if (text.Contains(\"西风成垒\") || text.Contains(\"望崖营壁\") || text.Contains(\"魔女的花园\"))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
-      "line": 184,
+      "path": "BetterGenshinImpact/GameTask/AutoPick/AutoPickTrigger.cs",
+      "line": 442,
       "literals": [
-        "探险完成",
-        "探险中"
+        "月谕圣牌"
       ],
-      "source": "var name = ocrResultRect2.Text.Replace(\"探险完成\", \"\").Replace(\"探险中\", \"\").Replace(\"/\", \"\")"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
-      "line": 191,
-      "literals": [
-        "时间缩短",
-        "奖励增加"
-      ],
-      "source": "else if (!ocrResultRect2.Text.Contains(\"时间缩短\") && !ocrResultRect2.Text.Contains(\"奖励增加\") &&"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
-      "line": 192,
-      "literals": [
-        "暂无加成"
-      ],
-      "source": "!ocrResultRect2.Text.Contains(\"暂无加成\"))"
+      "source": "if (text.Contains(\"月谕圣牌\"))"
     },
     {
       "path": "BetterGenshinImpact/GameTask/AutoSkip/AutoSkipConfig.cs",
@@ -1651,6 +1355,58 @@
         "探索派遣"
       ],
       "source": "if (text.Contains(\"每日委托\") || text.Contains(\"探索派遣\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
+      "line": 169,
+      "literals": [
+        "时间缩短",
+        "奖励增加"
+      ],
+      "source": "if (ocrResultRect.Text.Contains(\"时间缩短\") || ocrResultRect.Text.Contains(\"奖励增加\") ||"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
+      "line": 170,
+      "literals": [
+        "暂无加成"
+      ],
+      "source": "ocrResultRect.Text.Contains(\"暂无加成\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
+      "line": 181,
+      "literals": [
+        "探险完成",
+        "探险中"
+      ],
+      "source": "if (ocrResultRect2.Text.Contains(\"探险完成\") || ocrResultRect2.Text.Contains(\"探险中\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
+      "line": 184,
+      "literals": [
+        "探险完成",
+        "探险中"
+      ],
+      "source": "var name = ocrResultRect2.Text.Replace(\"探险完成\", \"\").Replace(\"探险中\", \"\").Replace(\"/\", \"\")"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
+      "line": 191,
+      "literals": [
+        "时间缩短",
+        "奖励增加"
+      ],
+      "source": "else if (!ocrResultRect2.Text.Contains(\"时间缩短\") && !ocrResultRect2.Text.Contains(\"奖励增加\") &&"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoSkip/ExpeditionTask.cs",
+      "line": 192,
+      "literals": [
+        "暂无加成"
+      ],
+      "source": "!ocrResultRect2.Text.Contains(\"暂无加成\"))"
     },
     {
       "path": "BetterGenshinImpact/GameTask/AutoStygianOnslaught/AutoStygianOnslaughtParam.cs",
@@ -1857,6 +1613,78 @@
       "source": "var teamButton = page.GetByText(\"预设队伍\").WithRoi(r => r.CutRightBottom(0.3, 0.1)).FindAll().FirstOrDefault();"
     },
     {
+      "path": "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs",
+      "line": 2207,
+      "literals": [
+        "当前位置"
+      ],
+      "source": "if (targetCountry != \"当前位置\")"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs",
+      "line": 2325,
+      "literals": [
+        "当前位置"
+      ],
+      "source": "if (minCountry != \"当前位置\")"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs",
+      "line": 2601,
+      "literals": [
+        "未识别"
+      ],
+      "source": "string.IsNullOrWhiteSpace(candidate.Text) ? \"未识别\" : candidate.Text);"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoTrackPath/TpTask.cs",
+      "line": 3219,
+      "literals": [
+        "未识别"
+      ],
+      "source": "string.IsNullOrWhiteSpace(currentCandidate.Text) ? \"未识别\" : currentCandidate.Text,"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoWood/AutoWoodTask.cs",
+      "line": 252,
+      "literals": [
+        "获得"
+      ],
+      "source": "recognizedText.Contains(\"获得\");"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoWood/AutoWoodTask.cs",
+      "line": 256,
+      "literals": [
+        "获得"
+      ],
+      "source": "recognizedText.Contains(\"获得\") &&"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs",
+      "line": 890,
+      "literals": [
+        "天赋介绍"
+      ],
+      "source": "var matched = text.Contains(\"天赋介绍\", StringComparison.Ordinal);"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterSelectionHelper.cs",
+      "line": 68,
+      "literals": [
+        "旅行者"
+      ],
+      "source": "if (standardName == \"旅行者\")"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterSelectionHelper.cs",
+      "line": 96,
+      "literals": [
+        "流浪者"
+      ],
+      "source": "isOddity || standardName == \"流浪者\","
+    },
+    {
       "path": "BetterGenshinImpact/GameTask/GameLoading/GameLoading.cs",
       "line": 264,
       "literals": [
@@ -1898,36 +1726,233 @@
       "source": "if (titleText.Contains(\"登录\", StringComparison.OrdinalIgnoreCase))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/Common/Job/SwitchCharacterStateMachineTask.cs",
-      "line": 1208,
+      "path": "BetterGenshinImpact/GameTask/GetGridIcons/GetGridIconsTask.cs",
+      "line": 167,
       "literals": [
-        "无"
+        "套装包含"
       ],
-      "source": "lastResult = matchedPlayers.Length == 0 ? \"无\" : string.Join(\",\", matchedPlayers.Select(index => $\"{index}P\"));"
+      "source": "var flowerWithGlyph = ocrResult.Regions.OrderBy(r => r.Rect.Center.Y).SkipWhile(r => !r.Text.Contains(\"套装包含\")).Skip(1).FirstOrDefault();"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/Common/Job/SwitchCharacterStateMachineTask.cs",
-      "line": 1314,
+      "path": "BetterGenshinImpact/GameTask/LogParse/LogParse.cs",
+      "line": 137,
       "literals": [
-        "无"
+        "此追踪脚本未正常走完！"
       ],
-      "source": "ignoredSlots.Length == 0 ? \"无\" : string.Join(\",\", ignoredSlots));"
+      "source": "if (logstr.Contains(\"此追踪脚本未正常走完！\"))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/Common/Job/SwitchCharacterStateMachineTask.cs",
-      "line": 1446,
+      "path": "BetterGenshinImpact/GameTask/LogParse/LogParse.cs",
+      "line": 157,
       "literals": [
-        "末次检测到 {lastDetectedCardCount} 张卡片，成功识别 {characterNames.Count(name => name != null)} 个头像"
+        "战斗超时结束"
       ],
-      "source": "$\"末次检测到 {lastDetectedCardCount} 张卡片，成功识别 {characterNames.Count(name => name != null)} 个头像\");"
+      "source": "if (logstr == \"战斗超时结束\")"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/Common/Job/LowerHeadThenWalkToTask.cs",
+      "path": "BetterGenshinImpact/GameTask/LogParse/LogParse.cs",
+      "line": 169,
+      "literals": [
+        "疑似卡死，尝试脱离..."
+      ],
+      "source": "if (logstr == \"疑似卡死，尝试脱离...\")"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/LogParse/YsHttp.cs",
+      "line": 136,
+      "literals": [
+        "未登录"
+      ],
+      "source": "if (apiResponse.Message == \"未登录\")"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/UseRedeemCode/GetLiveRedeemCode.cs",
+      "line": 111,
+      "literals": [
+        "观看",
+        "米游社直播间"
+      ],
+      "source": "if ((insert.Contains(\"观看\") || insert.Contains(\"米游社直播间\")) && !string.IsNullOrEmpty(link))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/CombatScenes.cs",
+      "line": 429,
+      "literals": [
+        "玛薇卡"
+      ],
+      "source": "if (avatar.Name != \"玛薇卡\")"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/CombatScenes.cs",
+      "line": 610,
+      "literals": [
+        "流浪者"
+      ],
+      "source": "!names.Contains(\"流浪者\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/CombatScenes.cs",
+      "line": 647,
+      "literals": [
+        "纳西"
+      ],
+      "source": "if (name.Contains(\"纳西\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
+      "line": 46,
+      "literals": [
+        "walk方法必须有两个入参，第一个参数是方向，第二个参数是行走时间。例：walk(s, 0.2)"
+      ],
+      "source": "AssertUtils.IsTrue(Args.Count == 2, \"walk方法必须有两个入参，第一个参数是方向，第二个参数是行走时间。例：walk(s, 0.2)\");"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
+      "line": 52,
+      "literals": [
+        "w/a/s/d方法必须有一个入参，代表行走时间。例：d(0.5)"
+      ],
+      "source": "AssertUtils.IsTrue(Args.Count == 1, \"w/a/s/d方法必须有一个入参，代表行走时间。例：d(0.5)\");"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
+      "line": 56,
+      "literals": [
+        "moveby方法必须有两个入参，分别是x和y。例：moveby(100, 100))"
+      ],
+      "source": "AssertUtils.IsTrue(Args.Count == 2, \"moveby方法必须有两个入参，分别是x和y。例：moveby(100, 100))\");"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
+      "line": 60,
+      "literals": [
+        "{Method.Alias[0]}方法必须有一个入参，代表按键"
+      ],
+      "source": "AssertUtils.IsTrue(Args.Count == 1, $\"{Method.Alias[0]}方法必须有一个入参，代表按键\");"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
+      "line": 72,
+      "literals": [
+        "scroll方法必须有一个入参，代表滚动格数。例：scroll(1) 或 scroll(-1)"
+      ],
+      "source": "AssertUtils.IsTrue(Args.Count == 1, \"scroll方法必须有一个入参，代表滚动格数。例：scroll(1) 或 scroll(-1)\");"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/ConditionEvaluator.cs",
+      "line": 341,
+      "literals": [
+        "缺少右括号"
+      ],
+      "source": "if (tokens[pos].Type != TokenType.RParen) throw new InvalidOperationException(\"缺少右括号\");"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/ConditionEvaluator.cs",
+      "line": 362,
+      "literals": [
+        "函数 {name} 缺少右括号"
+      ],
+      "source": "if (tokens[pos].Type != TokenType.RParen) throw new InvalidOperationException($\"函数 {name} 缺少右括号\");"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Config/CharacterCard.cs",
+      "line": 118,
+      "literals": [
+        "被动技能"
+      ],
+      "source": "if (skillsItem.SkillTag.Contains(\"被动技能\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/ActionCommand.cs",
+      "line": 30,
+      "literals": [
+        "【{Character.Name}】使用【技能{TargetIndex}】{(DiceDelta != 0 ? $",
+        "增加",
+        "减少"
+      ],
+      "source": "return $\"【{Character.Name}】使用【技能{TargetIndex}】{(DiceDelta != 0 ? $\"(骰子{(DiceDelta > 0 ? \"增加\" : \"减少\")}{Math.Abs(DiceDelta)})\" : \"\")}\";"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/ActionCommand.cs",
+      "line": 34,
+      "literals": [
+        "【{Character.Name}】使用【{Character.Skills[TargetIndex].Name}】{(DiceDelta != 0 ? $",
+        "增加",
+        "减少"
+      ],
+      "source": "return $\"【{Character.Name}】使用【{Character.Skills[TargetIndex].Name}】{(DiceDelta != 0 ? $\"(骰子{(DiceDelta > 0 ? \"增加\" : \"减少\")}{Math.Abs(DiceDelta)})\" : \"\")}\";"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/Duel.cs",
+      "line": 222,
+      "literals": [
+        "刻晴"
+      ],
+      "source": "if (actionCommand.Character.Name == \"刻晴\" && actionCommand.TargetIndex == 2)"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/Duel.cs",
+      "line": 391,
+      "literals": [
+        "莫娜"
+      ],
+      "source": "if (command.Character.Name == \"莫娜\" && command.Action == ActionEnum.SwitchLater)"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoPathing/Handler/AutoFightHandler.cs",
+      "line": 85,
+      "literals": [
+        "根据队伍自动选择"
+      ],
+      "source": "if (\"根据队伍自动选择\".Equals(config.StrategyName) || string.IsNullOrEmpty(config.StrategyName))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
       "line": 112,
       "literals": [
-        "激活"
+        "协议"
       ],
-      "source": "if (!string.IsNullOrEmpty(text) && text.Contains(\"激活\"))"
+      "source": "if (windowType.Contains(\"协议\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
+      "line": 118,
+      "literals": [
+        "协议"
+      ],
+      "source": "if (remainingWindow == IntPtr.Zero || !remainingType.Contains(\"协议\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
+      "line": 126,
+      "literals": [
+        "登录"
+      ],
+      "source": "if (windowType.Contains(\"登录\"))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
+      "line": 189,
+      "literals": [
+        "协议"
+      ],
+      "source": "if (titleText.Contains(\"协议\", StringComparison.OrdinalIgnoreCase))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
+      "line": 200,
+      "literals": [
+        "登录"
+      ],
+      "source": "if (titleText.Contains(\"登录\", StringComparison.OrdinalIgnoreCase))"
+    },
+    {
+      "path": "BetterGenshinImpact/GameTask/Common/Job/ChooseTalkOptionTask.cs",
+      "line": 185,
+      "literals": [
+        "存在Y轴偏差过大的结果，忽略:{item.Text}"
+      ],
+      "source": "Debug.WriteLine($\"存在Y轴偏差过大的结果，忽略:{item.Text}\");"
     },
     {
       "path": "BetterGenshinImpact/GameTask/Common/Job/CountInventoryItem.cs",
@@ -1978,52 +2003,36 @@
       "source": "if (SelectedConfig!.SereniteaPotTpType == \"地图传送\")"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/Common/Job/ChooseTalkOptionTask.cs",
-      "line": 185,
-      "literals": [
-        "存在Y轴偏差过大的结果，忽略:{item.Text}"
-      ],
-      "source": "Debug.WriteLine($\"存在Y轴偏差过大的结果，忽略:{item.Text}\");"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
+      "path": "BetterGenshinImpact/GameTask/Common/Job/LowerHeadThenWalkToTask.cs",
       "line": 112,
       "literals": [
-        "协议"
+        "激活"
       ],
-      "source": "if (windowType.Contains(\"协议\"))"
+      "source": "if (!string.IsNullOrEmpty(text) && text.Contains(\"激活\"))"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
-      "line": 118,
+      "path": "BetterGenshinImpact/GameTask/Common/Job/SwitchCharacterStateMachineTask.cs",
+      "line": 1208,
       "literals": [
-        "协议"
+        "无"
       ],
-      "source": "if (remainingWindow == IntPtr.Zero || !remainingType.Contains(\"协议\"))"
+      "source": "lastResult = matchedPlayers.Length == 0 ? \"无\" : string.Join(\",\", matchedPlayers.Select(index => $\"{index}P\"));"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
-      "line": 126,
+      "path": "BetterGenshinImpact/GameTask/Common/Job/SwitchCharacterStateMachineTask.cs",
+      "line": 1314,
       "literals": [
-        "登录"
+        "无"
       ],
-      "source": "if (windowType.Contains(\"登录\"))"
+      "source": "ignoredSlots.Length == 0 ? \"无\" : string.Join(\",\", ignoredSlots));"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
-      "line": 189,
+      "path": "BetterGenshinImpact/GameTask/Common/Job/SwitchCharacterStateMachineTask.cs",
+      "line": 1446,
       "literals": [
-        "协议"
+        "末次检测到 {lastDetectedCardCount} 张卡片，成功识别 {characterNames.Count(name => name != null)} 个头像"
       ],
-      "source": "if (titleText.Contains(\"协议\", StringComparison.OrdinalIgnoreCase))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
-      "line": 200,
-      "literals": [
-        "登录"
-      ],
-      "source": "if (titleText.Contains(\"登录\", StringComparison.OrdinalIgnoreCase))"
+      "source": "$\"末次检测到 {lastDetectedCardCount} 张卡片，成功识别 {characterNames.Count(name => name != null)} 个头像\");"
     },
     {
       "path": "BetterGenshinImpact/GameTask/Music/Service/InstrumentProfileService.cs",
@@ -2034,136 +2043,127 @@
       "source": "StandardProfile = Profiles.First(x => x.Name == \"风物之诗琴\");"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/CombatScenes.cs",
-      "line": 429,
+      "path": "BetterGenshinImpact/Helpers/Win32/ConsoleHelper.cs",
+      "line": 55,
       "literals": [
-        "玛薇卡"
+        "\\n=== BetterGI 控制台输出 ==="
       ],
-      "source": "if (avatar.Name != \"玛薇卡\")"
+      "source": "Console.WriteLine(\"\\n=== BetterGI 控制台输出 ===\");"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/CombatScenes.cs",
-      "line": 610,
+      "path": "BetterGenshinImpact/Service/Notification/NotificationService.cs",
+      "line": 86,
       "literals": [
-        "流浪者"
+        "NotificationService 未初始化"
       ],
-      "source": "!names.Contains(\"流浪者\"))"
+      "source": "if (_instance == null) throw new InvalidOperationException(\"NotificationService 未初始化\");"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/CombatScenes.cs",
-      "line": 647,
+      "path": "BetterGenshinImpact/View/Windows/ArtifactOcrDialog.xaml.cs",
+      "line": 77,
       "literals": [
-        "纳西"
+        "匹配",
+        "不匹配"
       ],
-      "source": "if (name.Contains(\"纳西\"))"
+      "source": "this.RegexResult.Text = isMatch ? \"匹配\" : \"不匹配\";"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/ConditionEvaluator.cs",
-      "line": 341,
+      "path": "BetterGenshinImpact/View/Windows/CheckUpdateWindow.xaml.cs",
+      "line": 35,
       "literals": [
-        "缺少右括号"
+        "【国内】直接从 CNB 下载并更新",
+        "【国外】直接从 Github 下载并更新"
       ],
-      "source": "if (tokens[pos].Type != TokenType.RParen) throw new InvalidOperationException(\"缺少右括号\");"
+      "source": "public string GitSourceDescription => SelectedGitSource == \"CNB\" ? \"【国内】直接从 CNB 下载并更新\" : \"【国外】直接从 Github 下载并更新\";"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/ConditionEvaluator.cs",
-      "line": 362,
+      "path": "BetterGenshinImpact/View/Windows/RepoUpdateDialog.xaml.cs",
+      "line": 31,
       "literals": [
-        "函数 {name} 缺少右括号"
+        "脚本仓库已经 {daysSinceUpdate} 天未更新\\n\\n温馨提示：\\n脚本内容跟随仓库版本，旧版仓库会订阅到旧版脚本。\\n更新仓库后需要重新订阅脚本，以更新脚本内容。\\n\\n是否立即更新？"
       ],
-      "source": "if (tokens[pos].Type != TokenType.RParen) throw new InvalidOperationException($\"函数 {name} 缺少右括号\");"
+      "source": "MessageTextBlock.Text = $\"脚本仓库已经 {daysSinceUpdate} 天未更新\\n\\n温馨提示：\\n脚本内容跟随仓库版本，旧版仓库会订阅到旧版脚本。\\n更新仓库后需要重新订阅脚本，以更新脚本内容。\\n\\n是否立即更新？\";"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
-      "line": 46,
+      "path": "BetterGenshinImpact/View/Windows/ScriptRepoWindow.xaml.cs",
+      "line": 81,
       "literals": [
-        "walk方法必须有两个入参，第一个参数是方向，第二个参数是行走时间。例：walk(s, 0.2)"
+        "自定义"
       ],
-      "source": "AssertUtils.IsTrue(Args.Count == 2, \"walk方法必须有两个入参，第一个参数是方向，第二个参数是行走时间。例：walk(s, 0.2)\");"
+      "source": "return SelectedRepoChannel.Name == \"自定义\" ? Config.CustomRepoUrl : SelectedRepoChannel.Url;"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
-      "line": 52,
+      "path": "BetterGenshinImpact/View/Windows/ScriptRepoWindow.xaml.cs",
+      "line": 108,
       "literals": [
-        "w/a/s/d方法必须有一个入参，代表行走时间。例：d(0.5)"
+        "自定义"
       ],
-      "source": "AssertUtils.IsTrue(Args.Count == 1, \"w/a/s/d方法必须有一个入参，代表行走时间。例：d(0.5)\");"
+      "source": "IsRepoUrlReadOnly = SelectedRepoChannel == null || SelectedRepoChannel.Name != \"自定义\";"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
-      "line": 56,
+      "path": "BetterGenshinImpact/View/Windows/ScriptRepoWindow.xaml.cs",
+      "line": 253,
       "literals": [
-        "moveby方法必须有两个入参，分别是x和y。例：moveby(100, 100))"
+        "自定义"
       ],
-      "source": "AssertUtils.IsTrue(Args.Count == 2, \"moveby方法必须有两个入参，分别是x和y。例：moveby(100, 100))\");"
+      "source": "IsRepoUrlReadOnly = SelectedRepoChannel.Name != \"自定义\";"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
-      "line": 60,
+      "path": "BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs",
+      "line": 668,
       "literals": [
-        "{Method.Alias[0]}方法必须有一个入参，代表按键"
+        "遮罩文字透明度",
+        "调整遮罩上所有文字的透明度，1 表示完全不透明，0 表示完全透明。"
       ],
-      "source": "AssertUtils.IsTrue(Args.Count == 1, $\"{Method.Alias[0]}方法必须有一个入参，代表按键\");"
+      "source": "yield return OverlayStyleSettingItem.Slider(config, nameof(MaskWindowConfig.TextOpacity), \"遮罩文字透明度\", \"调整遮罩上所有文字的透明度，1 表示完全不透明，0 表示完全透明。\", 0, 1, 0.1, onChanged);"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoFight/Script/CombatCommand.cs",
-      "line": 72,
+      "path": "BetterGenshinImpact/ViewModel/Pages/MusicPageViewModel.cs",
+      "line": 788,
       "literals": [
-        "scroll方法必须有一个入参，代表滚动格数。例：scroll(1) 或 scroll(-1)"
+        "全部格式"
       ],
-      "source": "AssertUtils.IsTrue(Args.Count == 1, \"scroll方法必须有一个入参，代表滚动格数。例：scroll(1) 或 scroll(-1)\");"
+      "source": "|| SelectedFormatFilter == \"全部格式\""
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/ActionCommand.cs",
-      "line": 30,
+      "path": "BetterGenshinImpact/ViewModel/Pages/MusicPageViewModel.cs",
+      "line": 791,
       "literals": [
-        "【{Character.Name}】使用【技能{TargetIndex}】{(DiceDelta != 0 ? $",
-        "增加",
-        "减少"
+        "全部乐器"
       ],
-      "source": "return $\"【{Character.Name}】使用【技能{TargetIndex}】{(DiceDelta != 0 ? $\"(骰子{(DiceDelta > 0 ? \"增加\" : \"减少\")}{Math.Abs(DiceDelta)})\" : \"\")}\";"
+      "source": "|| SelectedInstrumentFilter == \"全部乐器\""
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/ActionCommand.cs",
-      "line": 34,
+      "path": "BetterGenshinImpact/ViewModel/Pages/ScriptControlViewModel.cs",
+      "line": 1332,
       "literals": [
-        "【{Character.Name}】使用【{Character.Skills[TargetIndex].Name}】{(DiceDelta != 0 ? $",
-        "增加",
-        "减少"
+        "地方特产"
       ],
-      "source": "return $\"【{Character.Name}】使用【{Character.Skills[TargetIndex].Name}】{(DiceDelta != 0 ? $\"(骰子{(DiceDelta > 0 ? \"增加\" : \"减少\")}{Math.Abs(DiceDelta)})\" : \"\")}\";"
+      "source": "if (parentFolderName == \"地方特产\")"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/Duel.cs",
-      "line": 222,
+      "path": "BetterGenshinImpact/ViewModel/Pages/TaskSettingsPageViewModel.cs",
+      "line": 311,
       "literals": [
-        "刻晴"
+        "蓝花（经验书）"
       ],
-      "source": "if (actionCommand.Character.Name == \"刻晴\" && actionCommand.TargetIndex == 2)"
+      "source": "if (type == \"蓝花（经验书）\")"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Model/Duel.cs",
-      "line": 391,
+      "path": "BetterGenshinImpact/ViewModel/Pages/TaskSettingsPageViewModel.cs",
+      "line": 317,
       "literals": [
-        "莫娜"
+        "黄花（摩拉）"
       ],
-      "source": "if (command.Character.Name == \"莫娜\" && command.Action == ActionEnum.SwitchLater)"
+      "source": "if (type == \"黄花（摩拉）\")"
     },
     {
-      "path": "BetterGenshinImpact/GameTask/AutoGeniusInvokation/Config/CharacterCard.cs",
-      "line": 118,
-      "literals": [
-        "被动技能"
-      ],
-      "source": "if (skillsItem.SkillTag.Contains(\"被动技能\"))"
-    },
-    {
-      "path": "BetterGenshinImpact/GameTask/AutoPathing/Handler/AutoFightHandler.cs",
-      "line": 85,
+      "path": "BetterGenshinImpact/ViewModel/Pages/TaskSettingsPageViewModel.cs",
+      "line": 491,
       "literals": [
         "根据队伍自动选择"
       ],
-      "source": "if (\"根据队伍自动选择\".Equals(config.StrategyName) || string.IsNullOrEmpty(config.StrategyName))"
+      "source": "if (\"根据队伍自动选择\".Equals(strategyName))"
     }
   ]
 }
