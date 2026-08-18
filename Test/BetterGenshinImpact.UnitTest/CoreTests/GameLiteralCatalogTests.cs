@@ -15,6 +15,7 @@ public class GameLiteralCatalogTests
     [InlineData("箱", "Baú")]
     [InlineData("珍贵", "Precioso")]
     [InlineData("珍貴", "Precioso")]
+    [InlineData("委託", "Comissão")]
     public void Get_ReturnsAuditedPortuguese(string canonicalZh, string expected)
     {
         Assert.Equal(expected, GameLiteralCatalog.Get(canonicalZh, new CultureInfo("pt-BR")));
