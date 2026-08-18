@@ -1,5 +1,5 @@
-using BetterGenshinImpact.Core.Script.Dependence;
 using BetterGenshinImpact.GameTask.Model.Area;
+using ScriptGenshin = BetterGenshinImpact.Core.Script.Dependence.Genshin;
 
 namespace BetterGenshinImpact.UnitTest.CoreTests;
 
@@ -13,13 +13,15 @@ public class GenshinLocalizationApiTests
     [InlineData("GetTextLiterals")]
     [InlineData("TextContainsLiteral")]
     [InlineData("TextEqualsLiteral")]
+    [InlineData("TextStartsWithLiteral")]
+    [InlineData("TextEndsWithLiteral")]
     [InlineData("FindTextKey")]
     [InlineData("HasTextKey")]
     [InlineData("FindTextKeyText")]
     [InlineData("FindTextKeyAndClick")]
     public void LocalizationApi_IsExposedByGenshin(string memberName)
     {
-        var type = typeof(Genshin);
+        var type = typeof(ScriptGenshin);
         var exists = type.GetProperty(memberName) != null || type.GetMethods().Any(method => method.Name == memberName);
 
         Assert.True(exists, $"Genshin must expose {memberName} to the JavaScript host.");
@@ -28,7 +30,7 @@ public class GenshinLocalizationApiTests
     [Fact]
     public void FindTextKey_AcceptsImageRegion()
     {
-        var method = typeof(Genshin).GetMethod("FindTextKey", [typeof(string), typeof(ImageRegion)]);
+        var method = typeof(ScriptGenshin).GetMethod("FindTextKey", [typeof(string), typeof(ImageRegion)]);
         Assert.NotNull(method);
     }
 }
