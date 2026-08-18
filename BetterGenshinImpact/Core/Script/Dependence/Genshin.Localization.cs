@@ -11,101 +11,93 @@ namespace BetterGenshinImpact.Core.Script.Dependence;
 
 public partial class Genshin
 {
-    /// <summary>
-    /// Current Genshin client culture configured in BetterGI (for example zh-Hans, en or pt-BR).
-    /// </summary>
+    /// <summary>Current Genshin client culture configured in BetterGI.</summary>
     public string GameCulture => TaskContext.Instance().Config.OtherConfig.GameCultureInfoName;
 
-    /// <summary>
-    /// Resolve a semantic game-text key for the configured Genshin client culture.
-    /// </summary>
-    public string GetText(string key)
-    {
-        return GameTextCatalog.Get(key, GetConfiguredGameCulture());
-    }
+    /// <summary>Resolve a stable semantic game-text key.</summary>
+    public string GetText(string key) => GameTextCatalog.Get(key, GetConfiguredGameCulture());
+
+    /// <summary>Resolve all accepted OCR variants for a semantic game-text key.</summary>
+    public string[] GetTexts(string key) => [.. GameTextCatalog.GetAll(key, GetConfiguredGameCulture())];
 
     /// <summary>
-    /// Resolve all accepted OCR variants for a semantic game-text key.
+    /// Resolve script-specific canonical Simplified-Chinese game text through an
+    /// exact TextMap mapping. Prefer GetText/GetTexts when a semantic key exists.
     /// </summary>
-    public string[] GetTexts(string key)
+    public string GetTextLiteral(string canonicalZhHans) =>
+        GameLiteralCatalog.Get(canonicalZhHans, GetConfiguredGameCulture());
+
+    /// <summary>Resolve every accepted TextMap variant for a canonical game literal.</summary>
+    public string[] GetTextLiterals(string canonicalZhHans) =>
+        [.. GameLiteralCatalog.GetAll(canonicalZhHans, GetConfiguredGameCulture())];
+
+    /// <summary>Check whether OCR text contains any localized TextMap variant.</summary>
+    public bool TextContainsLiteral(string actualText, string canonicalZhHans)
     {
-        return [.. GameTextCatalog.GetAll(key, GetConfiguredGameCulture())];
+        if (string.IsNullOrWhiteSpace(actualText))
+        {
+            return false;
+        }
+
+        var actual = NormalizeOcrText(actualText);
+        return GetTextLiterals(canonicalZhHans)
+            .Select(NormalizeOcrText)
+            .Any(expected => actual.Contains(expected, StringComparison.OrdinalIgnoreCase));
     }
 
-    /// <summary>
-    /// Find the exact OCR result region that contains any localized variant represented by a semantic key.
-    /// </summary>
+    /// <summary>Check whether OCR text equals any localized TextMap variant.</summary>
+    public bool TextEqualsLiteral(string actualText, string canonicalZhHans)
+    {
+        if (string.IsNullOrWhiteSpace(actualText))
+        {
+            return false;
+        }
+
+        var actual = NormalizeOcrText(actualText);
+        return GetTextLiterals(canonicalZhHans)
+            .Select(NormalizeOcrText)
+            .Any(expected => string.Equals(actual, expected, StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>Find the exact OCR result region matching a semantic key.</summary>
     public Region FindTextKey(string key, ImageRegion region)
     {
         ArgumentNullException.ThrowIfNull(region);
-        var recognitionObject = new RecognitionObject { RecognitionType = RecognitionTypes.Ocr };
-        return FindMatchingOcrRegion(key, region.FindMulti(recognitionObject));
+        return FindMatchingOcrRegion(GetTexts(key), region.FindMulti(new RecognitionObject { RecognitionType = RecognitionTypes.Ocr }));
     }
 
-    /// <summary>
-    /// Find a semantic text key in a rectangle of the current game capture and return the exact OCR result region.
-    /// </summary>
+    /// <summary>Find a semantic key in a capture rectangle.</summary>
     public Region FindTextKey(string key, double x, double y, double width, double height)
     {
         using var capture = CaptureToRectArea();
-        return FindMatchingOcrRegion(key, capture.FindMulti(RecognitionObject.Ocr(x, y, width, height)));
+        return FindMatchingOcrRegion(GetTexts(key), capture.FindMulti(RecognitionObject.Ocr(x, y, width, height)));
     }
 
-    /// <summary>
-    /// Return true when a semantic text key is currently visible inside an existing image region.
-    /// </summary>
-    public bool HasTextKey(string key, ImageRegion region)
-    {
-        return !FindTextKey(key, region).IsEmpty();
-    }
+    public bool HasTextKey(string key, ImageRegion region) => !FindTextKey(key, region).IsEmpty();
 
-    /// <summary>
-    /// Return true when a semantic text key is currently visible in a game-capture rectangle.
-    /// </summary>
-    public bool HasTextKey(string key, double x, double y, double width, double height)
-    {
-        return !FindTextKey(key, x, y, width, height).IsEmpty();
-    }
+    public bool HasTextKey(string key, double x, double y, double width, double height) =>
+        !FindTextKey(key, x, y, width, height).IsEmpty();
 
-    /// <summary>
-    /// Return the actual OCR text matched by a semantic key, or an empty string when no match exists.
-    /// This is useful when migrating scripts that historically expected a string from findText helpers.
-    /// </summary>
     public string FindTextKeyText(string key, ImageRegion region)
     {
         var result = FindTextKey(key, region);
         return result.IsEmpty() ? string.Empty : result.Text ?? string.Empty;
     }
 
-    /// <summary>
-    /// Return the actual OCR text matched by a semantic key in a game-capture rectangle, or an empty string.
-    /// </summary>
     public string FindTextKeyText(string key, double x, double y, double width, double height)
     {
         var result = FindTextKey(key, x, y, width, height);
         return result.IsEmpty() ? string.Empty : result.Text ?? string.Empty;
     }
 
-    /// <summary>
-    /// Find a semantic text key inside an existing image region and click the exact matching OCR result.
-    /// Returns false when OCR did not find any accepted localized variant.
-    /// </summary>
-    public bool FindTextKeyAndClick(string key, ImageRegion region)
-    {
-        return ClickIfPresent(FindTextKey(key, region));
-    }
+    public bool FindTextKeyAndClick(string key, ImageRegion region) => ClickIfPresent(FindTextKey(key, region));
 
-    /// <summary>
-    /// Find a semantic text key in a game-capture rectangle and click the exact matching OCR result.
-    /// </summary>
-    public bool FindTextKeyAndClick(string key, double x, double y, double width, double height)
-    {
-        return ClickIfPresent(FindTextKey(key, x, y, width, height));
-    }
+    public bool FindTextKeyAndClick(string key, double x, double y, double width, double height) =>
+        ClickIfPresent(FindTextKey(key, x, y, width, height));
 
-    private Region FindMatchingOcrRegion(string key, System.Collections.Generic.IEnumerable<Region> results)
+    private static Region FindMatchingOcrRegion(string[] acceptedTexts, System.Collections.Generic.IEnumerable<Region> results)
     {
-        var accepted = GetTexts(key).Select(NormalizeOcrText).ToArray();
+        var accepted = acceptedTexts.Select(NormalizeOcrText).ToArray();
         return results.FirstOrDefault(result =>
         {
             if (result == null || !result.IsExist() || string.IsNullOrWhiteSpace(result.Text))
@@ -129,10 +121,8 @@ public partial class Genshin
         return true;
     }
 
-    private static string NormalizeOcrText(string text)
-    {
-        return string.Concat(text.Where(character => !char.IsWhiteSpace(character)));
-    }
+    private static string NormalizeOcrText(string text) =>
+        string.Concat(text.Where(character => !char.IsWhiteSpace(character)));
 
     private CultureInfo GetConfiguredGameCulture()
     {
