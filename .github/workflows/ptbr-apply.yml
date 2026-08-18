@@ -100,6 +100,7 @@ jobs:
           git add BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs \
                   BetterGenshinImpact/GameTask/Common/BgiVision/BvStatus.cs \
                   BetterGenshinImpact/User/I18n/pt-BR.json \
+                  reports/ptbr-ui-coverage.json \
                   reports/ptbr-validation-status.md \
                   reports/ptbr-validation-log.txt \
                   reports/ptbr-core-hardcodes.json
