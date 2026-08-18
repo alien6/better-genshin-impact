@@ -9,7 +9,13 @@ public class GenshinLocalizationApiTests
     [InlineData("GameCulture")]
     [InlineData("GetText")]
     [InlineData("GetTexts")]
+    [InlineData("GetTextLiteral")]
+    [InlineData("GetTextLiterals")]
+    [InlineData("TextContainsLiteral")]
+    [InlineData("TextEqualsLiteral")]
     [InlineData("FindTextKey")]
+    [InlineData("HasTextKey")]
+    [InlineData("FindTextKeyText")]
     [InlineData("FindTextKeyAndClick")]
     public void LocalizationApi_IsExposedByGenshin(string memberName)
     {
@@ -23,7 +29,6 @@ public class GenshinLocalizationApiTests
     public void FindTextKey_AcceptsImageRegion()
     {
         var method = typeof(Genshin).GetMethod("FindTextKey", [typeof(string), typeof(ImageRegion)]);
-
         Assert.NotNull(method);
     }
 }
