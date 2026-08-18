@@ -11,6 +11,8 @@ public class GenshinLocalizationApiTests
     [InlineData("GetTexts")]
     [InlineData("GetTextLiteral")]
     [InlineData("GetTextLiterals")]
+    [InlineData("GetLegacyText")]
+    [InlineData("GetLegacyTexts")]
     [InlineData("TextContainsLiteral")]
     [InlineData("TextEqualsLiteral")]
     [InlineData("TextStartsWithLiteral")]
