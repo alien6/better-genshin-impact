@@ -12,6 +12,8 @@ on:
       - tools/i18n/pt-BR.key-overrides.json
       - 'BetterGenshinImpact/Core/Localization/**'
       - 'BetterGenshinImpact/Core/Script/Dependence/Genshin.Localization.cs'
+      - 'BetterGenshinImpact/Core/Script/LegacyScriptLocalizationCompatibility.cs'
+      - 'BetterGenshinImpact/Core/Script/EngineExtend.cs'
       - 'Test/BetterGenshinImpact.UnitTest/CoreTests/**'
       - .github/workflows/ptbr-apply.yml
   workflow_dispatch:
@@ -75,7 +77,7 @@ jobs:
 
           '=== TESTS ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           if ($build -eq 0) {
-            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~GameLiteralCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests" 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~GameLiteralCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests|FullyQualifiedName~LegacyScriptTextResolverTests|FullyQualifiedName~LegacyScriptLocalizationCompatibilityTests" 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
             $tests = $LASTEXITCODE
           } else { $tests = 99 }
           $status += ('- PT-BR regression tests: ' + $(if ($tests -eq 0) {'PASS'} else {'FAIL'}))
