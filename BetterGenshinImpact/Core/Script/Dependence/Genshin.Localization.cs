@@ -1,8 +1,10 @@
+using System;
 using System.Globalization;
 using BetterGenshinImpact.Core.Localization;
 using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask;
 using BetterGenshinImpact.GameTask.Model.Area;
+using static BetterGenshinImpact.GameTask.Common.TaskControl;
 
 namespace BetterGenshinImpact.Core.Script.Dependence;
 
