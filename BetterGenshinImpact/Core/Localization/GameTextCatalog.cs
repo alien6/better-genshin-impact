@@ -46,7 +46,7 @@ public static class GameTextCatalog
             [GameTextKey.TouchTrounceBlossom] = EntryPt(["接触征讨之花"], ["Tocar na Flor da Punição", "Toque na Flor da Punição"], en: ["Touch the Trounce Blossom"]),
             [GameTextKey.AwaitingActivation] = EntryPt(["待激活"], ["Aguardando ativação", "Pendente de ativação"], en: ["Awaiting Activation"]),
             [GameTextKey.CommissionCompleted] = EntryPt(["委托完成"], ["Comissão concluída"], en: ["Commission Complete", "Commission Completed"]),
-            [GameTextKey.Commission] = EntryPt(["委托"], ["Comissão"], en: ["Commission"]),
+            [GameTextKey.Commission] = EntryPt(["委托"], ["Comissão"], en: ["Commission"], zhHant: ["委託"]),
             [GameTextKey.DailyCommissionRewards] = EntryPt(["每日委托奖励"], ["Recompensas de Comissão Diária", "Recompensas das Comissões Diárias"], en: ["Daily Commission Rewards"]),
             [GameTextKey.Manage] = EntryPt(["管理"], ["Gerenciar"], en: ["Manage"]),
             [GameTextKey.ReturnToLobby] = EntryPt(["返回大厅"], ["Voltar ao Saguão", "Retornar ao Saguão"], en: ["Return to Lobby"]),
