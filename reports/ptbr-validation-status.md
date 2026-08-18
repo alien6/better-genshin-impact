@@ -1,6 +1,6 @@
 # PT-BR Validation Status
 
-Generated: 2026-08-18 22:28:45Z
+Generated: 2026-08-18 22:33:05Z
 
 - UI dictionary coverage: FAIL
 - dotnet restore: PASS
