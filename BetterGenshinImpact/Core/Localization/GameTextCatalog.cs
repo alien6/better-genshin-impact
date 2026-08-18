@@ -1,4 +1,5 @@
 using System.Collections.Frozen;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace BetterGenshinImpact.Core.Localization;
@@ -14,6 +15,8 @@ public static class GameTextCatalog
         {
             [GameTextKey.Confirm] = Entry(
                 zhHans: ["确认"], zhHant: ["確認"], en: ["Confirm"], ja: ["確認"], ptBr: ["Confirmar"]),
+            [GameTextKey.Ok] = Entry(
+                zhHans: ["确定"], zhHant: ["確定"], en: ["OK", "Confirm"], ja: ["決定", "確認"], ptBr: ["OK", "Confirmar"]),
             [GameTextKey.Cancel] = Entry(
                 zhHans: ["取消"], zhHant: ["取消"], en: ["Cancel"], ja: ["キャンセル"], ptBr: ["Cancelar"]),
             [GameTextKey.ExitDomain] = Entry(
