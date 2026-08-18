@@ -32,20 +32,25 @@ jobs:
           python-version: '3.12'
 
       - name: Generate PT-BR translation
+        id: generate
+        continue-on-error: true
         run: python tools/generate_ptbr_ui.py --generate
 
-      - name: Verify complete key coverage
-        run: python tools/generate_ptbr_ui.py --check
-
       - name: Commit generated dictionary and cache
+        if: always()
         shell: bash
         run: |
-          if git diff --quiet; then
-            echo "No PT-BR UI changes to commit."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add BetterGenshinImpact/User/I18n/pt-BR.json tools/i18n/pt-BR.machine-cache.json
-          git commit -m "i18n: generate complete Portuguese Brazil UI dictionary"
-          git push origin HEAD:feature/pt-br-support
+          git add -f tools/i18n/pt-BR.machine-cache.json 2>/dev/null || true
+          git add BetterGenshinImpact/User/I18n/pt-BR.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No PT-BR UI output to commit."
+          else
+            git commit -m "i18n: generate Portuguese Brazil UI dictionary"
+            git push origin HEAD:feature/pt-br-support
+          fi
+
+      - name: Verify complete key coverage
+        if: always()
+        run: python tools/generate_ptbr_ui.py --check
