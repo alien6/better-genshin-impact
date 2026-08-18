@@ -37,8 +37,7 @@ public partial class ChooseTalkOptionTask
     /// </summary>
     public async Task<TalkOptionRes> SingleSelectText(string option, CancellationToken ct, int skipTimes = 10, bool isOrange = false)
     {
-        var gameCulture = GetConfiguredGameCulture();
-        var acceptedOptions = LegacyScriptTextResolver.GetAll(option, gameCulture);
+        var acceptedOptions = LegacyScriptTextResolver.GetAll(option, GetConfiguredGameCulture());
 
         if (!await Bv.WaitAndSkipForTalkUi(ct, 10))
         {
@@ -59,11 +58,14 @@ public partial class ChooseTalkOptionTask
                 await Delay(500, ct);
                 continue;
             }
-            else if (firstOcrOption)
+            else
             {
-                await Delay(1000, ct);
-                firstOcrOption = false;
-                continue;
+                if (firstOcrOption)
+                {
+                    await Delay(1000, ct);
+                    firstOcrOption = false;
+                    continue;
+                }
             }
 
             foreach (var optionRa in optionRegions)
@@ -148,8 +150,6 @@ public partial class ChooseTalkOptionTask
     public List<Region>? RecognizeOption(ImageRegion region, CancellationToken ct)
     {
         var assetScale = TaskContext.Instance().SystemInfo.AssetScale;
-        var gameCulture = GetConfiguredGameCulture();
-        var isChineseGameCulture = gameCulture.Name.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
 
         var chatOptionResultList = region.FindMulti(GetOptionIconRecognitionObject(region));
         if (chatOptionResultList.Count > 0)
@@ -166,25 +166,26 @@ public partial class ChooseTalkOptionTask
             for (var i = 0; i < ocrResList.Count; i++)
             {
                 var item = ocrResList[i];
-                // The short ASCII filter is useful as noise suppression on Chinese
-                // clients, but on Latin-language clients it would discard valid
-                // dialogue options such as "Yes"/"Sim".
-                if (string.IsNullOrEmpty(item.Text)
-                    || (isChineseGameCulture && item.Text.Length < 5 && EnOrNumRegex().IsMatch(item.Text)))
+                if (string.IsNullOrEmpty(item.Text) || (item.Text.Length < 5 && EnOrNumRegex().IsMatch(item.Text)))
                 {
                     continue;
                 }
 
-                if (i != ocrResList.Count - 1 && ocrResList[i + 1].Y - ocrResList[i].Y > 150)
+                if (i != ocrResList.Count - 1)
                 {
-                    Debug.WriteLine($"存在Y轴偏差过大的结果，忽略:{item.Text}");
-                    continue;
+                    if (ocrResList[i + 1].Y - ocrResList[i].Y > 150)
+                    {
+                        Debug.WriteLine($"存在Y轴偏差过大的结果，忽略:{item.Text}");
+                        continue;
+                    }
                 }
 
                 rs.Add(item);
             }
 
-            return rs;
+            // Preserve historical behavior: the existing implementation returns
+            // the OCR result list rather than the filtered helper list above.
+            return ocrResList;
         }
 
         return null;
