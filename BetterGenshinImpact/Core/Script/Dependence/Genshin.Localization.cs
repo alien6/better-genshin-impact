@@ -11,62 +11,40 @@ namespace BetterGenshinImpact.Core.Script.Dependence;
 
 public partial class Genshin
 {
-    /// <summary>Current Genshin client culture configured in BetterGI.</summary>
     public string GameCulture => TaskContext.Instance().Config.OtherConfig.GameCultureInfoName;
 
-    /// <summary>Resolve a stable semantic game-text key.</summary>
     public string GetText(string key) => GameTextCatalog.Get(key, GetConfiguredGameCulture());
 
-    /// <summary>Resolve all accepted OCR variants for a semantic game-text key.</summary>
     public string[] GetTexts(string key) => [.. GameTextCatalog.GetAll(key, GetConfiguredGameCulture())];
 
-    /// <summary>
-    /// Resolve script-specific canonical Simplified-Chinese game text through an
-    /// exact TextMap mapping. Prefer GetText/GetTexts when a semantic key exists.
-    /// </summary>
     public string GetTextLiteral(string canonicalZhHans) =>
         GameLiteralCatalog.Get(canonicalZhHans, GetConfiguredGameCulture());
 
-    /// <summary>Resolve every accepted TextMap variant for a canonical game literal.</summary>
     public string[] GetTextLiterals(string canonicalZhHans) =>
         [.. GameLiteralCatalog.GetAll(canonicalZhHans, GetConfiguredGameCulture())];
 
-    /// <summary>Check whether OCR text contains any localized TextMap variant.</summary>
-    public bool TextContainsLiteral(string actualText, string canonicalZhHans)
-    {
-        if (string.IsNullOrWhiteSpace(actualText))
-        {
-            return false;
-        }
+    public bool TextContainsLiteral(string actualText, string canonicalZhHans) =>
+        MatchLiteral(actualText, canonicalZhHans, static (actual, expected) =>
+            actual.Contains(expected, StringComparison.OrdinalIgnoreCase));
 
-        var actual = NormalizeOcrText(actualText);
-        return GetTextLiterals(canonicalZhHans)
-            .Select(NormalizeOcrText)
-            .Any(expected => actual.Contains(expected, StringComparison.OrdinalIgnoreCase));
-    }
+    public bool TextEqualsLiteral(string actualText, string canonicalZhHans) =>
+        MatchLiteral(actualText, canonicalZhHans, static (actual, expected) =>
+            string.Equals(actual, expected, StringComparison.OrdinalIgnoreCase));
 
-    /// <summary>Check whether OCR text equals any localized TextMap variant.</summary>
-    public bool TextEqualsLiteral(string actualText, string canonicalZhHans)
-    {
-        if (string.IsNullOrWhiteSpace(actualText))
-        {
-            return false;
-        }
+    public bool TextStartsWithLiteral(string actualText, string canonicalZhHans) =>
+        MatchLiteral(actualText, canonicalZhHans, static (actual, expected) =>
+            actual.StartsWith(expected, StringComparison.OrdinalIgnoreCase));
 
-        var actual = NormalizeOcrText(actualText);
-        return GetTextLiterals(canonicalZhHans)
-            .Select(NormalizeOcrText)
-            .Any(expected => string.Equals(actual, expected, StringComparison.OrdinalIgnoreCase));
-    }
+    public bool TextEndsWithLiteral(string actualText, string canonicalZhHans) =>
+        MatchLiteral(actualText, canonicalZhHans, static (actual, expected) =>
+            actual.EndsWith(expected, StringComparison.OrdinalIgnoreCase));
 
-    /// <summary>Find the exact OCR result region matching a semantic key.</summary>
     public Region FindTextKey(string key, ImageRegion region)
     {
         ArgumentNullException.ThrowIfNull(region);
         return FindMatchingOcrRegion(GetTexts(key), region.FindMulti(new RecognitionObject { RecognitionType = RecognitionTypes.Ocr }));
     }
 
-    /// <summary>Find a semantic key in a capture rectangle.</summary>
     public Region FindTextKey(string key, double x, double y, double width, double height)
     {
         using var capture = CaptureToRectArea();
@@ -94,6 +72,19 @@ public partial class Genshin
 
     public bool FindTextKeyAndClick(string key, double x, double y, double width, double height) =>
         ClickIfPresent(FindTextKey(key, x, y, width, height));
+
+    private bool MatchLiteral(string actualText, string canonicalZhHans, Func<string, string, bool> match)
+    {
+        if (string.IsNullOrWhiteSpace(actualText))
+        {
+            return false;
+        }
+
+        var actual = NormalizeOcrText(actualText);
+        return GetTextLiterals(canonicalZhHans)
+            .Select(NormalizeOcrText)
+            .Any(expected => match(actual, expected));
+    }
 
     private static Region FindMatchingOcrRegion(string[] acceptedTexts, System.Collections.Generic.IEnumerable<Region> results)
     {
