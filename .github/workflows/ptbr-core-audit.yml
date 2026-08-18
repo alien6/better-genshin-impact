@@ -1,0 +1,47 @@
+name: PT-BR Core Audit
+
+on:
+  push:
+    branches:
+      - feature/pt-br-support
+    paths:
+      - tools/ptbr_core_scan.py
+      - .github/workflows/ptbr-core-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/pt-br-support
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Scan functional CJK dependencies
+        run: python tools/ptbr_core_scan.py
+
+      - name: Commit audit report
+        shell: bash
+        run: |
+          if git diff --quiet -- reports/ptbr-core-hardcodes.json; then
+            echo "Audit report unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/ptbr-core-hardcodes.json
+          git commit -m "chore: update PT-BR core hardcode audit"
+          git push origin HEAD:feature/pt-br-support
