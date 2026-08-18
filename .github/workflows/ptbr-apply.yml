@@ -1,0 +1,47 @@
+name: PT-BR Core Patch
+
+on:
+  push:
+    branches:
+      - feature/pt-br-support
+    paths:
+      - tools/ptbr_apply.py
+      - .github/workflows/ptbr-apply.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/pt-br-support
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Apply PT-BR core patch
+        run: python tools/ptbr_apply.py
+
+      - name: Commit patch
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No core patch changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs
+          git commit -m "feat: expose pt-BR in language selectors"
+          git push origin HEAD:feature/pt-br-support
