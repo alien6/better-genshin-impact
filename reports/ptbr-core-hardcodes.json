@@ -1948,7 +1948,7 @@
     },
     {
       "path": "BetterGenshinImpact/GameTask/Common/Job/ChooseTalkOptionTask.cs",
-      "line": 185,
+      "line": 178,
       "literals": [
         "存在Y轴偏差过大的结果，忽略:{item.Text}"
       ],
