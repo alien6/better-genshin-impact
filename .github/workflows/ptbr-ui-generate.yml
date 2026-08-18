@@ -1,0 +1,51 @@
+name: PT-BR UI Generator
+
+on:
+  push:
+    branches:
+      - feature/pt-br-support
+    paths:
+      - tools/generate_ptbr_ui.py
+      - tools/i18n/pt-BR.overrides.json
+      - .github/workflows/ptbr-ui-generate.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/pt-br-support
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate PT-BR translation
+        run: python tools/generate_ptbr_ui.py --generate
+
+      - name: Verify complete key coverage
+        run: python tools/generate_ptbr_ui.py --check
+
+      - name: Commit generated dictionary and cache
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No PT-BR UI changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add BetterGenshinImpact/User/I18n/pt-BR.json tools/i18n/pt-BR.machine-cache.json
+          git commit -m "i18n: generate complete Portuguese Brazil UI dictionary"
+          git push origin HEAD:feature/pt-br-support
