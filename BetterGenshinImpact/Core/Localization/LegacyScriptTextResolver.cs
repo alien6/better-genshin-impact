@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace BetterGenshinImpact.Core.Localization;
 
@@ -13,16 +13,15 @@ namespace BetterGenshinImpact.Core.Localization;
 /// </summary>
 public static class LegacyScriptTextResolver
 {
+    private static readonly FrozenDictionary<string, string> SemanticKeyByCanonicalText = BuildSemanticIndex();
+
     public static IReadOnlyList<string> GetAll(string canonicalText, CultureInfo culture)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(canonicalText);
 
-        foreach (var key in GameTextCatalog.Keys)
+        if (SemanticKeyByCanonicalText.TryGetValue(canonicalText, out var semanticKey))
         {
-            if (MatchesCanonicalText(key, canonicalText))
-            {
-                return GameTextCatalog.GetAll(key, culture);
-            }
+            return GameTextCatalog.GetAll(semanticKey, culture);
         }
 
         if (culture.Name.StartsWith("pt", StringComparison.OrdinalIgnoreCase)
@@ -37,15 +36,25 @@ public static class LegacyScriptTextResolver
     public static string Get(string canonicalText, CultureInfo culture) =>
         GetAll(canonicalText, culture)[0];
 
-    private static bool MatchesCanonicalText(string key, string canonicalText)
+    private static FrozenDictionary<string, string> BuildSemanticIndex()
     {
-        var zhHans = GameTextCatalog.GetAll(key, CultureInfo.GetCultureInfo("zh-Hans"));
-        if (zhHans.Contains(canonicalText, StringComparer.Ordinal))
+        var index = new Dictionary<string, string>(StringComparer.Ordinal);
+        var zhHans = CultureInfo.GetCultureInfo("zh-Hans");
+        var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
+
+        foreach (var key in GameTextCatalog.Keys)
         {
-            return true;
+            foreach (var canonical in GameTextCatalog.GetAll(key, zhHans))
+            {
+                index.TryAdd(canonical, key);
+            }
+
+            foreach (var canonical in GameTextCatalog.GetAll(key, zhHant))
+            {
+                index.TryAdd(canonical, key);
+            }
         }
 
-        var zhHant = GameTextCatalog.GetAll(key, CultureInfo.GetCultureInfo("zh-Hant"));
-        return zhHant.Contains(canonicalText, StringComparer.Ordinal);
+        return index.ToFrozenDictionary(StringComparer.Ordinal);
     }
 }
