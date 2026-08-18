@@ -7,8 +7,8 @@ namespace BetterGenshinImpact.Core.Localization;
 
 /// <summary>
 /// PT-BR translations for script-specific game text that does not yet have a
-/// stable semantic key. Entries come only from exact shared TextMap hashes
-/// (Simplified Chinese -> Portuguese); ambiguous hashes keep all PT variants.
+/// stable semantic key. TextMap entries come from shared CHS/PT hashes; a small
+/// alias table covers Traditional-Chinese spellings of already-known labels.
 /// </summary>
 public static class GameLiteralCatalog
 {
@@ -33,6 +33,7 @@ public static class GameLiteralCatalog
             ["征讨领域"] = ["Domínio Dizimado"],
             ["所有"] = ["Todos"],
             ["按键"] = ["Comandos"],
+            ["按鍵"] = ["Comandos"],
             ["提瓦特"] = ["Teyvat"],
             ["查看资料"] = ["Ver perfil"],
             ["浓缩树脂"] = ["Resina Condensada"],
@@ -40,6 +41,8 @@ public static class GameLiteralCatalog
             ["点击领取"] = ["Pressione para resgatar"],
             ["申请加入"] = ["Solicitar Entrada"],
             ["秒"] = ["s"],
+            // TextMap has "{0}分钟" -> "{0}m".
+            ["分钟"] = ["m"],
             ["空月祝福"] = ["Bênção da Lua Nova"],
             ["继续"] = ["Continuar"],
             ["脆弱树脂"] = ["Resina Frágil"],
@@ -74,12 +77,10 @@ public static class GameLiteralCatalog
             }
 
             throw new KeyNotFoundException(
-                $"Game literal '{canonicalZhHans}' has no exact TextMap PT-BR mapping. " +
+                $"Game literal '{canonicalZhHans}' has no audited PT-BR mapping. " +
                 "It is intentionally not machine-guessed for functional OCR.");
         }
 
-        // Preserve historical behavior for languages that are not part of the
-        // current PT-BR migration. Semantic keys should be preferred when one exists.
         return [canonicalZhHans];
     }
 
