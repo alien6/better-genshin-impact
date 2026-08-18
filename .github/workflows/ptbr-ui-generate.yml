@@ -7,6 +7,7 @@ on:
     paths:
       - tools/generate_ptbr_ui.py
       - tools/i18n/pt-BR.overrides.json
+      - tools/i18n/pt-BR.key-overrides.json
       - .github/workflows/ptbr-ui-generate.yml
   workflow_dispatch:
 
