@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Linq;
 using BetterGenshinImpact.Core.Localization;
 using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask;
@@ -32,36 +33,58 @@ public partial class Genshin
     }
 
     /// <summary>
-    /// Find any localized OCR variant represented by a semantic key inside an existing image region.
+    /// Find the exact OCR result region that contains any localized variant represented by a semantic key.
     /// </summary>
     public Region FindTextKey(string key, ImageRegion region)
     {
         ArgumentNullException.ThrowIfNull(region);
-        var recognitionObject = new RecognitionObject
-        {
-            RecognitionType = RecognitionTypes.OcrMatch,
-            OneContainMatchText = [.. GetTexts(key)]
-        };
-        return region.Find(recognitionObject);
+        var recognitionObject = new RecognitionObject { RecognitionType = RecognitionTypes.Ocr };
+        return FindMatchingOcrRegion(key, region.FindMulti(recognitionObject));
     }
 
     /// <summary>
-    /// Find a semantic text key in a rectangle of the current game capture.
-    /// Coordinates use the same capture coordinate system as RecognitionObject.OcrMatch.
+    /// Find a semantic text key in a rectangle of the current game capture and return the exact OCR result region.
     /// </summary>
     public Region FindTextKey(string key, double x, double y, double width, double height)
     {
         using var capture = CaptureToRectArea();
-        return capture.Find(RecognitionObject.OcrMatch(x, y, width, height, GetTexts(key)));
+        return FindMatchingOcrRegion(key, capture.FindMulti(RecognitionObject.Ocr(x, y, width, height)));
     }
 
     /// <summary>
-    /// Find a semantic text key inside an existing image region and click the matched region.
+    /// Find a semantic text key inside an existing image region and click the exact matching OCR result.
     /// Returns false when OCR did not find any accepted localized variant.
     /// </summary>
     public bool FindTextKeyAndClick(string key, ImageRegion region)
     {
-        var result = FindTextKey(key, region);
+        return ClickIfPresent(FindTextKey(key, region));
+    }
+
+    /// <summary>
+    /// Find a semantic text key in a game-capture rectangle and click the exact matching OCR result.
+    /// </summary>
+    public bool FindTextKeyAndClick(string key, double x, double y, double width, double height)
+    {
+        return ClickIfPresent(FindTextKey(key, x, y, width, height));
+    }
+
+    private Region FindMatchingOcrRegion(string key, System.Collections.Generic.IEnumerable<Region> results)
+    {
+        var accepted = GetTexts(key).Select(NormalizeOcrText).ToArray();
+        return results.FirstOrDefault(result =>
+        {
+            if (result == null || !result.IsExist() || string.IsNullOrWhiteSpace(result.Text))
+            {
+                return false;
+            }
+
+            var actual = NormalizeOcrText(result.Text);
+            return accepted.Any(expected => actual.Contains(expected, StringComparison.OrdinalIgnoreCase));
+        }) ?? new Region();
+    }
+
+    private static bool ClickIfPresent(Region result)
+    {
         if (result.IsEmpty())
         {
             return false;
@@ -71,20 +94,9 @@ public partial class Genshin
         return true;
     }
 
-    /// <summary>
-    /// Find a semantic text key in a game-capture rectangle and click the matched region.
-    /// </summary>
-    public bool FindTextKeyAndClick(string key, double x, double y, double width, double height)
+    private static string NormalizeOcrText(string text)
     {
-        using var capture = CaptureToRectArea();
-        var result = capture.Find(RecognitionObject.OcrMatch(x, y, width, height, GetTexts(key)));
-        if (result.IsEmpty())
-        {
-            return false;
-        }
-
-        result.Click();
-        return true;
+        return string.Concat(text.Where(character => !char.IsWhiteSpace(character)));
     }
 
     private CultureInfo GetConfiguredGameCulture()
