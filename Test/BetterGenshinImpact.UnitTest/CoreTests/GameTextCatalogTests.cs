@@ -12,6 +12,7 @@ public class GameTextCatalogTests
     [InlineData("pt-BR", GameTextKey.Ok, "OK")]
     [InlineData("pt-BR", GameTextKey.OriginalResin, "Resina Original")]
     [InlineData("pt-PT", GameTextKey.LeyLineDisorder, "Desordem das Linhas Ley")]
+    [InlineData("zh-TW", GameTextKey.Commission, "委託")]
     public void Get_ReturnsCultureSpecificText(string cultureName, string key, string expected)
     {
         var actual = GameTextCatalog.Get(key, new CultureInfo(cultureName));
