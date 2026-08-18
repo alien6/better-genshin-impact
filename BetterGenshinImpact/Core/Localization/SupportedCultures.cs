@@ -1,6 +1,3 @@
-using System.Collections.Frozen;
-using BetterGenshinImpact.View.Converters;
-
 namespace BetterGenshinImpact.Core.Localization;
 
 /// <summary>
@@ -10,9 +7,4 @@ namespace BetterGenshinImpact.Core.Localization;
 public static class SupportedCultures
 {
     public static readonly string[] Names = ["zh-Hans", "zh-Hant", "en", "ja", "pt-BR"];
-
-    public static FrozenDictionary<string, string> ToDisplayNameDictionary()
-    {
-        return Names.ToFrozenDictionary(c => c, CultureInfoNameToKVPConverter.GetDisplayName);
-    }
 }
