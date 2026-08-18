@@ -1,6 +1,8 @@
 using System.Globalization;
 using BetterGenshinImpact.Core.Localization;
+using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask;
+using BetterGenshinImpact.GameTask.Model.Area;
 
 namespace BetterGenshinImpact.Core.Script.Dependence;
 
@@ -25,6 +27,62 @@ public partial class Genshin
     public string[] GetTexts(string key)
     {
         return [.. GameTextCatalog.GetAll(key, GetConfiguredGameCulture())];
+    }
+
+    /// <summary>
+    /// Find any localized OCR variant represented by a semantic key inside an existing image region.
+    /// </summary>
+    public Region FindTextKey(string key, ImageRegion region)
+    {
+        ArgumentNullException.ThrowIfNull(region);
+        var recognitionObject = new RecognitionObject
+        {
+            RecognitionType = RecognitionTypes.OcrMatch,
+            OneContainMatchText = [.. GetTexts(key)]
+        };
+        return region.Find(recognitionObject);
+    }
+
+    /// <summary>
+    /// Find a semantic text key in a rectangle of the current game capture.
+    /// Coordinates use the same capture coordinate system as RecognitionObject.OcrMatch.
+    /// </summary>
+    public Region FindTextKey(string key, double x, double y, double width, double height)
+    {
+        using var capture = CaptureToRectArea();
+        return capture.Find(RecognitionObject.OcrMatch(x, y, width, height, GetTexts(key)));
+    }
+
+    /// <summary>
+    /// Find a semantic text key inside an existing image region and click the matched region.
+    /// Returns false when OCR did not find any accepted localized variant.
+    /// </summary>
+    public bool FindTextKeyAndClick(string key, ImageRegion region)
+    {
+        var result = FindTextKey(key, region);
+        if (result.IsEmpty())
+        {
+            return false;
+        }
+
+        result.Click();
+        return true;
+    }
+
+    /// <summary>
+    /// Find a semantic text key in a game-capture rectangle and click the matched region.
+    /// </summary>
+    public bool FindTextKeyAndClick(string key, double x, double y, double width, double height)
+    {
+        using var capture = CaptureToRectArea();
+        var result = capture.Find(RecognitionObject.OcrMatch(x, y, width, height, GetTexts(key)));
+        if (result.IsEmpty())
+        {
+            return false;
+        }
+
+        result.Click();
+        return true;
     }
 
     private CultureInfo GetConfiguredGameCulture()
