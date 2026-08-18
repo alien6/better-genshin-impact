@@ -7,6 +7,7 @@ namespace BetterGenshinImpact.Core.Localization;
 public static class GameTextKey
 {
     public const string Confirm = "confirm";
+    public const string Ok = "ok";
     public const string Cancel = "cancel";
     public const string ExitDomain = "exit_domain";
     public const string ExitChallenge = "exit_challenge";
