@@ -19,6 +19,8 @@ public class GameLiteralCatalogTests
     [InlineData("倒计时", "Contagem regressiva")]
     [InlineData("有什么卖的", "O que você está vendendo")]
     [InlineData("可以卖一些", "Você pode me vender algumas")]
+    [InlineData("能给我几支香吗", "Você poderia me dar alguns palitos de incenso")]
+    [InlineData("其他玩家", "outros jogadores")]
     [InlineData("箱", "Baú")]
     [InlineData("珍贵", "Precioso")]
     [InlineData("珍貴", "Precioso")]
