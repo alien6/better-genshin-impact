@@ -16,6 +16,11 @@ public class GameLiteralCatalogTests
     [InlineData("珍贵", "Precioso")]
     [InlineData("珍貴", "Precioso")]
     [InlineData("委託", "Comissão")]
+    [InlineData("初始手牌", "Mão Inicial")]
+    [InlineData("重投骰子", "Rolar Novamente")]
+    [InlineData("出战角色", "Personagem em Combate")]
+    [InlineData("对局胜利", "Vitória")]
+    [InlineData("对局失败", "Derrota")]
     public void Get_ReturnsAuditedPortuguese(string canonicalZh, string expected)
     {
         Assert.Equal(expected, GameLiteralCatalog.Get(canonicalZh, new CultureInfo("pt-BR")));
