@@ -44,6 +44,9 @@ public static class GameLiteralCatalog
             ["秒"] = ["s"],
             // TextMap: "{0}分钟" -> "{0}m".
             ["分钟"] = ["m"],
+            // Context-audited TextMap prompts consistently use "Pressione" for
+            // clickable UI actions; "Toque" is retained as an accepted OCR variant.
+            ["点击"] = ["Pressione", "Toque"],
             ["空月祝福"] = ["Bênção da Lua Nova"],
             ["继续"] = ["Continuar"],
             ["脆弱树脂"] = ["Resina Frágil"],
