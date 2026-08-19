@@ -21,6 +21,7 @@ public class GameLiteralCatalogTests
     [InlineData("可以卖一些", "Você pode me vender algumas")]
     [InlineData("能给我几支香吗", "Você poderia me dar alguns palitos de incenso")]
     [InlineData("其他玩家", "outros jogadores")]
+    [InlineData("退出至登录界面", "Sair para a tela de login")]
     [InlineData("箱", "Baú")]
     [InlineData("珍贵", "Precioso")]
     [InlineData("珍貴", "Precioso")]
