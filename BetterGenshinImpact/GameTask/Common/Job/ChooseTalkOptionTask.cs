@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using BetterGenshinImpact.Core.Localization;
 using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.GameTask.AutoSkip;
@@ -30,18 +32,13 @@ public partial class ChooseTalkOptionTask
 
     public string Name => "持续对话并选择目标选项";
 
-    // private readonly AutoSkipConfig _config = TaskContext.Instance().Config.AutoSkipConfig;
-
     /// <summary>
     /// 单个界面单个选项选择
     /// </summary>
-    /// <param name="option"></param>
-    /// <param name="ct"></param>
-    /// <param name="skipTimes">200ms一次，点击几次空格</param>
-    /// <param name="isOrange"></param>
-    /// <returns></returns>
     public async Task<TalkOptionRes> SingleSelectText(string option, CancellationToken ct, int skipTimes = 10, bool isOrange = false)
     {
+        var acceptedOptions = LegacyScriptTextResolver.GetAll(option, GetConfiguredGameCulture());
+
         if (!await Bv.WaitAndSkipForTalkUi(ct, 10))
         {
             Logger.LogError("选项选择：{Text}", "当前界面不在对话选项界面");
@@ -51,7 +48,7 @@ public partial class ChooseTalkOptionTask
         await Task.Delay(500, ct);
 
         bool firstOcrOption = true;
-        for (var i = 0; i < skipTimes; i++) // 重试N次
+        for (var i = 0; i < skipTimes; i++)
         {
             using var region = CaptureToRectArea();
             var optionRegions = RecognizeOption(region, ct);
@@ -59,26 +56,30 @@ public partial class ChooseTalkOptionTask
             {
                 TaskContext.Instance().PostMessageSimulator.KeyPressBackground(User32.VK.VK_SPACE);
                 await Delay(500, ct);
-                continue; // retry
+                continue;
             }
             else
             {
-                // 首次识别到文字，延迟1s重新识别一次，保证文字已经完全展示
                 if (firstOcrOption)
                 {
                     await Delay(1000, ct);
                     firstOcrOption = false;
-                    continue; // 下一轮重新截图并识别
+                    continue;
                 }
             }
 
             foreach (var optionRa in optionRegions)
             {
-                if (optionRa.Text.Contains(option))
+                if (string.IsNullOrWhiteSpace(optionRa.Text))
+                {
+                    continue;
+                }
+
+                if (acceptedOptions.Any(expected =>
+                        optionRa.Text.Contains(expected, StringComparison.OrdinalIgnoreCase)))
                 {
                     if (isOrange)
                     {
-                        // region.DeriveCrop(optionRa.ToRect()).SrcMat.SaveImage(Global.Absolute($"log\\t{optionRa.Text}.png"));
                         if (!IsOrangeOption(region.DeriveCrop(optionRa.ToRect()).SrcMat))
                         {
                             return TalkOptionRes.FoundButNotOrange;
@@ -146,29 +147,21 @@ public partial class ChooseTalkOptionTask
     /// <summary>
     /// 识别当前对话界面的所有选项
     /// </summary>
-    /// <param name="region"></param>
-    /// <param name="ct"></param>
-    /// <returns></returns>
     public List<Region>? RecognizeOption(ImageRegion region, CancellationToken ct)
     {
         var assetScale = TaskContext.Instance().SystemInfo.AssetScale;
 
-        // 气泡识别
         var chatOptionResultList = region.FindMulti(GetOptionIconRecognitionObject(region));
         if (chatOptionResultList.Count > 0)
         {
-            // 第一个元素就是最下面的
             chatOptionResultList = [.. chatOptionResultList.OrderByDescending(r => r.Y)];
 
-            // 通过最下面的气泡框来文字识别
             var lowest = chatOptionResultList[0];
             var ocrRect = new Rect((int)(lowest.X + lowest.Width + 8 * assetScale), region.Height / 8,
                 (int)(535 * assetScale), (int)(lowest.Y + lowest.Height + 30 * assetScale - region.Height / 12d));
             var ocrResList = region.FindMulti(RecognitionObject.Ocr(ocrRect));
 
-            // 删除为空的结果 和 纯英文的结果
             var rs = new List<Region>();
-            // 按照y坐标排序
             ocrResList = [.. ocrResList.OrderBy(r => r.Y)];
             for (var i = 0; i < ocrResList.Count; i++)
             {
@@ -190,10 +183,30 @@ public partial class ChooseTalkOptionTask
                 rs.Add(item);
             }
 
+            // Preserve historical behavior: the existing implementation returns
+            // the OCR result list rather than the filtered helper list above.
             return ocrResList;
         }
 
-        return null; // 没有找到气泡
+        return null;
+    }
+
+    private static CultureInfo GetConfiguredGameCulture()
+    {
+        var cultureName = TaskContext.Instance().Config.OtherConfig.GameCultureInfoName;
+        if (string.IsNullOrWhiteSpace(cultureName))
+        {
+            return CultureInfo.GetCultureInfo("zh-Hans");
+        }
+
+        try
+        {
+            return CultureInfo.GetCultureInfo(cultureName);
+        }
+        catch (CultureNotFoundException)
+        {
+            return CultureInfo.GetCultureInfo("zh-Hans");
+        }
     }
 
     private void ClickOcrRegion(Region region)
@@ -212,7 +225,6 @@ public partial class ChooseTalkOptionTask
 
     private bool IsOrangeOption(Mat textMat)
     {
-        // 只提取橙色
         Scalar lowerOrange = new Scalar(10, 150, 150);
         Scalar upperOrange = new Scalar(25, 255, 255);
         var mask = OpenCvCommonHelper.InRangeHsv(textMat, lowerOrange, upperOrange);
@@ -226,12 +238,7 @@ public partial class ChooseTalkOptionTask
 
 public enum TalkOptionRes
 {
-    // 未找到
     NotFound,
-
-    // 找到但不是橙色
     FoundButNotOrange,
-
-    // 找到并点击
     FoundAndClick,
 }

@@ -1,0 +1,105 @@
+name: PT-BR Validation Report
+
+on:
+  push:
+    branches:
+      - feature/pt-br-support
+    paths:
+      - '.github/workflows/ptbr-validation-report.yml'
+      - 'BetterGenshinImpact/**'
+      - 'Test/BetterGenshinImpact.UnitTest/**'
+      - 'tools/generate_ptbr_ui.py'
+      - 'tools/ptbr_core_scan.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-report:
+    runs-on: windows-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout triggering commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Validate and write report
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path reports | Out-Null
+          Remove-Item reports/ptbr-validation-log.txt -ErrorAction SilentlyContinue
+          $lines = @('# PT-BR Validation Status', '', ('Generated: ' + (Get-Date).ToUniversalTime().ToString('u')), '')
+
+          '=== UI COVERAGE ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          python tools/generate_ptbr_ui.py --check 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          $ui = $LASTEXITCODE
+          $lines += ('- UI dictionary coverage: ' + $(if ($ui -eq 0) {'PASS'} else {'FAIL'}))
+
+          '=== RESTORE ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          dotnet restore BetterGenshinImpact.sln 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          $restore = $LASTEXITCODE
+          $lines += ('- dotnet restore: ' + $(if ($restore -eq 0) {'PASS'} else {'FAIL'}))
+
+          '=== BUILD ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          if ($restore -eq 0) {
+            dotnet build BetterGenshinImpact.sln -c Debug --no-restore 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+            $build = $LASTEXITCODE
+          } else {
+            $build = 99
+            'SKIPPED: restore failed' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          }
+          $lines += ('- dotnet build Debug: ' + $(if ($build -eq 0) {'PASS'} else {'FAIL'}))
+
+          '=== TESTS ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          if ($build -eq 0) {
+            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~GameLiteralCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests|FullyQualifiedName~LegacyScriptTextResolverTests|FullyQualifiedName~LegacyScriptLocalizationCompatibilityTests" 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+            $tests = $LASTEXITCODE
+          } else {
+            $tests = 99
+            'SKIPPED: build failed' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          }
+          $lines += ('- PT-BR regression tests: ' + $(if ($tests -eq 0) {'PASS'} else {'FAIL'}))
+
+          '=== CORE AUDIT ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          python tools/ptbr_core_scan.py 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+          $audit = $LASTEXITCODE
+          $lines += ('- Core hardcode audit generated: ' + $(if ($audit -eq 0) {'PASS'} else {'FAIL'}))
+          $lines += ''
+          $lines += ('Overall: ' + $(if (($ui -eq 0) -and ($restore -eq 0) -and ($build -eq 0) -and ($tests -eq 0) -and ($audit -eq 0)) {'PASS'} else {'FAIL'}))
+          $lines | Set-Content -Path reports/ptbr-validation-status.md -Encoding UTF8
+          Get-Content reports/ptbr-validation-status.md
+          exit 0
+
+      - name: Commit validation evidence
+        shell: bash
+        run: |
+          remote_sha=$(git ls-remote origin refs/heads/feature/pt-br-support | awk '{print $1}')
+          if [ "$remote_sha" != "$GITHUB_SHA" ]; then
+            echo "Branch advanced from $GITHUB_SHA to $remote_sha; skipping stale validation evidence."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/ptbr-validation-status.md reports/ptbr-validation-log.txt
+          if [ -f reports/ptbr-core-hardcodes.json ]; then git add -f reports/ptbr-core-hardcodes.json; fi
+          if git diff --cached --quiet; then
+            echo "Validation evidence unchanged."
+            exit 0
+          fi
+          git commit -m "chore: update PT-BR validation evidence"
+          git push origin HEAD:feature/pt-br-support

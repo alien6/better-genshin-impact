@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BetterGenshinImpact.Core.Script.Dependence;
 
-public class Genshin
+public partial class Genshin
 {
     private RECT captureAreaRect = TaskContext.Instance().SystemInfo.CaptureAreaRect;
     private readonly ILogger<Genshin> _logger = App.GetLogger<Genshin>();

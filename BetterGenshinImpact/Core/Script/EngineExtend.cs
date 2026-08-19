@@ -41,6 +41,7 @@ public class EngineExtend
         engine.AddHostObject("keyMouseScript", new KeyMouseScript(workDir));
         engine.AddHostObject("pathingScript", new AutoPathingScript(workDir, config));
         engine.AddHostObject("genshin", new Dependence.Genshin());
+        LegacyScriptLocalizationCompatibility.Install(engine);
         engine.AddHostObject("characterDevelopmentTask", new CharacterDevelopmentTask());
         engine.AddHostObject("log", new Log());
         engine.AddHostObject("file", new LimitedFile(workDir)); // 限制文件访问
@@ -143,7 +144,6 @@ public class EngineExtend
         // {
         //     // 使用方法名首字母小写作为HostObject的名称
         //     var methodName = char.ToLowerInvariant(method.Name[0]) + method.Name[1..];
-        //     engine.AddHostObject(methodName, method);
         // }
 
 #pragma warning disable CS8974 // Converting method group to non-delegate type
