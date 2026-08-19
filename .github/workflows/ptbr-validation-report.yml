@@ -21,10 +21,9 @@ jobs:
     timeout-minutes: 35
 
     steps:
-      - name: Checkout branch
+      - name: Checkout triggering commit
         uses: actions/checkout@v4
         with:
-          ref: feature/pt-br-support
           fetch-depth: 0
           submodules: recursive
 
@@ -67,7 +66,7 @@ jobs:
 
           '=== TESTS ===' | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
           if ($build -eq 0) {
-            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~GameLiteralCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests" 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
+            dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug --no-build --filter "FullyQualifiedName~GameTextCatalogTests|FullyQualifiedName~GameLiteralCatalogTests|FullyQualifiedName~PaddleOcrCultureTests|FullyQualifiedName~SupportedCulturesTests|FullyQualifiedName~GenshinLocalizationApiTests|FullyQualifiedName~LegacyScriptTextResolverTests|FullyQualifiedName~LegacyScriptLocalizationCompatibilityTests" 2>&1 | Tee-Object -FilePath reports/ptbr-validation-log.txt -Append
             $tests = $LASTEXITCODE
           } else {
             $tests = 99
