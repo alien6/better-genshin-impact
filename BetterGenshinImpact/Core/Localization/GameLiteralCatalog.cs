@@ -90,6 +90,12 @@ public static class GameLiteralCatalog
             ["今日已无法锻造"] = ["Não foi possível forjar"],
             ["锻造队列"] = ["Fila de Forjamento", "Fila de forjamento"],
 
+            // Other high-confidence TextMap substrings used by legacy scripts.
+            ["世界权限"] = ["Permissão do mundo"],
+            ["倒计时"] = ["Contagem regressiva", "Contagem Regressiva", "Atualiza em", "Contagem para Atualização"],
+            ["有什么卖的"] = ["O que você está vendendo"],
+            ["可以卖一些"] = ["Você pode me vender algumas"],
+
             // Genius Invokation TCG wording used by OCR-driven scripts. The
             // variants preserve the in-game PT-BR terminology while tolerating
             // title/result wording differences across TCG screens.
