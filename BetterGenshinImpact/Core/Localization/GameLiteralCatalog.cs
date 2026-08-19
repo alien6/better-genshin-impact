@@ -97,6 +97,7 @@ public static class GameLiteralCatalog
             ["可以卖一些"] = ["Você pode me vender algumas"],
             ["能给我几支香吗"] = ["Você poderia me dar alguns palitos de incenso"],
             ["其他玩家"] = ["outros jogadores", "Outros jogadores", "outro jogador", "Outro jogador"],
+            ["退出至登录界面"] = ["Sair para a tela de login"],
 
             // Genius Invokation TCG wording used by OCR-driven scripts. The
             // variants preserve the in-game PT-BR terminology while tolerating
