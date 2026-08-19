@@ -13,6 +13,8 @@ public class GameLiteralCatalogTests
     [InlineData("按鍵", "Comandos")]
     [InlineData("分钟", "m")]
     [InlineData("点击", "Pressione")]
+    [InlineData("今日已无法锻造", "Não foi possível forjar")]
+    [InlineData("锻造队列", "Fila de Forjamento")]
     [InlineData("箱", "Baú")]
     [InlineData("珍贵", "Precioso")]
     [InlineData("珍貴", "Precioso")]
