@@ -85,6 +85,11 @@ public static class GameLiteralCatalog
             ["申請造訪"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"],
             ["委託"] = ["Comissão"],
 
+            // Context-audited forge UI prefixes. Scripts intentionally match
+            // substrings because the item/count suffix varies between screens.
+            ["今日已无法锻造"] = ["Não foi possível forjar"],
+            ["锻造队列"] = ["Fila de Forjamento", "Fila de forjamento"],
+
             // Genius Invokation TCG wording used by OCR-driven scripts. The
             // variants preserve the in-game PT-BR terminology while tolerating
             // title/result wording differences across TCG screens.
