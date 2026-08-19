@@ -24,9 +24,32 @@ public static class LegacyScriptLocalizationCompatibility
     function localizedVariants(searchValue) {
         if (typeof searchValue !== 'string' || !cjk.test(searchValue)) return null;
         try {
-            const values = genshin.getLegacyTexts(searchValue);
-            if (!values || typeof values.length !== 'number') return null;
-            return values;
+            // BetterGI exposes host members in lower camel case, while a bare
+            // ClearScript host object (as used by unit tests and third-party
+            // hosts) can expose the original CLR member name. Supporting both
+            // keeps this compatibility layer independent of host naming policy.
+            let resolver = null;
+            if (genshin && typeof genshin.getLegacyTexts === 'function') {
+                resolver = value => genshin.getLegacyTexts(value);
+            } else if (genshin && typeof genshin.GetLegacyTexts === 'function') {
+                resolver = value => genshin.GetLegacyTexts(value);
+            }
+            if (!resolver) return null;
+
+            const values = resolver(searchValue);
+            if (!values) return null;
+
+            // CLR arrays may expose Length while JavaScript arrays expose length.
+            const rawLength = typeof values.length === 'number'
+                ? values.length
+                : (typeof values.Length === 'number' ? values.Length : null);
+            if (rawLength === null) return null;
+
+            const normalized = [];
+            for (let i = 0; i < rawLength; i++) {
+                normalized.push(String(values[i]));
+            }
+            return normalized;
         } catch (_) {
             return null;
         }
@@ -37,7 +60,7 @@ public static class LegacyScriptLocalizationCompatibility
         const variants = localizedVariants(searchValue);
         if (!variants) return false;
         for (let i = 0; i < variants.length; i++) {
-            const candidate = String(variants[i]);
+            const candidate = variants[i];
             if (candidate !== searchValue && originalIncludes.call(this, candidate, position)) return true;
         }
         return false;
@@ -48,7 +71,7 @@ public static class LegacyScriptLocalizationCompatibility
         const variants = localizedVariants(searchValue);
         if (!variants) return false;
         for (let i = 0; i < variants.length; i++) {
-            const candidate = String(variants[i]);
+            const candidate = variants[i];
             if (candidate !== searchValue && originalStartsWith.call(this, candidate, position)) return true;
         }
         return false;
@@ -59,7 +82,7 @@ public static class LegacyScriptLocalizationCompatibility
         const variants = localizedVariants(searchValue);
         if (!variants) return false;
         for (let i = 0; i < variants.length; i++) {
-            const candidate = String(variants[i]);
+            const candidate = variants[i];
             if (candidate !== searchValue && originalEndsWith.call(this, candidate, endPosition)) return true;
         }
         return false;
@@ -72,7 +95,7 @@ public static class LegacyScriptLocalizationCompatibility
         if (!variants) return -1;
         let best = -1;
         for (let i = 0; i < variants.length; i++) {
-            const candidate = String(variants[i]);
+            const candidate = variants[i];
             if (candidate === searchValue) continue;
             const found = originalIndexOf.call(this, candidate, fromIndex);
             if (found !== -1 && (best === -1 || found < best)) best = found;
