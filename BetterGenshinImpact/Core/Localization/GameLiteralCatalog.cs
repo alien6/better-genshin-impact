@@ -82,6 +82,15 @@ public static class GameLiteralCatalog
             ["申請造訪"] = ["Inscrever-se para visitar o Bule de Relachá", "Se registrar para visitar o Bule de Relachá"],
             ["委託"] = ["Comissão"],
 
+            // Genius Invokation TCG wording used by OCR-driven scripts. The
+            // variants preserve the in-game PT-BR terminology while tolerating
+            // title/result wording differences across TCG screens.
+            ["初始手牌"] = ["Mão Inicial", "Mão inicial"],
+            ["重投骰子"] = ["Rolar Novamente", "Rolar novamente", "Rolagem"],
+            ["出战角色"] = ["Personagem em Combate", "Personagem em combate"],
+            ["对局胜利"] = ["Vitória", "Vitória na Partida", "Vitória na partida"],
+            ["对局失败"] = ["Derrota", "Derrota na Partida", "Derrota na partida"],
+
             // Chest UI wording used by OCR-heavy scripts.
             ["箱"] = ["Baú"],
             ["珍贵"] = ["Precioso"],
