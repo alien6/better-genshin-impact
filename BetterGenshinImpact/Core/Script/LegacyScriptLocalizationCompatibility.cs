@@ -62,6 +62,13 @@ public static class LegacyScriptLocalizationCompatibility
         for (let i = 0; i < variants.length; i++) {
             const candidate = variants[i];
             if (candidate !== searchValue && originalIncludes.call(this, candidate, position)) return true;
+
+            // Some legacy OCR helpers normalize the recognized text with
+            // toLowerCase() before searching for the original Chinese literal.
+            // Only after the native search fails and only for an audited CJK
+            // literal, also try the localized candidate in the same casing.
+            const lowerCandidate = candidate.toLocaleLowerCase();
+            if (lowerCandidate !== candidate && originalIncludes.call(this, lowerCandidate, position)) return true;
         }
         return false;
     };
