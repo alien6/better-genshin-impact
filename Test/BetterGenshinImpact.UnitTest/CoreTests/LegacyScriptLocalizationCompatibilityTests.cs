@@ -19,6 +19,16 @@ public class LegacyScriptLocalizationCompatibilityTests
     }
 
     [Fact]
+    public void BootstrapScript_MatchesLocalizedVariantsAfterOcrHelperLowercasesText()
+    {
+        using var engine = new V8ScriptEngine();
+        engine.AddHostObject("genshin", new FakeGenshin());
+        LegacyScriptLocalizationCompatibility.Install(engine);
+
+        Assert.True((bool)engine.Evaluate("'continuar'.includes('继续')"));
+    }
+
+    [Fact]
     public void BootstrapScript_PreservesNativeAndUnknownSearchBehavior()
     {
         using var engine = new V8ScriptEngine();
@@ -47,6 +57,7 @@ public class LegacyScriptLocalizationCompatibilityTests
         public string[] GetLegacyTexts(string canonicalText) => canonicalText switch
         {
             "确认" => ["Confirmar"],
+            "继续" => ["Continuar"],
             _ => [canonicalText]
         };
     }
