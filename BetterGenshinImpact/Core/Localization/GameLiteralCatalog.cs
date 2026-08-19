@@ -95,6 +95,8 @@ public static class GameLiteralCatalog
             ["倒计时"] = ["Contagem regressiva", "Contagem Regressiva", "Atualiza em", "Contagem para Atualização"],
             ["有什么卖的"] = ["O que você está vendendo"],
             ["可以卖一些"] = ["Você pode me vender algumas"],
+            ["能给我几支香吗"] = ["Você poderia me dar alguns palitos de incenso"],
+            ["其他玩家"] = ["outros jogadores", "Outros jogadores", "outro jogador", "Outro jogador"],
 
             // Genius Invokation TCG wording used by OCR-driven scripts. The
             // variants preserve the in-game PT-BR terminology while tolerating
