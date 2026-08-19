@@ -12,6 +12,7 @@ public class GameLiteralCatalogTests
     [InlineData("按键", "Comandos")]
     [InlineData("按鍵", "Comandos")]
     [InlineData("分钟", "m")]
+    [InlineData("点击", "Pressione")]
     [InlineData("箱", "Baú")]
     [InlineData("珍贵", "Precioso")]
     [InlineData("珍貴", "Precioso")]
