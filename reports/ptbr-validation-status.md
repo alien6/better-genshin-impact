@@ -1,11 +1,11 @@
 # PT-BR Validation Status
 
-Generated: 2026-08-19 00:19:59Z
+Generated: 2026-08-19 00:29:26Z
 
 - UI dictionary coverage: PASS
 - dotnet restore: PASS
 - dotnet build Debug: PASS
-- PT-BR regression tests: FAIL
+- PT-BR regression tests: PASS
 - Core hardcode audit generated: PASS
 
-Overall: FAIL
+Overall: PASS
