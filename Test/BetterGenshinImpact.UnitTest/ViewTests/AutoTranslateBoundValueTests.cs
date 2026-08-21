@@ -85,6 +85,49 @@ public sealed class AutoTranslateBoundValueTests
         });
     }
 
+    [Fact]
+    public void TranslateBoundCurrentValue_DoesNotTouchTwoWayEditableBinding()
+    {
+        RunSta(() =>
+        {
+            var source = new SourceModel { Text = "全部格式" };
+            var textBox = new TextBox();
+            BindingOperations.SetBinding(
+                textBox,
+                TextBox.TextProperty,
+                new Binding(nameof(SourceModel.Text))
+                {
+                    Source = source,
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                });
+
+            var method = typeof(AutoTranslateInterceptor).GetMethod(
+                "TranslateBoundCurrentValue",
+                BindingFlags.NonPublic | BindingFlags.Static);
+            Assert.NotNull(method);
+
+            var translator = new FakeTranslationService(new Dictionary<string, string>
+            {
+                ["全部格式"] = "Todos os formatos"
+            });
+
+            var result = method!.Invoke(
+                null,
+                [
+                    textBox,
+                    TextBox.TextProperty,
+                    translator,
+                    TranslationSourceInfo.From(MissingTextSource.UiDynamicBinding)
+                ]);
+
+            Assert.Equal(false, result);
+            Assert.Equal("全部格式", textBox.Text);
+            Assert.Equal("全部格式", source.Text);
+            Assert.NotNull(BindingOperations.GetBindingExpression(textBox, TextBox.TextProperty));
+        });
+    }
+
     private static void RunSta(Action action)
     {
         Exception? exception = null;
