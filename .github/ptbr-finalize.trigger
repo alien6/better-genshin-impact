@@ -1,1 +1,1 @@
-validate-final-pt-br
+window-scope-red
