@@ -1,0 +1,78 @@
+name: PT-BR CSharp localization audit
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  csharp-literal-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find CSharp Han literals missing from PT-BR
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import re
+          from collections import defaultdict
+          from pathlib import Path
+
+          root = Path('BetterGenshinImpact')
+          pt = json.loads((root / 'User/I18n/pt-BR.json').read_text(encoding='utf-8-sig'))
+          han = re.compile(r'[\u3400-\u9fff]')
+          # Good-enough lexer for audit purposes; comments are removed separately.
+          string_re = re.compile(r'(?P<prefix>\$@|@\$|@|\$)?"(?P<body>(?:\\.|""|[^"\\])*)"', re.DOTALL)
+          block_comment = re.compile(r'/\*.*?\*/', re.DOTALL)
+          line_comment = re.compile(r'//[^\n]*')
+
+          def decode(body, verbatim):
+              if verbatim:
+                  return body.replace('""', '"')
+              replacements = {
+                  r'\n': '\n', r'\r': '\r', r'\t': '\t', r'\"': '"', r'\\': '\\'
+              }
+              for old, new in replacements.items():
+                  body = body.replace(old, new)
+              return body
+
+          gaps = defaultdict(list)
+          all_han = defaultdict(list)
+          for path in sorted(root.rglob('*.cs')):
+              p = path.as_posix()
+              if '/obj/' in p or '/bin/' in p or p.endswith('.g.cs') or p.endswith('.Designer.cs'):
+                  continue
+              raw = path.read_text(encoding='utf-8-sig', errors='ignore')
+              raw = block_comment.sub('', raw)
+              raw = line_comment.sub('', raw)
+              for match in string_re.finditer(raw):
+                  prefix = match.group('prefix') or ''
+                  text = decode(match.group('body'), '@' in prefix).strip()
+                  if not text or not han.search(text):
+                      continue
+                  line = raw.count('\n', 0, match.start()) + 1
+                  all_han[text].append(f'{p}:{line}')
+                  if text not in pt:
+                      gaps[text].append(f'{p}:{line}')
+
+          data = [
+              {'text': text, 'where': sorted(set(where))}
+              for text, where in sorted(gaps.items())
+          ]
+          Path('/tmp/ptbr-csharp-gaps.json').write_text(
+              json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+          print(f'CSHARP_HAN_UNIQUE={len(all_han)}')
+          print(f'CSHARP_MISSING_PT_UNIQUE={len(gaps)}')
+          for item in data[:80]:
+              print('CSHARP_GAP=', json.dumps(item, ensure_ascii=False))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ptbr-csharp-gaps
+          path: /tmp/ptbr-csharp-gaps.json
