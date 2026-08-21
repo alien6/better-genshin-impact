@@ -12,52 +12,75 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Find untranslated visible XAML literals
+      - name: Build structured XAML gap report
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           import re
+          import xml.etree.ElementTree as ET
+          from collections import defaultdict
           from pathlib import Path
 
-          pt_path = Path('BetterGenshinImpact/User/I18n/pt-BR.json')
-          pt = json.loads(pt_path.read_text(encoding='utf-8-sig'))
+          pt = json.loads(Path('BetterGenshinImpact/User/I18n/pt-BR.json').read_text(encoding='utf-8-sig'))
           cjk = re.compile(r'[\u3400-\u9fff]')
-          quoted = re.compile(r'(?P<q>["\'])(?P<v>(?:\\.|(?!\1).)*)\1')
-          textnode = re.compile(r'>([^<>]*[\u3400-\u9fff][^<>]*)<')
-          attr_name = re.compile(r'([\w:.]+)\s*=\s*$')
-          ignore_attrs = {'x:Class','xmlns','xmlns:x','xmlns:d','xmlns:mc','mc:Ignorable','d:DataContext','Source','UriSource'}
-          results=[]
-          for path in sorted(Path('BetterGenshinImpact/View').rglob('*.xaml')):
-              content = path.read_text(encoding='utf-8-sig', errors='ignore')
-              auto = 'AutoTranslateInterceptor.EnableAutoTranslate="True"' in content
-              for lineno,line in enumerate(content.splitlines(),1):
-                  if line.lstrip().startswith('<!--'):
-                      continue
-                  for m in quoted.finditer(line):
-                      value=m.group('v').strip()
-                      if not cjk.search(value) or value in pt:
-                          continue
-                      prefix=line[:m.start()]
-                      am=attr_name.search(prefix)
-                      attr=am.group(1) if am else '?'
-                      if attr in ignore_attrs or attr.startswith('xmlns'):
-                          continue
-                      if any(x in value for x in ('clr-namespace:', '{Binding', '{StaticResource', '{DynamicResource', 'pack://')):
-                          continue
-                      results.append((str(path),lineno,attr,value,auto))
-                  for m in textnode.finditer(line):
-                      value=m.group(1).strip()
-                      if value and value not in pt:
-                          results.append((str(path),lineno,'#text',value,auto))
+          report = defaultdict(list)
 
-          # unique by file/line/attribute/value
-          seen=set(); unique=[]
-          for item in results:
-              key=item[:4]
-              if key not in seen:
-                  seen.add(key); unique.append(item)
-          print('VISIBLE_XAML_MISSING_COUNT='+str(len(unique)))
-          for path,line,attr,value,auto in unique:
-              print('XAML_MISSING='+json.dumps({'file':path,'line':line,'attr':attr,'text':value,'auto_translate_root':auto},ensure_ascii=False))
+          def local(tag):
+              return tag.rsplit('}', 1)[-1] if '}' in tag else tag
+
+          for path in sorted(Path('BetterGenshinImpact/View').rglob('*.xaml')):
+              raw = path.read_text(encoding='utf-8-sig', errors='ignore')
+              try:
+                  root = ET.fromstring(raw)
+              except Exception as e:
+                  print(f'PARSE_SKIP={path}: {e}')
+                  continue
+              parent = {child: par for par in root.iter() for child in par}
+              root_auto = 'AutoTranslateInterceptor.EnableAutoTranslate="True"' in raw
+              root_kind = local(root.tag)
+              for elem in root.iter():
+                  ancestors=[]; cur=elem
+                  while cur in parent:
+                      cur=parent[cur]; ancestors.append(local(cur.tag))
+                  in_combo = any(a in {'ComboBox','ComboBoxItem'} for a in ancestors) or local(elem.tag) in {'ComboBox','ComboBoxItem'}
+                  for attr,value in elem.attrib.items():
+                      if not isinstance(value,str):
+                          continue
+                      value=value.strip()
+                      if not value or not cjk.search(value) or value in pt:
+                          continue
+                      attr_local=local(attr)
+                      if attr_local in {'Class','DataContext','Name','Source','UriSource'}:
+                          continue
+                      if any(x in value for x in ('{Binding','{StaticResource','{DynamicResource','clr-namespace:','pack://')):
+                          continue
+                      report[value].append({
+                          'file':str(path),'element':local(elem.tag),'attr':attr_local,
+                          'root_kind':root_kind,'root_auto':root_auto,'in_combo':in_combo
+                      })
+                  if elem.text:
+                      value=elem.text.strip()
+                      if value and cjk.search(value) and value not in pt:
+                          report[value].append({
+                              'file':str(path),'element':local(elem.tag),'attr':'#text',
+                              'root_kind':root_kind,'root_auto':root_auto,'in_combo':in_combo
+                          })
+
+          data=[]
+          for text,occ in sorted(report.items(), key=lambda kv: kv[0]):
+              data.append({
+                  'text':text,
+                  'occurrences':occ,
+                  'needs_explicit_scope': any(o['root_kind']=='Window' and not o['root_auto'] for o in occ),
+                  'in_combo': any(o['in_combo'] for o in occ),
+              })
+          Path('/tmp/xaml-gaps.json').write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
+          print('UNIQUE_XAML_GAP_COUNT='+str(len(data)))
+          print('NEEDS_EXPLICIT_SCOPE_COUNT='+str(sum(1 for x in data if x['needs_explicit_scope'])))
+          print('IN_COMBO_COUNT='+str(sum(1 for x in data if x['in_combo'])))
           PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ptbr-xaml-gaps
+          path: /tmp/xaml-gaps.json
