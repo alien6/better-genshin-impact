@@ -1,4 +1,4 @@
-name: PT-BR final localization integrator
+name: PT-BR dynamic binding finalizer
 
 on:
   pull_request:
@@ -18,8 +18,9 @@ jobs:
           fetch-depth: 0
 
       - name: Merge final PT-BR catalog and template fallback
-        shell: python
+        shell: bash
         run: |
+          python3 - <<'PY'
           from pathlib import Path
           from collections import Counter
           import json
@@ -57,7 +58,7 @@ jobs:
           overlap = set(updates) & set(pt)
           changed_overlap = [k for k in overlap if pt[k] != updates[k]]
           if changed_overlap:
-              raise SystemExit(f'Final staging unexpectedly overwrites existing translations: {changed_overlap[:5]}')
+              raise SystemExit(f'Unexpected overwrite: {changed_overlap[:5]}')
 
           pt.update(updates)
           expected = before + len(set(updates) - overlap)
@@ -76,96 +77,115 @@ jobs:
           if 'using System.Text.RegularExpressions;' not in src:
               src = src.replace('using System.Text;\n', 'using System.Text;\nusing System.Text.RegularExpressions;\n', 1)
 
-          exact_block = '''        if (_map.TryGetValue(text, out var translated) && !string.IsNullOrWhiteSpace(translated))\n        {\n            return translated;\n        }\n\n        var normalizedSource = NormalizeSourceInfo(sourceInfo);\n'''
-          exact_replacement = '''        if (_map.TryGetValue(text, out var translated) && !string.IsNullOrWhiteSpace(translated))\n        {\n            return translated;\n        }\n\n        if (TryTranslateTemplate(text, _map, out translated))\n        {\n            return translated;\n        }\n\n        var normalizedSource = NormalizeSourceInfo(sourceInfo);\n'''
+          exact_block = (
+              '        if (_map.TryGetValue(text, out var translated) && !string.IsNullOrWhiteSpace(translated))\n'
+              '        {\n'
+              '            return translated;\n'
+              '        }\n\n'
+              '        var normalizedSource = NormalizeSourceInfo(sourceInfo);\n'
+          )
+          exact_replacement = (
+              '        if (_map.TryGetValue(text, out var translated) && !string.IsNullOrWhiteSpace(translated))\n'
+              '        {\n'
+              '            return translated;\n'
+              '        }\n\n'
+              '        if (TryTranslateTemplate(text, _map, out translated))\n'
+              '        {\n'
+              '            return translated;\n'
+              '        }\n\n'
+              '        var normalizedSource = NormalizeSourceInfo(sourceInfo);\n'
+          )
           if 'if (TryTranslateTemplate(text, _map, out translated))' not in src:
               if exact_block not in src:
-                  raise SystemExit('Translate exact-match insertion point not found')
+                  raise SystemExit('Translate insertion point not found')
               src = src.replace(exact_block, exact_replacement, 1)
 
-          marker = '''    private void EnsureMapLoaded(string cultureName)\n'''
-          helper = r'''    private static bool TryTranslateTemplate(
-        string text,
-        IReadOnlyDictionary<string, string> map,
-        out string translated)
-    {
-        translated = text;
-
-        foreach (var pair in map)
-        {
-            var sourceTemplate = pair.Key;
-            var targetTemplate = pair.Value;
-            if (string.IsNullOrWhiteSpace(targetTemplate)
-                || sourceTemplate.IndexOf('{') < 0
-                || sourceTemplate.IndexOf('}') < 0)
-            {
-                continue;
-            }
-
-            var placeholders = Regex.Matches(sourceTemplate, @"\{([^{}]+)\}");
-            if (placeholders.Count == 0)
-            {
-                continue;
-            }
-
-            var first = placeholders[0];
-            if (first.Index > 0
-                && !text.StartsWith(sourceTemplate[..first.Index], StringComparison.Ordinal))
-            {
-                continue;
-            }
-
-            var last = placeholders[^1];
-            var suffixStart = last.Index + last.Length;
-            if (suffixStart < sourceTemplate.Length
-                && !text.EndsWith(sourceTemplate[suffixStart..], StringComparison.Ordinal))
-            {
-                continue;
-            }
-
-            var pattern = new StringBuilder("^");
-            var cursor = 0;
-            for (var i = 0; i < placeholders.Count; i++)
-            {
-                var item = placeholders[i];
-                pattern.Append(Regex.Escape(sourceTemplate[cursor..item.Index]));
-                pattern.Append("(?<p").Append(i).Append(">.*?)");
-                cursor = item.Index + item.Length;
-            }
-            pattern.Append(Regex.Escape(sourceTemplate[cursor..])).Append('$');
-
-            var match = Regex.Match(
-                text,
-                pattern.ToString(),
-                RegexOptions.Singleline | RegexOptions.CultureInvariant);
-            if (!match.Success)
-            {
-                continue;
-            }
-
-            var result = targetTemplate;
-            for (var i = 0; i < placeholders.Count; i++)
-            {
-                result = result.Replace(
-                    placeholders[i].Value,
-                    match.Groups[$"p{i}"].Value,
-                    StringComparison.Ordinal);
-            }
-
-            translated = result;
-            return true;
-        }
-
-        return false;
-    }
-
-'''
+          helper_lines = [
+              '    private static bool TryTranslateTemplate(',
+              '        string text,',
+              '        IReadOnlyDictionary<string, string> map,',
+              '        out string translated)',
+              '    {',
+              '        translated = text;',
+              '',
+              '        foreach (var pair in map)',
+              '        {',
+              '            var sourceTemplate = pair.Key;',
+              '            var targetTemplate = pair.Value;',
+              '            if (string.IsNullOrWhiteSpace(targetTemplate)',
+              "                || sourceTemplate.IndexOf('{') < 0",
+              "                || sourceTemplate.IndexOf('}') < 0)",
+              '            {',
+              '                continue;',
+              '            }',
+              '',
+              '            var placeholders = Regex.Matches(sourceTemplate, @"\\{([^{}]+)\\}");',
+              '            if (placeholders.Count == 0)',
+              '            {',
+              '                continue;',
+              '            }',
+              '',
+              '            var first = placeholders[0];',
+              '            if (first.Index > 0',
+              '                && !text.StartsWith(sourceTemplate[..first.Index], StringComparison.Ordinal))',
+              '            {',
+              '                continue;',
+              '            }',
+              '',
+              '            var last = placeholders[^1];',
+              '            var suffixStart = last.Index + last.Length;',
+              '            if (suffixStart < sourceTemplate.Length',
+              '                && !text.EndsWith(sourceTemplate[suffixStart..], StringComparison.Ordinal))',
+              '            {',
+              '                continue;',
+              '            }',
+              '',
+              '            var pattern = new StringBuilder("^");',
+              '            var cursor = 0;',
+              '            for (var i = 0; i < placeholders.Count; i++)',
+              '            {',
+              '                var item = placeholders[i];',
+              '                pattern.Append(Regex.Escape(sourceTemplate[cursor..item.Index]));',
+              '                pattern.Append("(?<p").Append(i).Append(">.*?)");',
+              '                cursor = item.Index + item.Length;',
+              '            }',
+              "            pattern.Append(Regex.Escape(sourceTemplate[cursor..])).Append('$');",
+              '',
+              '            var match = Regex.Match(',
+              '                text,',
+              '                pattern.ToString(),',
+              '                RegexOptions.Singleline | RegexOptions.CultureInvariant);',
+              '            if (!match.Success)',
+              '            {',
+              '                continue;',
+              '            }',
+              '',
+              '            var result = targetTemplate;',
+              '            for (var i = 0; i < placeholders.Count; i++)',
+              '            {',
+              '                result = result.Replace(',
+              '                    placeholders[i].Value,',
+              '                    match.Groups[$"p{i}"].Value,',
+              '                    StringComparison.Ordinal);',
+              '            }',
+              '',
+              '            translated = result;',
+              '            return true;',
+              '        }',
+              '',
+              '        return false;',
+              '    }',
+              ''
+          ]
+          helper = '\n'.join(helper_lines) + '\n'
+          marker = '    private void EnsureMapLoaded(string cultureName)\n'
           if 'private static bool TryTranslateTemplate(' not in src:
               if marker not in src:
                   raise SystemExit('EnsureMapLoaded insertion point not found')
               src = src.replace(marker, helper + marker, 1)
 
           service_path.write_text(src, encoding='utf-8-sig')
+          PY
 
       - name: Verify final integration shape
         shell: bash
