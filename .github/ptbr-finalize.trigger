@@ -1,1 +1,1 @@
-finalize-pt-br-2
+validate-final-pt-br
