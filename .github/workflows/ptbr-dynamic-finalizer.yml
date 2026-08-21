@@ -1,4 +1,4 @@
-name: PT-BR dynamic binding finalizer
+name: PT-BR final localization integrator
 
 on:
   pull_request:
@@ -16,57 +16,170 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-      - name: Patch safe dynamic binding translation
+
+      - name: Merge final PT-BR catalog and template fallback
         shell: python
         run: |
           from pathlib import Path
-          p = Path('BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs')
-          s = p.read_text(encoding='utf-8-sig')
+          from collections import Counter
+          import json
+          import re
 
-          if 'using System.ComponentModel;' not in s:
-              s = s.replace('using System.Collections.Generic;\n', 'using System.Collections.Generic;\nusing System.ComponentModel;\n', 1)
+          pt_path = Path('BetterGenshinImpact/User/I18n/pt-BR.json')
+          pt = json.loads(pt_path.read_text(encoding='utf-8-sig'))
+          before = len(pt)
 
-          marker = '''        private static void OnAnyElementLoaded(object sender, RoutedEventArgs e)\n'''
-          helper = '''        private static bool TranslateBoundCurrentValue(\n            DependencyObject obj,\n            DependencyProperty property,\n            ITranslationService translator,\n            TranslationSourceInfo sourceInfo)\n        {\n            if (!BindingOperations.IsDataBound(obj, property))\n            {\n                return false;\n            }\n\n            // Only plain Binding is handled here. MultiBinding/PriorityBinding remain untouched.\n            var binding = BindingOperations.GetBinding(obj, property);\n            if (binding == null)\n            {\n                return false;\n            }\n\n            if (binding.Mode is BindingMode.TwoWay or BindingMode.OneWayToSource)\n            {\n                return false;\n            }\n\n            if (binding.Mode == BindingMode.Default\n                && property.GetMetadata(obj.GetType()) is FrameworkPropertyMetadata metadata\n                && metadata.BindsTwoWayByDefault)\n            {\n                return false;\n            }\n\n            if (obj.GetValue(property) is not string currentValue || string.IsNullOrWhiteSpace(currentValue))\n            {\n                return false;\n            }\n\n            var translated = translator.Translate(currentValue, sourceInfo);\n            if (string.Equals(currentValue, translated, StringComparison.Ordinal))\n            {\n                return false;\n            }\n\n            // SetCurrentValue changes the effective target value without replacing the BindingExpression.\n            obj.SetCurrentValue(property, translated);\n            return true;\n        }\n\n'''
-          if 'private static bool TranslateBoundCurrentValue(' not in s:
-              if marker not in s:
-                  raise SystemExit('OnAnyElementLoaded marker not found')
-              s = s.replace(marker, helper + marker, 1)
+          part_paths = sorted(Path('.github').glob('ptbr-ui439-part*.json'))
+          if len(part_paths) != 6:
+              raise SystemExit(f'Expected 6 final translation parts, found {len(part_paths)}')
 
-          fields_marker = '''            private readonly HashSet<ComboBox> _trackedComboBoxes = new();\n            private readonly HashSet<DependencyObject> _pendingApply = new();\n'''
-          fields_repl = '''            private readonly HashSet<ComboBox> _trackedComboBoxes = new();\n            private readonly HashSet<(DependencyObject Object, DependencyProperty Property)> _trackedBoundProperties = new();\n            private readonly HashSet<(DependencyObject Object, DependencyProperty Property)> _translatingBoundProperties = new();\n            private readonly HashSet<DependencyObject> _pendingApply = new();\n'''
-          if '_trackedBoundProperties' not in s:
-              if fields_marker not in s:
-                  raise SystemExit('scope fields marker not found')
-              s = s.replace(fields_marker, fields_repl, 1)
+          updates = {}
+          for path in part_paths:
+              data = json.loads(path.read_text(encoding='utf-8-sig'))
+              for key, value in data.items():
+                  if key in updates and updates[key] != value:
+                      raise SystemExit(f'Conflicting staged translation: {key}')
+                  updates[key] = value
 
-          apply_marker = '''                    if (IsInGridViewRowPresenter(current))\n                    {\n                        continue;\n                    }\n\n                    if (current is ComboBox comboBox)\n'''
-          apply_repl = '''                    if (IsInGridViewRowPresenter(current))\n                    {\n                        continue;\n                    }\n\n                    TranslateAndTrackBoundValues(current, translator);\n\n                    if (current is ComboBox comboBox)\n'''
-          if 'TranslateAndTrackBoundValues(current, translator);' not in s:
-              if apply_marker not in s:
-                  raise SystemExit('Apply marker not found')
-              s = s.replace(apply_marker, apply_repl, 1)
+          if len(updates) != 444:
+              raise SystemExit(f'Expected 444 unique final translations, found {len(updates)}')
 
-          methods_marker = '''            private void TrackContextMenu(ContextMenu? contextMenu, Queue<DependencyObject> queue)\n'''
-          methods = '''            private void TranslateAndTrackBoundValues(DependencyObject obj, ITranslationService translator)\n            {\n                var enumerator = obj.GetLocalValueEnumerator();\n                while (enumerator.MoveNext())\n                {\n                    var property = enumerator.Current.Property;\n                    if ((property.PropertyType != typeof(string) && property.PropertyType != typeof(object))\n                        || !ShouldTranslatePropertyName(property.Name)\n                        || !BindingOperations.IsDataBound(obj, property))\n                    {\n                        continue;\n                    }\n\n                    TranslateTrackedBoundValue(obj, property, translator);\n\n                    var key = (obj, property);\n                    if (!_trackedBoundProperties.Add(key))\n                    {\n                        continue;\n                    }\n\n                    var descriptor = DependencyPropertyDescriptor.FromProperty(property, obj.GetType());\n                    if (descriptor == null)\n                    {\n                        continue;\n                    }\n\n                    EventHandler handler = (_, _) =>\n                    {\n                        if (!_applied)\n                        {\n                            return;\n                        }\n\n                        var currentTranslator = App.GetService<ITranslationService>();\n                        if (currentTranslator == null\n                            || currentTranslator.GetCurrentCulture().Name.StartsWith("zh", StringComparison.OrdinalIgnoreCase))\n                        {\n                            return;\n                        }\n\n                        TranslateTrackedBoundValue(obj, property, currentTranslator);\n                    };\n                    descriptor.AddValueChanged(obj, handler);\n                    _unsubscribe.Add(() => descriptor.RemoveValueChanged(obj, handler));\n                }\n            }\n\n            private void TranslateTrackedBoundValue(\n                DependencyObject obj,\n                DependencyProperty property,\n                ITranslationService translator)\n            {\n                var key = (obj, property);\n                if (!_translatingBoundProperties.Add(key))\n                {\n                    return;\n                }\n\n                try\n                {\n                    var sourceInfo = BuildSourceInfo(obj, property, MissingTextSource.UiDynamicBinding);\n                    sourceInfo.BindingPath = BindingOperations.GetBinding(obj, property)?.Path?.Path;\n                    TranslateBoundCurrentValue(obj, property, translator, sourceInfo);\n                }\n                finally\n                {\n                    _translatingBoundProperties.Remove(key);\n                }\n            }\n\n'''
-          if 'private void TranslateAndTrackBoundValues(' not in s:
-              if methods_marker not in s:
-                  raise SystemExit('TrackContextMenu marker not found')
-              s = s.replace(methods_marker, methods + methods_marker, 1)
+          han = re.compile(r'[\u3400-\u9fff]')
+          placeholder = re.compile(r'\{[^{}]+\}')
+          for key, value in updates.items():
+              if not isinstance(value, str) or not value.strip():
+                  raise SystemExit(f'Empty translation: {key}')
+              if han.search(value):
+                  raise SystemExit(f'PT-BR value still contains Han characters: {key} => {value}')
+              if Counter(placeholder.findall(key)) != Counter(placeholder.findall(value)):
+                  raise SystemExit(f'Placeholder mismatch: {key} => {value}')
 
-          p.write_text(s, encoding='utf-8-sig', newline='')
-      - name: Verify patch shape
+          overlap = set(updates) & set(pt)
+          changed_overlap = [k for k in overlap if pt[k] != updates[k]]
+          if changed_overlap:
+              raise SystemExit(f'Final staging unexpectedly overwrites existing translations: {changed_overlap[:5]}')
+
+          pt.update(updates)
+          expected = before + len(set(updates) - overlap)
+          if len(pt) != expected:
+              raise SystemExit(f'Catalog count mismatch: before={before}, updates={len(updates)}, after={len(pt)}, expected={expected}')
+
+          pt_path.write_text(json.dumps(pt, ensure_ascii=False, indent=2) + '\n', encoding='utf-8-sig')
+          print(f'PT_COUNT_BEFORE={before}')
+          print(f'FINAL_STAGE_COUNT={len(updates)}')
+          print(f'FINAL_STAGE_OVERLAP={len(overlap)}')
+          print(f'PT_COUNT_AFTER={len(pt)}')
+
+          service_path = Path('BetterGenshinImpact/Service/JsonTranslationService.cs')
+          src = service_path.read_text(encoding='utf-8-sig')
+
+          if 'using System.Text.RegularExpressions;' not in src:
+              src = src.replace('using System.Text;\n', 'using System.Text;\nusing System.Text.RegularExpressions;\n', 1)
+
+          exact_block = '''        if (_map.TryGetValue(text, out var translated) && !string.IsNullOrWhiteSpace(translated))\n        {\n            return translated;\n        }\n\n        var normalizedSource = NormalizeSourceInfo(sourceInfo);\n'''
+          exact_replacement = '''        if (_map.TryGetValue(text, out var translated) && !string.IsNullOrWhiteSpace(translated))\n        {\n            return translated;\n        }\n\n        if (TryTranslateTemplate(text, _map, out translated))\n        {\n            return translated;\n        }\n\n        var normalizedSource = NormalizeSourceInfo(sourceInfo);\n'''
+          if 'if (TryTranslateTemplate(text, _map, out translated))' not in src:
+              if exact_block not in src:
+                  raise SystemExit('Translate exact-match insertion point not found')
+              src = src.replace(exact_block, exact_replacement, 1)
+
+          marker = '''    private void EnsureMapLoaded(string cultureName)\n'''
+          helper = r'''    private static bool TryTranslateTemplate(
+        string text,
+        IReadOnlyDictionary<string, string> map,
+        out string translated)
+    {
+        translated = text;
+
+        foreach (var pair in map)
+        {
+            var sourceTemplate = pair.Key;
+            var targetTemplate = pair.Value;
+            if (string.IsNullOrWhiteSpace(targetTemplate)
+                || sourceTemplate.IndexOf('{') < 0
+                || sourceTemplate.IndexOf('}') < 0)
+            {
+                continue;
+            }
+
+            var placeholders = Regex.Matches(sourceTemplate, @"\{([^{}]+)\}");
+            if (placeholders.Count == 0)
+            {
+                continue;
+            }
+
+            var first = placeholders[0];
+            if (first.Index > 0
+                && !text.StartsWith(sourceTemplate[..first.Index], StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var last = placeholders[^1];
+            var suffixStart = last.Index + last.Length;
+            if (suffixStart < sourceTemplate.Length
+                && !text.EndsWith(sourceTemplate[suffixStart..], StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var pattern = new StringBuilder("^");
+            var cursor = 0;
+            for (var i = 0; i < placeholders.Count; i++)
+            {
+                var item = placeholders[i];
+                pattern.Append(Regex.Escape(sourceTemplate[cursor..item.Index]));
+                pattern.Append("(?<p").Append(i).Append(">.*?)");
+                cursor = item.Index + item.Length;
+            }
+            pattern.Append(Regex.Escape(sourceTemplate[cursor..])).Append('$');
+
+            var match = Regex.Match(
+                text,
+                pattern.ToString(),
+                RegexOptions.Singleline | RegexOptions.CultureInvariant);
+            if (!match.Success)
+            {
+                continue;
+            }
+
+            var result = targetTemplate;
+            for (var i = 0; i < placeholders.Count; i++)
+            {
+                result = result.Replace(
+                    placeholders[i].Value,
+                    match.Groups[$"p{i}"].Value,
+                    StringComparison.Ordinal);
+            }
+
+            translated = result;
+            return true;
+        }
+
+        return false;
+    }
+
+'''
+          if 'private static bool TryTranslateTemplate(' not in src:
+              if marker not in src:
+                  raise SystemExit('EnsureMapLoaded insertion point not found')
+              src = src.replace(marker, helper + marker, 1)
+
+          service_path.write_text(src, encoding='utf-8-sig')
+
+      - name: Verify final integration shape
         shell: bash
         run: |
+          grep -q 'TryTranslateTemplate(text, _map' BetterGenshinImpact/Service/JsonTranslationService.cs
+          grep -q 'Regex.Matches(sourceTemplate' BetterGenshinImpact/Service/JsonTranslationService.cs
           grep -q 'TranslateBoundCurrentValue' BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
-          grep -q 'TranslateAndTrackBoundValues' BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
-          grep -q 'BindsTwoWayByDefault' BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
-      - name: Commit product change
+
+      - name: Commit product changes
         shell: bash
         run: |
           if git diff --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
-          git commit -m 'feat(i18n): translate dynamic bound display values safely'
+          git add BetterGenshinImpact/User/I18n/pt-BR.json BetterGenshinImpact/Service/JsonTranslationService.cs
+          git commit -m 'feat(i18n): complete PT-BR dynamic UI translations'
           git push origin HEAD:${{ github.head_ref }}
