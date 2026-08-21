@@ -48,8 +48,24 @@ jobs:
           pt = json.loads((i18n / 'pt-BR.json').read_text(encoding='utf-8-sig'))
           han = re.compile(r'[\u3400-\u9fff]')
 
+          # These three PT-BR strings are fully translated instructions, but keep
+          # Chinese examples intentionally because BetterGI asks the user to type
+          # the exact in-game text for whitelist/blacklist matching.
+          intentional_han_sources = {
+              '白名单配置，每行一条记录\n示例：\n调查\n合成\n启动',
+              '请在此输入白名单配置，每行一条记录。\n示例：\n调查\n合成\n启动',
+              '黑名单配置\n每行一条记录。\n示例：\n精致的宝箱\n史莱姆凝液\n牢固的箭簇',
+          }
+
           missing_base = sorted(set(en) - set(pt))
-          han_values = sorted((k, v) for k, v in pt.items() if isinstance(v, str) and han.search(v))
+          han_values = sorted(
+              (k, v) for k, v in pt.items()
+              if isinstance(v, str) and han.search(v) and k not in intentional_han_sources
+          )
+          intentional_han_present = sorted(
+              k for k in intentional_han_sources
+              if k in pt and isinstance(pt[k], str) and han.search(pt[k])
+          )
 
           visible_missing = defaultdict(list)
           standalone_unscoped = []
@@ -99,7 +115,8 @@ jobs:
           print(f'EN_KEYS={len(en)}')
           print(f'PT_BR_KEYS={len(pt)}')
           print(f'MISSING_EN_KEYS={len(missing_base)}')
-          print(f'PT_VALUES_WITH_HAN={len(han_values)}')
+          print(f'PT_VALUES_WITH_UNEXPECTED_HAN={len(han_values)}')
+          print(f'INTENTIONAL_HAN_EXAMPLES={len(intentional_han_present)}')
           print(f'VISIBLE_XAML_MISSING_KEYS={len(visible_missing)}')
           print(f'STANDALONE_UNSCOPED={len(standalone_unscoped)}')
           print(f'XAML_PARSE_ERRORS={len(parse_errors)}')
@@ -107,7 +124,7 @@ jobs:
           if missing_base:
               print('Missing base keys:', missing_base[:20])
           if han_values:
-              print('PT values still containing Han:', han_values[:20])
+              print('PT values still containing unexpected Han:', han_values[:20])
           if visible_missing:
               for text, where in list(visible_missing.items())[:30]:
                   print('VISIBLE_MISSING=', json.dumps({'text': text, 'where': where[:5]}, ensure_ascii=False))
