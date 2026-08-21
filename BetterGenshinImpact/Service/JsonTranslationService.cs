@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using BetterGenshinImpact.Core.Config;
 using BetterGenshinImpact.Service.Interface;
@@ -126,6 +127,11 @@ public sealed class JsonTranslationService : ITranslationService, IDisposable
             return translated;
         }
 
+        if (TryTranslateTemplate(text, _map, out translated))
+        {
+            return translated;
+        }
+
         var normalizedSource = NormalizeSourceInfo(sourceInfo);
         _missingKeys.AddOrUpdate(
             text,
@@ -137,6 +143,81 @@ public sealed class JsonTranslationService : ITranslationService, IDisposable
             _missingTranslationReporter.TryEnqueue(culture.Name, text, normalizedSource);
         }
         return text;
+    }
+
+    private static bool TryTranslateTemplate(
+        string text,
+        IReadOnlyDictionary<string, string> map,
+        out string translated)
+    {
+        translated = text;
+
+        foreach (var pair in map)
+        {
+            var sourceTemplate = pair.Key;
+            var targetTemplate = pair.Value;
+            if (string.IsNullOrWhiteSpace(targetTemplate)
+                || sourceTemplate.IndexOf('{') < 0
+                || sourceTemplate.IndexOf('}') < 0)
+            {
+                continue;
+            }
+
+            var placeholders = Regex.Matches(sourceTemplate, @"\{([^{}]+)\}");
+            if (placeholders.Count == 0)
+            {
+                continue;
+            }
+
+            var first = placeholders[0];
+            if (first.Index > 0
+                && !text.StartsWith(sourceTemplate[..first.Index], StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var last = placeholders[^1];
+            var suffixStart = last.Index + last.Length;
+            if (suffixStart < sourceTemplate.Length
+                && !text.EndsWith(sourceTemplate[suffixStart..], StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var pattern = new StringBuilder("^");
+            var cursor = 0;
+            for (var i = 0; i < placeholders.Count; i++)
+            {
+                var item = placeholders[i];
+                pattern.Append(Regex.Escape(sourceTemplate[cursor..item.Index]));
+                pattern.Append("(?<p").Append(i).Append(">.*?)");
+                cursor = item.Index + item.Length;
+            }
+            pattern.Append(Regex.Escape(sourceTemplate[cursor..])).Append('$');
+
+            var match = Regex.Match(
+                text,
+                pattern.ToString(),
+                RegexOptions.Singleline | RegexOptions.CultureInvariant);
+            if (!match.Success)
+            {
+                continue;
+            }
+
+            var result = targetTemplate;
+            for (var i = 0; i < placeholders.Count; i++)
+            {
+                result = result.Replace(
+                    placeholders[i].Value,
+                    match.Groups[$"p{i}"].Value,
+                    StringComparison.Ordinal);
+            }
+
+            translated = result;
+            return true;
+        }
+
+        return false;
     }
 
     private void EnsureMapLoaded(string cultureName)
