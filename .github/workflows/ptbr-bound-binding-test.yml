@@ -1,4 +1,4 @@
-name: PT-BR bound value translation test
+name: PT-BR localization behavior tests
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  bound-value-test:
+  localization-behavior-tests:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,6 +18,6 @@ jobs:
       - name: Restore localization test project
         shell: pwsh
         run: dotnet restore Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -p:Platform=x64
-      - name: Run bound translation tests
+      - name: Run localization behavior tests
         shell: pwsh
-        run: dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug -p:Platform=x64 --no-restore --filter "FullyQualifiedName~AutoTranslateBoundValueTests"
+        run: dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug -p:Platform=x64 --no-restore --filter "FullyQualifiedName~AutoTranslateBoundValueTests|FullyQualifiedName~TranslationTemplateTests"
