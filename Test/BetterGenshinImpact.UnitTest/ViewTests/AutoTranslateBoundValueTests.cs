@@ -128,6 +128,53 @@ public sealed class AutoTranslateBoundValueTests
         });
     }
 
+    [Fact]
+    public void LoadedProgrammaticWindow_EnablesTranslationScopeWhenNotExplicitlyConfigured()
+    {
+        RunSta(() =>
+        {
+            var window = new Window();
+            Assert.Same(
+                DependencyProperty.UnsetValue,
+                window.ReadLocalValue(AutoTranslateInterceptor.EnableAutoTranslateProperty));
+
+            InvokeLoadedInterceptor(window);
+
+            Assert.True(AutoTranslateInterceptor.GetEnableAutoTranslate(window));
+            Assert.Equal(
+                true,
+                window.ReadLocalValue(AutoTranslateInterceptor.EnableAutoTranslateProperty));
+        });
+    }
+
+    [Fact]
+    public void LoadedProgrammaticWindow_PreservesExplicitDisabledTranslationScope()
+    {
+        RunSta(() =>
+        {
+            var window = new Window();
+            AutoTranslateInterceptor.SetEnableAutoTranslate(window, false);
+
+            InvokeLoadedInterceptor(window);
+
+            Assert.False(AutoTranslateInterceptor.GetEnableAutoTranslate(window));
+            Assert.Equal(
+                false,
+                window.ReadLocalValue(AutoTranslateInterceptor.EnableAutoTranslateProperty));
+        });
+    }
+
+    private static void InvokeLoadedInterceptor(Window window)
+    {
+        var method = typeof(AutoTranslateInterceptor).GetMethod(
+            "OnAnyElementLoaded",
+            BindingFlags.NonPublic | BindingFlags.Static);
+        Assert.NotNull(method);
+        method!.Invoke(
+            null,
+            [window, new RoutedEventArgs(FrameworkElement.LoadedEvent, window)]);
+    }
+
     private static void RunSta(Action action)
     {
         Exception? exception = null;
