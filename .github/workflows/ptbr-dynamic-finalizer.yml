@@ -17,7 +17,7 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Merge final PT-BR catalog and template fallback
+      - name: Merge final PT-BR catalog and runtime coverage
         shell: bash
         run: |
           python3 - <<'PY'
@@ -45,30 +45,47 @@ jobs:
           if len(updates) != 444:
               raise SystemExit(f'Expected 444 unique final translations, found {len(updates)}')
 
+          extra_path = Path('.github/ptbr-ui-sinks-extra.json')
+          if not extra_path.exists():
+              raise SystemExit('Missing .github/ptbr-ui-sinks-extra.json')
+          extra = json.loads(extra_path.read_text(encoding='utf-8-sig'))
+          if len(extra) != 140:
+              raise SystemExit(f'Expected 140 extra user-visible translations, found {len(extra)}')
+
           han = re.compile(r'[\u3400-\u9fff]')
           placeholder = re.compile(r'\{[^{}]+\}')
-          for key, value in updates.items():
-              if not isinstance(value, str) or not value.strip():
-                  raise SystemExit(f'Empty translation: {key}')
-              if han.search(value):
-                  raise SystemExit(f'PT-BR value still contains Han characters: {key} => {value}')
-              if Counter(placeholder.findall(key)) != Counter(placeholder.findall(value)):
-                  raise SystemExit(f'Placeholder mismatch: {key} => {value}')
 
-          overlap = set(updates) & set(pt)
-          changed_overlap = [k for k in overlap if pt[k] != updates[k]]
-          if changed_overlap:
-              raise SystemExit(f'Unexpected overwrite: {changed_overlap[:5]}')
+          def validate_stage(stage_name, data):
+              for key, value in data.items():
+                  if not isinstance(value, str) or not value.strip():
+                      raise SystemExit(f'{stage_name}: empty translation: {key}')
+                  if han.search(value):
+                      raise SystemExit(f'{stage_name}: PT-BR value still contains Han characters: {key} => {value}')
+                  if Counter(placeholder.findall(key)) != Counter(placeholder.findall(value)):
+                      raise SystemExit(f'{stage_name}: placeholder mismatch: {key} => {value}')
 
-          pt.update(updates)
-          expected = before + len(set(updates) - overlap)
-          if len(pt) != expected:
-              raise SystemExit(f'Catalog count mismatch: before={before}, updates={len(updates)}, after={len(pt)}, expected={expected}')
+          validate_stage('final-stage', updates)
+          validate_stage('extra-stage', extra)
+
+          def merge_stage(stage_name, data):
+              overlap = set(data) & set(pt)
+              changed_overlap = [k for k in overlap if pt[k] != data[k]]
+              if changed_overlap:
+                  raise SystemExit(f'{stage_name}: unexpected overwrite: {changed_overlap[:5]}')
+              new_keys = set(data) - set(pt)
+              pt.update(data)
+              print(f'{stage_name.upper().replace("-", "_")}_COUNT={len(data)}')
+              print(f'{stage_name.upper().replace("-", "_")}_OVERLAP={len(overlap)}')
+              print(f'{stage_name.upper().replace("-", "_")}_NEW={len(new_keys)}')
+
+          merge_stage('final-stage', updates)
+          merge_stage('extra-stage', extra)
+
+          if len(pt) < before:
+              raise SystemExit(f'Catalog shrank unexpectedly: before={before}, after={len(pt)}')
 
           pt_path.write_text(json.dumps(pt, ensure_ascii=False, indent=2) + '\n', encoding='utf-8-sig')
           print(f'PT_COUNT_BEFORE={before}')
-          print(f'FINAL_STAGE_COUNT={len(updates)}')
-          print(f'FINAL_STAGE_OVERLAP={len(overlap)}')
           print(f'PT_COUNT_AFTER={len(pt)}')
 
           service_path = Path('BetterGenshinImpact/Service/JsonTranslationService.cs')
@@ -185,6 +202,16 @@ jobs:
               src = src.replace(marker, helper + marker, 1)
 
           service_path.write_text(src, encoding='utf-8-sig')
+
+          interceptor_path = Path('BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs')
+          interceptor = interceptor_path.read_text(encoding='utf-8-sig')
+          old_loaded = '''        private static void OnAnyElementLoaded(object sender, RoutedEventArgs e)\n        {\n            if (sender is not DependencyObject obj)\n            {\n                return;\n            }\n\n            FindNearestScope(obj)?.RequestApply(obj);\n        }\n'''
+          new_loaded = '''        private static void OnAnyElementLoaded(object sender, RoutedEventArgs e)\n        {\n            if (sender is not DependencyObject obj)\n            {\n                return;\n            }\n\n            // Programmatically created top-level windows do not inherit an XAML translation scope.\n            // Enable one only when the window has not explicitly opted in or out.\n            if (obj is Window window\n                && window.ReadLocalValue(EnableAutoTranslateProperty) == DependencyProperty.UnsetValue\n                && window.GetValue(ScopeProperty) is not Scope)\n            {\n                SetEnableAutoTranslate(window, true);\n                return;\n            }\n\n            FindNearestScope(obj)?.RequestApply(obj);\n        }\n'''
+          if 'window.ReadLocalValue(EnableAutoTranslateProperty) == DependencyProperty.UnsetValue' not in interceptor:
+              if old_loaded not in interceptor:
+                  raise SystemExit('OnAnyElementLoaded patch point not found')
+              interceptor = interceptor.replace(old_loaded, new_loaded, 1)
+          interceptor_path.write_text(interceptor, encoding='utf-8-sig')
           PY
 
       - name: Verify final integration shape
@@ -193,6 +220,7 @@ jobs:
           grep -q 'TryTranslateTemplate(text, _map' BetterGenshinImpact/Service/JsonTranslationService.cs
           grep -q 'Regex.Matches(sourceTemplate' BetterGenshinImpact/Service/JsonTranslationService.cs
           grep -q 'TranslateBoundCurrentValue' BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
+          grep -q 'ReadLocalValue(EnableAutoTranslateProperty) == DependencyProperty.UnsetValue' BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
 
       - name: Commit product changes
         shell: bash
@@ -200,6 +228,6 @@ jobs:
           if git diff --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add BetterGenshinImpact/User/I18n/pt-BR.json BetterGenshinImpact/Service/JsonTranslationService.cs
-          git commit -m 'feat(i18n): complete PT-BR dynamic UI translations'
+          git add BetterGenshinImpact/User/I18n/pt-BR.json BetterGenshinImpact/Service/JsonTranslationService.cs BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
+          git commit -m 'feat(i18n): complete PT-BR runtime UI translations'
           git push origin HEAD:${{ github.head_ref }}
