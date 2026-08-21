@@ -17,7 +17,8 @@
                  WindowStartupLocation="CenterOwner"
                  WindowBackdropType="Auto"
                  ExtendsContentIntoTitleBar="True"
-                 mc:Ignorable="d">
+                 mc:Ignorable="d"
+        behavior:AutoTranslateInterceptor.EnableAutoTranslate="True">
     <Grid DataContext="{Binding ViewModel}"
           d:DataContext="{d:DesignInstance Type=viewModels:RecognitionTemplateEditorViewModel}">
         <Grid.RowDefinitions>

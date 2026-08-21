@@ -184,6 +184,7 @@ namespace BetterGenshinImpact.View.Behavior
             private bool _applied;
             private readonly HashSet<ContextMenu> _trackedContextMenus = new();
             private readonly HashSet<ToolTip> _trackedToolTips = new();
+            private readonly HashSet<ComboBox> _trackedComboBoxes = new();
             private readonly HashSet<DependencyObject> _pendingApply = new();
             private bool _applyScheduled;
             private bool _refreshScheduled;
@@ -280,7 +281,7 @@ namespace BetterGenshinImpact.View.Behavior
                     return;
                 }
 
-                if (IsInComboBoxContext(obj))
+                if (IsInComboBoxContext(obj) && obj is not ComboBox && obj is not ComboBoxItem)
                 {
                     return;
                 }
@@ -349,6 +350,39 @@ namespace BetterGenshinImpact.View.Behavior
 
                     if (IsInGridViewRowPresenter(current))
                     {
+                        continue;
+                    }
+
+                    if (current is ComboBox comboBox)
+                    {
+                        TranslateToolTip(comboBox, translator);
+                        TrackComboBox(comboBox);
+                        for (var i = 0; i < comboBox.Items.Count; i++)
+                        {
+                            if (comboBox.ItemContainerGenerator.ContainerFromIndex(i) is DependencyObject container)
+                            {
+                                queue.Enqueue(container);
+                            }
+                            else if (comboBox.Items[i] is DependencyObject dependencyItem)
+                            {
+                                queue.Enqueue(dependencyItem);
+                            }
+                        }
+                        continue;
+                    }
+
+                    if (current is ComboBoxItem comboBoxItem)
+                    {
+                        if (comboBoxItem.Content is string comboText)
+                        {
+                            TranslateIfNotBound(
+                                comboBoxItem,
+                                ContentControl.ContentProperty,
+                                comboText,
+                                s => comboBoxItem.Content = s,
+                                translator);
+                        }
+                        TranslateToolTip(comboBoxItem, translator);
                         continue;
                     }
 
@@ -430,6 +464,24 @@ namespace BetterGenshinImpact.View.Behavior
                 };
                 tt.Opened += openedHandler;
                 _unsubscribe.Add(() => tt.Opened -= openedHandler);
+            }
+
+            private void TrackComboBox(ComboBox comboBox)
+            {
+                if (!_trackedComboBoxes.Add(comboBox))
+                {
+                    return;
+                }
+
+                EventHandler? openedHandler = null;
+                openedHandler = (_, _) =>
+                {
+                    _root.Dispatcher.BeginInvoke(
+                        () => Apply(comboBox),
+                        DispatcherPriority.Loaded);
+                };
+                comboBox.DropDownOpened += openedHandler;
+                _unsubscribe.Add(() => comboBox.DropDownOpened -= openedHandler);
             }
 
             private static IEnumerable<DependencyObject> EnumerateInlineObjects(FrameworkElement fe)

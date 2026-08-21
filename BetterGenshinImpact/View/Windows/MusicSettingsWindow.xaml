@@ -1,6 +1,7 @@
 <ui:FluentWindow x:Class="BetterGenshinImpact.View.Windows.MusicSettingsWindow"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:behavior="clr-namespace:BetterGenshinImpact.View.Behavior"
                  xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -18,7 +19,8 @@
                  WindowBackdropType="Mica"
                  WindowCornerPreference="Round"
                  WindowStartupLocation="CenterOwner"
-                 mc:Ignorable="d">
+                 mc:Ignorable="d"
+        behavior:AutoTranslateInterceptor.EnableAutoTranslate="True">
     <ui:FluentWindow.Resources>
         <Style x:Key="MusicSettingsCardStyle" TargetType="Border">
             <Setter Property="Padding" Value="18" />
