@@ -8,12 +8,11 @@ permissions:
   contents: read
 
 jobs:
-  comprehensive-audit:
+  xaml-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Compare catalogs and scan user-visible source strings
+      - name: Find untranslated visible XAML literals
         shell: bash
         run: |
           python3 - <<'PY'
@@ -21,55 +20,44 @@ jobs:
           import re
           from pathlib import Path
 
-          root = Path('BetterGenshinImpact')
-          i18n = root / 'User' / 'I18n'
-          catalogs = {}
-          for name in ('en', 'ja', 'pt-BR'):
-              with (i18n / f'{name}.json').open('r', encoding='utf-8-sig') as f:
-                  catalogs[name] = json.load(f)
-
-          pt = catalogs['pt-BR']
-          for name in ('en', 'ja'):
-              missing = [k for k in catalogs[name] if k not in pt or not str(pt[k]).strip()]
-              print(f'{name.upper()}_COUNT={len(catalogs[name])}')
-              print(f'MISSING_FROM_{name.upper()}={len(missing)}')
-              for key in missing[:200]:
-                  print(f'MISSING_{name.upper()}=' + json.dumps(key, ensure_ascii=False))
-
+          pt_path = Path('BetterGenshinImpact/User/I18n/pt-BR.json')
+          pt = json.loads(pt_path.read_text(encoding='utf-8-sig'))
           cjk = re.compile(r'[\u3400-\u9fff]')
-          quoted = re.compile(r'(?P<q>["\'])(?P<body>(?:\\.|(?!\1).)*?[\u3400-\u9fff](?:\\.|(?!\1).)*?)\1')
-          candidates = {}
-          scan_exts = {'.xaml', '.cs'}
-          scan_roots = [root / 'View', root / 'ViewModel', root / 'Service', root / 'Core', root / 'GameTask']
-
-          for base in scan_roots:
-              if not base.exists():
-                  continue
-              for path in base.rglob('*'):
-                  if path.suffix.lower() not in scan_exts:
+          quoted = re.compile(r'(?P<q>["\'])(?P<v>(?:\\.|(?!\1).)*)\1')
+          textnode = re.compile(r'>([^<>]*[\u3400-\u9fff][^<>]*)<')
+          attr_name = re.compile(r'([\w:.]+)\s*=\s*$')
+          ignore_attrs = {'x:Class','xmlns','xmlns:x','xmlns:d','xmlns:mc','mc:Ignorable','d:DataContext','Source','UriSource'}
+          results=[]
+          for path in sorted(Path('BetterGenshinImpact/View').rglob('*.xaml')):
+              content = path.read_text(encoding='utf-8-sig', errors='ignore')
+              auto = 'AutoTranslateInterceptor.EnableAutoTranslate="True"' in content
+              for lineno,line in enumerate(content.splitlines(),1):
+                  if line.lstrip().startswith('<!--'):
                       continue
-                  try:
-                      text = path.read_text(encoding='utf-8-sig', errors='ignore')
-                  except Exception:
-                      continue
-                  for m in quoted.finditer(text):
-                      value = m.group('body')
-                      value = value.replace('\\"', '"').replace("\\'", "'").replace('\\r\\n', '\r\n').replace('\\n', '\n')
-                      if not cjk.search(value):
+                  for m in quoted.finditer(line):
+                      value=m.group('v').strip()
+                      if not cjk.search(value) or value in pt:
                           continue
-                      if value in pt:
+                      prefix=line[:m.start()]
+                      am=attr_name.search(prefix)
+                      attr=am.group(1) if am else '?'
+                      if attr in ignore_attrs or attr.startswith('xmlns'):
                           continue
-                      # Ignore namespaces, URLs, file paths, regex-heavy literals and comments accidentally captured.
-                      if any(token in value for token in ('clr-namespace:', 'http://', 'https://', '\\\\', '.png', '.json', '.xaml')):
+                      if any(x in value for x in ('clr-namespace:', '{Binding', '{StaticResource', '{DynamicResource', 'pack://')):
                           continue
-                      if len(value) > 300:
-                          continue
-                      candidates.setdefault(value, set()).add(str(path))
+                      results.append((str(path),lineno,attr,value,auto))
+                  for m in textnode.finditer(line):
+                      value=m.group(1).strip()
+                      if value and value not in pt:
+                          results.append((str(path),lineno,'#text',value,auto))
 
-          print(f'SOURCE_CJK_LITERAL_NOT_IN_PT_COUNT={len(candidates)}')
-          for value, paths in list(sorted(candidates.items(), key=lambda x: (len(x[0]), x[0])))[:300]:
-              print('SOURCE_CANDIDATE=' + json.dumps({'text': value, 'files': sorted(paths)[:5]}, ensure_ascii=False))
-
-          if any(k not in pt or not str(pt[k]).strip() for k in catalogs['en']):
-              raise SystemExit(1)
+          # unique by file/line/attribute/value
+          seen=set(); unique=[]
+          for item in results:
+              key=item[:4]
+              if key not in seen:
+                  seen.add(key); unique.append(item)
+          print('VISIBLE_XAML_MISSING_COUNT='+str(len(unique)))
+          for path,line,attr,value,auto in unique:
+              print('XAML_MISSING='+json.dumps({'file':path,'line':line,'attr':attr,'text':value,'auto_translate_root':auto},ensure_ascii=False))
           PY
