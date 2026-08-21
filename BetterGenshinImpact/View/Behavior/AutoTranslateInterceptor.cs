@@ -131,6 +131,16 @@ namespace BetterGenshinImpact.View.Behavior
                 return;
             }
 
+            // Programmatically created top-level windows do not inherit an XAML translation scope.
+            // Enable one only when the window has not explicitly opted in or out.
+            if (obj is Window window
+                && window.ReadLocalValue(EnableAutoTranslateProperty) == DependencyProperty.UnsetValue
+                && window.GetValue(ScopeProperty) is not Scope)
+            {
+                SetEnableAutoTranslate(window, true);
+                return;
+            }
+
             FindNearestScope(obj)?.RequestApply(obj);
         }
 
