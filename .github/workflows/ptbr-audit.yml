@@ -5,96 +5,71 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  apply-and-validate:
+  comprehensive-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Apply official TextMap terminology
+      - name: Compare catalogs and scan user-visible source strings
         shell: bash
         run: |
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-
-          path = Path('BetterGenshinImpact/User/I18n/pt-BR.json')
-          raw = path.read_bytes()
-          had_bom = raw.startswith(b'\xef\xbb\xbf')
-          text = raw.decode('utf-8-sig')
-          newline = '\r\n' if '\r\n' in text else '\n'
-          data = json.loads(text)
-          data['邀约'] = 'Convite'
-          data['战斗'] = 'Batalha'
-          serialized = json.dumps(data, ensure_ascii=False, indent=2).replace('\n', newline) + newline
-          path.write_bytes((b'\xef\xbb\xbf' if had_bom else b'') + serialized.encode('utf-8'))
-          PY
-
-      - name: Validate catalog and TextMap terminology
-        shell: bash
-        run: |
-          curl -L --fail --retry 3 -o /tmp/TextMapCHS.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapCHS.json
-          curl -L --fail --retry 3 -o /tmp/TextMapPT.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapPT.json
           python3 - <<'PY'
           import json
           import re
-          from collections import Counter, defaultdict
           from pathlib import Path
 
-          root = Path('BetterGenshinImpact/User/I18n')
-          with (root / 'en.json').open('r', encoding='utf-8-sig') as f:
-              en = json.load(f)
-          with (root / 'pt-BR.json').open('r', encoding='utf-8-sig') as f:
-              pt = json.load(f)
-          with open('/tmp/TextMapCHS.json', 'r', encoding='utf-8-sig') as f:
-              chs = json.load(f)
-          with open('/tmp/TextMapPT.json', 'r', encoding='utf-8-sig') as f:
-              official_pt = json.load(f)
+          root = Path('BetterGenshinImpact')
+          i18n = root / 'User' / 'I18n'
+          catalogs = {}
+          for name in ('en', 'ja', 'pt-BR'):
+              with (i18n / f'{name}.json').open('r', encoding='utf-8-sig') as f:
+                  catalogs[name] = json.load(f)
 
-          missing = [k for k in en if k not in pt or not str(pt[k]).strip()]
-          token_re = re.compile(r'\{[^{}]+\}')
-          placeholder_errors = []
-          for key, source in en.items():
-              if key in pt and Counter(token_re.findall(str(source))) != Counter(token_re.findall(str(pt[key]))):
-                  placeholder_errors.append(key)
+          pt = catalogs['pt-BR']
+          for name in ('en', 'ja'):
+              missing = [k for k in catalogs[name] if k not in pt or not str(pt[k]).strip()]
+              print(f'{name.upper()}_COUNT={len(catalogs[name])}')
+              print(f'MISSING_FROM_{name.upper()}={len(missing)}')
+              for key in missing[:200]:
+                  print(f'MISSING_{name.upper()}=' + json.dumps(key, ensure_ascii=False))
 
-          by_chinese = defaultdict(set)
-          for key, chinese in chs.items():
-              value = official_pt.get(key)
-              if isinstance(chinese, str) and isinstance(value, str) and chinese.strip() and value.strip():
-                  by_chinese[chinese].add(value)
+          cjk = re.compile(r'[\u3400-\u9fff]')
+          quoted = re.compile(r'(?P<q>["\'])(?P<body>(?:\\.|(?!\1).)*?[\u3400-\u9fff](?:\\.|(?!\1).)*?)\1')
+          candidates = {}
+          scan_exts = {'.xaml', '.cs'}
+          scan_roots = [root / 'View', root / 'ViewModel', root / 'Service', root / 'Core', root / 'GameTask']
 
-          candidates = []
-          for source, current in pt.items():
-              official = by_chinese.get(source)
-              if official and len(official) == 1:
-                  value = next(iter(official))
-                  if value.strip() != str(current).strip():
-                      candidates.append((source, current, value))
+          for base in scan_roots:
+              if not base.exists():
+                  continue
+              for path in base.rglob('*'):
+                  if path.suffix.lower() not in scan_exts:
+                      continue
+                  try:
+                      text = path.read_text(encoding='utf-8-sig', errors='ignore')
+                  except Exception:
+                      continue
+                  for m in quoted.finditer(text):
+                      value = m.group('body')
+                      value = value.replace('\\"', '"').replace("\\'", "'").replace('\\r\\n', '\r\n').replace('\\n', '\n')
+                      if not cjk.search(value):
+                          continue
+                      if value in pt:
+                          continue
+                      # Ignore namespaces, URLs, file paths, regex-heavy literals and comments accidentally captured.
+                      if any(token in value for token in ('clr-namespace:', 'http://', 'https://', '\\\\', '.png', '.json', '.xaml')):
+                          continue
+                      if len(value) > 300:
+                          continue
+                      candidates.setdefault(value, set()).add(str(path))
 
-          print(f'EN_COUNT={len(en)}')
-          print(f'PT_COUNT={len(pt)}')
-          print(f'MISSING_COUNT={len(missing)}')
-          print(f'PLACEHOLDER_ERROR_COUNT={len(placeholder_errors)}')
-          print(f'TERMINOLOGY_CANDIDATE_COUNT={len(candidates)}')
-          for item in candidates:
-              print('TERM_CANDIDATE=' + json.dumps(item, ensure_ascii=False))
+          print(f'SOURCE_CJK_LITERAL_NOT_IN_PT_COUNT={len(candidates)}')
+          for value, paths in list(sorted(candidates.items(), key=lambda x: (len(x[0]), x[0])))[:300]:
+              print('SOURCE_CANDIDATE=' + json.dumps({'text': value, 'files': sorted(paths)[:5]}, ensure_ascii=False))
 
-          if missing or placeholder_errors or candidates:
+          if any(k not in pt or not str(pt[k]).strip() for k in catalogs['en']):
               raise SystemExit(1)
           PY
-
-      - name: Commit terminology corrections
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add BetterGenshinImpact/User/I18n/pt-BR.json
-          if ! git diff --cached --quiet; then
-            git commit -m "fix(i18n): align PT-BR terms with Genshin TextMap"
-            git push origin HEAD:${{ github.event.pull_request.head.ref }}
-          fi
