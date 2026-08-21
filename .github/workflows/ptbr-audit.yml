@@ -5,140 +5,15 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  audit:
+  localization-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Complete PT-BR catalog and language registration
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-
-          translations = {
-              "BetterGI · 更好的原神 · 0.56.3-alpha.1 · Dev": "BetterGI - Better Genshin Impact - 0.56.3-alpha.1 - Dev",
-              "查看最新的原神兑换码，一键自动兑换": "Confira os códigos de resgate mais recentes do Genshin Impact e resgate-os automaticamente com um clique!",
-              "国服": "Servidor Chinês",
-              "国际服": "Servidor Global",
-              "允许通知": "Permitir notificações",
-              "兑换码更新通知": "Notificações de atualização de códigos de resgate",
-              "开启后有新的国服兑换码时提醒": "Notificar quando novos códigos de resgate do Servidor Chinês estiverem disponíveis",
-              "开启后有新的国际服兑换码时提醒": "Notificar quando novos códigos de resgate do Servidor Global estiverem disponíveis",
-              "根据选择的名单模式，自动按下 F 拾取/交互": "Pressionar F automaticamente para coletar/interagir de acordo com o modo de lista selecionado",
-              "名单模式": "Modo de lista",
-              "黑名单模式默认拾取，白名单模式仅拾取列表中的内容": "No modo de lista de bloqueio, coleta por padrão; no modo de lista de permissões, coleta somente itens da lista",
-              "选择自动拾取的基础行为；两种模式互斥，切换后立即生效": "Escolha o comportamento básico da coleta automática. Os dois modos são mutuamente exclusivos e a alteração é aplicada imediatamente",
-              "黑名单模式（默认拾取）": "Modo de lista de bloqueio (coletar por padrão)",
-              "除明确设置为“不拾取”的内容外，其余内容均会拾取": "Coletar tudo, exceto o conteúdo explicitamente marcado como “não coletar”",
-              "白名单模式（仅列表拾取）": "Modo de lista de permissões (somente itens listados)",
-              "只拾取最终列表中明确允许的内容，其他内容全部忽略": "Coletar apenas o conteúdo explicitamente permitido na lista final e ignorar todo o restante",
-              "不拾取": "Não coletar",
-              "默认不拾取列表，加上用户配置的精确和模糊不拾取内容": "Lista padrão de itens a não coletar, somada às exclusões exatas e aproximadas configuradas pelo usuário",
-              "优先拾取用户配置的内容，可覆盖图标和不拾取规则": "Priorizar os itens configurados pelo usuário, podendo sobrepor exclusões por ícone e regras de não coleta",
-              "合并默认拾取列表和用户配置的拾取内容": "Combinar a lista padrão de coleta com os itens de coleta configurados pelo usuário",
-              "从最终拾取列表中排除用户配置的精确匹配内容": "Remover da lista final de coleta as exclusões de correspondência exata configuradas pelo usuário",
-              "精确匹配不拾取：": "Correspondências exatas para não coletar:",
-              "模糊匹配不拾取：": "Correspondências aproximadas para não coletar:",
-              "拾取配置": "Configuração de coleta",
-              "不拾取配置": "Configuração de não coleta",
-              "请在此输入配置，每行一条记录。\n示例：\n调查\n合成\n启动": "Insira a configuração aqui, uma entrada por linha.\nExemplos:\nInvestigar\nSintetizar\nAtivar",
-              "黑名单模式规则": "Regras do modo de lista de bloqueio",
-              "在独立窗口中配置拾取、不拾取及模糊匹配规则": "Configure regras de coleta, não coleta e correspondência aproximada em uma janela separada",
-              "白名单模式规则": "Regras do modo de lista de permissões",
-              "在独立窗口中配置拾取列表和精确不拾取规则": "Configure a lista de coleta e as regras de não coleta por correspondência exata em uma janela separada",
-              "配置规则": "Configurar regras",
-              "黑名单模式配置": "Configuração do modo de lista de bloqueio",
-              "默认拾取未被排除的内容": "Coletar por padrão o conteúdo que não estiver excluído",
-              "“拾取”规则优先级最高，可放行聊天/设置图标和“不拾取”规则中的同名内容。每行填写一条完整的 OCR 文本。": "As regras de “Coletar” têm a maior prioridade e podem permitir itens com o mesmo nome de ícones de chat/configurações e de regras de “Não coletar”. Insira um texto OCR completo por linha.",
-              "不拾取（主要规则）": "Não coletar (regras principais)",
-              "启用不拾取规则": "Ativar regras de não coleta",
-              "黑名单模式启用期间，默认、精确和模糊不拾取规则始终生效。": "Enquanto o modo de lista de bloqueio estiver ativo, as regras padrão, exatas e aproximadas de não coleta sempre serão aplicadas.",
-              "精确匹配": "Correspondência exata",
-              "每行一条记录，例如：精致的宝箱": "Uma entrada por linha, por exemplo: Baú Sofisticado",
-              "模糊匹配": "Correspondência aproximada",
-              "每行一个关键词，OCR 文本包含该关键词时不拾取": "Uma palavra-chave por linha; não coletar quando o texto reconhecido por OCR contiver essa palavra-chave",
-              "拾取（优先放行）": "Coletar (permissão prioritária)",
-              "启用拾取规则": "Ativar regras de coleta",
-              "精确命中后直接拾取，并优先于图标排除和不拾取规则。": "Coletar imediatamente as correspondências exatas, antes das exclusões por ícone e das regras de não coleta.",
-              "每行一条记录，例如：调查": "Uma entrada por linha, por exemplo: Investigar",
-              "保存后立即刷新自动拾取规则。": "As regras de coleta automática são atualizadas imediatamente após salvar.",
-              "保存": "Salvar",
-              "白名单模式配置": "Configuração do modo de lista de permissões",
-              "仅拾取最终列表中的内容": "Coletar somente o conteúdo da lista final",
-              "最终拾取列表 =（默认拾取列表 ∪ 用户拾取列表）− 用户不拾取列表。聊天/设置图标及安全排除规则仍然优先。": "Lista final de coleta = (lista padrão de coleta ∪ lista de coleta do usuário) − lista de não coleta do usuário. Ícones de chat/configurações e exclusões de segurança continuam tendo prioridade.",
-              "拾取（基础列表）": "Coletar (lista base)",
-              "白名单模式启用期间，默认拾取列表和用户拾取列表始终生效。": "Enquanto o modo de lista de permissões estiver ativo, a lista padrão de coleta e a lista do usuário sempre serão aplicadas.",
-              "每行一条需要额外拾取的完整 OCR 文本": "Um texto OCR completo por linha para coletar adicionalmente",
-              "不拾取（排除项）": "Não coletar (exclusões)",
-              "精确命中的内容会从默认和用户拾取列表中排除。": "As correspondências exatas serão removidas das listas de coleta padrão e do usuário.",
-              "每行一条需要从最终拾取列表排除的完整 OCR 文本": "Um texto OCR completo por linha para excluir da lista final de coleta",
-              "地图拖动使用相对鼠标移动": "Usar movimento relativo do mouse ao arrastar o mapa",
-              "用于兼容性测试，关闭时使用绝对坐标移动，通常更稳定": "Usado para testes de compatibilidade. Quando desativado, usa movimento por coordenadas absolutas, que geralmente é mais estável",
-              "传送操作间隔倍率": "Multiplicador do intervalo das operações de teleporte",
-              "如果传送卡顿请调整倍率，倍率越大传送间隔越长，传送越稳定": "Ajuste o multiplicador se o teleporte apresentar travamentos. Quanto maior o multiplicador, maior o intervalo entre as operações e mais estável o teleporte",
-              "🎁 有新的兑换码可用": "🎁 Novos códigos de resgate disponíveis",
-              "点击查看详情": "Clique para ver os detalhes",
-              "发生非致命异常，已记录日志，请查看日志详情。": "Ocorreu uma exceção não fatal. Ela foi registrada; consulte o log para mais detalhes.",
-              "发生致命异常，正在弹窗提示，同时已记录日志。": "Ocorreu uma exceção fatal. Uma janela de aviso será exibida e o erro foi registrado no log.",
-              "弹窗调度超时，异常已记录，进程即将退出。": "O agendamento da janela de aviso excedeu o tempo limite. O erro foi registrado e o processo será encerrado.",
-              "应用程序启动失败：": "Falha ao iniciar o aplicativo: ",
-              "BetterGI 启动失败": "Falha ao iniciar o BetterGI"
-          }
-
-          root = Path('BetterGenshinImpact/User/I18n')
-          pt_path = root / 'pt-BR.json'
-          raw = pt_path.read_bytes()
-          had_bom = raw.startswith(b'\xef\xbb\xbf')
-          text = raw.decode('utf-8-sig')
-          newline = '\r\n' if '\r\n' in text else '\n'
-          pt = json.loads(text)
-          pt.update(translations)
-          serialized = json.dumps(pt, ensure_ascii=False, indent=2).replace('\n', newline) + newline
-          pt_path.write_bytes((b'\xef\xbb\xbf' if had_bom else b'') + serialized.encode('utf-8'))
-
-          def patch_preserving_bom(path, replacements):
-              raw = path.read_bytes()
-              bom = raw.startswith(b'\xef\xbb\xbf')
-              text = raw.decode('utf-8-sig')
-              for old, new in replacements:
-                  if new in text:
-                      continue
-                  if old not in text:
-                      raise RuntimeError(f'Expected text not found in {path}: {old!r}')
-                  text = text.replace(old, new, 1)
-              path.write_bytes((b'\xef\xbb\xbf' if bom else b'') + text.encode('utf-8'))
-
-          patch_preserving_bom(
-              Path('BetterGenshinImpact/View/Converters/CultureInfoNameToKVPConverter.cs'),
-              [('            "ja" => "日本語",', '            "ja" => "日本語",\n            "pt-BR" => "Português (Brasil)",')]
-          )
-          patch_preserving_bom(
-              Path('BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs'),
-              [('new[] { "zh-Hans", "zh-Hant", "en", "ja" }', 'new[] { "zh-Hans", "zh-Hant", "en", "ja", "pt-BR" }')]
-          )
-          PY
-
-      - name: Commit completed localization
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add BetterGenshinImpact/User/I18n/pt-BR.json \
-                  BetterGenshinImpact/View/Converters/CultureInfoNameToKVPConverter.cs \
-                  BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs
-          if ! git diff --cached --quiet; then
-            git commit -m "feat(i18n): complete Brazilian Portuguese localization"
-            git push origin HEAD:${{ github.event.pull_request.head.ref }}
-          fi
-
-      - name: Validate PT-BR localization
+      - name: Validate catalog coverage and placeholders
         shell: bash
         run: |
           python3 - <<'PY'
@@ -174,15 +49,68 @@ jobs:
           print('SELECTOR_DISPLAY_NAME_OK=' + str('"pt-BR" => "Português (Brasil)"' in converter))
           print('SELECTOR_LANGUAGE_DICT_OK=' + str('"ja", "pt-BR"' in viewmodel))
 
-          for key, english in missing:
-              print('MISSING=' + json.dumps({'key': key, 'en': english}, ensure_ascii=False))
-          for key, expected, actual in placeholder_errors:
-              print('PLACEHOLDER_ERROR=' + repr((key, dict(expected), dict(actual))))
-
           if missing or placeholder_errors:
+              for item in missing:
+                  print('MISSING=' + repr(item))
+              for item in placeholder_errors:
+                  print('PLACEHOLDER_ERROR=' + repr(item))
               raise SystemExit(1)
           if '"pt-BR" => "Português (Brasil)"' not in converter:
               raise SystemExit('pt-BR display name is not registered')
           if '"ja", "pt-BR"' not in viewmodel:
               raise SystemExit('pt-BR is not registered in the language dictionary')
           PY
+
+      - name: Compare game terminology with AnimeGameData TextMapPT
+        shell: bash
+        run: |
+          curl -L --fail --retry 3 -o /tmp/TextMapCHS.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapCHS.json
+          curl -L --fail --retry 3 -o /tmp/TextMapPT.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapPT.json
+          python3 - <<'PY'
+          import json
+          from collections import defaultdict
+          from pathlib import Path
+
+          with open('/tmp/TextMapCHS.json', 'r', encoding='utf-8-sig') as f:
+              chs = json.load(f)
+          with open('/tmp/TextMapPT.json', 'r', encoding='utf-8-sig') as f:
+              official_pt = json.load(f)
+          with Path('BetterGenshinImpact/User/I18n/pt-BR.json').open('r', encoding='utf-8-sig') as f:
+              catalog = json.load(f)
+
+          by_chinese = defaultdict(set)
+          for key, chinese in chs.items():
+              pt = official_pt.get(key)
+              if isinstance(chinese, str) and isinstance(pt, str) and chinese.strip() and pt.strip():
+                  by_chinese[chinese].add(pt)
+
+          candidates = []
+          for source, current in catalog.items():
+              official = by_chinese.get(source)
+              if official and len(official) == 1:
+                  value = next(iter(official))
+                  if value.strip() != str(current).strip():
+                      candidates.append((source, current, value))
+
+          print(f'TERMINOLOGY_CANDIDATE_COUNT={len(candidates)}')
+          for source, current, official in candidates[:250]:
+              print('TERM_CANDIDATE=' + json.dumps({
+                  'source': source,
+                  'current': current,
+                  'official': official
+              }, ensure_ascii=False))
+          PY
+
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore
+        shell: pwsh
+        run: dotnet restore BetterGenshinImpact/BetterGenshinImpact.csproj -p:Platform=x64
+      - name: Build
+        shell: pwsh
+        run: dotnet build BetterGenshinImpact/BetterGenshinImpact.csproj -c Debug -p:Platform=x64 --no-restore
