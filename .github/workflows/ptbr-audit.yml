@@ -5,87 +5,193 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  xaml-audit:
+  finalize-and-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Apply PT-BR finalizer
+        shell: bash
+        run: |
+          if [ -f .github/scripts/ptbr_finalize.py ]; then
+            python3 .github/scripts/ptbr_finalize.py
+          else
+            echo "Finalizer already consumed; auditing current tree."
+          fi
+
       - name: Download official Genshin TextMaps
         shell: bash
         run: |
           curl -L --fail --retry 3 -o /tmp/TextMapCHS.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapCHS.json
           curl -L --fail --retry 3 -o /tmp/TextMapPT.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapPT.json
-      - name: Build enriched XAML gap report
+
+      - name: Audit PT-BR catalog and visible XAML
         shell: bash
         run: |
           python3 - <<'PY'
-          import difflib
           import json
           import re
+          import sys
           import xml.etree.ElementTree as ET
+          from collections import defaultdict
+          from pathlib import Path
+
+          root = Path('.')
+          i18n = root / 'BetterGenshinImpact/User/I18n'
+          en = json.loads((i18n / 'en.json').read_text(encoding='utf-8-sig'))
+          pt = json.loads((i18n / 'pt-BR.json').read_text(encoding='utf-8-sig'))
+          han = re.compile(r'[\u3400-\u9fff]')
+
+          missing_base = sorted(set(en) - set(pt))
+          han_values = sorted((k, v) for k, v in pt.items() if isinstance(v, str) and han.search(v))
+
+          visible_missing = defaultdict(list)
+          standalone_unscoped = []
+          parse_errors = []
+
+          def local(tag):
+              return tag.rsplit('}', 1)[-1] if '}' in tag else tag
+
+          for path in sorted((root / 'BetterGenshinImpact/View').rglob('*.xaml')):
+              raw = path.read_text(encoding='utf-8-sig', errors='ignore')
+              try:
+                  xroot = ET.fromstring(raw)
+              except Exception as exc:
+                  parse_errors.append((str(path), str(exc)))
+                  continue
+
+              root_kind = local(xroot.tag)
+              root_scoped = 'AutoTranslateInterceptor.EnableAutoTranslate="True"' in raw
+              has_visible_han = False
+
+              for elem in xroot.iter():
+                  for attr, value in elem.attrib.items():
+                      if not isinstance(value, str):
+                          continue
+                      value = value.strip()
+                      attr_local = local(attr)
+                      if not value or not han.search(value):
+                          continue
+                      if attr_local in {'Class', 'DataContext', 'Name', 'Source', 'UriSource'}:
+                          continue
+                      if any(x in value for x in ('{Binding', '{StaticResource', '{DynamicResource', 'clr-namespace:', 'pack://')):
+                          continue
+                      has_visible_han = True
+                      if value not in pt:
+                          visible_missing[value].append(f'{path}:{attr_local}')
+
+                  if elem.text:
+                      value = elem.text.strip()
+                      if value and han.search(value):
+                          has_visible_han = True
+                          if value not in pt:
+                              visible_missing[value].append(f'{path}:#text')
+
+              if root_kind in {'Window', 'FluentWindow'} and has_visible_han and not root_scoped:
+                  standalone_unscoped.append(str(path))
+
+          print(f'EN_KEYS={len(en)}')
+          print(f'PT_BR_KEYS={len(pt)}')
+          print(f'MISSING_EN_KEYS={len(missing_base)}')
+          print(f'PT_VALUES_WITH_HAN={len(han_values)}')
+          print(f'VISIBLE_XAML_MISSING_KEYS={len(visible_missing)}')
+          print(f'STANDALONE_UNSCOPED={len(standalone_unscoped)}')
+          print(f'XAML_PARSE_ERRORS={len(parse_errors)}')
+
+          if missing_base:
+              print('Missing base keys:', missing_base[:20])
+          if han_values:
+              print('PT values still containing Han:', han_values[:20])
+          if visible_missing:
+              for text, where in list(visible_missing.items())[:30]:
+                  print('VISIBLE_MISSING=', json.dumps({'text': text, 'where': where[:5]}, ensure_ascii=False))
+          if standalone_unscoped:
+              print('Unscoped standalone windows:', standalone_unscoped)
+          if parse_errors:
+              print('XAML parse errors:', parse_errors[:10])
+
+          if missing_base or han_values or visible_missing or standalone_unscoped or parse_errors:
+              sys.exit(1)
+          PY
+
+      - name: Check official Genshin terminology coverage
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
           from collections import defaultdict
           from pathlib import Path
 
           pt = json.loads(Path('BetterGenshinImpact/User/I18n/pt-BR.json').read_text(encoding='utf-8-sig'))
           chs = json.loads(Path('/tmp/TextMapCHS.json').read_text(encoding='utf-8-sig'))
           offpt = json.loads(Path('/tmp/TextMapPT.json').read_text(encoding='utf-8-sig'))
-          official=defaultdict(set)
-          for k,v in chs.items():
-              pv=offpt.get(k)
-              if isinstance(v,str) and isinstance(pv,str) and v.strip() and pv.strip():
-                  official[v].add(pv)
 
-          cjk = re.compile(r'[\u3400-\u9fff]')
-          report = defaultdict(list)
-          def local(tag): return tag.rsplit('}',1)[-1] if '}' in tag else tag
+          official = defaultdict(set)
+          for key, source in chs.items():
+              target = offpt.get(key)
+              if isinstance(source, str) and isinstance(target, str) and source.strip() and target.strip():
+                  official[source].add(target)
 
-          for path in sorted(Path('BetterGenshinImpact/View').rglob('*.xaml')):
-              raw=path.read_text(encoding='utf-8-sig',errors='ignore')
-              try: root=ET.fromstring(raw)
-              except Exception: continue
-              parent={child:par for par in root.iter() for child in par}
-              root_auto='AutoTranslateInterceptor.EnableAutoTranslate="True"' in raw
-              root_kind=local(root.tag)
-              for elem in root.iter():
-                  ancestors=[]; cur=elem
-                  while cur in parent:
-                      cur=parent[cur]; ancestors.append(local(cur.tag))
-                  in_combo=any(a in {'ComboBox','ComboBoxItem'} for a in ancestors) or local(elem.tag) in {'ComboBox','ComboBoxItem'}
-                  vals=[]
-                  for attr,value in elem.attrib.items():
-                      if not isinstance(value,str): continue
-                      value=value.strip(); attr_local=local(attr)
-                      if not value or not cjk.search(value) or value in pt: continue
-                      if attr_local in {'Class','DataContext','Name','Source','UriSource'}: continue
-                      if any(x in value for x in ('{Binding','{StaticResource','{DynamicResource','clr-namespace:','pack://')): continue
-                      vals.append((attr_local,value))
-                  if elem.text:
-                      value=elem.text.strip()
-                      if value and cjk.search(value) and value not in pt: vals.append(('#text',value))
-                  for attr,value in vals:
-                      report[value].append({'file':str(path),'element':local(elem.tag),'attr':attr,'root_kind':root_kind,'root_auto':root_auto,'in_combo':in_combo})
+          exact = 0
+          mismatches = []
+          for source, translated in pt.items():
+              values = official.get(source)
+              if not values:
+                  continue
+              if len(values) == 1:
+                  exact += 1
+                  official_value = next(iter(values))
+                  if translated != official_value:
+                      mismatches.append((source, translated, official_value))
 
-          existing_keys=list(pt.keys())
-          data=[]
-          for text,occ in sorted(report.items()):
-              exact=official.get(text,set())
-              official_value=next(iter(exact)) if len(exact)==1 else None
-              fuzzy=[]
-              for match in difflib.get_close_matches(text,existing_keys,n=3,cutoff=.70):
-                  fuzzy.append({'source':match,'translation':pt[match],'ratio':round(difflib.SequenceMatcher(None,text,match).ratio(),3)})
-              data.append({'text':text,'official_pt':official_value,'fuzzy':fuzzy,'occurrences':occ,'standalone_unscoped':any(o['root_kind'] in {'Window','FluentWindow'} and not o['root_auto'] for o in occ),'in_combo':any(o['in_combo'] for o in occ)})
-          Path('/tmp/xaml-gaps-enriched.json').write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
-          print('UNIQUE_XAML_GAP_COUNT='+str(len(data)))
-          print('OFFICIAL_TEXTMAP_MATCHES='+str(sum(1 for x in data if x['official_pt'])))
-          print('STANDALONE_UNSCOPED='+str(sum(1 for x in data if x['standalone_unscoped'])))
-          print('IN_COMBO='+str(sum(1 for x in data if x['in_combo'])))
+          print(f'OFFICIAL_EXACT_SOURCE_MATCHES={exact}')
+          print(f'OFFICIAL_EXACT_MISMATCHES={len(mismatches)}')
+          for item in mismatches[:30]:
+              print('OFFICIAL_MISMATCH=', json.dumps(item, ensure_ascii=False))
           PY
+
+      - name: Commit finalized localization
+        shell: bash
+        run: |
+          if git diff --quiet && git diff --cached --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo "No generated localization changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat(i18n): complete PT-BR UI coverage"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: ptbr-xaml-gaps-enriched
+          name: ptbr-audit-evidence
           path: |
-            /tmp/xaml-gaps-enriched.json
+            BetterGenshinImpact/User/I18n/pt-BR.json
             /tmp/TextMapCHS.json
             /tmp/TextMapPT.json
+
+  build-windows:
+    needs: finalize-and-audit
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 1
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build BetterGI
+        shell: pwsh
+        run: |
+          dotnet build BetterGenshinImpact/BetterGenshinImpact.csproj -c Release -p:Platform=x64 --nologo
