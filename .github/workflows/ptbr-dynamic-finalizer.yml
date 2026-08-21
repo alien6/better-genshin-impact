@@ -1,0 +1,72 @@
+name: PT-BR dynamic binding finalizer
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Patch safe dynamic binding translation
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs')
+          s = p.read_text(encoding='utf-8-sig')
+
+          if 'using System.ComponentModel;' not in s:
+              s = s.replace('using System.Collections.Generic;\n', 'using System.Collections.Generic;\nusing System.ComponentModel;\n', 1)
+
+          marker = '''        private static void OnAnyElementLoaded(object sender, RoutedEventArgs e)\n'''
+          helper = '''        private static bool TranslateBoundCurrentValue(\n            DependencyObject obj,\n            DependencyProperty property,\n            ITranslationService translator,\n            TranslationSourceInfo sourceInfo)\n        {\n            if (!BindingOperations.IsDataBound(obj, property))\n            {\n                return false;\n            }\n\n            // Only plain Binding is handled here. MultiBinding/PriorityBinding remain untouched.\n            var binding = BindingOperations.GetBinding(obj, property);\n            if (binding == null)\n            {\n                return false;\n            }\n\n            if (binding.Mode is BindingMode.TwoWay or BindingMode.OneWayToSource)\n            {\n                return false;\n            }\n\n            if (binding.Mode == BindingMode.Default\n                && property.GetMetadata(obj.GetType()) is FrameworkPropertyMetadata metadata\n                && metadata.BindsTwoWayByDefault)\n            {\n                return false;\n            }\n\n            if (obj.GetValue(property) is not string currentValue || string.IsNullOrWhiteSpace(currentValue))\n            {\n                return false;\n            }\n\n            var translated = translator.Translate(currentValue, sourceInfo);\n            if (string.Equals(currentValue, translated, StringComparison.Ordinal))\n            {\n                return false;\n            }\n\n            // SetCurrentValue changes the effective target value without replacing the BindingExpression.\n            obj.SetCurrentValue(property, translated);\n            return true;\n        }\n\n'''
+          if 'private static bool TranslateBoundCurrentValue(' not in s:
+              if marker not in s:
+                  raise SystemExit('OnAnyElementLoaded marker not found')
+              s = s.replace(marker, helper + marker, 1)
+
+          fields_marker = '''            private readonly HashSet<ComboBox> _trackedComboBoxes = new();\n            private readonly HashSet<DependencyObject> _pendingApply = new();\n'''
+          fields_repl = '''            private readonly HashSet<ComboBox> _trackedComboBoxes = new();\n            private readonly HashSet<(DependencyObject Object, DependencyProperty Property)> _trackedBoundProperties = new();\n            private readonly HashSet<(DependencyObject Object, DependencyProperty Property)> _translatingBoundProperties = new();\n            private readonly HashSet<DependencyObject> _pendingApply = new();\n'''
+          if '_trackedBoundProperties' not in s:
+              if fields_marker not in s:
+                  raise SystemExit('scope fields marker not found')
+              s = s.replace(fields_marker, fields_repl, 1)
+
+          apply_marker = '''                    if (IsInGridViewRowPresenter(current))\n                    {\n                        continue;\n                    }\n\n                    if (current is ComboBox comboBox)\n'''
+          apply_repl = '''                    if (IsInGridViewRowPresenter(current))\n                    {\n                        continue;\n                    }\n\n                    TranslateAndTrackBoundValues(current, translator);\n\n                    if (current is ComboBox comboBox)\n'''
+          if 'TranslateAndTrackBoundValues(current, translator);' not in s:
+              if apply_marker not in s:
+                  raise SystemExit('Apply marker not found')
+              s = s.replace(apply_marker, apply_repl, 1)
+
+          methods_marker = '''            private void TrackContextMenu(ContextMenu? contextMenu, Queue<DependencyObject> queue)\n'''
+          methods = '''            private void TranslateAndTrackBoundValues(DependencyObject obj, ITranslationService translator)\n            {\n                var enumerator = obj.GetLocalValueEnumerator();\n                while (enumerator.MoveNext())\n                {\n                    var property = enumerator.Current.Property;\n                    if ((property.PropertyType != typeof(string) && property.PropertyType != typeof(object))\n                        || !ShouldTranslatePropertyName(property.Name)\n                        || !BindingOperations.IsDataBound(obj, property))\n                    {\n                        continue;\n                    }\n\n                    TranslateTrackedBoundValue(obj, property, translator);\n\n                    var key = (obj, property);\n                    if (!_trackedBoundProperties.Add(key))\n                    {\n                        continue;\n                    }\n\n                    var descriptor = DependencyPropertyDescriptor.FromProperty(property, obj.GetType());\n                    if (descriptor == null)\n                    {\n                        continue;\n                    }\n\n                    EventHandler handler = (_, _) =>\n                    {\n                        if (!_applied)\n                        {\n                            return;\n                        }\n\n                        var currentTranslator = App.GetService<ITranslationService>();\n                        if (currentTranslator == null\n                            || currentTranslator.GetCurrentCulture().Name.StartsWith("zh", StringComparison.OrdinalIgnoreCase))\n                        {\n                            return;\n                        }\n\n                        TranslateTrackedBoundValue(obj, property, currentTranslator);\n                    };\n                    descriptor.AddValueChanged(obj, handler);\n                    _unsubscribe.Add(() => descriptor.RemoveValueChanged(obj, handler));\n                }\n            }\n\n            private void TranslateTrackedBoundValue(\n                DependencyObject obj,\n                DependencyProperty property,\n                ITranslationService translator)\n            {\n                var key = (obj, property);\n                if (!_translatingBoundProperties.Add(key))\n                {\n                    return;\n                }\n\n                try\n                {\n                    var sourceInfo = BuildSourceInfo(obj, property, MissingTextSource.UiDynamicBinding);\n                    sourceInfo.BindingPath = BindingOperations.GetBinding(obj, property)?.Path?.Path;\n                    TranslateBoundCurrentValue(obj, property, translator, sourceInfo);\n                }\n                finally\n                {\n                    _translatingBoundProperties.Remove(key);\n                }\n            }\n\n'''
+          if 'private void TranslateAndTrackBoundValues(' not in s:
+              if methods_marker not in s:
+                  raise SystemExit('TrackContextMenu marker not found')
+              s = s.replace(methods_marker, methods + methods_marker, 1)
+
+          p.write_text(s, encoding='utf-8-sig', newline='')
+      - name: Verify patch shape
+        shell: bash
+        run: |
+          grep -q 'TranslateBoundCurrentValue' BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
+          grep -q 'TranslateAndTrackBoundValues' BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
+          grep -q 'BindsTwoWayByDefault' BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
+      - name: Commit product change
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add BetterGenshinImpact/View/Behavior/AutoTranslateInterceptor.cs
+          git commit -m 'feat(i18n): translate dynamic bound display values safely'
+          git push origin HEAD:${{ github.head_ref }}
