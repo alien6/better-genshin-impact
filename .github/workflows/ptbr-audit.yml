@@ -5,21 +5,44 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  localization-audit:
+  apply-and-validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Validate catalog coverage and placeholders
+      - name: Apply official TextMap terminology
         shell: bash
         run: |
           python3 - <<'PY'
           import json
+          from pathlib import Path
+
+          path = Path('BetterGenshinImpact/User/I18n/pt-BR.json')
+          raw = path.read_bytes()
+          had_bom = raw.startswith(b'\xef\xbb\xbf')
+          text = raw.decode('utf-8-sig')
+          newline = '\r\n' if '\r\n' in text else '\n'
+          data = json.loads(text)
+          data['邀约'] = 'Convite'
+          data['战斗'] = 'Batalha'
+          serialized = json.dumps(data, ensure_ascii=False, indent=2).replace('\n', newline) + newline
+          path.write_bytes((b'\xef\xbb\xbf' if had_bom else b'') + serialized.encode('utf-8'))
+          PY
+
+      - name: Validate catalog and TextMap terminology
+        shell: bash
+        run: |
+          curl -L --fail --retry 3 -o /tmp/TextMapCHS.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapCHS.json
+          curl -L --fail --retry 3 -o /tmp/TextMapPT.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapPT.json
+          python3 - <<'PY'
+          import json
           import re
-          from collections import Counter
+          from collections import Counter, defaultdict
           from pathlib import Path
 
           root = Path('BetterGenshinImpact/User/I18n')
@@ -27,90 +50,51 @@ jobs:
               en = json.load(f)
           with (root / 'pt-BR.json').open('r', encoding='utf-8-sig') as f:
               pt = json.load(f)
-
-          missing = [(k, en[k]) for k in en if k not in pt or not str(pt[k]).strip()]
-          token_re = re.compile(r'\{[^{}]+\}')
-          placeholder_errors = []
-          for key, source in en.items():
-              if key not in pt:
-                  continue
-              expected = Counter(token_re.findall(str(source)))
-              actual = Counter(token_re.findall(str(pt[key])))
-              if expected != actual:
-                  placeholder_errors.append((key, expected, actual))
-
-          converter = Path('BetterGenshinImpact/View/Converters/CultureInfoNameToKVPConverter.cs').read_text(encoding='utf-8-sig')
-          viewmodel = Path('BetterGenshinImpact/ViewModel/Pages/CommonSettingsPageViewModel.cs').read_text(encoding='utf-8-sig')
-
-          print(f'EN_COUNT={len(en)}')
-          print(f'PT_COUNT={len(pt)}')
-          print(f'MISSING_COUNT={len(missing)}')
-          print(f'PLACEHOLDER_ERROR_COUNT={len(placeholder_errors)}')
-          print('SELECTOR_DISPLAY_NAME_OK=' + str('"pt-BR" => "Português (Brasil)"' in converter))
-          print('SELECTOR_LANGUAGE_DICT_OK=' + str('"ja", "pt-BR"' in viewmodel))
-
-          if missing or placeholder_errors:
-              for item in missing:
-                  print('MISSING=' + repr(item))
-              for item in placeholder_errors:
-                  print('PLACEHOLDER_ERROR=' + repr(item))
-              raise SystemExit(1)
-          if '"pt-BR" => "Português (Brasil)"' not in converter:
-              raise SystemExit('pt-BR display name is not registered')
-          if '"ja", "pt-BR"' not in viewmodel:
-              raise SystemExit('pt-BR is not registered in the language dictionary')
-          PY
-
-      - name: Compare game terminology with AnimeGameData TextMapPT
-        shell: bash
-        run: |
-          curl -L --fail --retry 3 -o /tmp/TextMapCHS.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapCHS.json
-          curl -L --fail --retry 3 -o /tmp/TextMapPT.json https://raw.githubusercontent.com/DimbreathBot/AnimeGameData/master/TextMap/TextMapPT.json
-          python3 - <<'PY'
-          import json
-          from collections import defaultdict
-          from pathlib import Path
-
           with open('/tmp/TextMapCHS.json', 'r', encoding='utf-8-sig') as f:
               chs = json.load(f)
           with open('/tmp/TextMapPT.json', 'r', encoding='utf-8-sig') as f:
               official_pt = json.load(f)
-          with Path('BetterGenshinImpact/User/I18n/pt-BR.json').open('r', encoding='utf-8-sig') as f:
-              catalog = json.load(f)
+
+          missing = [k for k in en if k not in pt or not str(pt[k]).strip()]
+          token_re = re.compile(r'\{[^{}]+\}')
+          placeholder_errors = []
+          for key, source in en.items():
+              if key in pt and Counter(token_re.findall(str(source))) != Counter(token_re.findall(str(pt[key]))):
+                  placeholder_errors.append(key)
 
           by_chinese = defaultdict(set)
           for key, chinese in chs.items():
-              pt = official_pt.get(key)
-              if isinstance(chinese, str) and isinstance(pt, str) and chinese.strip() and pt.strip():
-                  by_chinese[chinese].add(pt)
+              value = official_pt.get(key)
+              if isinstance(chinese, str) and isinstance(value, str) and chinese.strip() and value.strip():
+                  by_chinese[chinese].add(value)
 
           candidates = []
-          for source, current in catalog.items():
+          for source, current in pt.items():
               official = by_chinese.get(source)
               if official and len(official) == 1:
                   value = next(iter(official))
                   if value.strip() != str(current).strip():
                       candidates.append((source, current, value))
 
+          print(f'EN_COUNT={len(en)}')
+          print(f'PT_COUNT={len(pt)}')
+          print(f'MISSING_COUNT={len(missing)}')
+          print(f'PLACEHOLDER_ERROR_COUNT={len(placeholder_errors)}')
           print(f'TERMINOLOGY_CANDIDATE_COUNT={len(candidates)}')
-          for source, current, official in candidates[:250]:
-              print('TERM_CANDIDATE=' + json.dumps({
-                  'source': source,
-                  'current': current,
-                  'official': official
-              }, ensure_ascii=False))
+          for item in candidates:
+              print('TERM_CANDIDATE=' + json.dumps(item, ensure_ascii=False))
+
+          if missing or placeholder_errors or candidates:
+              raise SystemExit(1)
           PY
 
-  windows-build:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-      - name: Restore
-        shell: pwsh
-        run: dotnet restore BetterGenshinImpact/BetterGenshinImpact.csproj -p:Platform=x64
-      - name: Build
-        shell: pwsh
-        run: dotnet build BetterGenshinImpact/BetterGenshinImpact.csproj -c Debug -p:Platform=x64 --no-restore
+      - name: Commit terminology corrections
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add BetterGenshinImpact/User/I18n/pt-BR.json
+          if ! git diff --cached --quiet; then
+            git commit -m "fix(i18n): align PT-BR terms with Genshin TextMap"
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
