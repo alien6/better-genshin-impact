@@ -1,1 +1,1 @@
-window-scope-red
+window-scope-green
