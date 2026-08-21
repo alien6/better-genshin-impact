@@ -1,0 +1,37 @@
+name: PT-BR localization audit
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare PT-BR keys with English catalog
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('BetterGenshinImpact/User/I18n')
+          with (root / 'en.json').open('r', encoding='utf-8-sig') as f:
+              en = json.load(f)
+          with (root / 'pt-BR.json').open('r', encoding='utf-8-sig') as f:
+              pt = json.load(f)
+
+          missing = [(k, en[k]) for k in en if k not in pt or not str(pt[k]).strip()]
+          print(f'EN_COUNT={len(en)}')
+          print(f'PT_COUNT={len(pt)}')
+          print(f'MISSING_COUNT={len(missing)}')
+          for key, english in missing:
+              print('MISSING=' + json.dumps({'key': key, 'en': english}, ensure_ascii=False))
+
+          if missing:
+              raise SystemExit(1)
+          PY
