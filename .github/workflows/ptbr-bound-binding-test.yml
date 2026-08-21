@@ -1,0 +1,23 @@
+name: PT-BR bound value translation test
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  bound-value-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore localization test project
+        shell: pwsh
+        run: dotnet restore Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -p:Platform=x64
+      - name: Run bound translation tests
+        shell: pwsh
+        run: dotnet test Test/BetterGenshinImpact.UnitTest/BetterGenshinImpact.UnitTest.csproj -c Debug -p:Platform=x64 --no-restore --filter "FullyQualifiedName~AutoTranslateBoundValueTests"
