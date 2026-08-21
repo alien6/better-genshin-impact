@@ -25,20 +25,129 @@ jobs:
           root = Path('BetterGenshinImpact')
           pt = json.loads((root / 'User/I18n/pt-BR.json').read_text(encoding='utf-8-sig'))
           han = re.compile(r'[\u3400-\u9fff]')
-          # Good-enough lexer for audit purposes; comments are removed separately.
-          string_re = re.compile(r'(?P<prefix>\$@|@\$|@|\$)?"(?P<body>(?:\\.|""|[^"\\])*)"', re.DOTALL)
-          block_comment = re.compile(r'/\*.*?\*/', re.DOTALL)
-          line_comment = re.compile(r'//[^\n]*')
 
-          def decode(body, verbatim):
-              if verbatim:
-                  return body.replace('""', '"')
+          def decode_normal(body: str) -> str:
               replacements = {
                   r'\n': '\n', r'\r': '\r', r'\t': '\t', r'\"': '"', r'\\': '\\'
               }
               for old, new in replacements.items():
                   body = body.replace(old, new)
               return body
+
+          def extract_strings(src: str):
+              i = 0
+              n = len(src)
+              line = 1
+              while i < n:
+                  ch = src[i]
+
+                  if src.startswith('//', i):
+                      j = src.find('\n', i + 2)
+                      if j < 0:
+                          break
+                      i = j
+                      continue
+
+                  if src.startswith('/*', i):
+                      j = src.find('*/', i + 2)
+                      if j < 0:
+                          break
+                      line += src.count('\n', i, j + 2)
+                      i = j + 2
+                      continue
+
+                  if ch == '\n':
+                      line += 1
+                      i += 1
+                      continue
+
+                  if ch == "'":
+                      j = i + 1
+                      while j < n:
+                          if src[j] == '\\':
+                              j += 2
+                              continue
+                          if src[j] == "'":
+                              j += 1
+                              break
+                          if src[j] == '\n':
+                              line += 1
+                          j += 1
+                      i = j
+                      continue
+
+                  # C# raw strings: optional interpolation dollars followed by 3+ quotes.
+                  raw_start = i
+                  dollar_count = 0
+                  while raw_start + dollar_count < n and src[raw_start + dollar_count] == '$':
+                      dollar_count += 1
+                  qpos = raw_start + dollar_count
+                  qcount = 0
+                  while qpos + qcount < n and src[qpos + qcount] == '"':
+                      qcount += 1
+                  if qcount >= 3:
+                      start_line = line
+                      body_start = qpos + qcount
+                      end_marker = '"' * qcount
+                      end = src.find(end_marker, body_start)
+                      if end < 0:
+                          break
+                      body = src[body_start:end]
+                      yield body.strip(), start_line, i, end + qcount
+                      line += src.count('\n', i, end + qcount)
+                      i = end + qcount
+                      continue
+
+                  prefix = ''
+                  quote = None
+                  if src.startswith('$@"', i) or src.startswith('@$"', i):
+                      prefix = src[i:i+2]
+                      quote = i + 2
+                  elif src.startswith('@"', i) or src.startswith('$"', i):
+                      prefix = src[i]
+                      quote = i + 1
+                  elif ch == '"':
+                      quote = i
+
+                  if quote is None:
+                      i += 1
+                      continue
+
+                  start_line = line
+                  verbatim = '@' in prefix
+                  j = quote + 1
+                  chars = []
+                  while j < n:
+                      if verbatim:
+                          if src.startswith('""', j):
+                              chars.append('"')
+                              j += 2
+                              continue
+                          if src[j] == '"':
+                              j += 1
+                              break
+                          chars.append(src[j])
+                          if src[j] == '\n':
+                              line += 1
+                          j += 1
+                      else:
+                          if src[j] == '\\' and j + 1 < n:
+                              chars.append(src[j:j+2])
+                              j += 2
+                              continue
+                          if src[j] == '"':
+                              j += 1
+                              break
+                          # Ordinary C# strings cannot span a physical newline.
+                          if src[j] == '\n':
+                              break
+                          chars.append(src[j])
+                          j += 1
+                  body = ''.join(chars)
+                  if not verbatim:
+                      body = decode_normal(body)
+                  yield body.strip(), start_line, i, j
+                  i = max(j, i + 1)
 
           gaps = defaultdict(list)
           all_han = defaultdict(list)
@@ -47,32 +156,30 @@ jobs:
               if '/obj/' in p or '/bin/' in p or p.endswith('.g.cs') or p.endswith('.Designer.cs'):
                   continue
               raw = path.read_text(encoding='utf-8-sig', errors='ignore')
-              raw = block_comment.sub('', raw)
-              raw = line_comment.sub('', raw)
-              for match in string_re.finditer(raw):
-                  prefix = match.group('prefix') or ''
-                  text = decode(match.group('body'), '@' in prefix).strip()
+              for text, line, start, end in extract_strings(raw):
                   if not text or not han.search(text):
                       continue
-                  line = raw.count('\n', 0, match.start()) + 1
-                  all_han[text].append(f'{p}:{line}')
+                  compact_context = re.sub(r'\s+', ' ', raw[max(0, start-120):min(len(raw), end+120)]).strip()
+                  occurrence = {'file': p, 'line': line, 'context': compact_context[:500]}
+                  all_han[text].append(occurrence)
                   if text not in pt:
-                      gaps[text].append(f'{p}:{line}')
+                      gaps[text].append(occurrence)
 
           data = [
-              {'text': text, 'where': sorted(set(where))}
-              for text, where in sorted(gaps.items())
+              {'text': text, 'occurrences': occurrences}
+              for text, occurrences in sorted(gaps.items())
           ]
           Path('/tmp/ptbr-csharp-gaps.json').write_text(
               json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8'
           )
           print(f'CSHARP_HAN_UNIQUE={len(all_han)}')
           print(f'CSHARP_MISSING_PT_UNIQUE={len(gaps)}')
-          for item in data[:80]:
-              print('CSHARP_GAP=', json.dumps(item, ensure_ascii=False))
+          for item in data[:60]:
+              brief = {'text': item['text'], 'where': [f"{x['file']}:{x['line']}" for x in item['occurrences'][:4]]}
+              print('CSHARP_GAP=', json.dumps(brief, ensure_ascii=False))
           PY
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ptbr-csharp-gaps
+          name: ptbr-csharp-gaps-refined
           path: /tmp/ptbr-csharp-gaps.json
