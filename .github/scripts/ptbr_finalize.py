@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PT_PATH = ROOT / "BetterGenshinImpact/User/I18n/pt-BR.json"
-DELTA_PATH = ROOT / ".github/ptbr-extra.json.gz.b64"
+DELTA_GLOB = "ptbr-extra.part*"
 SELF_PATH = Path(__file__).resolve()
 
 def read(path: Path) -> str:
@@ -32,7 +32,11 @@ def replace_once(path: Path, old: str, new: str, label: str) -> bool:
 
 def merge_catalog() -> None:
     current = json.loads(read(PT_PATH))
-    compressed = base64.b64decode(DELTA_PATH.read_text(encoding="ascii").strip())
+    parts = sorted((ROOT / ".github").glob(DELTA_GLOB))
+    if not parts:
+        raise FileNotFoundError("PT-BR delta parts not found")
+    encoded = "".join(part.read_text(encoding="ascii").strip() for part in parts)
+    compressed = base64.b64decode(encoded)
     extra = json.loads(gzip.decompress(compressed).decode("utf-8"))
     before = len(current)
     current.update(extra)
@@ -314,7 +318,8 @@ def patch_value_display_combos() -> None:
     print(f"[ok] translated DisplayMemberPath=Value combo displays in {changed_files} files")
 
 def cleanup() -> None:
-    for path in (DELTA_PATH, SELF_PATH):
+    paths = list((ROOT / ".github").glob(DELTA_GLOB)) + [SELF_PATH]
+    for path in paths:
         try:
             path.unlink()
             print(f"[ok] removed temporary {path.relative_to(ROOT)}")
