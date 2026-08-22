@@ -38,7 +38,15 @@ public class LeyLineTextRecognizerTests
     {
         var sut = Create("pt-BR");
 
-        Assert.True(sut.IsRewardBlossomPrompt(["Selecione a forma", "de ativação", "da Flor da Linha Ley"]));
+        Assert.True(sut.IsRewardBlossomPrompt(Normalize(sut, ["Selecione a forma", "de ativação", "da Flor da Linha Ley"])));
+    }
+
+    [Fact]
+    public void RewardBlossomPrompt_MatchesStandaloneActivationSelectionTitle()
+    {
+        var sut = Create("en");
+
+        Assert.True(sut.IsRewardBlossomPrompt(Normalize(sut, ["Select Activation Method"])));
     }
 
     [Fact]
@@ -46,11 +54,11 @@ public class LeyLineTextRecognizerTests
     {
         var sut = Create("en");
 
-        Assert.True(sut.IsAllowedResinOption("Original Resin"));
-        Assert.True(sut.IsAllowedResinOption("Condensed Resin"));
-        Assert.True(sut.IsAllowedResinOption("Transient Resin"));
-        Assert.True(sut.IsAllowedResinOption("Fragile Resin"));
-        Assert.False(sut.IsAllowedResinOption("Primogems"));
+        Assert.True(sut.IsAllowedResinOption(sut.NormalizeOcrText("Original Resin")));
+        Assert.True(sut.IsAllowedResinOption(sut.NormalizeOcrText("Condensed Resin")));
+        Assert.True(sut.IsAllowedResinOption(sut.NormalizeOcrText("Transient Resin")));
+        Assert.True(sut.IsAllowedResinOption(sut.NormalizeOcrText("Fragile Resin")));
+        Assert.False(sut.IsAllowedResinOption(sut.NormalizeOcrText("Primogems")));
     }
 
     [Fact]
@@ -60,9 +68,9 @@ public class LeyLineTextRecognizerTests
         var sut = new LeyLineTextRecognizer(matcher);
         var callsAfterConstruction = matcher.GetAliasesCalls;
 
-        _ = sut.IsTouch("Touch");
-        _ = sut.IsRewardBlossomPrompt(["Activate", "Ley Line"]);
-        _ = sut.IsAllowedResinOption("Original Resin");
+        _ = sut.IsTouch(sut.NormalizeOcrText("Touch"));
+        _ = sut.IsRewardBlossomPrompt(Normalize(sut, ["Activate", "Ley Line"]));
+        _ = sut.IsAllowedResinOption(sut.NormalizeOcrText("Original Resin"));
 
         Assert.Equal(callsAfterConstruction, matcher.GetAliasesCalls);
     }
@@ -91,26 +99,29 @@ public class LeyLineTextRecognizerTests
 
     private static bool Matches(LeyLineTextRecognizer sut, string decision, string recognizedText) => decision switch
     {
-        "resin-original" => sut.IsOriginalResin(recognizedText),
-        "resin-condensed" => sut.IsCondensedResin(recognizedText),
-        "resin-transient" => sut.IsTransientResin(recognizedText),
-        "resin-fragile" => sut.IsFragileResin(recognizedText),
-        "replenish" => sut.IsReplenish(recognizedText),
-        "double-reward" => sut.IsDoubleReward(recognizedText),
-        "double-reward-2x" => sut.IsDoubleReward2x(recognizedText),
-        "touch" => sut.IsTouch(recognizedText),
-        "activate" => sut.IsActivate(recognizedText),
-        "select" => sut.IsSelect(recognizedText),
-        "ley-line" => sut.IsLeyLine(recognizedText),
-        "outcrop" => sut.IsOutcrop(recognizedText),
-        "blossom-wealth" => sut.IsBlossomOfWealth(recognizedText),
-        "blossom-revelation" => sut.IsBlossomOfRevelation(recognizedText),
-        "revive" => sut.IsRevive(recognizedText),
-        "use" => sut.IsUse(recognizedText),
-        "stop" => sut.IsStop(recognizedText),
-        "original-40" => sut.IsOriginalResin40Prompt(recognizedText),
+        "resin-original" => sut.IsOriginalResin(sut.NormalizeOcrText(recognizedText)),
+        "resin-condensed" => sut.IsCondensedResin(sut.NormalizeOcrText(recognizedText)),
+        "resin-transient" => sut.IsTransientResin(sut.NormalizeOcrText(recognizedText)),
+        "resin-fragile" => sut.IsFragileResin(sut.NormalizeOcrText(recognizedText)),
+        "replenish" => sut.IsReplenish(sut.NormalizeOcrText(recognizedText)),
+        "double-reward" => sut.IsDoubleReward(sut.NormalizeOcrText(recognizedText)),
+        "double-reward-2x" => sut.IsDoubleReward2x(sut.NormalizeOcrText(recognizedText)),
+        "touch" => sut.IsTouch(sut.NormalizeOcrText(recognizedText)),
+        "activate" => sut.IsActivate(sut.NormalizeOcrText(recognizedText)),
+        "select" => sut.IsSelect(sut.NormalizeOcrText(recognizedText)),
+        "ley-line" => sut.IsLeyLine(sut.NormalizeOcrText(recognizedText)),
+        "outcrop" => sut.IsOutcrop(sut.NormalizeOcrText(recognizedText)),
+        "blossom-wealth" => sut.IsBlossomOfWealth(sut.NormalizeOcrText(recognizedText)),
+        "blossom-revelation" => sut.IsBlossomOfRevelation(sut.NormalizeOcrText(recognizedText)),
+        "revive" => sut.IsRevive(sut.NormalizeOcrText(recognizedText)),
+        "use" => sut.IsUse(sut.NormalizeOcrText(recognizedText)),
+        "stop" => sut.IsStop(sut.NormalizeOcrText(recognizedText)),
+        "original-40" => sut.IsOriginalResin40Prompt(sut.NormalizeOcrText(recognizedText)),
         _ => throw new ArgumentOutOfRangeException(nameof(decision), decision, null)
     };
+
+    private static string[] Normalize(LeyLineTextRecognizer sut, IEnumerable<string> texts) =>
+        texts.Select(sut.NormalizeOcrText).ToArray();
 
     private static LeyLineTextRecognizer Create(string culture) => new(CreateMatcher(culture));
 

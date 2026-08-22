@@ -66,6 +66,8 @@ public sealed class LeyLineTextRecognizer
     public bool IsStop(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.Stop);
     public bool IsOriginalResin40Prompt(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.OriginalResin40Prompt);
 
+    public string NormalizeOcrText(string recognizedText) => GameTextNormalizer.Normalize(recognizedText);
+
     public bool IsAllowedResinOption(string recognizedText) =>
         IsOriginalResin(recognizedText)
         || IsCondensedResin(recognizedText)
@@ -75,9 +77,9 @@ public sealed class LeyLineTextRecognizer
     public bool IsRewardBlossomPrompt(IEnumerable<string> recognizedTexts)
     {
         var texts = Materialize(recognizedTexts);
-        return IsCombinedMatch(texts, GameTextKeys.LeyLine.Line)
-            && (IsCombinedMatch(texts, GameTextKeys.LeyLine.Activate)
-                || IsCombinedMatch(texts, GameTextKeys.LeyLine.Select));
+        return IsCombinedMatch(texts, GameTextKeys.LeyLine.Select)
+            || (IsCombinedMatch(texts, GameTextKeys.LeyLine.Line)
+                && IsCombinedMatch(texts, GameTextKeys.LeyLine.Activate));
     }
 
     public bool IsConfiguredResin(string recognizedText, string resinName) => resinName switch
@@ -94,9 +96,9 @@ public sealed class LeyLineTextRecognizer
 
     private bool IsCombinedMatch(IReadOnlyList<string> recognizedTexts, string key)
     {
-        var normalizedText = GameTextNormalizer.Normalize(string.Concat(recognizedTexts));
-        return normalizedText.Length > 0
-               && _aliases[key].Any(alias => normalizedText.Contains(alias, StringComparison.Ordinal));
+        var recognizedText = string.Concat(recognizedTexts);
+        return recognizedText.Length > 0
+               && _aliases[key].Any(alias => recognizedText.Contains(alias, StringComparison.Ordinal));
     }
 
     private static IReadOnlyList<string> Materialize(IEnumerable<string> recognizedTexts)
