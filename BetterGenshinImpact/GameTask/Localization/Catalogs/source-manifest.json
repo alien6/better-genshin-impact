@@ -292,6 +292,16 @@
           "value": "Synthèse",
           "source": "curated",
           "reason": "Literal expansion of the legacy task-local French OCR regex, retained without regex semantics in the central catalog."
+        },
+        {
+          "value": "Synthése",
+          "source": "curated",
+          "reason": "Literal expansion of the legacy task-local French OCR regex Synth[èé](se|tiser), retained for OCR compatibility."
+        },
+        {
+          "value": "Synthètiser",
+          "source": "curated",
+          "reason": "Literal expansion of the legacy task-local French OCR regex Synth[èé](se|tiser), retained for OCR compatibility."
         }
       ],
       "pt-BR": [

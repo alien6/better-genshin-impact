@@ -66,7 +66,8 @@ public sealed class GameTextCatalog
 
         var rawAliases = new List<string>(aliases.Count);
         var normalizedAliases = new List<string>(aliases.Count);
-        var seenAliases = new HashSet<string>(StringComparer.Ordinal);
+        var seenRawAliases = new HashSet<string>(StringComparer.Ordinal);
+        var seenNormalizedAliases = new HashSet<string>(StringComparer.Ordinal);
 
         foreach (var alias in aliases)
         {
@@ -81,13 +82,16 @@ public sealed class GameTextCatalog
                 throw new ArgumentException($"Catalog key '{key}' contains an alias without comparable text.", nameof(aliases));
             }
 
-            if (!seenAliases.Add(normalizedAlias))
+            if (!seenRawAliases.Add(alias))
             {
-                throw new ArgumentException($"Catalog key '{key}' contains duplicate normalized alias '{normalizedAlias}'.", nameof(aliases));
+                throw new ArgumentException($"Catalog key '{key}' contains duplicate raw alias '{alias}'.", nameof(aliases));
             }
 
             rawAliases.Add(alias);
-            normalizedAliases.Add(normalizedAlias);
+            if (seenNormalizedAliases.Add(normalizedAlias))
+            {
+                normalizedAliases.Add(normalizedAlias);
+            }
         }
 
         if (rawAliases.Count == 0)

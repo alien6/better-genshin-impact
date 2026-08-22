@@ -27,14 +27,18 @@ public class CommonJobTextRecognizerTests
         Assert.True(recognizer.IsCrafting(recognizedText));
     }
 
-    [Fact]
-    public void CraftingSearchText_MatchesBothFrenchCatalogAliases()
+    [Theory]
+    [InlineData("Synthèse")]
+    [InlineData("Synthése")]
+    [InlineData("Synthètiser")]
+    [InlineData("Synthétiser")]
+    public void CraftingSearchText_MatchesEveryLegacyFrenchRegexExpansion(string recognizedText)
     {
         var recognizer = CreateFromEmbeddedCatalog("fr");
         var searchPattern = recognizer.CraftingSearchText;
 
-        Assert.Matches(searchPattern, "Synthèse");
-        Assert.Matches(searchPattern, "Synthétiser");
+        Assert.Matches(searchPattern, recognizedText);
+        Assert.True(recognizer.IsCrafting(recognizedText));
     }
 
     [Fact]

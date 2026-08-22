@@ -79,7 +79,7 @@ public class GameTextCatalogTests
     }
 
     [Fact]
-    public void EmbeddedCatalogs_HaveUsableUniqueAliasesForEveryEntry()
+    public void EmbeddedCatalogs_HaveUsableExactlyUniqueRawAliasesForEveryEntry()
     {
         var provider = new EmbeddedGameTextCatalogProvider();
 
@@ -93,9 +93,33 @@ public class GameTextCatalogTests
 
                 var normalizedAliases = aliases.Select(GameTextNormalizer.Normalize).ToArray();
                 Assert.All(normalizedAliases, alias => Assert.NotEmpty(alias));
-                Assert.Equal(normalizedAliases.Length, normalizedAliases.Distinct(StringComparer.Ordinal).Count());
+                Assert.Equal(aliases.Count, aliases.Distinct(StringComparer.Ordinal).Count());
             }
         }
+    }
+
+    [Fact]
+    public void Catalog_PreservesDistinctRawAliasesWithEquivalentNormalization()
+    {
+        var catalog = CreateFrenchCraftingCatalog("Synthèse", "Synthése", "Synthétiser", "Synthètiser");
+
+        Assert.True(catalog.TryGetAliases(GameTextKeys.Common.Crafting, out var aliases));
+        Assert.Equal(["Synthèse", "Synthése", "Synthétiser", "Synthètiser"], aliases);
+    }
+
+    [Fact]
+    public void Catalog_DeduplicatesEquivalentNormalizedAliasesForMatching()
+    {
+        var catalog = CreateFrenchCraftingCatalog("Synthèse", "Synthése", "Synthétiser", "Synthètiser");
+
+        Assert.True(catalog.TryGetNormalizedAliases(GameTextKeys.Common.Crafting, out var aliases));
+        Assert.Equal(["synthese", "synthetiser"], aliases);
+    }
+
+    [Fact]
+    public void Catalog_RejectsExactRawAliasDuplicates()
+    {
+        Assert.Throws<ArgumentException>(() => CreateFrenchCraftingCatalog("Synthèse", "Synthèse"));
     }
 
     [Fact]
@@ -179,4 +203,12 @@ public class GameTextCatalogTests
         Assert.True(File.Exists(manifestPath), $"Source manifest was not copied to '{manifestPath}'.");
         return JObject.Parse(File.ReadAllText(manifestPath));
     }
+
+    private static GameTextCatalog CreateFrenchCraftingCatalog(params string[] aliases) =>
+        new(
+            "fr",
+            new Dictionary<string, IReadOnlyList<string>>(StringComparer.Ordinal)
+            {
+                [GameTextKeys.Common.Crafting] = aliases
+            });
 }
