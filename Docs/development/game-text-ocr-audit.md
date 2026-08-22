@@ -1,5 +1,7 @@
 # GameTask language-dependent recognition audit
 
+For the catalog schema, culture resolution, C#/BgiVision and JavaScript APIs, alias maintenance, validation commands, and stacked pull-request workflow, see [Localized game-text matching](game-text-localization.md).
+
 ## Scope and repeatable check
 
 The Task 14 audit covers every tracked C# source below `BetterGenshinImpact/GameTask`. The read-only checker runs `rg` over the tracked file list from Git, then parses complete helper invocations and recognition comparisons across line boundaries. It covers `ContainsText`/`RegionHasText`, `TryClickText`/`TryClickAnyText`, `WaitUntilText`, `GetByText`/`GetByAnyText`, `FindRectByText`, `Bv.Find`/`FindF`, direct text/OCR/region/title comparisons, and both array initializers and C# collection expressions consumed by extracted OCR-text comparisons. Each candidate is assigned a stable `path::symbol::literal` identifier and checked against `game-text-non-ocr-allowlist.json`.
