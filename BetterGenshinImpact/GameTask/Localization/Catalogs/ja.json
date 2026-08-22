@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "culture": "ja",
+  "entries": {
+    "common.revive": [
+      "復活",
+      "キャラを復活"
+    ],
+    "common.confirm": [
+      "OK"
+    ],
+    "common.cancel": [
+      "キャンセル"
+    ],
+    "common.use": [
+      "使う"
+    ],
+    "common.click_anywhere_to_close": [
+      "任意の場所をクリックして閉じる"
+    ],
+    "common.crafting": [
+      "錬金合成"
+    ],
+    "resin.original": [
+      "天然樹脂"
+    ],
+    "resin.condensed": [
+      "濃縮樹脂"
+    ],
+    "resin.fragile": [
+      "脆弱樹脂"
+    ],
+    "resin.transient": [
+      "刹那樹脂"
+    ],
+    "resin.replenish": [
+      "天然樹脂を補充する"
+    ],
+    "resin.insufficient": [
+      "天然樹脂が足りません"
+    ],
+    "domain.challenge_completed": [
+      "挑戦完了"
+    ],
+    "expedition.entry": [
+      "探索派遣"
+    ]
+  }
+}

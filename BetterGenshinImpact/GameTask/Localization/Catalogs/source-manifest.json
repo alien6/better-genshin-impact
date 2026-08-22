@@ -1,0 +1,625 @@
+{
+  "schemaVersion": 1,
+  "recordSchema": {
+    "path": "entries.<key>.<culture>[]",
+    "value": "Exact catalog alias.",
+    "textMapHash": "String hash whose TextMap value must exactly equal value.",
+    "source": "Set to curated only when the alias is not a standalone TextMap value.",
+    "reason": "Required explanation for curated aliases."
+  },
+  "baseline": {
+    "repository": "https://github.com/DimbreathBot/AnimeGameData.git",
+    "commit": "26df1dfbdf05a82bbb1d97506859f3e1c40718d8"
+  },
+  "entries": {
+    "common.revive": {
+      "zh-Hans": [
+        {
+          "value": "复苏",
+          "source": "curated",
+          "reason": "Short OCR label curated from the in-game revive prompt; the pinned TextMap contains only the longer character-revive form."
+        },
+        {
+          "value": "复苏角色",
+          "textMapHash": "3705282090"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "復甦",
+          "source": "curated",
+          "reason": "Short OCR label curated from the in-game revive prompt; the pinned TextMap contains only the longer character-revive form."
+        },
+        {
+          "value": "復甦角色",
+          "textMapHash": "3705282090"
+        }
+      ],
+      "en": [
+        {
+          "value": "Revive",
+          "source": "curated",
+          "reason": "Short OCR label curated from the in-game revive prompt; the pinned TextMap contains only the longer character-revive form."
+        },
+        {
+          "value": "Revive Character",
+          "textMapHash": "3705282090"
+        }
+      ],
+      "ja": [
+        {
+          "value": "復活",
+          "source": "curated",
+          "reason": "Short OCR label curated from the in-game revive prompt; the pinned TextMap contains only the longer character-revive form."
+        },
+        {
+          "value": "キャラを復活",
+          "textMapHash": "3705282090"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Réanimer",
+          "source": "curated",
+          "reason": "Short OCR label curated from the in-game revive prompt; the pinned TextMap contains only the longer character-revive form."
+        },
+        {
+          "value": "Ressusciter un personnage",
+          "textMapHash": "3705282090"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Reviver",
+          "source": "curated",
+          "reason": "Short OCR label curated from the in-game revive prompt; the pinned TextMap contains only the longer character-revive form."
+        },
+        {
+          "value": "Reviver Personagem",
+          "textMapHash": "3705282090"
+        }
+      ]
+    },
+    "common.confirm": {
+      "zh-Hans": [
+        {
+          "value": "确认",
+          "textMapHash": "129690148"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "確認",
+          "textMapHash": "129690148"
+        }
+      ],
+      "en": [
+        {
+          "value": "Confirm",
+          "textMapHash": "129690148"
+        }
+      ],
+      "ja": [
+        {
+          "value": "OK",
+          "textMapHash": "129690148"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Confirmer",
+          "textMapHash": "129690148"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Confirmar",
+          "textMapHash": "129690148"
+        }
+      ]
+    },
+    "common.cancel": {
+      "zh-Hans": [
+        {
+          "value": "取消",
+          "textMapHash": "837711656"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "取消",
+          "textMapHash": "837711656"
+        }
+      ],
+      "en": [
+        {
+          "value": "Cancel",
+          "textMapHash": "837711656"
+        }
+      ],
+      "ja": [
+        {
+          "value": "キャンセル",
+          "textMapHash": "837711656"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Annuler",
+          "textMapHash": "837711656"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Cancelar",
+          "textMapHash": "837711656"
+        }
+      ]
+    },
+    "common.use": {
+      "zh-Hans": [
+        {
+          "value": "使用",
+          "textMapHash": "3905434172"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "使用",
+          "textMapHash": "3905434172"
+        }
+      ],
+      "en": [
+        {
+          "value": "Use",
+          "textMapHash": "3905434172"
+        }
+      ],
+      "ja": [
+        {
+          "value": "使う",
+          "textMapHash": "3905434172"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Utiliser",
+          "textMapHash": "3905434172"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Usar",
+          "textMapHash": "3905434172"
+        }
+      ]
+    },
+    "common.click_anywhere_to_close": {
+      "zh-Hans": [
+        {
+          "value": "点击任意处关闭",
+          "source": "curated",
+          "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "點擊任意處關閉",
+          "source": "curated",
+          "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "en": [
+        {
+          "value": "Click anywhere to close",
+          "source": "curated",
+          "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "ja": [
+        {
+          "value": "任意の場所をクリックして閉じる",
+          "source": "curated",
+          "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Cliquez n'importe où pour fermer",
+          "source": "curated",
+          "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Clique em qualquer lugar para fechar",
+          "source": "curated",
+          "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        }
+      ]
+    },
+    "common.crafting": {
+      "zh-Hans": [
+        {
+          "value": "炼金合成",
+          "textMapHash": "950213591"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "煉金合成",
+          "textMapHash": "950213591"
+        }
+      ],
+      "en": [
+        {
+          "value": "Craft",
+          "textMapHash": "950213591"
+        }
+      ],
+      "ja": [
+        {
+          "value": "錬金合成",
+          "textMapHash": "950213591"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Synthétiser",
+          "textMapHash": "950213591"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Sintetizar",
+          "textMapHash": "950213591"
+        }
+      ]
+    },
+    "resin.original": {
+      "zh-Hans": [
+        {
+          "value": "原粹树脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "原粹樹脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "en": [
+        {
+          "value": "Original Resin",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "ja": [
+        {
+          "value": "天然樹脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Résine originelle",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Resina Original",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ]
+    },
+    "resin.condensed": {
+      "zh-Hans": [
+        {
+          "value": "浓缩树脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "濃縮樹脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "en": [
+        {
+          "value": "Condensed Resin",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "ja": [
+        {
+          "value": "濃縮樹脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Résine condensée",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Resina Condensada",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ]
+    },
+    "resin.fragile": {
+      "zh-Hans": [
+        {
+          "value": "脆弱树脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "脆弱樹脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "en": [
+        {
+          "value": "Fragile Resin",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "ja": [
+        {
+          "value": "脆弱樹脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Résine fragile",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Resina Frágil",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ]
+    },
+    "resin.transient": {
+      "zh-Hans": [
+        {
+          "value": "须臾树脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "須臾樹脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "en": [
+        {
+          "value": "Transient Resin",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "ja": [
+        {
+          "value": "刹那樹脂",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Résine éphémère",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Resina Transiente",
+          "source": "curated",
+          "reason": "Standalone resin label is not present as a value in the pinned TextMap; curated from the in-game UI terminology."
+        }
+      ]
+    },
+    "resin.replenish": {
+      "zh-Hans": [
+        {
+          "value": "补充原粹树脂",
+          "source": "curated",
+          "reason": "OCR-visible resin prompt is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "補充原粹樹脂",
+          "source": "curated",
+          "reason": "OCR-visible resin prompt is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "en": [
+        {
+          "value": "Replenish Original Resin",
+          "source": "curated",
+          "reason": "OCR-visible resin prompt is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "ja": [
+        {
+          "value": "天然樹脂を補充する",
+          "source": "curated",
+          "reason": "OCR-visible resin prompt is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Recharger la résine originelle",
+          "source": "curated",
+          "reason": "OCR-visible resin prompt is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Repor Resina Original",
+          "source": "curated",
+          "reason": "OCR-visible resin prompt is not present as a standalone value in the pinned TextMap."
+        }
+      ]
+    },
+    "resin.insufficient": {
+      "zh-Hans": [
+        {
+          "value": "原粹树脂不足",
+          "source": "curated",
+          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "原粹樹脂不足",
+          "source": "curated",
+          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "en": [
+        {
+          "value": "Insufficient Original Resin",
+          "source": "curated",
+          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "ja": [
+        {
+          "value": "天然樹脂が足りません",
+          "source": "curated",
+          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Résine originelle insuffisante",
+          "source": "curated",
+          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Resina Original insuficiente",
+          "source": "curated",
+          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+        }
+      ]
+    },
+    "domain.challenge_completed": {
+      "zh-Hans": [
+        {
+          "value": "挑战完成",
+          "textMapHash": "343200509"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "挑戰完成",
+          "textMapHash": "343200509"
+        }
+      ],
+      "en": [
+        {
+          "value": "Challenge Completed",
+          "textMapHash": "343200509"
+        }
+      ],
+      "ja": [
+        {
+          "value": "挑戦完了",
+          "textMapHash": "343200509"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Défi terminé",
+          "textMapHash": "343200509"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Desafio concluído",
+          "textMapHash": "343200509"
+        }
+      ]
+    },
+    "expedition.entry": {
+      "zh-Hans": [
+        {
+          "value": "探索派遣",
+          "textMapHash": "701969401"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "探索派遣",
+          "textMapHash": "701969401"
+        }
+      ],
+      "en": [
+        {
+          "value": "Dispatch Character on Expedition",
+          "textMapHash": "701969401"
+        }
+      ],
+      "ja": [
+        {
+          "value": "探索派遣",
+          "textMapHash": "701969401"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Expéditions",
+          "textMapHash": "701969401"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Expedição",
+          "source": "curated",
+          "reason": "Short OCR label curated from the expedition entry; the pinned TextMap contains only the longer dispatch form."
+        },
+        {
+          "value": "Envie alguém para Expedição",
+          "textMapHash": "701969401"
+        }
+      ]
+    }
+  }
+}

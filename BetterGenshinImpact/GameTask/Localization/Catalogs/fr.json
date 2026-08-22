@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "culture": "fr",
+  "entries": {
+    "common.revive": [
+      "Réanimer",
+      "Ressusciter un personnage"
+    ],
+    "common.confirm": [
+      "Confirmer"
+    ],
+    "common.cancel": [
+      "Annuler"
+    ],
+    "common.use": [
+      "Utiliser"
+    ],
+    "common.click_anywhere_to_close": [
+      "Cliquez n'importe où pour fermer"
+    ],
+    "common.crafting": [
+      "Synthétiser"
+    ],
+    "resin.original": [
+      "Résine originelle"
+    ],
+    "resin.condensed": [
+      "Résine condensée"
+    ],
+    "resin.fragile": [
+      "Résine fragile"
+    ],
+    "resin.transient": [
+      "Résine éphémère"
+    ],
+    "resin.replenish": [
+      "Recharger la résine originelle"
+    ],
+    "resin.insufficient": [
+      "Résine originelle insuffisante"
+    ],
+    "domain.challenge_completed": [
+      "Défi terminé"
+    ],
+    "expedition.entry": [
+      "Expéditions"
+    ]
+  }
+}

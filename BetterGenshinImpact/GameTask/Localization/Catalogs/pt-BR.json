@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "culture": "pt-BR",
+  "entries": {
+    "common.revive": [
+      "Reviver",
+      "Reviver Personagem"
+    ],
+    "common.confirm": [
+      "Confirmar"
+    ],
+    "common.cancel": [
+      "Cancelar"
+    ],
+    "common.use": [
+      "Usar"
+    ],
+    "common.click_anywhere_to_close": [
+      "Clique em qualquer lugar para fechar"
+    ],
+    "common.crafting": [
+      "Sintetizar"
+    ],
+    "resin.original": [
+      "Resina Original"
+    ],
+    "resin.condensed": [
+      "Resina Condensada"
+    ],
+    "resin.fragile": [
+      "Resina Frágil"
+    ],
+    "resin.transient": [
+      "Resina Transiente"
+    ],
+    "resin.replenish": [
+      "Repor Resina Original"
+    ],
+    "resin.insufficient": [
+      "Resina Original insuficiente"
+    ],
+    "domain.challenge_completed": [
+      "Desafio concluído"
+    ],
+    "expedition.entry": [
+      "Expedição",
+      "Envie alguém para Expedição"
+    ]
+  }
+}

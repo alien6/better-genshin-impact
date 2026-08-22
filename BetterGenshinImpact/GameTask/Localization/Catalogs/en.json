@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "culture": "en",
+  "entries": {
+    "common.revive": [
+      "Revive",
+      "Revive Character"
+    ],
+    "common.confirm": [
+      "Confirm"
+    ],
+    "common.cancel": [
+      "Cancel"
+    ],
+    "common.use": [
+      "Use"
+    ],
+    "common.click_anywhere_to_close": [
+      "Click anywhere to close"
+    ],
+    "common.crafting": [
+      "Craft"
+    ],
+    "resin.original": [
+      "Original Resin"
+    ],
+    "resin.condensed": [
+      "Condensed Resin"
+    ],
+    "resin.fragile": [
+      "Fragile Resin"
+    ],
+    "resin.transient": [
+      "Transient Resin"
+    ],
+    "resin.replenish": [
+      "Replenish Original Resin"
+    ],
+    "resin.insufficient": [
+      "Insufficient Original Resin"
+    ],
+    "domain.challenge_completed": [
+      "Challenge Completed"
+    ],
+    "expedition.entry": [
+      "Dispatch Character on Expedition"
+    ]
+  }
+}

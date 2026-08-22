@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "culture": "zh-Hant",
+  "entries": {
+    "common.revive": [
+      "復甦",
+      "復甦角色"
+    ],
+    "common.confirm": [
+      "確認"
+    ],
+    "common.cancel": [
+      "取消"
+    ],
+    "common.use": [
+      "使用"
+    ],
+    "common.click_anywhere_to_close": [
+      "點擊任意處關閉"
+    ],
+    "common.crafting": [
+      "煉金合成"
+    ],
+    "resin.original": [
+      "原粹樹脂"
+    ],
+    "resin.condensed": [
+      "濃縮樹脂"
+    ],
+    "resin.fragile": [
+      "脆弱樹脂"
+    ],
+    "resin.transient": [
+      "須臾樹脂"
+    ],
+    "resin.replenish": [
+      "補充原粹樹脂"
+    ],
+    "resin.insufficient": [
+      "原粹樹脂不足"
+    ],
+    "domain.challenge_completed": [
+      "挑戰完成"
+    ],
+    "expedition.entry": [
+      "探索派遣"
+    ]
+  }
+}

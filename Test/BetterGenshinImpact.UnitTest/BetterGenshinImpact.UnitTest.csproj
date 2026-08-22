@@ -29,6 +29,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="..\..\BetterGenshinImpact\GameTask\Localization\Catalogs\source-manifest.json"
+              Link="Assets\GameText\source-manifest.json"
+              CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Folder Include="Assets\AutoFight\" />
     </ItemGroup>
 
