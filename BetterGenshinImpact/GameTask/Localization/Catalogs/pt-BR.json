@@ -73,6 +73,102 @@
     ],
     "serenitea_pot.realm_depot": [
       "Tesouro do Paraíso Mágico"
+    ],
+    "fishing.bite": [
+      "Mordeu"
+    ],
+    "fishing.action": [
+      "Pescar"
+    ],
+    "world_area.serenitea_pot": [
+      "Bule de Relachá"
+    ],
+    "world_area.nod_krai": [
+      "Nod-Krai"
+    ],
+    "world_area.snezhnaya": [
+      "Snezhnaya"
+    ],
+    "world_area.fontaine": [
+      "Fontaine"
+    ],
+    "world_area.liyue": [
+      "Liyue"
+    ],
+    "world_area.inazuma": [
+      "Inazuma"
+    ],
+    "world_area.natlan": [
+      "Natlan"
+    ],
+    "world_area.mondstadt": [
+      "Mondstadt"
+    ],
+    "world_area.sumeru": [
+      "Sumeru"
+    ],
+    "artifact.quick_select": [
+      "Seleção rápida"
+    ],
+    "artifact.star_1": [
+      "Artefatos de 1 estrela"
+    ],
+    "artifact.star_2": [
+      "Artefatos de 2 estrelas"
+    ],
+    "artifact.star_3": [
+      "Artefatos de 3 estrelas"
+    ],
+    "artifact.star_4": [
+      "Artefatos de 4 estrelas"
+    ],
+    "artifact.affix.atk": [
+      "ATQ"
+    ],
+    "artifact.affix.def": [
+      "DEF"
+    ],
+    "artifact.affix.hp": [
+      "Vida"
+    ],
+    "artifact.affix.crit_rate": [
+      "Taxa Crítica"
+    ],
+    "artifact.affix.crit_dmg": [
+      "Dano Crítico"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "Proficiência Elemental"
+    ],
+    "artifact.affix.energy_recharge": [
+      "Recarga de Energia"
+    ],
+    "artifact.affix.healing_bonus": [
+      "Bônus de Cura"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "Bônus de Dano Físico"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "Bônus de Dano Pyro"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "Bônus de Dano Hydro"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "Bônus de Dano Dendro"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "Bônus de Dano Electro"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "Bônus de Dano Anemo"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "Bônus de Dano Cryo"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "Bônus de Dano Geo"
     ]
   }
 }

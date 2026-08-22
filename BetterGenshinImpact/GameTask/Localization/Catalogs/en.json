@@ -72,6 +72,107 @@
     ],
     "serenitea_pot.realm_depot": [
       "Realm Depot"
+    ],
+    "fishing.bite": [
+      "bite"
+    ],
+    "fishing.action": [
+      "Fishing"
+    ],
+    "world_area.serenitea_pot": [
+      "Serenitea Pot"
+    ],
+    "world_area.nod_krai": [
+      "Nod-Krai"
+    ],
+    "world_area.snezhnaya": [
+      "Snezhnaya"
+    ],
+    "world_area.fontaine": [
+      "Fontaine"
+    ],
+    "world_area.liyue": [
+      "Liyue"
+    ],
+    "world_area.inazuma": [
+      "Inazuma"
+    ],
+    "world_area.natlan": [
+      "Natlan"
+    ],
+    "world_area.mondstadt": [
+      "Mondstadt"
+    ],
+    "world_area.sumeru": [
+      "Sumeru"
+    ],
+    "artifact.quick_select": [
+      "Quick Select",
+      "Quick.*Select"
+    ],
+    "artifact.star_1": [
+      "1-Star Artifacts",
+      "1-Star.*Artifacts"
+    ],
+    "artifact.star_2": [
+      "2-Star Artifacts",
+      "2-Star.*Artifacts"
+    ],
+    "artifact.star_3": [
+      "3-Star Artifacts",
+      "3-Star.*Artifacts"
+    ],
+    "artifact.star_4": [
+      "4-Star Artifacts",
+      "4-Star.*Artifacts"
+    ],
+    "artifact.affix.atk": [
+      "ATK"
+    ],
+    "artifact.affix.def": [
+      "DEF"
+    ],
+    "artifact.affix.hp": [
+      "HP"
+    ],
+    "artifact.affix.crit_rate": [
+      "CRIT Rate"
+    ],
+    "artifact.affix.crit_dmg": [
+      "CRIT DMG"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "Elemental Mastery"
+    ],
+    "artifact.affix.energy_recharge": [
+      "Energy Recharge"
+    ],
+    "artifact.affix.healing_bonus": [
+      "Healing Bonus"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "Physical DMG Bonus"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "Pyro DMG Bonus"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "Hydro DMG Bonus"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "Dendro DMG Bonus"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "Electro DMG Bonus"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "Anemo DMG Bonus"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "Cryo DMG Bonus"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "Geo DMG Bonus"
     ]
   }
 }

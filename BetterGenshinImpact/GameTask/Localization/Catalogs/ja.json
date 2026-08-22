@@ -69,6 +69,102 @@
     ],
     "serenitea_pot.realm_depot": [
       "洞天百貨"
+    ],
+    "fishing.bite": [
+      "ヒット"
+    ],
+    "fishing.action": [
+      "釣り"
+    ],
+    "world_area.serenitea_pot": [
+      "塵歌壺"
+    ],
+    "world_area.nod_krai": [
+      "ナド・クライ"
+    ],
+    "world_area.snezhnaya": [
+      "スネージナヤ"
+    ],
+    "world_area.fontaine": [
+      "フォンテーヌ"
+    ],
+    "world_area.liyue": [
+      "璃月"
+    ],
+    "world_area.inazuma": [
+      "稲妻"
+    ],
+    "world_area.natlan": [
+      "ナタ"
+    ],
+    "world_area.mondstadt": [
+      "モンド"
+    ],
+    "world_area.sumeru": [
+      "スメール"
+    ],
+    "artifact.quick_select": [
+      "クイック選択"
+    ],
+    "artifact.star_1": [
+      "★1聖遺物"
+    ],
+    "artifact.star_2": [
+      "★2聖遺物"
+    ],
+    "artifact.star_3": [
+      "★3聖遺物"
+    ],
+    "artifact.star_4": [
+      "★4聖遺物"
+    ],
+    "artifact.affix.atk": [
+      "攻撃力"
+    ],
+    "artifact.affix.def": [
+      "防御力"
+    ],
+    "artifact.affix.hp": [
+      "HP"
+    ],
+    "artifact.affix.crit_rate": [
+      "会心率"
+    ],
+    "artifact.affix.crit_dmg": [
+      "会心ダメージ"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "元素熟知"
+    ],
+    "artifact.affix.energy_recharge": [
+      "元素チャージ効率"
+    ],
+    "artifact.affix.healing_bonus": [
+      "与える治療効果"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "物理ダメージ"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "炎元素ダメージ"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "水元素ダメージ"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "草元素ダメージ"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "雷元素ダメージ"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "風元素ダメージ"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "氷元素ダメージ"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "岩元素ダメージ"
     ]
   }
 }

@@ -56,6 +56,50 @@ public static class GameTextKeys
         public const string RealmDepot = "serenitea_pot.realm_depot";
     }
 
+    public static class Fishing
+    {
+        public const string Bite = "fishing.bite";
+        public const string Action = "fishing.action";
+    }
+
+    public static class WorldArea
+    {
+        public const string SereniteaPot = "world_area.serenitea_pot";
+        public const string NodKrai = "world_area.nod_krai";
+        public const string Snezhnaya = "world_area.snezhnaya";
+        public const string Fontaine = "world_area.fontaine";
+        public const string Liyue = "world_area.liyue";
+        public const string Inazuma = "world_area.inazuma";
+        public const string Natlan = "world_area.natlan";
+        public const string Mondstadt = "world_area.mondstadt";
+        public const string Sumeru = "world_area.sumeru";
+    }
+
+    public static class Artifact
+    {
+        public const string QuickSelect = "artifact.quick_select";
+        public const string Star1 = "artifact.star_1";
+        public const string Star2 = "artifact.star_2";
+        public const string Star3 = "artifact.star_3";
+        public const string Star4 = "artifact.star_4";
+        public const string Atk = "artifact.affix.atk";
+        public const string Def = "artifact.affix.def";
+        public const string Hp = "artifact.affix.hp";
+        public const string CritRate = "artifact.affix.crit_rate";
+        public const string CritDmg = "artifact.affix.crit_dmg";
+        public const string ElementalMastery = "artifact.affix.elemental_mastery";
+        public const string EnergyRecharge = "artifact.affix.energy_recharge";
+        public const string HealingBonus = "artifact.affix.healing_bonus";
+        public const string PhysicalDmgBonus = "artifact.affix.physical_dmg_bonus";
+        public const string PyroDmgBonus = "artifact.affix.pyro_dmg_bonus";
+        public const string HydroDmgBonus = "artifact.affix.hydro_dmg_bonus";
+        public const string DendroDmgBonus = "artifact.affix.dendro_dmg_bonus";
+        public const string ElectroDmgBonus = "artifact.affix.electro_dmg_bonus";
+        public const string AnemoDmgBonus = "artifact.affix.anemo_dmg_bonus";
+        public const string CryoDmgBonus = "artifact.affix.cryo_dmg_bonus";
+        public const string GeoDmgBonus = "artifact.affix.geo_dmg_bonus";
+    }
+
     public static IReadOnlySet<string> All { get; } = new[]
     {
         Common.Revive,
@@ -79,6 +123,38 @@ public static class GameTextKeys
         AdventureHandbook.DailyRewardClaimed,
         SereniteaPot.Spirit,
         SereniteaPot.TrustRank,
-        SereniteaPot.RealmDepot
+        SereniteaPot.RealmDepot,
+        Fishing.Bite,
+        Fishing.Action,
+        WorldArea.SereniteaPot,
+        WorldArea.NodKrai,
+        WorldArea.Snezhnaya,
+        WorldArea.Fontaine,
+        WorldArea.Liyue,
+        WorldArea.Inazuma,
+        WorldArea.Natlan,
+        WorldArea.Mondstadt,
+        WorldArea.Sumeru,
+        Artifact.QuickSelect,
+        Artifact.Star1,
+        Artifact.Star2,
+        Artifact.Star3,
+        Artifact.Star4,
+        Artifact.Atk,
+        Artifact.Def,
+        Artifact.Hp,
+        Artifact.CritRate,
+        Artifact.CritDmg,
+        Artifact.ElementalMastery,
+        Artifact.EnergyRecharge,
+        Artifact.HealingBonus,
+        Artifact.PhysicalDmgBonus,
+        Artifact.PyroDmgBonus,
+        Artifact.HydroDmgBonus,
+        Artifact.DendroDmgBonus,
+        Artifact.ElectroDmgBonus,
+        Artifact.AnemoDmgBonus,
+        Artifact.CryoDmgBonus,
+        Artifact.GeoDmgBonus
     }.ToFrozenSet(StringComparer.Ordinal);
 }

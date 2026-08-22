@@ -1,4 +1,6 @@
 using BetterGenshinImpact.GameTask.AutoArtifactSalvage;
+using BetterGenshinImpact.Core.Recognition.OCR;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.GameUI;
 using BetterGenshinImpact.UnitTest.CoreTests.RecognitionTests.OCRTests;
 using Microsoft.ClearScript;
@@ -226,6 +228,62 @@ namespace BetterGenshinImpact.UnitTest.GameTaskTests.AutoArtifactSalvageTests
             Assert.True(result.Level == expectedArtifactStat.Level);
         }
 
+        [Fact]
+        public void GetArtifactStat_PortugueseMainStat_ShouldBeRight()
+        {
+            var culture = CultureInfo.GetCultureInfo("pt-BR");
+            var matcher = new GameTextMatcher(
+                new FixedGameCultureProvider(culture),
+                new EmbeddedGameTextCatalogProvider());
+            var param = new AutoArtifactSalvageTaskParam(
+                5,
+                null,
+                null,
+                null,
+                null,
+                culture,
+                stringLocalizer)
+            {
+                GameTextMatcher = matcher
+            };
+            var sut = new AutoArtifactSalvageTask(param, new FakeLogger());
+            var ocr = new QueuedOcrService(
+                Result("Flor de Teste"),
+                Result("Flor da Vida"),
+                Result("Vida", "7,0%"),
+                Result("+0"));
+            using var image = new Mat(1000, 500, MatType.CV_8UC3, Scalar.Black);
+
+            var result = sut.GetArtifactStat(image, ocr, out _);
+
+            Assert.Equal(ArtifactAffixType.HPPercent, result.MainAffix.Type);
+            Assert.Equal(7.0f, result.MainAffix.Value);
+            Assert.Equal(0, result.Level);
+        }
+
+        [Fact]
+        public void ArtifactStarLabel_PortugueseOcrText_ShouldBeRight()
+        {
+            var culture = CultureInfo.GetCultureInfo("pt-BR");
+            var matcher = new GameTextMatcher(
+                new FixedGameCultureProvider(culture),
+                new EmbeddedGameTextCatalogProvider());
+            var param = new AutoArtifactSalvageTaskParam(
+                4,
+                null,
+                null,
+                null,
+                null,
+                culture,
+                stringLocalizer)
+            {
+                GameTextMatcher = matcher
+            };
+            var sut = new AutoArtifactSalvageTask(param, new FakeLogger());
+
+            Assert.True(sut.IsArtifactStarLabel("Artefatos de 4 estrelas", 4));
+        }
+
         [Theory]
         [InlineData(@"ArtifactAffixes.png", @"
                     var hasATK = Array.from(ArtifactStat.MinorAffixes).some(affix => affix.Type == 'ATK');
@@ -268,6 +326,28 @@ namespace BetterGenshinImpact.UnitTest.GameTaskTests.AutoArtifactSalvageTests
 
             //
             await Assert.ThrowsAsync<ScriptInterruptedException>(() => sut);
+        }
+
+        private static OcrResult Result(params string[] lines) =>
+            new(lines.Select((line, index) => new OcrResultRegion(
+                new RotatedRect(new Point2f(10, 10 + index * 20), new Size2f(10, 10), 0),
+                line,
+                1)).ToArray());
+
+        private sealed class QueuedOcrService(params OcrResult[] results) : IOcrService
+        {
+            private readonly Queue<OcrResult> _results = new(results);
+
+            public string Ocr(Mat mat) => OcrResult(mat).Text;
+
+            public string OcrWithoutDetector(Mat mat) => Ocr(mat);
+
+            public OcrResult OcrResult(Mat mat) => _results.Dequeue();
+        }
+
+        private sealed class FixedGameCultureProvider(CultureInfo currentCulture) : IGameCultureProvider
+        {
+            public CultureInfo CurrentCulture { get; } = currentCulture;
         }
     }
 }

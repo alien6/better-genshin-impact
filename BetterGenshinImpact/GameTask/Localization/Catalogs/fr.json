@@ -76,6 +76,109 @@
     ],
     "serenitea_pot.realm_depot": [
       "Bazar du royaume"
+    ],
+    "fishing.bite": [
+      "mordu"
+    ],
+    "fishing.action": [
+      "Pêcher",
+      "Pécher",
+      "P[êé]cher"
+    ],
+    "world_area.serenitea_pot": [
+      "Sérénithéière"
+    ],
+    "world_area.nod_krai": [
+      "Nod-Krai"
+    ],
+    "world_area.snezhnaya": [
+      "Snezhnaya"
+    ],
+    "world_area.fontaine": [
+      "Fontaine"
+    ],
+    "world_area.liyue": [
+      "Liyue"
+    ],
+    "world_area.inazuma": [
+      "Inazuma"
+    ],
+    "world_area.natlan": [
+      "Natlan"
+    ],
+    "world_area.mondstadt": [
+      "Mondstadt"
+    ],
+    "world_area.sumeru": [
+      "Sumeru"
+    ],
+    "artifact.quick_select": [
+      "Sélection rapide",
+      "Sélection.*rapide"
+    ],
+    "artifact.star_1": [
+      "Artéfact 1★",
+      "Artéfact.*1★?"
+    ],
+    "artifact.star_2": [
+      "Artéfact 2★",
+      "Artéfact.*2★?"
+    ],
+    "artifact.star_3": [
+      "Artéfact 3★",
+      "Artéfact.*3★?"
+    ],
+    "artifact.star_4": [
+      "Artéfact 4★",
+      "Artéfact.*4★?"
+    ],
+    "artifact.affix.atk": [
+      "ATQ"
+    ],
+    "artifact.affix.def": [
+      "DÉF"
+    ],
+    "artifact.affix.hp": [
+      "PV"
+    ],
+    "artifact.affix.crit_rate": [
+      "Taux CRIT"
+    ],
+    "artifact.affix.crit_dmg": [
+      "DGT CRIT"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "Maîtrise élémentaire"
+    ],
+    "artifact.affix.energy_recharge": [
+      "Recharge d'énergie"
+    ],
+    "artifact.affix.healing_bonus": [
+      "Bonus de soins"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "Bonus de DGT physiques"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "Bonus de DGT Pyro"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "Bonus de DGT Hydro"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "Bonus de DGT Dendro"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "Bonus de DGT Électro"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "Bonus de DGT Anémo"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "Bonus de DGT Cryo"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "Bonus de DGT Géo"
     ]
   }
 }

@@ -73,6 +73,102 @@
     ],
     "serenitea_pot.realm_depot": [
       "洞天百宝"
+    ],
+    "fishing.bite": [
+      "上钩"
+    ],
+    "fishing.action": [
+      "钓鱼"
+    ],
+    "world_area.serenitea_pot": [
+      "尘歌壶"
+    ],
+    "world_area.nod_krai": [
+      "挪德卡莱"
+    ],
+    "world_area.snezhnaya": [
+      "至冬"
+    ],
+    "world_area.fontaine": [
+      "枫丹"
+    ],
+    "world_area.liyue": [
+      "璃月"
+    ],
+    "world_area.inazuma": [
+      "稻妻"
+    ],
+    "world_area.natlan": [
+      "纳塔"
+    ],
+    "world_area.mondstadt": [
+      "蒙德"
+    ],
+    "world_area.sumeru": [
+      "须弥"
+    ],
+    "artifact.quick_select": [
+      "快速选择"
+    ],
+    "artifact.star_1": [
+      "1星圣遗物"
+    ],
+    "artifact.star_2": [
+      "2星圣遗物"
+    ],
+    "artifact.star_3": [
+      "3星圣遗物"
+    ],
+    "artifact.star_4": [
+      "4星圣遗物"
+    ],
+    "artifact.affix.atk": [
+      "攻击力"
+    ],
+    "artifact.affix.def": [
+      "防御力"
+    ],
+    "artifact.affix.hp": [
+      "生命值"
+    ],
+    "artifact.affix.crit_rate": [
+      "暴击率"
+    ],
+    "artifact.affix.crit_dmg": [
+      "暴击伤害"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "元素精通"
+    ],
+    "artifact.affix.energy_recharge": [
+      "元素充能效率"
+    ],
+    "artifact.affix.healing_bonus": [
+      "治疗加成"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "物理伤害加成"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "火元素伤害加成"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "水元素伤害加成"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "草元素伤害加成"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "雷元素伤害加成"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "风元素伤害加成"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "冰元素伤害加成"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "岩元素伤害加成"
     ]
   }
 }

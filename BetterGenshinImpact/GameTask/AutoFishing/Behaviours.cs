@@ -6,6 +6,7 @@ using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.GameTask.AutoFishing.Model;
 using BetterGenshinImpact.GameTask.Common;
 using BetterGenshinImpact.GameTask.GetGridIcons;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.Model.GameUI;
@@ -892,7 +893,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
         private readonly IInputSimulator input;
         private readonly DrawContent drawContent;
         private readonly IOcrService ocrService;
-        private readonly string getABiteLocalizedString;
+        private readonly FishingTextRecognizer textRecognizer;
 
         [BlackboardKey(Access = Access.Read)]
         public BehaviourKeyAccess<ImageRegion> Screenshot { get; private set; } = null!;
@@ -903,7 +904,10 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
             this.input = input;
             this.ocrService = ocrService;
             this.drawContent = drawContent ?? VisionContext.Instance().DrawContent;
-            this.getABiteLocalizedString = stringLocalizer == null ? "上钩" : stringLocalizer.WithCultureGet(cultureInfo, "上钩");
+            this.textRecognizer = new FishingTextRecognizer(
+                App.GetService<IGameTextMatcher>()
+                ?? throw new InvalidOperationException("IGameTextMatcher is not registered."),
+                cultureInfo);
         }
 
         protected override void Initialize()
@@ -946,7 +950,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
             // OCR 提竿判断
             var text = ocrService.Ocr(wordCaptureMat);
 
-            if (!string.IsNullOrEmpty(text) && StringUtils.RemoveAllSpace(text).Contains(this.getABiteLocalizedString))
+            if (textRecognizer.IsBite(text))
             {
                 return RaiseRod("OCR");
             }

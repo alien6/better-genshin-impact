@@ -1069,6 +1069,296 @@
           "textMapHash": "2216456058"
         }
       ]
+    },
+    "fishing.bite": {
+      "zh-Hans": [{ "value": "上钩", "source": "curated", "reason": "Legacy fishing OCR prompt alias retained; no standalone pinned TextMap entry exists for the bite prompt." }],
+      "zh-Hant": [{ "value": "上鉤", "source": "curated", "reason": "Legacy fishing OCR prompt alias retained; no standalone pinned TextMap entry exists for the bite prompt." }],
+      "en": [{ "value": "bite", "source": "curated", "reason": "Legacy fishing OCR prompt alias retained; no standalone pinned TextMap entry exists for the bite prompt." }],
+      "ja": [{ "value": "ヒット", "source": "curated", "reason": "Japanese fishing bite OCR terminology curated because no standalone pinned TextMap entry exists for the prompt." }],
+      "fr": [{ "value": "mordu", "source": "curated", "reason": "Legacy fishing OCR prompt alias retained; no standalone pinned TextMap entry exists for the bite prompt." }],
+      "pt-BR": [{ "value": "Mordeu", "source": "curated", "reason": "Portuguese fishing bite OCR terminology curated from the pinned TextMap wording because no standalone prompt entry exists." }]
+    },
+    "fishing.action": {
+      "zh-Hans": [{ "value": "钓鱼", "textMapHash": "4050200391" }],
+      "zh-Hant": [{ "value": "釣魚", "textMapHash": "4050200391" }],
+      "en": [{ "value": "Fishing", "textMapHash": "4050200391" }],
+      "ja": [{ "value": "釣り", "textMapHash": "4050200391" }],
+      "fr": [
+        { "value": "Pêcher", "textMapHash": "4050200391" },
+        { "value": "Pécher", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
+        { "value": "P[êé]cher", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "pt-BR": [{ "value": "Pescar", "textMapHash": "4050200391" }]
+    },
+    "world_area.serenitea_pot": {
+      "zh-Hans": [{ "value": "尘歌壶", "textMapHash": "1447504838" }],
+      "zh-Hant": [{ "value": "塵歌壺", "textMapHash": "1447504838" }],
+      "en": [{ "value": "Serenitea Pot", "textMapHash": "1447504838" }],
+      "ja": [{ "value": "塵歌壺", "textMapHash": "1447504838" }],
+      "fr": [{ "value": "Sérénithéière", "textMapHash": "1447504838" }],
+      "pt-BR": [{ "value": "Bule de Relachá", "textMapHash": "1447504838" }]
+    },
+    "world_area.nod_krai": {
+      "zh-Hans": [{ "value": "挪德卡莱", "textMapHash": "678110780" }],
+      "zh-Hant": [{ "value": "挪德卡萊", "textMapHash": "678110780" }],
+      "en": [{ "value": "Nod-Krai", "textMapHash": "678110780" }],
+      "ja": [{ "value": "ナド・クライ", "textMapHash": "678110780" }],
+      "fr": [{ "value": "Nod-Krai", "textMapHash": "678110780" }],
+      "pt-BR": [{ "value": "Nod-Krai", "textMapHash": "678110780" }]
+    },
+    "world_area.snezhnaya": {
+      "zh-Hans": [{ "value": "至冬", "textMapHash": "536575635" }],
+      "zh-Hant": [{ "value": "至冬", "textMapHash": "536575635" }],
+      "en": [{ "value": "Snezhnaya", "textMapHash": "536575635" }],
+      "ja": [{ "value": "スネージナヤ", "textMapHash": "536575635" }],
+      "fr": [{ "value": "Snezhnaya", "textMapHash": "536575635" }],
+      "pt-BR": [{ "value": "Snezhnaya", "textMapHash": "536575635" }]
+    },
+    "world_area.fontaine": {
+      "zh-Hans": [{ "value": "枫丹", "textMapHash": "2054446640" }],
+      "zh-Hant": [{ "value": "楓丹", "textMapHash": "2054446640" }],
+      "en": [{ "value": "Fontaine", "textMapHash": "2054446640" }],
+      "ja": [{ "value": "フォンテーヌ", "textMapHash": "2054446640" }],
+      "fr": [{ "value": "Fontaine", "textMapHash": "2054446640" }],
+      "pt-BR": [{ "value": "Fontaine", "textMapHash": "2054446640" }]
+    },
+    "world_area.liyue": {
+      "zh-Hans": [{ "value": "璃月", "textMapHash": "931525178" }],
+      "zh-Hant": [{ "value": "璃月", "textMapHash": "931525178" }],
+      "en": [{ "value": "Liyue", "textMapHash": "931525178" }],
+      "ja": [{ "value": "璃月", "textMapHash": "931525178" }],
+      "fr": [{ "value": "Liyue", "textMapHash": "931525178" }],
+      "pt-BR": [{ "value": "Liyue", "textMapHash": "931525178" }]
+    },
+    "world_area.inazuma": {
+      "zh-Hans": [{ "value": "稻妻", "textMapHash": "1510033000" }],
+      "zh-Hant": [{ "value": "稻妻", "textMapHash": "1510033000" }],
+      "en": [{ "value": "Inazuma", "textMapHash": "1510033000" }],
+      "ja": [{ "value": "稲妻", "textMapHash": "1510033000" }],
+      "fr": [{ "value": "Inazuma", "textMapHash": "1510033000" }],
+      "pt-BR": [{ "value": "Inazuma", "textMapHash": "1510033000" }]
+    },
+    "world_area.natlan": {
+      "zh-Hans": [{ "value": "纳塔", "textMapHash": "2291656236" }],
+      "zh-Hant": [{ "value": "納塔", "textMapHash": "2291656236" }],
+      "en": [{ "value": "Natlan", "textMapHash": "2291656236" }],
+      "ja": [{ "value": "ナタ", "textMapHash": "2291656236" }],
+      "fr": [{ "value": "Natlan", "textMapHash": "2291656236" }],
+      "pt-BR": [{ "value": "Natlan", "textMapHash": "2291656236" }]
+    },
+    "world_area.mondstadt": {
+      "zh-Hans": [{ "value": "蒙德", "textMapHash": "3262227000" }],
+      "zh-Hant": [{ "value": "蒙德", "textMapHash": "3262227000" }],
+      "en": [{ "value": "Mondstadt", "textMapHash": "3262227000" }],
+      "ja": [{ "value": "モンド", "textMapHash": "3262227000" }],
+      "fr": [{ "value": "Mondstadt", "textMapHash": "3262227000" }],
+      "pt-BR": [{ "value": "Mondstadt", "textMapHash": "3262227000" }]
+    },
+    "world_area.sumeru": {
+      "zh-Hans": [{ "value": "须弥", "textMapHash": "455932426" }],
+      "zh-Hant": [{ "value": "須彌", "textMapHash": "455932426" }],
+      "en": [{ "value": "Sumeru", "textMapHash": "455932426" }],
+      "ja": [{ "value": "スメール", "textMapHash": "455932426" }],
+      "fr": [{ "value": "Sumeru", "textMapHash": "455932426" }],
+      "pt-BR": [{ "value": "Sumeru", "textMapHash": "455932426" }]
+    },
+    "artifact.quick_select": {
+      "zh-Hans": [{ "value": "快速选择", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this control." }],
+      "zh-Hant": [{ "value": "快速選擇", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this control." }],
+      "en": [
+        { "value": "Quick Select", "source": "curated", "reason": "Literal expansion retained for the legacy English OCR regular-expression alias." },
+        { "value": "Quick.*Select", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "ja": [{ "value": "クイック選択", "source": "curated", "reason": "Japanese artifact-salvage OCR control text curated because no standalone pinned TextMap entry exists." }],
+      "fr": [
+        { "value": "Sélection rapide", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
+        { "value": "Sélection.*rapide", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "pt-BR": [{ "value": "Seleção rápida", "source": "curated", "reason": "Portuguese artifact-salvage OCR control text curated because no standalone pinned TextMap entry exists." }]
+    },
+    "artifact.star_1": {
+      "zh-Hans": [{ "value": "1星圣遗物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
+      "zh-Hant": [{ "value": "一星聖遺物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
+      "en": [
+        { "value": "1-Star Artifacts", "source": "curated", "reason": "Literal expansion retained for the legacy English OCR regular-expression alias." },
+        { "value": "1-Star.*Artifacts", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "ja": [{ "value": "★1聖遺物", "source": "curated", "reason": "Japanese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }],
+      "fr": [
+        { "value": "Artéfact 1★", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
+        { "value": "Artéfact.*1★?", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "pt-BR": [{ "value": "Artefatos de 1 estrela", "source": "curated", "reason": "Portuguese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }]
+    },
+    "artifact.star_2": {
+      "zh-Hans": [{ "value": "2星圣遗物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
+      "zh-Hant": [{ "value": "二星聖遺物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
+      "en": [
+        { "value": "2-Star Artifacts", "source": "curated", "reason": "Literal expansion retained for the legacy English OCR regular-expression alias." },
+        { "value": "2-Star.*Artifacts", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "ja": [{ "value": "★2聖遺物", "source": "curated", "reason": "Japanese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }],
+      "fr": [
+        { "value": "Artéfact 2★", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
+        { "value": "Artéfact.*2★?", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "pt-BR": [{ "value": "Artefatos de 2 estrelas", "source": "curated", "reason": "Portuguese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }]
+    },
+    "artifact.star_3": {
+      "zh-Hans": [{ "value": "3星圣遗物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
+      "zh-Hant": [{ "value": "三星聖遺物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
+      "en": [
+        { "value": "3-Star Artifacts", "source": "curated", "reason": "Literal expansion retained for the legacy English OCR regular-expression alias." },
+        { "value": "3-Star.*Artifacts", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "ja": [{ "value": "★3聖遺物", "source": "curated", "reason": "Japanese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }],
+      "fr": [
+        { "value": "Artéfact 3★", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
+        { "value": "Artéfact.*3★?", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "pt-BR": [{ "value": "Artefatos de 3 estrelas", "source": "curated", "reason": "Portuguese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }]
+    },
+    "artifact.star_4": {
+      "zh-Hans": [{ "value": "4星圣遗物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
+      "zh-Hant": [{ "value": "四星聖遺物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
+      "en": [
+        { "value": "4-Star Artifacts", "source": "curated", "reason": "Literal expansion retained for the legacy English OCR regular-expression alias." },
+        { "value": "4-Star.*Artifacts", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "ja": [{ "value": "★4聖遺物", "source": "curated", "reason": "Japanese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }],
+      "fr": [
+        { "value": "Artéfact 4★", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
+        { "value": "Artéfact.*4★?", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
+      ],
+      "pt-BR": [{ "value": "Artefatos de 4 estrelas", "source": "curated", "reason": "Portuguese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }]
+    },
+    "artifact.affix.atk": {
+      "zh-Hans": [{ "value": "攻击力", "textMapHash": "476614152" }],
+      "zh-Hant": [{ "value": "攻擊力", "textMapHash": "476614152" }],
+      "en": [{ "value": "ATK", "textMapHash": "476614152" }],
+      "ja": [{ "value": "攻撃力", "textMapHash": "476614152" }],
+      "fr": [{ "value": "ATQ", "textMapHash": "476614152" }],
+      "pt-BR": [{ "value": "ATQ", "textMapHash": "476614152" }]
+    },
+    "artifact.affix.def": {
+      "zh-Hans": [{ "value": "防御力", "textMapHash": "3666975242" }],
+      "zh-Hant": [{ "value": "防禦力", "textMapHash": "3666975242" }],
+      "en": [{ "value": "DEF", "textMapHash": "3666975242" }],
+      "ja": [{ "value": "防御力", "textMapHash": "3666975242" }],
+      "fr": [{ "value": "DÉF", "textMapHash": "3666975242" }],
+      "pt-BR": [{ "value": "DEF", "textMapHash": "3666975242" }]
+    },
+    "artifact.affix.hp": {
+      "zh-Hans": [{ "value": "生命值", "textMapHash": "646790968" }],
+      "zh-Hant": [{ "value": "生命值", "textMapHash": "646790968" }],
+      "en": [{ "value": "HP", "textMapHash": "646790968" }],
+      "ja": [{ "value": "HP", "source": "curated", "reason": "Japanese artifact HP OCR label curated because the same pinned hash is not the artifact-stat label in Japanese." }],
+      "fr": [{ "value": "PV", "textMapHash": "646790968" }],
+      "pt-BR": [{ "value": "Vida", "textMapHash": "646790968" }]
+    },
+    "artifact.affix.crit_rate": {
+      "zh-Hans": [{ "value": "暴击率", "textMapHash": "3351066297" }],
+      "zh-Hant": [{ "value": "暴擊率", "textMapHash": "3351066297" }],
+      "en": [{ "value": "CRIT Rate", "textMapHash": "3351066297" }],
+      "ja": [{ "value": "会心率", "textMapHash": "3351066297" }],
+      "fr": [{ "value": "Taux CRIT", "textMapHash": "3351066297" }],
+      "pt-BR": [{ "value": "Taxa Crítica", "textMapHash": "3351066297" }]
+    },
+    "artifact.affix.crit_dmg": {
+      "zh-Hans": [{ "value": "暴击伤害", "textMapHash": "2221735932" }],
+      "zh-Hant": [{ "value": "暴擊傷害", "textMapHash": "2221735932" }],
+      "en": [{ "value": "CRIT DMG", "textMapHash": "2221735932" }],
+      "ja": [{ "value": "会心ダメージ", "textMapHash": "2221735932" }],
+      "fr": [{ "value": "DGT CRIT", "textMapHash": "2221735932" }],
+      "pt-BR": [{ "value": "Dano Crítico", "textMapHash": "2221735932" }]
+    },
+    "artifact.affix.elemental_mastery": {
+      "zh-Hans": [{ "value": "元素精通", "textMapHash": "2912005976" }],
+      "zh-Hant": [{ "value": "元素精通", "textMapHash": "2912005976" }],
+      "en": [{ "value": "Elemental Mastery", "textMapHash": "2912005976" }],
+      "ja": [{ "value": "元素熟知", "textMapHash": "2912005976" }],
+      "fr": [{ "value": "Maîtrise élémentaire", "textMapHash": "2912005976" }],
+      "pt-BR": [{ "value": "Proficiência Elemental", "textMapHash": "2912005976" }]
+    },
+    "artifact.affix.energy_recharge": {
+      "zh-Hans": [{ "value": "元素充能效率", "textMapHash": "1463875431" }],
+      "zh-Hant": [{ "value": "元素充能效率", "textMapHash": "1463875431" }],
+      "en": [{ "value": "Energy Recharge", "textMapHash": "1463875431" }],
+      "ja": [{ "value": "元素チャージ効率", "textMapHash": "1463875431" }],
+      "fr": [{ "value": "Recharge d'énergie", "textMapHash": "1463875431" }],
+      "pt-BR": [{ "value": "Recarga de Energia", "textMapHash": "1463875431" }]
+    },
+    "artifact.affix.healing_bonus": {
+      "zh-Hans": [{ "value": "治疗加成", "textMapHash": "1211576019" }],
+      "zh-Hant": [{ "value": "治療加成", "textMapHash": "1211576019" }],
+      "en": [{ "value": "Healing Bonus", "textMapHash": "1211576019" }],
+      "ja": [{ "value": "与える治療効果", "textMapHash": "1211576019" }],
+      "fr": [{ "value": "Bonus de soins", "textMapHash": "1211576019" }],
+      "pt-BR": [{ "value": "Bônus de Cura", "textMapHash": "1211576019" }]
+    },
+    "artifact.affix.physical_dmg_bonus": {
+      "zh-Hans": [{ "value": "物理伤害加成", "textMapHash": "2292505165" }],
+      "zh-Hant": [{ "value": "物理傷害加成", "textMapHash": "2292505165" }],
+      "en": [{ "value": "Physical DMG Bonus", "textMapHash": "2292505165" }],
+      "ja": [{ "value": "物理ダメージ", "textMapHash": "2292505165" }],
+      "fr": [{ "value": "Bonus de DGT physiques", "textMapHash": "2292505165" }],
+      "pt-BR": [{ "value": "Bônus de Dano Físico", "textMapHash": "2292505165" }]
+    },
+    "artifact.affix.pyro_dmg_bonus": {
+      "zh-Hans": [{ "value": "火元素伤害加成", "textMapHash": "2536626825" }],
+      "zh-Hant": [{ "value": "火元素傷害加成", "textMapHash": "2536626825" }],
+      "en": [{ "value": "Pyro DMG Bonus", "textMapHash": "2536626825" }],
+      "ja": [{ "value": "炎元素ダメージ", "textMapHash": "2536626825" }],
+      "fr": [{ "value": "Bonus de DGT Pyro", "textMapHash": "2536626825" }],
+      "pt-BR": [{ "value": "Bônus de Dano Pyro", "textMapHash": "2536626825" }]
+    },
+    "artifact.affix.hydro_dmg_bonus": {
+      "zh-Hans": [{ "value": "水元素伤害加成", "textMapHash": "2746414859" }],
+      "zh-Hant": [{ "value": "水元素傷害加成", "textMapHash": "2746414859" }],
+      "en": [{ "value": "Hydro DMG Bonus", "textMapHash": "2746414859" }],
+      "ja": [{ "value": "水元素ダメージ", "textMapHash": "2746414859" }],
+      "fr": [{ "value": "Bonus de DGT Hydro", "textMapHash": "2746414859" }],
+      "pt-BR": [{ "value": "Bônus de Dano Hydro", "textMapHash": "2746414859" }]
+    },
+    "artifact.affix.dendro_dmg_bonus": {
+      "zh-Hans": [{ "value": "草元素伤害加成", "textMapHash": "3225690983" }],
+      "zh-Hant": [{ "value": "草元素傷害加成", "textMapHash": "3225690983" }],
+      "en": [{ "value": "Dendro DMG Bonus", "textMapHash": "3225690983" }],
+      "ja": [{ "value": "草元素ダメージ", "textMapHash": "3225690983" }],
+      "fr": [{ "value": "Bonus de DGT Dendro", "textMapHash": "3225690983" }],
+      "pt-BR": [{ "value": "Bônus de Dano Dendro", "textMapHash": "3225690983" }]
+    },
+    "artifact.affix.electro_dmg_bonus": {
+      "zh-Hans": [{ "value": "雷元素伤害加成", "textMapHash": "1317397312" }],
+      "zh-Hant": [{ "value": "雷元素傷害加成", "textMapHash": "1317397312" }],
+      "en": [{ "value": "Electro DMG Bonus", "textMapHash": "1317397312" }],
+      "ja": [{ "value": "雷元素ダメージ", "textMapHash": "1317397312" }],
+      "fr": [{ "value": "Bonus de DGT Électro", "textMapHash": "1317397312" }],
+      "pt-BR": [{ "value": "Bônus de Dano Electro", "textMapHash": "1317397312" }]
+    },
+    "artifact.affix.anemo_dmg_bonus": {
+      "zh-Hans": [{ "value": "风元素伤害加成", "textMapHash": "2267026204" }],
+      "zh-Hant": [{ "value": "風元素傷害加成", "textMapHash": "2267026204" }],
+      "en": [{ "value": "Anemo DMG Bonus", "textMapHash": "2267026204" }],
+      "ja": [{ "value": "風元素ダメージ", "textMapHash": "2267026204" }],
+      "fr": [{ "value": "Bonus de DGT Anémo", "textMapHash": "2267026204" }],
+      "pt-BR": [{ "value": "Bônus de Dano Anemo", "textMapHash": "2267026204" }]
+    },
+    "artifact.affix.cryo_dmg_bonus": {
+      "zh-Hans": [{ "value": "冰元素伤害加成", "textMapHash": "903704337" }],
+      "zh-Hant": [{ "value": "冰元素傷害加成", "textMapHash": "903704337" }],
+      "en": [{ "value": "Cryo DMG Bonus", "textMapHash": "903704337" }],
+      "ja": [{ "value": "氷元素ダメージ", "textMapHash": "903704337" }],
+      "fr": [{ "value": "Bonus de DGT Cryo", "textMapHash": "903704337" }],
+      "pt-BR": [{ "value": "Bônus de Dano Cryo", "textMapHash": "903704337" }]
+    },
+    "artifact.affix.geo_dmg_bonus": {
+      "zh-Hans": [{ "value": "岩元素伤害加成", "textMapHash": "3622047323" }],
+      "zh-Hant": [{ "value": "岩元素傷害加成", "textMapHash": "3622047323" }],
+      "en": [{ "value": "Geo DMG Bonus", "textMapHash": "3622047323" }],
+      "ja": [{ "value": "岩元素ダメージ", "textMapHash": "3622047323" }],
+      "fr": [{ "value": "Bonus de DGT Géo", "textMapHash": "3622047323" }],
+      "pt-BR": [{ "value": "Bônus de Dano Geo", "textMapHash": "3622047323" }]
     }
   }
 }

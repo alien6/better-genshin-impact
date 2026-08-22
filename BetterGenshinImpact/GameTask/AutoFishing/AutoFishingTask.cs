@@ -61,7 +61,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
                                     .TurnAround("转圈圈调整视角", _logger, input, _predictor)
                                     .FindFishTimeout("找到鱼", 20, _logger)
                                 .End()
-                                .EnterFishingMode("进入钓鱼模式", _logger, input, session, prototypes, cultureInfo: param.GameCultureInfo, stringLocalizer: param.StringLocalizer)
+                                .EnterFishingMode("进入钓鱼模式", _logger, input, session, prototypes, cultureInfo: param.GameCultureInfo)
                                 .SuccessIsRunning(@"\")
                                     .Sequence("一直钓鱼直到没鱼")
                                         .FailureIsSuccess(@"\")
@@ -91,7 +91,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
                                                 .End()
                                                 .Parallel("下杆中", new ParallelPolicy.SuccessOnOne())
                                                     .CheckThrowRod("检查抛竿结果", _logger)    // todo 后面串联一个召回率高的下杆中检测方法
-                                                    .FishBite("自动提竿", _logger, input, ocrService, cultureInfo: param.GameCultureInfo, stringLocalizer: param.StringLocalizer)
+                                                    .FishBite("自动提竿", _logger, input, ocrService, cultureInfo: param.GameCultureInfo)
                                                     .FishBiteTimeout("下杆超时检查", param.ThrowRodTimeOutTimeoutSeconds, _logger, input)
                                                 .End()
                                                 .Parallel("拉条中", policy: new ParallelPolicy.SuccessOnOne())
@@ -109,7 +109,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
                             .End()
                             .Leaf(() => new WholeProcessTimeout("检查整体超时", _logger, param.WholeProcessTimeoutSeconds))
                         .End()
-                        .QuitFishingMode("退出钓鱼模式", _logger, input, param.GameCultureInfo, param.StringLocalizer)
+                        .QuitFishingMode("退出钓鱼模式", _logger, input, param.GameCultureInfo)
                     .End()
                 .End()
                 .Build();
@@ -133,7 +133,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
                                 .PushLeaf(() => new TurnAround("转圈圈调整视角", blackboard, _logger, param.SaveScreenshotOnKeyTick, input))
                                 .PushLeaf(() => new FindFishTimeout("找到鱼", 20, blackboard, _logger, param.SaveScreenshotOnKeyTick))
                             .End()
-                            .PushLeaf(() => new EnterFishingMode("进入钓鱼模式", blackboard, _logger, param.SaveScreenshotOnKeyTick, input, session, prototypes, cultureInfo: param.GameCultureInfo, stringLocalizer: param.StringLocalizer))
+                            .PushLeaf(() => new EnterFishingMode("进入钓鱼模式", blackboard, _logger, param.SaveScreenshotOnKeyTick, input, session, prototypes, cultureInfo: param.GameCultureInfo))
                             .UntilFailed(@"\")
                                 .Sequence("一直钓鱼直到没鱼")
                                     .AlwaysSucceed(@"\")
@@ -163,7 +163,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
                                             .End()
                                             .MySimpleParallel("下杆中", SimpleParallelPolicy.OnlyOneMustSucceed)
                                                 .PushLeaf(() => new CheckThrowRod("检查抛竿结果", blackboard, _logger, param.SaveScreenshotOnKeyTick))    // todo 后面串联一个召回率高的下杆中检测方法
-                                                .PushLeaf(() => new FishBite("自动提竿", blackboard, _logger, param.SaveScreenshotOnKeyTick, input, ocrService, cultureInfo: param.GameCultureInfo, stringLocalizer: param.StringLocalizer))
+                                                .PushLeaf(() => new FishBite("自动提竿", blackboard, _logger, param.SaveScreenshotOnKeyTick, input, ocrService, cultureInfo: param.GameCultureInfo))
                                                 .PushLeaf(() => new FishBiteTimeout("下杆超时检查", param.ThrowRodTimeOutTimeoutSeconds, _logger, param.SaveScreenshotOnKeyTick, input))
                                             .End()
                                             .MySimpleParallel("拉条中", policy: SimpleParallelPolicy.OnlyOneMustSucceed)
@@ -181,7 +181,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
                         .End()
                         .PushLeaf(() => new WholeProcessTimeout("检查整体超时", param.WholeProcessTimeoutSeconds, _logger, param.SaveScreenshotOnKeyTick))
                     .End()
-                    .PushLeaf(() => new QuitFishingMode("退出钓鱼模式", blackboard, _logger, param.SaveScreenshotOnKeyTick, input, param.GameCultureInfo, param.StringLocalizer))
+                    .PushLeaf(() => new QuitFishingMode("退出钓鱼模式", blackboard, _logger, param.SaveScreenshotOnKeyTick, input, param.GameCultureInfo))
                 .End()
                 .Build();
             */
