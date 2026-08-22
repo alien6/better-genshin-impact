@@ -95,7 +95,7 @@ public class DomainTextRecognizerTests
     [InlineData("en", "Revitalize the Petrified Tree to claim a reward. 20 Original Resin required. You don't have enough Original Resin. Purchase with Primogems?")]
     [InlineData("ja", "石化古樹を活性化させると報酬を獲得できます。活性化は天然樹脂を20個消費します。現在天然樹脂が足りませんので、原石を消費して補充しますか？")]
     [InlineData("fr", "Vous devez revitaliser l'Arbre pétrifié pour récupérer les récompenses. Cette action requiert Résine originelle ×20. Vous n'avez pas assez de Résine originelle Souhaitez-vous utiliser des primo-gemmes pour compléter ?")]
-    [InlineData("pt-BR", "Revitalize a Árvore Petrificada para resgatar uma recompensa. São necessários 20 Resina Original. Você não possui Resina Original suficientes. Comprar com Gemas Essenciais?")]
+    [InlineData("pt-BR", "Revitalize a Árvore Petrificada para resgatar uma recompensa. São necessários .\n\n20 Resina Original. Você não possui Resina Original suficientes. Comprar com Gemas Essenciais?")]
     public void ResinInsufficient_MatchesOfficialFormattedPrompt(
         string culture,
         string recognizedText)
@@ -134,16 +134,17 @@ public class DomainTextRecognizerTests
     }
 
     [Theory]
-    [InlineData("zh-Hans", "是否仍要继续该秘境")]
-    [InlineData("pt-BR", "Ainda deseja realmente desafiar?")]
-    [InlineData("en", "challenge this Domain?")]
-    public void ResinUsePrompt_RejectsTextMissingOneSemanticFragment(
+    [MemberData(nameof(MissingResinUsePromptFragmentCases))]
+    public void ResinUsePrompt_RejectsTextMissingAnySemanticFragment(
         string culture,
+        string missingFragment,
         string recognizedText)
     {
         var sut = Create(culture);
 
-        Assert.False(sut.IsResinUsePrompt(recognizedText));
+        Assert.False(
+            sut.IsResinUsePrompt(recognizedText),
+            $"Expected the prompt without its {missingFragment} fragment to be rejected.");
     }
 
     [Theory]
@@ -231,6 +232,33 @@ public class DomainTextRecognizerTests
         yield return ["pt-BR", "cancel", "Cancelar"];
         yield return ["zh-Hans", "cancel", "取消"];
         yield return ["en", "cancel", "Cancel"];
+    }
+
+    public static IEnumerable<object[]> MissingResinUsePromptFragmentCases()
+    {
+        yield return ["zh-Hans", "lead", "是否要继续挑战这个秘境？"];
+        yield return ["zh-Hans", "challenge", "请确认是否仍要继续进入这个秘境？"];
+        yield return ["zh-Hans", "domain", "请确认是否仍要继续挑战？"];
+
+        yield return ["zh-Hant", "lead", "是否要繼續挑戰這個秘境？"];
+        yield return ["zh-Hant", "challenge", "請確認是否仍要繼續進入這個秘境？"];
+        yield return ["zh-Hant", "domain", "請確認是否仍要繼續挑戰？"];
+
+        yield return ["en", "lead", "Would you like to continue the challenge in this Domain?"];
+        yield return ["en", "challenge", "Do you still wish to enter this Domain?"];
+        yield return ["en", "domain", "Do you still wish to challenge this trial?"];
+
+        yield return ["ja", "lead", "この秘境にもう一度挑戦しますか？"];
+        yield return ["ja", "challenge", "この秘境に引き続き入りますか？"];
+        yield return ["ja", "domain", "この試練に引き続き挑戦しますか？"];
+
+        yield return ["fr", "lead", "Voulez-vous encore défier ce donjon ?"];
+        yield return ["fr", "challenge", "Souhaitez-vous toujours entrer dans ce donjon ?"];
+        yield return ["fr", "domain", "Souhaitez-vous toujours défier cette épreuve ?"];
+
+        yield return ["pt-BR", "lead", "Deseja novamente desafiar este Domínio?"];
+        yield return ["pt-BR", "challenge", "Ainda deseja entrar neste Domínio?"];
+        yield return ["pt-BR", "domain", "Ainda deseja desafiar esta prova?"];
     }
 
     public static IEnumerable<object[]> LegacyDomainResourceAliases()
