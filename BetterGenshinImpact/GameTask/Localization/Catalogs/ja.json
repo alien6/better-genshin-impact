@@ -237,6 +237,108 @@
     "stygian.hard_difficulty": ["困難"],
     "stygian.ultimate_challenge": ["至難の挑戦"],
     "stygian.normal_challenge": ["通常挑戦"],
-    "stygian.preset_teams": ["チーム編成"]
+    "stygian.preset_teams": ["チーム編成"],
+    "common.goodbye": [
+      "さようなら"
+    ],
+    "common.obtained": [
+      "獲得"
+    ],
+    "auto_pick.suppressed_label": [
+      "長時間",
+      "集会所",
+      "チリン",
+      "西風の砦",
+      "崖見張りの陣",
+      "魔女の庭",
+      "月諭の聖牌"
+    ],
+    "auto_pick.tribe_lead": [
+      "私は"
+    ],
+    "auto_pick.tribe_marker": [
+      "評判",
+      "こだま",
+      "懸木の民",
+      "流泉の衆"
+    ],
+    "auto_pick.frostmoon": [
+      "霜月"
+    ],
+    "auto_pick.workshop": [
+      "工房"
+    ],
+    "auto_pick.egg_roll": [
+      "クルムカケ"
+    ],
+    "character.talent_introduction": [
+      "天賦紹介"
+    ],
+    "character.talent_level": [
+      "天賦Lv."
+    ],
+    "character.attribute": [
+      "ステータス"
+    ],
+    "character.weapon": [
+      "武器"
+    ],
+    "character.talent": [
+      "天賦"
+    ],
+    "game_loading.age_prompt": [
+      "対象年齢",
+      "保護者"
+    ],
+    "inventory.enhancement_ore": [
+      "仕上げ用雑鉱",
+      "仕上げ用良鉱",
+      "仕上げ用魔鉱"
+    ],
+    "wood.material": [
+      "マロウ材",
+      "ホワイトアッシュ材",
+      "トーチ材",
+      "リンデン材",
+      "コウハクジュ材",
+      "ナツメヤシ材",
+      "タマリスク材",
+      "輝光材",
+      "カルマパラ材",
+      "アディガマ材",
+      "カエデ材",
+      "垂香材",
+      "杉材",
+      "竹材",
+      "却砂材",
+      "松材",
+      "萃華材",
+      "樺材",
+      "孔雀材",
+      "夢見材",
+      "御伽材",
+      "フレイムボム材",
+      "ピーチココナッツ材",
+      "灰灰楼林材",
+      "ホワイトオーク材"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "好感度経験値を受け取れません"
+    ],
+    "serenitea_pot.sold_out": [
+      "売り切れ"
+    ],
+    "artifact.set_contains": [
+      "セット内容"
+    ],
+    "character.normal_attack": [
+      "通常攻撃"
+    ],
+    "character.elemental_skill": [
+      "元素スキル"
+    ],
+    "character.elemental_burst": [
+      "元素爆発"
+    ]
   }
 }

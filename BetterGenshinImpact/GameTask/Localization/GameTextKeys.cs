@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace BetterGenshinImpact.GameTask.Localization;
 
@@ -16,6 +19,45 @@ public static class GameTextKeys
         public const string Crafting = "common.crafting";
         public const string Claim = "common.claim";
         public const string All = "common.all";
+        public const string Obtained = "common.obtained";
+        public const string Goodbye = "common.goodbye";
+    }
+
+    public static class AutoPick
+    {
+        public const string SuppressedLabel = "auto_pick.suppressed_label";
+        public const string TribeLead = "auto_pick.tribe_lead";
+        public const string TribeMarker = "auto_pick.tribe_marker";
+        public const string Frostmoon = "auto_pick.frostmoon";
+        public const string Workshop = "auto_pick.workshop";
+        public const string EggRoll = "auto_pick.egg_roll";
+    }
+
+    public static class Character
+    {
+        public const string TalentIntroduction = "character.talent_introduction";
+        public const string NormalAttack = "character.normal_attack";
+        public const string ElementalSkill = "character.elemental_skill";
+        public const string ElementalBurst = "character.elemental_burst";
+        public const string TalentLevel = "character.talent_level";
+        public const string Attribute = "character.attribute";
+        public const string Weapon = "character.weapon";
+        public const string Talent = "character.talent";
+    }
+
+    public static class GameLoading
+    {
+        public const string AgePrompt = "game_loading.age_prompt";
+    }
+
+    public static class Inventory
+    {
+        public const string EnhancementOre = "inventory.enhancement_ore";
+    }
+
+    public static class Wood
+    {
+        public const string Material = "wood.material";
     }
 
     public static class Resin
@@ -118,6 +160,8 @@ public static class GameTextKeys
         public const string Spirit = "serenitea_pot.spirit";
         public const string TrustRank = "serenitea_pot.trust_rank";
         public const string RealmDepot = "serenitea_pot.realm_depot";
+        public const string CompanionshipExpUnavailable = "serenitea_pot.companionship_exp_unavailable";
+        public const string SoldOut = "serenitea_pot.sold_out";
     }
 
     public static class Fishing
@@ -162,6 +206,7 @@ public static class GameTextKeys
         public const string AnemoDmgBonus = "artifact.affix.anemo_dmg_bonus";
         public const string CryoDmgBonus = "artifact.affix.cryo_dmg_bonus";
         public const string GeoDmgBonus = "artifact.affix.geo_dmg_bonus";
+        public const string SetContains = "artifact.set_contains";
     }
 
     public static IReadOnlySet<string> All { get; } = new[]
@@ -174,6 +219,25 @@ public static class GameTextKeys
         Common.Crafting,
         Common.Claim,
         Common.All,
+        Common.Obtained,
+        Common.Goodbye,
+        AutoPick.SuppressedLabel,
+        AutoPick.TribeLead,
+        AutoPick.TribeMarker,
+        AutoPick.Frostmoon,
+        AutoPick.Workshop,
+        AutoPick.EggRoll,
+        Character.TalentIntroduction,
+        Character.NormalAttack,
+        Character.ElementalSkill,
+        Character.ElementalBurst,
+        Character.TalentLevel,
+        Character.Attribute,
+        Character.Weapon,
+        Character.Talent,
+        GameLoading.AgePrompt,
+        Inventory.EnhancementOre,
+        Wood.Material,
         Resin.Original,
         Resin.Condensed,
         Resin.Fragile,
@@ -240,6 +304,8 @@ public static class GameTextKeys
         SereniteaPot.Spirit,
         SereniteaPot.TrustRank,
         SereniteaPot.RealmDepot,
+        SereniteaPot.CompanionshipExpUnavailable,
+        SereniteaPot.SoldOut,
         Fishing.Bite,
         Fishing.Action,
         WorldArea.SereniteaPot,
@@ -271,6 +337,141 @@ public static class GameTextKeys
         Artifact.ElectroDmgBonus,
         Artifact.AnemoDmgBonus,
         Artifact.CryoDmgBonus,
-        Artifact.GeoDmgBonus
+        Artifact.GeoDmgBonus,
+        Artifact.SetContains
     }.ToFrozenSet(StringComparer.Ordinal);
+}
+
+public sealed class RemainingGameTextRecognizer
+{
+    private static readonly string[] Keys =
+    [
+        GameTextKeys.Common.Use,
+        GameTextKeys.Common.All,
+        GameTextKeys.Common.Obtained,
+        GameTextKeys.AutoPick.SuppressedLabel,
+        GameTextKeys.AutoPick.TribeLead,
+        GameTextKeys.AutoPick.TribeMarker,
+        GameTextKeys.AutoPick.Frostmoon,
+        GameTextKeys.AutoPick.Workshop,
+        GameTextKeys.AutoPick.EggRoll,
+        GameTextKeys.Character.TalentIntroduction,
+        GameTextKeys.Character.NormalAttack,
+        GameTextKeys.Character.ElementalSkill,
+        GameTextKeys.Character.ElementalBurst,
+        GameTextKeys.Character.TalentLevel,
+        GameTextKeys.Character.Attribute,
+        GameTextKeys.Character.Weapon,
+        GameTextKeys.Character.Talent,
+        GameTextKeys.GameLoading.AgePrompt,
+        GameTextKeys.Inventory.EnhancementOre,
+        GameTextKeys.Wood.Material,
+        GameTextKeys.LeyLine.Activate,
+        GameTextKeys.SereniteaPot.CompanionshipExpUnavailable,
+        GameTextKeys.SereniteaPot.SoldOut,
+        GameTextKeys.Common.Goodbye,
+        GameTextKeys.Artifact.SetContains,
+    ];
+
+    private static readonly Regex TalentBonusNumberRegex =
+        new(@"[+＋]\s*3(?:\D|$)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    private static readonly string[] TalentTypeKeys =
+    [
+        GameTextKeys.Character.NormalAttack,
+        GameTextKeys.Character.ElementalSkill,
+        GameTextKeys.Character.ElementalBurst,
+    ];
+
+    private readonly FrozenDictionary<string, IReadOnlyList<string>> _rawAliases;
+    private readonly FrozenDictionary<string, IReadOnlyList<string>> _aliases;
+
+    public RemainingGameTextRecognizer(IGameTextMatcher matcher, CultureInfo? culture = null)
+    {
+        ArgumentNullException.ThrowIfNull(matcher);
+        _rawAliases = Keys.ToFrozenDictionary(
+            key => key,
+            key => (IReadOnlyList<string>)matcher.GetAliases(key, culture)
+                .Where(alias => !string.IsNullOrWhiteSpace(alias))
+                .Distinct(StringComparer.Ordinal)
+                .ToArray()
+                .AsReadOnly(),
+            StringComparer.Ordinal);
+        _aliases = _rawAliases.ToFrozenDictionary(
+            pair => pair.Key,
+            pair => (IReadOnlyList<string>)pair.Value
+                .Select(GameTextNormalizer.Normalize)
+                .Where(alias => alias.Length > 0)
+                .Distinct(StringComparer.Ordinal)
+                .ToArray()
+                .AsReadOnly(),
+            StringComparer.Ordinal);
+    }
+
+    public string NormalizeOcrText(string? text) => GameTextNormalizer.Normalize(text);
+
+    public bool ShouldSuppressPickup(string recognizedText)
+    {
+        var normalizedText = NormalizeOcrText(recognizedText);
+        return IsMatchNormalized(normalizedText, GameTextKeys.AutoPick.SuppressedLabel)
+               || IsMatchNormalized(normalizedText, GameTextKeys.AutoPick.TribeLead)
+               && IsMatchNormalized(normalizedText, GameTextKeys.AutoPick.TribeMarker)
+               || IsMatchNormalized(normalizedText, GameTextKeys.AutoPick.Frostmoon)
+               && IsMatchNormalized(normalizedText, GameTextKeys.AutoPick.Workshop)
+               || IsMatchNormalized(normalizedText, GameTextKeys.AutoPick.EggRoll)
+               && IsMatchNormalized(normalizedText, GameTextKeys.AutoPick.Workshop);
+    }
+
+    public bool IsArtifactSetContains(string recognizedText) =>
+        IsMatchNormalized(NormalizeOcrText(recognizedText), GameTextKeys.Artifact.SetContains);
+
+    public bool IsTalentIntroduction(string recognizedText) =>
+        IsMatchNormalized(NormalizeOcrText(recognizedText), GameTextKeys.Character.TalentIntroduction);
+
+    public string GetTalentTypeKey(string recognizedText)
+    {
+        var normalizedText = NormalizeOcrText(recognizedText);
+        foreach (var key in TalentTypeKeys)
+        {
+            if (IsMatchNormalized(normalizedText, key))
+            {
+                return key;
+            }
+        }
+
+        return string.Empty;
+    }
+
+    public bool HasTalentBonus(string recognizedText)
+    {
+        var normalizedText = NormalizeOcrText(recognizedText);
+        return IsMatchNormalized(normalizedText, GameTextKeys.Character.TalentLevel)
+               && TalentBonusNumberRegex.IsMatch(recognizedText);
+    }
+
+    public bool IsObtained(string recognizedText) =>
+        IsMatchNormalized(NormalizeOcrText(recognizedText), GameTextKeys.Common.Obtained);
+
+    public bool IsKnownWoodName(string recognizedText) =>
+        IsMatchNormalized(NormalizeOcrText(recognizedText), GameTextKeys.Wood.Material);
+
+    public bool IsAgePrompt(string recognizedText) =>
+        IsMatchNormalized(NormalizeOcrText(recognizedText), GameTextKeys.GameLoading.AgePrompt);
+
+    public bool IsEnhancementOreName(string itemName) =>
+        IsMatchNormalized(NormalizeOcrText(itemName), GameTextKeys.Inventory.EnhancementOre);
+
+    public bool IsActivate(string recognizedText) =>
+        IsMatchNormalized(NormalizeOcrText(recognizedText), GameTextKeys.LeyLine.Activate);
+
+    public bool IsCompanionshipExpUnavailable(string recognizedText) =>
+        IsMatchNormalized(NormalizeOcrText(recognizedText), GameTextKeys.SereniteaPot.CompanionshipExpUnavailable);
+
+    public string GetPrimaryAlias(string key) => _rawAliases[key][0];
+
+    public bool IsMatch(string recognizedText, string key) =>
+        IsMatchNormalized(NormalizeOcrText(recognizedText), key);
+
+    private bool IsMatchNormalized(string normalizedText, string key) =>
+        normalizedText.Length > 0
+        && _aliases[key].Any(alias => normalizedText.Contains(alias, StringComparison.Ordinal));
 }

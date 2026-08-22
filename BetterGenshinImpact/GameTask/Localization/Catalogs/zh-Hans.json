@@ -250,6 +250,109 @@
     "stygian.hard_difficulty": ["困难"],
     "stygian.ultimate_challenge": ["至危挑战"],
     "stygian.normal_challenge": ["常规挑战"],
-    "stygian.preset_teams": ["预设队伍"]
+    "stygian.preset_teams": ["预设队伍"],
+    "common.goodbye": [
+      "再见"
+    ],
+    "common.obtained": [
+      "获得"
+    ],
+    "auto_pick.suppressed_label": [
+      "长时间",
+      "聚所",
+      "叮铃",
+      "眶螂",
+      "西风成垒",
+      "望崖营壁",
+      "魔女的花园",
+      "月谕圣牌"
+    ],
+    "auto_pick.tribe_lead": [
+      "我在"
+    ],
+    "auto_pick.tribe_marker": [
+      "声望",
+      "回声",
+      "悬木人",
+      "流泉"
+    ],
+    "auto_pick.frostmoon": [
+      "霜月"
+    ],
+    "auto_pick.workshop": [
+      "坊"
+    ],
+    "auto_pick.egg_roll": [
+      "蛋卷"
+    ],
+    "character.talent_introduction": [
+      "天赋介绍"
+    ],
+    "character.talent_level": [
+      "天赋等级"
+    ],
+    "character.attribute": [
+      "属性"
+    ],
+    "character.weapon": [
+      "武器"
+    ],
+    "character.talent": [
+      "天赋"
+    ],
+    "game_loading.age_prompt": [
+      "适龄",
+      "监护"
+    ],
+    "inventory.enhancement_ore": [
+      "精锻用杂矿",
+      "精锻用良矿",
+      "精锻用魔矿"
+    ],
+    "wood.material": [
+      "悬铃木",
+      "白梣木",
+      "炬木",
+      "椴木",
+      "香柏木",
+      "刺葵木",
+      "柽木",
+      "辉木",
+      "业果木",
+      "证悟木",
+      "枫木",
+      "垂香木",
+      "杉木",
+      "竹节",
+      "却砂木",
+      "松木",
+      "萃华木",
+      "桦木",
+      "孔雀木",
+      "梦见木",
+      "御伽木",
+      "燃爆木",
+      "桃椰子木",
+      "灰灰楼林木",
+      "白栗栎木"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "无法领取好感经验"
+    ],
+    "serenitea_pot.sold_out": [
+      "已售"
+    ],
+    "artifact.set_contains": [
+      "套装包含"
+    ],
+    "character.normal_attack": [
+      "普通攻击"
+    ],
+    "character.elemental_skill": [
+      "元素战技"
+    ],
+    "character.elemental_burst": [
+      "元素爆发"
+    ]
   }
 }

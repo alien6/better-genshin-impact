@@ -33,8 +33,8 @@ internal class GoToSereniteaPotTask
     private bool fail = false;
     private readonly ChooseTalkOptionTask _chooseTalkOptionTask = new();
 
-    private const string AyuanByeString = "再见";
     private readonly CommonJobTextRecognizer _textRecognizer;
+    private readonly RemainingGameTextRecognizer _remainingTextRecognizer;
     private readonly string _teapotSpiritSearchText;
     private readonly string _trustRankSearchText;
     private readonly string _realmDepotSearchText;
@@ -50,6 +50,7 @@ internal class GoToSereniteaPotTask
         var matcher = App.GetService<IGameTextMatcher>()
                       ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
         _textRecognizer = new CommonJobTextRecognizer(matcher);
+        _remainingTextRecognizer = new RemainingGameTextRecognizer(matcher);
         _teapotSpiritSearchText = _textRecognizer.TeapotSpiritSearchText;
         _trustRankSearchText = _textRecognizer.TrustRankSearchText;
         _realmDepotSearchText = _textRecognizer.RealmDepotSearchText;
@@ -384,8 +385,8 @@ internal class GoToSereniteaPotTask
             RecognitionType = RecognitionTypes.Ocr,
             RegionOfInterest = new Rect((int)(ra.Width * 0.7), (int)(ra.Height * 0.35), (int)(ra.Width * 0.2), (int)(ra.Height * 0.15))
         });
-        string shopOff = "已售";
-        var shopOffRo = list.FirstOrDefault(r => r.Text.Contains(shopOff));
+        var shopOffRo = list.FirstOrDefault(r =>
+            _remainingTextRecognizer.IsMatch(r.Text, GameTextKeys.SereniteaPot.SoldOut));
         if (shopOffRo != null)
         {
             Logger.LogInformation("领取尘歌壶奖励:{text}", "商店物品售空");
@@ -458,7 +459,7 @@ internal class GoToSereniteaPotTask
                 RecognitionType = RecognitionTypes.Ocr,
                 RegionOfInterest = new Rect((int)(ra.Width * 0.35), (int)(ra.Height * 0.45), (int)(ra.Width * 0.3), (int)(ra.Height * 0.05))
             });
-            var tem = list.FirstOrDefault(a => a.Text.Contains("无法领取好感经验"));
+            var tem = list.FirstOrDefault(a => _remainingTextRecognizer.IsCompanionshipExpUnavailable(a.Text));
             if (tem != null)
             {
                 tem.Click();
@@ -606,7 +607,8 @@ internal class GoToSereniteaPotTask
             await Delay(1000, ct);
         }
 
-        var quitOption = await _chooseTalkOptionTask.SingleSelectText(AyuanByeString, ct, skipTimes: 20);
+        var quitOption = await _chooseTalkOptionTask.SingleSelectText(
+            _remainingTextRecognizer.GetPrimaryAlias(GameTextKeys.Common.Goodbye), ct, skipTimes: 20);
         if (quitOption != TalkOptionRes.FoundAndClick)
         {
             using var mainUiCapture = CaptureToRectArea();

@@ -62,6 +62,10 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
     private ObservableCollection<OneDragonFlowConfig> ConfigList = [];
 
     private readonly DomainTextRecognizer _textRecognizer;
+    private static readonly Lazy<RemainingGameTextRecognizer> SharedRemainingTextRecognizer = new(() =>
+        new RemainingGameTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.")));
 
     private List<ResinUseRecord> _resinPriorityListWhenSpecifyUse;
 
@@ -1435,7 +1439,8 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
         if (resinKey != null)
         {
             // 找到树脂名称对应的按键，关键词为使用，是同一行的（高度相交）
-            var useList = regionList.Where(t => t.Text.Contains("使用")).ToList();
+            var useList = regionList.Where(t =>
+                SharedRemainingTextRecognizer.Value.IsMatch(t.Text, GameTextKeys.Common.Use)).ToList();
             if (useList.Count != 0)
             {
                 // 找到使用按键

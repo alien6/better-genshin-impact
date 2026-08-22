@@ -257,6 +257,108 @@
     "stygian.hard_difficulty": ["Difficile"],
     "stygian.ultimate_challenge": ["Défi périlleux"],
     "stygian.normal_challenge": ["Défi normal"],
-    "stygian.preset_teams": ["Équipes prédéfinies"]
+    "stygian.preset_teams": ["Équipes prédéfinies"],
+    "common.goodbye": [
+      "Au revoir"
+    ],
+    "common.obtained": [
+      "Obtenu"
+    ],
+    "auto_pick.suppressed_label": [
+      "longtemps",
+      "Lieu de rassemblement",
+      "Ding-dong",
+      "Bastion de l'Ouest",
+      "Camp du promontoire",
+      "Jardin de la sorcière",
+      "Carte oraculaire lunaire"
+    ],
+    "auto_pick.tribe_lead": [
+      "Je suis chez"
+    ],
+    "auto_pick.tribe_marker": [
+      "Réputation",
+      "Échos",
+      "Rejetons des canopées",
+      "Peuple des sources"
+    ],
+    "auto_pick.frostmoon": [
+      "Lune de givre"
+    ],
+    "auto_pick.workshop": [
+      "Atelier"
+    ],
+    "auto_pick.egg_roll": [
+      "Krumkake"
+    ],
+    "character.talent_introduction": [
+      "Infos sur les aptitudes"
+    ],
+    "character.talent_level": [
+      "Niveau d'aptitude"
+    ],
+    "character.attribute": [
+      "Attributs"
+    ],
+    "character.weapon": [
+      "Arme"
+    ],
+    "character.talent": [
+      "Aptitudes"
+    ],
+    "game_loading.age_prompt": [
+      "classification d'âge",
+      "contrôle parental"
+    ],
+    "inventory.enhancement_ore": [
+      "Minerai de renforcement",
+      "Minerai de renforcement raffiné",
+      "Minerai de renforcement mystique"
+    ],
+    "wood.material": [
+      "Bois de mauve",
+      "Bois de frêne blanc",
+      "Bois de torche",
+      "Bois de tilleul",
+      "Bois de cyprès",
+      "Bois de palmier-dattier",
+      "Bois d'athel",
+      "Bois lumineux",
+      "Bois de karmaphala",
+      "Bois d'adhigama",
+      "Bois d'érable",
+      "Bois de cèdre parfumé",
+      "Bois de sapin",
+      "Segment de bambou",
+      "Bois de sablonier",
+      "Bois de pin",
+      "Bois de cuihua",
+      "Bois de bouleau",
+      "Bois d'aralia",
+      "Bois de yumemiru",
+      "Bois d'otogi",
+      "Bois de flamboyance",
+      "Bois de palmier-pêche",
+      "Bois d'aratiku cendré",
+      "Bois de chêne-châtaignier blanc"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "Impossible de récupérer l'EXP d'affinité"
+    ],
+    "serenitea_pot.sold_out": [
+      "Épuisé"
+    ],
+    "artifact.set_contains": [
+      "Contenu de l'ensemble"
+    ],
+    "character.normal_attack": [
+      "Attaque normale"
+    ],
+    "character.elemental_skill": [
+      "Compétence élémentaire"
+    ],
+    "character.elemental_burst": [
+      "Déchaînement élémentaire"
+    ]
   }
 }

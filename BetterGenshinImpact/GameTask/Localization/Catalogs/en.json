@@ -251,6 +251,108 @@
     "stygian.hard_difficulty": ["Hard"],
     "stygian.ultimate_challenge": ["Dire Challenge"],
     "stygian.normal_challenge": ["Normal Challenge"],
-    "stygian.preset_teams": ["Preset Teams"]
+    "stygian.preset_teams": ["Preset Teams"],
+    "common.goodbye": [
+      "Goodbye"
+    ],
+    "common.obtained": [
+      "Obtained"
+    ],
+    "auto_pick.suppressed_label": [
+      "a long time",
+      "Gathering Place",
+      "Clink-Clank",
+      "Westwind Bastion",
+      "Cliffwatch Camp",
+      "The Witch's Garden",
+      "Moon Oracle Card"
+    ],
+    "auto_pick.tribe_lead": [
+      "I am at"
+    ],
+    "auto_pick.tribe_marker": [
+      "Reputation",
+      "Echoes",
+      "Scions of the Canopy",
+      "People of the Springs"
+    ],
+    "auto_pick.frostmoon": [
+      "Frostmoon"
+    ],
+    "auto_pick.workshop": [
+      "Workshop"
+    ],
+    "auto_pick.egg_roll": [
+      "Krumkake"
+    ],
+    "character.talent_introduction": [
+      "Talent Info"
+    ],
+    "character.talent_level": [
+      "Talent Level"
+    ],
+    "character.attribute": [
+      "Attributes"
+    ],
+    "character.weapon": [
+      "Weapon"
+    ],
+    "character.talent": [
+      "Talents"
+    ],
+    "game_loading.age_prompt": [
+      "age rating",
+      "parental guidance"
+    ],
+    "inventory.enhancement_ore": [
+      "Enhancement Ore",
+      "Fine Enhancement Ore",
+      "Mystic Enhancement Ore"
+    ],
+    "wood.material": [
+      "Mallow Wood",
+      "Ash Wood",
+      "Torch Wood",
+      "Linden Wood",
+      "Cypress Wood",
+      "Mountain Date Wood",
+      "Athel Wood",
+      "Brightwood",
+      "Karmaphala Wood",
+      "Adhigama Wood",
+      "Maple Wood",
+      "Fragrant Cedar Wood",
+      "Fir Wood",
+      "Bamboo Segment",
+      "Sandbearer Wood",
+      "Pine Wood",
+      "Cuihua Wood",
+      "Birch Wood",
+      "Aralia Wood",
+      "Yumemiru Wood",
+      "Otogi Wood",
+      "Flammabomb Wood",
+      "Peach Palm Wood",
+      "Ashen Aratiku Wood",
+      "White Chestnut Oak Wood"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "Cannot claim Companionship EXP"
+    ],
+    "serenitea_pot.sold_out": [
+      "Sold Out"
+    ],
+    "artifact.set_contains": [
+      "Set Includes"
+    ],
+    "character.normal_attack": [
+      "Normal Attack"
+    ],
+    "character.elemental_skill": [
+      "Elemental Skill"
+    ],
+    "character.elemental_burst": [
+      "Elemental Burst"
+    ]
   }
 }

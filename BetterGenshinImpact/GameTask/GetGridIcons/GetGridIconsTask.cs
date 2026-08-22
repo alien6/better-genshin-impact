@@ -4,6 +4,7 @@ using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.GameTask.AutoArtifactSalvage;
 using BetterGenshinImpact.GameTask.Common;
 using BetterGenshinImpact.GameTask.Common.Job;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.Model.GameUI;
@@ -30,6 +31,7 @@ public class GetGridIconsTask : ISoloTask
 {
     private readonly ILogger logger = App.GetLogger<GetGridIconsTask>();
     private readonly InputSimulator input = Simulation.SendInput;
+    private readonly RemainingGameTextRecognizer textRecognizer;
 
     private CancellationToken ct;
 
@@ -43,6 +45,9 @@ public class GetGridIconsTask : ISoloTask
 
     public GetGridIconsTask(GridScreenName gridScreenName, bool starAsSuffix, int? maxNumToGet = null)
     {
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        this.textRecognizer = new RemainingGameTextRecognizer(matcher);
         this.gridScreenName = gridScreenName;
         this.starAsSuffix = starAsSuffix;
         this.maxNumToGet = maxNumToGet;
@@ -158,13 +163,14 @@ public class GetGridIconsTask : ISoloTask
             itemRegion.Click();
             await Delay(300, ct);
 
-            static bool tryGetFlower(out string flowerName)
+            bool tryGetFlower(out string flowerName)
             {
                 using var ra1 = CaptureToRectArea();
                 using ImageRegion nameRegion = ra1.DeriveCrop(new Rect((int)(ra1.Width * 0.714), (int)(ra1.Width * 0.284), (int)(ra1.Width * 0.256), (int)(ra1.Width * 0.208)));
                 var ocrResult = OcrFactory.Paddle.OcrResult(nameRegion.SrcMat);
 
-                var flowerWithGlyph = ocrResult.Regions.OrderBy(r => r.Rect.Center.Y).SkipWhile(r => !r.Text.Contains("套装包含")).Skip(1).FirstOrDefault();
+                var flowerWithGlyph = ocrResult.Regions.OrderBy(r => r.Rect.Center.Y)
+                    .SkipWhile(r => !textRecognizer.IsArtifactSetContains(r.Text)).Skip(1).FirstOrDefault();
                 if (flowerWithGlyph == default)
                 {
                     nameRegion.Move();

@@ -19,6 +19,25 @@ public class GameTextCatalogTests
         ["Common.Crafting"] = "common.crafting",
         ["Common.Claim"] = "common.claim",
         ["Common.All"] = "common.all",
+        ["Common.Obtained"] = "common.obtained",
+        ["Common.Goodbye"] = "common.goodbye",
+        ["AutoPick.SuppressedLabel"] = "auto_pick.suppressed_label",
+        ["AutoPick.TribeLead"] = "auto_pick.tribe_lead",
+        ["AutoPick.TribeMarker"] = "auto_pick.tribe_marker",
+        ["AutoPick.Frostmoon"] = "auto_pick.frostmoon",
+        ["AutoPick.Workshop"] = "auto_pick.workshop",
+        ["AutoPick.EggRoll"] = "auto_pick.egg_roll",
+        ["Character.TalentIntroduction"] = "character.talent_introduction",
+        ["Character.NormalAttack"] = "character.normal_attack",
+        ["Character.ElementalSkill"] = "character.elemental_skill",
+        ["Character.ElementalBurst"] = "character.elemental_burst",
+        ["Character.TalentLevel"] = "character.talent_level",
+        ["Character.Attribute"] = "character.attribute",
+        ["Character.Weapon"] = "character.weapon",
+        ["Character.Talent"] = "character.talent",
+        ["GameLoading.AgePrompt"] = "game_loading.age_prompt",
+        ["Inventory.EnhancementOre"] = "inventory.enhancement_ore",
+        ["Wood.Material"] = "wood.material",
         ["Resin.Original"] = "resin.original",
         ["Resin.Condensed"] = "resin.condensed",
         ["Resin.Fragile"] = "resin.fragile",
@@ -85,6 +104,8 @@ public class GameTextCatalogTests
         ["SereniteaPot.Spirit"] = "serenitea_pot.spirit",
         ["SereniteaPot.TrustRank"] = "serenitea_pot.trust_rank",
         ["SereniteaPot.RealmDepot"] = "serenitea_pot.realm_depot",
+        ["SereniteaPot.CompanionshipExpUnavailable"] = "serenitea_pot.companionship_exp_unavailable",
+        ["SereniteaPot.SoldOut"] = "serenitea_pot.sold_out",
         ["Fishing.Bite"] = "fishing.bite",
         ["Fishing.Action"] = "fishing.action",
         ["WorldArea.SereniteaPot"] = "world_area.serenitea_pot",
@@ -116,7 +137,8 @@ public class GameTextCatalogTests
         ["Artifact.ElectroDmgBonus"] = "artifact.affix.electro_dmg_bonus",
         ["Artifact.AnemoDmgBonus"] = "artifact.affix.anemo_dmg_bonus",
         ["Artifact.CryoDmgBonus"] = "artifact.affix.cryo_dmg_bonus",
-        ["Artifact.GeoDmgBonus"] = "artifact.affix.geo_dmg_bonus"
+        ["Artifact.GeoDmgBonus"] = "artifact.affix.geo_dmg_bonus",
+        ["Artifact.SetContains"] = "artifact.set_contains"
     };
 
     [Fact]
@@ -256,6 +278,13 @@ public class GameTextCatalogTests
     [InlineData("serenitea_pot.spirit", "Espírito do Bule")]
     [InlineData("serenitea_pot.trust_rank", "Nível de confiança")]
     [InlineData("serenitea_pot.realm_depot", "Tesouro do Paraíso Mágico")]
+    [InlineData("character.talent_introduction", "Informações do Talento")]
+    [InlineData("character.normal_attack", "Ataque Normal")]
+    [InlineData("character.elemental_skill", "Habilidade Elemental")]
+    [InlineData("character.elemental_burst", "Supremo")]
+    [InlineData("game_loading.age_prompt", "classificação etária")]
+    [InlineData("inventory.enhancement_ore", "Minério de Refinamento Místico")]
+    [InlineData("serenitea_pot.companionship_exp_unavailable", "Não é possível resgatar EXP de Amizade")]
     public void PortugueseCatalog_ContainsRequiredSemanticAlias(string key, string alias)
     {
         var provider = new EmbeddedGameTextCatalogProvider();

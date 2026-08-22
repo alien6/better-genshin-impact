@@ -1915,6 +1915,2046 @@
       "ja": [{ "value": "岩元素ダメージ", "textMapHash": "3622047323" }],
       "fr": [{ "value": "Bonus de DGT Géo", "textMapHash": "3622047323" }],
       "pt-BR": [{ "value": "Bônus de Dano Geo", "textMapHash": "3622047323" }]
+    },
+    "common.goodbye": {
+      "zh-Hans": [
+        {
+          "value": "再见",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "再見",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Goodbye",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "さようなら",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Au revoir",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Adeus",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "common.obtained": {
+      "zh-Hans": [
+        {
+          "value": "获得",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "獲得",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Obtained",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "獲得",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Obtenu",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Obtido",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "auto_pick.suppressed_label": {
+      "zh-Hans": [
+        {
+          "value": "长时间",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "聚所",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "叮铃",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "眶螂",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "西风成垒",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "望崖营壁",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "魔女的花园",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "月谕圣牌",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "長時間",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "聚所",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "叮鈴",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "眶螂",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "西風成壘",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "望崖營壁",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "魔女的花園",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "月諭聖牌",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "a long time",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Gathering Place",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Clink-Clank",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Westwind Bastion",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Cliffwatch Camp",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "The Witch's Garden",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Moon Oracle Card",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "長時間",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "集会所",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "チリン",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "西風の砦",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "崖見張りの陣",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "魔女の庭",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "月諭の聖牌",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "longtemps",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Lieu de rassemblement",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Ding-dong",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bastion de l'Ouest",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Camp du promontoire",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Jardin de la sorcière",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Carte oraculaire lunaire",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "muito tempo",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Local de Encontro",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Clinc-Clanc",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bastião do Vento Oeste",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Acampamento de Vigília do Penhasco",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Jardim da Bruxa",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Carta do Oráculo Lunar",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "auto_pick.tribe_lead": {
+      "zh-Hans": [
+        {
+          "value": "我在",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "我在",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "I am at",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "私は",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Je suis chez",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Estou com",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "auto_pick.tribe_marker": {
+      "zh-Hans": [
+        {
+          "value": "声望",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "回声",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "悬木人",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "流泉",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "聲望",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "回聲",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "懸木人",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "流泉",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Reputation",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Echoes",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Scions of the Canopy",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "People of the Springs",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "評判",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "こだま",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "懸木の民",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "流泉の衆",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Réputation",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Échos",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Rejetons des canopées",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Peuple des sources",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Reputação",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Ecos",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Descendentes das Copas",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Povo das Termas",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "auto_pick.frostmoon": {
+      "zh-Hans": [
+        {
+          "value": "霜月",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "霜月",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Frostmoon",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "霜月",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Lune de givre",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Lua Gélida",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "auto_pick.workshop": {
+      "zh-Hans": [
+        {
+          "value": "坊",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "坊",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Workshop",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "工房",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Atelier",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Oficina",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "auto_pick.egg_roll": {
+      "zh-Hans": [
+        {
+          "value": "蛋卷",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "蛋捲",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Krumkake",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "クルムカケ",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Krumkake",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Bolo Crocante",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "character.talent_introduction": {
+      "zh-Hans": [
+        {
+          "value": "天赋介绍",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "天賦介紹",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Talent Info",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "天賦紹介",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Infos sur les aptitudes",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Informações do Talento",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "character.talent_level": {
+      "zh-Hans": [
+        {
+          "value": "天赋等级",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "天賦等級",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Talent Level",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "天賦Lv.",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Niveau d'aptitude",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Nível do Talento",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "character.attribute": {
+      "zh-Hans": [
+        {
+          "value": "属性",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "屬性",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Attributes",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "ステータス",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Attributs",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Atributos",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "character.weapon": {
+      "zh-Hans": [
+        {
+          "value": "武器",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "武器",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Weapon",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "武器",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Arme",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Arma",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "character.talent": {
+      "zh-Hans": [
+        {
+          "value": "天赋",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "天賦",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Talents",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "天賦",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Aptitudes",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Talentos",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "game_loading.age_prompt": {
+      "zh-Hans": [
+        {
+          "value": "适龄",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "监护",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "適齡",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "監護",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "age rating",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "parental guidance",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "対象年齢",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "保護者",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "classification d'âge",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "contrôle parental",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "classificação etária",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "responsável",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "inventory.enhancement_ore": {
+      "zh-Hans": [
+        {
+          "value": "精锻用杂矿",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "精锻用良矿",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "精锻用魔矿",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "精鍛用雜礦",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "精鍛用良礦",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "精鍛用魔礦",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Enhancement Ore",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Fine Enhancement Ore",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Mystic Enhancement Ore",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "仕上げ用雑鉱",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "仕上げ用良鉱",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "仕上げ用魔鉱",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Minerai de renforcement",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Minerai de renforcement raffiné",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Minerai de renforcement mystique",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Minério de Refinamento",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Minério de Refinamento Fino",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Minério de Refinamento Místico",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "wood.material": {
+      "zh-Hans": [
+        {
+          "value": "悬铃木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "白梣木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "炬木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "椴木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "香柏木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "刺葵木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "柽木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "辉木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "业果木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "证悟木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "枫木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "垂香木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "杉木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "竹节",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "却砂木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "松木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "萃华木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "桦木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "孔雀木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "梦见木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "御伽木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "燃爆木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "桃椰子木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "灰灰楼林木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "白栗栎木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "懸鈴木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "白梣木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "炬木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "椴木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "香柏木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "刺葵木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "檉木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "輝木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "業果木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "證悟木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "楓木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "垂香木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "杉木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "竹節",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "卻砂木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "松木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "萃華木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "樺木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "孔雀木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "夢見木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "御伽木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "燃爆木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "桃椰子木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "灰灰樓林木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "白栗櫟木",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Mallow Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Ash Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Torch Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Linden Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Cypress Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Mountain Date Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Athel Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Brightwood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Karmaphala Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Adhigama Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Maple Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Fragrant Cedar Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Fir Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bamboo Segment",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Sandbearer Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Pine Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Cuihua Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Birch Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Aralia Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Yumemiru Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Otogi Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Flammabomb Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Peach Palm Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Ashen Aratiku Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "White Chestnut Oak Wood",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "マロウ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "ホワイトアッシュ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "トーチ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "リンデン材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "コウハクジュ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "ナツメヤシ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "タマリスク材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "輝光材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "カルマパラ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "アディガマ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "カエデ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "垂香材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "杉材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "竹材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "却砂材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "松材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "萃華材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "樺材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "孔雀材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "夢見材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "御伽材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "フレイムボム材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "ピーチココナッツ材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "灰灰楼林材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "ホワイトオーク材",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Bois de mauve",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de frêne blanc",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de torche",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de tilleul",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de cyprès",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de palmier-dattier",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois d'athel",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois lumineux",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de karmaphala",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois d'adhigama",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois d'érable",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de cèdre parfumé",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de sapin",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Segment de bambou",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de sablonier",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de pin",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de cuihua",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de bouleau",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois d'aralia",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de yumemiru",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois d'otogi",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de flamboyance",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de palmier-pêche",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois d'aratiku cendré",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Bois de chêne-châtaignier blanc",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Madeira de Malva",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Freixo Branco",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Tocha",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Tília",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Cipreste",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Tamareira",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Tamarisco",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira Brilhante",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Karmaphala",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Adhigama",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Bordo",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Cedro Fragrante",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Abeto",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Segmento de Bambu",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Arenária",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Pinheiro",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Cuihua",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Bétula",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Arália",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Yumemiru",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Otogi",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Explosão",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Palmeira-Pêssego",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Aratiku Cinzento",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        },
+        {
+          "value": "Madeira de Carvalho-Castanheiro Branco",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "serenitea_pot.companionship_exp_unavailable": {
+      "zh-Hans": [
+        {
+          "value": "无法领取好感经验",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "無法領取好感經驗",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Cannot claim Companionship EXP",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "好感度経験値を受け取れません",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Impossible de récupérer l'EXP d'affinité",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Não é possível resgatar EXP de Amizade",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "serenitea_pot.sold_out": {
+      "zh-Hans": [
+        {
+          "value": "已售",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "售罄",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Sold Out",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "売り切れ",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Épuisé",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Esgotado",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "artifact.set_contains": {
+      "zh-Hans": [
+        {
+          "value": "套装包含",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "套裝包含",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "Set Includes",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "ja": [
+        {
+          "value": "セット内容",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Contenu de l'ensemble",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "O Conjunto Inclui",
+          "source": "curated",
+          "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
+        }
+      ]
+    },
+    "character.normal_attack": {
+      "zh-Hans": [
+        {
+          "value": "普通攻击",
+          "textMapHash": "89131540"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "普通攻擊",
+          "textMapHash": "89131540"
+        }
+      ],
+      "en": [
+        {
+          "value": "Normal Attack",
+          "textMapHash": "89131540"
+        }
+      ],
+      "ja": [
+        {
+          "value": "通常攻撃",
+          "textMapHash": "89131540"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Attaque normale",
+          "textMapHash": "89131540"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Ataque Normal",
+          "textMapHash": "89131540"
+        }
+      ]
+    },
+    "character.elemental_skill": {
+      "zh-Hans": [
+        {
+          "value": "元素战技",
+          "textMapHash": "4045332004"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "元素戰技",
+          "textMapHash": "4045332004"
+        }
+      ],
+      "en": [
+        {
+          "value": "Elemental Skill",
+          "textMapHash": "4045332004"
+        }
+      ],
+      "ja": [
+        {
+          "value": "元素スキル",
+          "textMapHash": "4045332004"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Compétence élémentaire",
+          "textMapHash": "4045332004"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Habilidade Elemental",
+          "textMapHash": "4045332004"
+        }
+      ]
+    },
+    "character.elemental_burst": {
+      "zh-Hans": [
+        {
+          "value": "元素爆发",
+          "textMapHash": "2198177347"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "元素爆發",
+          "textMapHash": "2198177347"
+        }
+      ],
+      "en": [
+        {
+          "value": "Elemental Burst",
+          "textMapHash": "2198177347"
+        }
+      ],
+      "ja": [
+        {
+          "value": "元素爆発",
+          "textMapHash": "2198177347"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Déchaînement élémentaire",
+          "textMapHash": "2198177347"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Supremo",
+          "textMapHash": "2198177347"
+        }
+      ]
     }
   }
 }

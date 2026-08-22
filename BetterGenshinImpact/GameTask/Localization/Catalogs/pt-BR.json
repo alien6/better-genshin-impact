@@ -241,6 +241,108 @@
     "stygian.hard_difficulty": ["Difícil"],
     "stygian.ultimate_challenge": ["Desafio Ameaçador"],
     "stygian.normal_challenge": ["Desafio Normal"],
-    "stygian.preset_teams": ["Equipes Predefinidas"]
+    "stygian.preset_teams": ["Equipes Predefinidas"],
+    "common.goodbye": [
+      "Adeus"
+    ],
+    "common.obtained": [
+      "Obtido"
+    ],
+    "auto_pick.suppressed_label": [
+      "muito tempo",
+      "Local de Encontro",
+      "Clinc-Clanc",
+      "Bastião do Vento Oeste",
+      "Acampamento de Vigília do Penhasco",
+      "Jardim da Bruxa",
+      "Carta do Oráculo Lunar"
+    ],
+    "auto_pick.tribe_lead": [
+      "Estou com"
+    ],
+    "auto_pick.tribe_marker": [
+      "Reputação",
+      "Ecos",
+      "Descendentes das Copas",
+      "Povo das Termas"
+    ],
+    "auto_pick.frostmoon": [
+      "Lua Gélida"
+    ],
+    "auto_pick.workshop": [
+      "Oficina"
+    ],
+    "auto_pick.egg_roll": [
+      "Bolo Crocante"
+    ],
+    "character.talent_introduction": [
+      "Informações do Talento"
+    ],
+    "character.talent_level": [
+      "Nível do Talento"
+    ],
+    "character.attribute": [
+      "Atributos"
+    ],
+    "character.weapon": [
+      "Arma"
+    ],
+    "character.talent": [
+      "Talentos"
+    ],
+    "game_loading.age_prompt": [
+      "classificação etária",
+      "responsável"
+    ],
+    "inventory.enhancement_ore": [
+      "Minério de Refinamento",
+      "Minério de Refinamento Fino",
+      "Minério de Refinamento Místico"
+    ],
+    "wood.material": [
+      "Madeira de Malva",
+      "Madeira de Freixo Branco",
+      "Madeira de Tocha",
+      "Madeira de Tília",
+      "Madeira de Cipreste",
+      "Madeira de Tamareira",
+      "Madeira de Tamarisco",
+      "Madeira Brilhante",
+      "Madeira de Karmaphala",
+      "Madeira de Adhigama",
+      "Madeira de Bordo",
+      "Madeira de Cedro Fragrante",
+      "Madeira de Abeto",
+      "Segmento de Bambu",
+      "Madeira de Arenária",
+      "Madeira de Pinheiro",
+      "Madeira de Cuihua",
+      "Madeira de Bétula",
+      "Madeira de Arália",
+      "Madeira de Yumemiru",
+      "Madeira de Otogi",
+      "Madeira de Explosão",
+      "Madeira de Palmeira-Pêssego",
+      "Madeira de Aratiku Cinzento",
+      "Madeira de Carvalho-Castanheiro Branco"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "Não é possível resgatar EXP de Amizade"
+    ],
+    "serenitea_pot.sold_out": [
+      "Esgotado"
+    ],
+    "artifact.set_contains": [
+      "O Conjunto Inclui"
+    ],
+    "character.normal_attack": [
+      "Ataque Normal"
+    ],
+    "character.elemental_skill": [
+      "Habilidade Elemental"
+    ],
+    "character.elemental_burst": [
+      "Supremo"
+    ]
   }
 }

@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BetterGenshinImpact.Core.Script.Dependence;
+using BetterGenshinImpact.GameTask.Localization;
 
 namespace BetterGenshinImpact.GameTask.Common.Job
 {
@@ -28,6 +29,7 @@ namespace BetterGenshinImpact.GameTask.Common.Job
         private readonly string? itemName;
         private readonly IReadOnlyCollection<string>? itemNames;
         private readonly ItemIconRecognitionMode iconRecognitionMode;
+        private readonly RemainingGameTextRecognizer textRecognizer;
 
         public CountInventoryItem(CountInventoryItemParam param)
         {
@@ -37,6 +39,9 @@ namespace BetterGenshinImpact.GameTask.Common.Job
             }
 
             param.Validate();
+            var matcher = App.GetService<IGameTextMatcher>()
+                          ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+            this.textRecognizer = new RemainingGameTextRecognizer(matcher);
 
             this.gridScreenName = param.GridScreenName;
             this.itemName = param.ItemName;
@@ -110,7 +115,7 @@ namespace BetterGenshinImpact.GameTask.Common.Job
             try
             {
                 //如果是武器页的武器经验道具，直接翻页到最底部
-                if (gridScreenName == GridScreenName.Weapons && itemName!.StartsWith("精锻用"))
+                if (gridScreenName == GridScreenName.Weapons && textRecognizer.IsEnhancementOreName(itemName!))
                 {
                     await PreScrollToBottomForWeaponOre();
                 }
@@ -155,7 +160,7 @@ namespace BetterGenshinImpact.GameTask.Common.Job
             try
             {
                 //如果包含武器页的武器经验道具，直接翻页到最底部
-                bool hasOre = itemNames!.Any(name => name.StartsWith("精锻用"));
+                bool hasOre = itemNames!.Any(textRecognizer.IsEnhancementOreName);
                 if (gridScreenName == GridScreenName.Weapons && hasOre)
                 {
                     await PreScrollToBottomForWeaponOre();

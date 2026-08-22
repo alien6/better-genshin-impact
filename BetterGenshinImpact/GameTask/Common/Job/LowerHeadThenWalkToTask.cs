@@ -7,6 +7,7 @@ using BetterGenshinImpact.Core.Recognition.OCR;
 using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.Core.Simulator.Extensions;
 using BetterGenshinImpact.GameTask.AutoPick.Assets;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.Helpers;
 using BetterGenshinImpact.View.Drawable;
@@ -29,10 +30,14 @@ public class LowerHeadThenWalkToTask
     private readonly RecognitionObject _trackPoint;
 
     private int _timeoutMilliseconds;
+    private readonly RemainingGameTextRecognizer _textRecognizer;
 
 
     public LowerHeadThenWalkToTask(string targetMatName, int timeoutMilliseconds = 30000)
     {
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new RemainingGameTextRecognizer(matcher);
         _timeoutMilliseconds = timeoutMilliseconds;
         _trackPoint = new RecognitionObject
         {
@@ -109,7 +114,7 @@ public class LowerHeadThenWalkToTask
 
                     // 识别F
                     var text = Bv.FindFKeyText(ra);
-                    if (!string.IsNullOrEmpty(text) && text.Contains("激活"))
+                    if (!string.IsNullOrEmpty(text) && _textRecognizer.IsActivate(text))
                     {
                         Logger.LogInformation("追踪：识别到[{Msg}]", text);
                         Simulation.SendInput.SimulateAction(GIActions.MoveForward, KeyType.KeyUp);
