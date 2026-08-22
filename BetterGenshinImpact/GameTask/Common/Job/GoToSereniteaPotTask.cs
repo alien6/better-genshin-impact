@@ -5,21 +5,19 @@ using BetterGenshinImpact.Core.Simulator.Extensions;
 using BetterGenshinImpact.GameTask.AutoTrackPath;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
+using BetterGenshinImpact.GameTask.Common.GameText;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.QuickSereniteaPot;
 using BetterGenshinImpact.GameTask.QuickTeleport.Assets;
 using BetterGenshinImpact.Helpers;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.IO;
-using Newtonsoft.Json;
-using BetterGenshinImpact.GameTask.QuickSereniteaPot;
 using BetterGenshinImpact.Core.Recognition.OCR;
 using System.Linq;
 using System.Threading;
@@ -35,12 +33,11 @@ internal class GoToSereniteaPotTask
     private bool fail = false;
     private readonly ChooseTalkOptionTask _chooseTalkOptionTask = new();
 
-    private readonly string ayuanHeyString;
-    private readonly string ayuanHuolingString;
-    private readonly string ayuanHuoling2String;
-    private readonly string ayuanBelieveString;
-    private readonly string ayuanShopString;
-    private readonly string ayuanByeString;
+    private const string AyuanByeString = "再见";
+    private readonly CommonJobTextRecognizer _textRecognizer;
+    private readonly string _teapotSpiritSearchText;
+    private readonly string _trustRankSearchText;
+    private readonly string _realmDepotSearchText;
     private string dongTianName;
     
     private  OneDragonFlowConfig? SelectedConfig;
@@ -50,14 +47,12 @@ internal class GoToSereniteaPotTask
 
     public GoToSereniteaPotTask()
     {
-        IStringLocalizer<GoToSereniteaPotTask> stringLocalizer = App.GetService<IStringLocalizer<GoToSereniteaPotTask>>() ?? throw new NullReferenceException();
-        CultureInfo cultureInfo = new CultureInfo(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
-        this.ayuanHeyString = stringLocalizer.WithCultureGet(cultureInfo, "阿圆");
-        this.ayuanHuolingString = stringLocalizer.WithCultureGet(cultureInfo, "壶灵");
-        this.ayuanHuoling2String = stringLocalizer.WithCultureGet(cultureInfo, "<壶灵>");
-        this.ayuanBelieveString = stringLocalizer.WithCultureGet(cultureInfo, "信任");
-        this.ayuanShopString = stringLocalizer.WithCultureGet(cultureInfo, "洞天百宝");
-        this.ayuanByeString = stringLocalizer.WithCultureGet(cultureInfo, "再见");
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new CommonJobTextRecognizer(matcher);
+        _teapotSpiritSearchText = _textRecognizer.TeapotSpiritSearchText;
+        _trustRankSearchText = _textRecognizer.TrustRankSearchText;
+        _realmDepotSearchText = _textRecognizer.RealmDepotSearchText;
     }
 
     public async Task Start(CancellationToken ct)
@@ -312,9 +307,7 @@ internal class GoToSereniteaPotTask
                 RecognitionType = RecognitionTypes.Ocr,
                 RegionOfInterest = new Rect(ra.Width / 5, ra.Height / 15, (int)(ra.Width * 0.65), ra.Height / 2)
             });
-            Region? ayuanIcon = list.FirstOrDefault(r =>
-                r.Text.Contains(ayuanHeyString) || r.Text.Contains(ayuanHuolingString)||
-                 r.Text.Contains(ayuanHuoling2String)); 
+            Region? ayuanIcon = list.FirstOrDefault(r => _textRecognizer.IsTeapotSpirit(r.Text));
             if (ayuanIcon == null)
             {
                 Simulation.SendInput.Mouse.MoveMouseBy(ra.Width / 10, 0);
@@ -368,7 +361,7 @@ internal class GoToSereniteaPotTask
             while (!treeCts.IsCancellationRequested)
             {
                 using var capture = CaptureToRectArea();
-                if (Bv.FindF(capture, text: this.ayuanHeyString))
+                if (Bv.FindF(capture, text: _teapotSpiritSearchText))
                 {
                     TaskContext.Instance().PostMessageSimulator.SimulateAction(GIActions.MoveForward, KeyType.KeyUp);
                     Logger.LogInformation("领取尘歌壶奖励:{text}", "接近阿圆成功");
@@ -424,13 +417,13 @@ internal class GoToSereniteaPotTask
         await NewRetry.WaitForAction(() =>
         {
             using var capture = CaptureToRectArea();
-            return Bv.FindFAndPress(capture, text: this.ayuanHeyString);
+            return Bv.FindFAndPress(capture, text: _teapotSpiritSearchText);
         }, ct);
         //var ra = CaptureToRectArea();
-        //Bv.FindFAndPress(ra,text:this.ayuanHeyString); // 开始对话
+        //Bv.FindFAndPress(ra, text: _teapotSpiritSearchText); // 开始对话
         await Delay(500, ct);
         // 领取奖励
-        var rewardOption = await _chooseTalkOptionTask.SingleSelectText(this.ayuanBelieveString, ct);
+        var rewardOption = await _chooseTalkOptionTask.SingleSelectText(_trustRankSearchText, ct);
         if (rewardOption == TalkOptionRes.FoundAndClick)
         {
             Logger.LogInformation("领取尘歌壶奖励:{text}", "领取好感和宝钱");
@@ -503,7 +496,7 @@ internal class GoToSereniteaPotTask
             // 对比当前日期的星期几与配置中的星期几
             if (configDayOfWeek.HasValue && currentDayOfWeek == configDayOfWeek.Value || SelectedConfig.SecretTreasureObjects.First() == "每天重复")
             {
-                var shopOption = await _chooseTalkOptionTask.SingleSelectText(this.ayuanShopString, ct);
+                var shopOption = await _chooseTalkOptionTask.SingleSelectText(_realmDepotSearchText, ct);
                 if (shopOption == TalkOptionRes.FoundAndClick)
                 {
                     Logger.LogInformation("领取尘歌壶奖励:{text}", "购买商店物品");
@@ -613,7 +606,7 @@ internal class GoToSereniteaPotTask
             await Delay(1000, ct);
         }
 
-        var quitOption = await _chooseTalkOptionTask.SingleSelectText(this.ayuanByeString, ct, skipTimes: 20);
+        var quitOption = await _chooseTalkOptionTask.SingleSelectText(AyuanByeString, ct, skipTimes: 20);
         if (quitOption != TalkOptionRes.FoundAndClick)
         {
             using var mainUiCapture = CaptureToRectArea();

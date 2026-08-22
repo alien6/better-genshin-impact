@@ -14,6 +14,8 @@ public static class GameTextKeys
         public const string Use = "common.use";
         public const string ClickAnywhereToClose = "common.click_anywhere_to_close";
         public const string Crafting = "common.crafting";
+        public const string Claim = "common.claim";
+        public const string All = "common.all";
     }
 
     public static class Resin
@@ -36,6 +38,24 @@ public static class GameTextKeys
         public const string Entry = "expedition.entry";
     }
 
+    public static class AdventurersGuild
+    {
+        public const string Katheryne = "adventurers_guild.katheryne";
+        public const string DailyCommissions = "adventurers_guild.daily_commissions";
+    }
+
+    public static class AdventureHandbook
+    {
+        public const string DailyRewardClaimed = "adventure_handbook.daily_reward_claimed";
+    }
+
+    public static class SereniteaPot
+    {
+        public const string Spirit = "serenitea_pot.spirit";
+        public const string TrustRank = "serenitea_pot.trust_rank";
+        public const string RealmDepot = "serenitea_pot.realm_depot";
+    }
+
     public static IReadOnlySet<string> All { get; } = new[]
     {
         Common.Revive,
@@ -44,6 +64,8 @@ public static class GameTextKeys
         Common.Use,
         Common.ClickAnywhereToClose,
         Common.Crafting,
+        Common.Claim,
+        Common.All,
         Resin.Original,
         Resin.Condensed,
         Resin.Fragile,
@@ -51,6 +73,12 @@ public static class GameTextKeys
         Resin.Replenish,
         Resin.Insufficient,
         Domain.ChallengeCompleted,
-        Expedition.Entry
+        Expedition.Entry,
+        AdventurersGuild.Katheryne,
+        AdventurersGuild.DailyCommissions,
+        AdventureHandbook.DailyRewardClaimed,
+        SereniteaPot.Spirit,
+        SereniteaPot.TrustRank,
+        SereniteaPot.RealmDepot
     }.ToFrozenSet(StringComparer.Ordinal);
 }

@@ -21,6 +21,12 @@
     "common.crafting": [
       "Sintetizar"
     ],
+    "common.claim": [
+      "Resgatar"
+    ],
+    "common.all": [
+      "Tudo"
+    ],
     "resin.original": [
       "Resina Original"
     ],
@@ -45,6 +51,26 @@
     "expedition.entry": [
       "Expedição",
       "Envie alguém para Expedição"
+    ],
+    "adventurers_guild.katheryne": [
+      "Katheryne"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "Missões Diárias",
+      "Comissões"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "A recompensa de hoje já foi resgatada"
+    ],
+    "serenitea_pot.spirit": [
+      "Tubby",
+      "Espírito do Bule"
+    ],
+    "serenitea_pot.trust_rank": [
+      "Nível de confiança"
+    ],
+    "serenitea_pot.realm_depot": [
+      "Tesouro do Paraíso Mágico"
     ]
   }
 }

@@ -21,6 +21,12 @@
     "common.crafting": [
       "錬金合成"
     ],
+    "common.claim": [
+      "受け取る"
+    ],
+    "common.all": [
+      "すべて"
+    ],
     "resin.original": [
       "天然樹脂"
     ],
@@ -44,6 +50,25 @@
     ],
     "expedition.entry": [
       "探索派遣"
+    ],
+    "adventurers_guild.katheryne": [
+      "キャサリン"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "デイリー依頼"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "本日の報酬は受け取り済み"
+    ],
+    "serenitea_pot.spirit": [
+      "マル",
+      "壺の精霊"
+    ],
+    "serenitea_pot.trust_rank": [
+      "信頼ランク"
+    ],
+    "serenitea_pot.realm_depot": [
+      "洞天百貨"
     ]
   }
 }

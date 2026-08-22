@@ -4,7 +4,8 @@
   "entries": {
     "common.revive": [
       "Revive",
-      "Revive Character"
+      "Revive Character",
+      "revival"
     ],
     "common.confirm": [
       "Confirm"
@@ -20,6 +21,12 @@
     ],
     "common.crafting": [
       "Craft"
+    ],
+    "common.claim": [
+      "Claim"
+    ],
+    "common.all": [
+      "All"
     ],
     "resin.original": [
       "Original Resin"
@@ -43,7 +50,28 @@
       "Challenge Completed"
     ],
     "expedition.entry": [
+      "Expedition",
       "Dispatch Character on Expedition"
+    ],
+    "adventurers_guild.katheryne": [
+      "Katheryne"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "Daily",
+      "Commissions"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "claimed"
+    ],
+    "serenitea_pot.spirit": [
+      "Tubby",
+      "Teapot Spirit"
+    ],
+    "serenitea_pot.trust_rank": [
+      "Trust Rank"
+    ],
+    "serenitea_pot.realm_depot": [
+      "Realm Depot"
     ]
   }
 }

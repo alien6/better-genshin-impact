@@ -4,7 +4,8 @@
   "entries": {
     "common.revive": [
       "Réanimer",
-      "Ressusciter un personnage"
+      "Ressusciter un personnage",
+      "réanimation"
     ],
     "common.confirm": [
       "Confirmer"
@@ -19,7 +20,15 @@
       "Cliquez n'importe où pour fermer"
     ],
     "common.crafting": [
-      "Synthétiser"
+      "Synthétiser",
+      "Synthèse"
+    ],
+    "common.claim": [
+      "Collecter",
+      "récupérer"
+    ],
+    "common.all": [
+      "Tout"
     ],
     "resin.original": [
       "Résine originelle"
@@ -43,7 +52,28 @@
       "Défi terminé"
     ],
     "expedition.entry": [
+      "Expédition",
       "Expéditions"
+    ],
+    "adventurers_guild.katheryne": [
+      "Catherine"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "quotidien",
+      "Missions"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "récupérées"
+    ],
+    "serenitea_pot.spirit": [
+      "Taby",
+      "Esprit de la théière"
+    ],
+    "serenitea_pot.trust_rank": [
+      "Niveau de confiance"
+    ],
+    "serenitea_pot.realm_depot": [
+      "Bazar du royaume"
     ]
   }
 }

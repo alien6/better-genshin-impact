@@ -44,6 +44,11 @@
         {
           "value": "Revive Character",
           "textMapHash": "3705282090"
+        },
+        {
+          "value": "revival",
+          "source": "curated",
+          "reason": "Legacy task-local OCR resource alias retained during the common-job catalog migration."
         }
       ],
       "ja": [
@@ -66,6 +71,11 @@
         {
           "value": "Ressusciter un personnage",
           "textMapHash": "3705282090"
+        },
+        {
+          "value": "réanimation",
+          "source": "curated",
+          "reason": "Legacy task-local OCR resource alias retained during the common-job catalog migration."
         }
       ],
       "pt-BR": [
@@ -241,11 +251,21 @@
     "common.crafting": {
       "zh-Hans": [
         {
+          "value": "合成",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias retained for the crafting interaction prompt."
+        },
+        {
           "value": "炼金合成",
           "textMapHash": "950213591"
         }
       ],
       "zh-Hant": [
+        {
+          "value": "合成",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias retained for the crafting interaction prompt."
+        },
         {
           "value": "煉金合成",
           "textMapHash": "950213591"
@@ -267,6 +287,11 @@
         {
           "value": "Synthétiser",
           "textMapHash": "950213591"
+        },
+        {
+          "value": "Synthèse",
+          "source": "curated",
+          "reason": "Literal expansion of the legacy task-local French OCR regex, retained without regex semantics in the central catalog."
         }
       ],
       "pt-BR": [
@@ -581,17 +606,32 @@
     "expedition.entry": {
       "zh-Hans": [
         {
+          "value": "探索",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias retained for the expedition dialogue option."
+        },
+        {
           "value": "探索派遣",
           "textMapHash": "701969401"
         }
       ],
       "zh-Hant": [
         {
+          "value": "探索",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias retained for the expedition dialogue option."
+        },
+        {
           "value": "探索派遣",
           "textMapHash": "701969401"
         }
       ],
       "en": [
+        {
+          "value": "Expedition",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias retained for the expedition dialogue option."
+        },
         {
           "value": "Dispatch Character on Expedition",
           "textMapHash": "701969401"
@@ -604,6 +644,11 @@
         }
       ],
       "fr": [
+        {
+          "value": "Expédition",
+          "source": "curated",
+          "reason": "Legacy task-local singular OCR alias retained for the expedition dialogue option."
+        },
         {
           "value": "Expéditions",
           "textMapHash": "701969401"
@@ -618,6 +663,391 @@
         {
           "value": "Envie alguém para Expedição",
           "textMapHash": "701969401"
+        }
+      ]
+    },
+    "common.claim": {
+      "zh-Hans": [
+        {
+          "value": "领取",
+          "textMapHash": "1851220636"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "領取",
+          "textMapHash": "1851220636"
+        }
+      ],
+      "en": [
+        {
+          "value": "Claim",
+          "textMapHash": "1851220636"
+        }
+      ],
+      "ja": [
+        {
+          "value": "受け取る",
+          "textMapHash": "1851220636"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Collecter",
+          "textMapHash": "1851220636"
+        },
+        {
+          "value": "récupérer",
+          "source": "curated",
+          "reason": "Legacy task-local OCR resource alias retained for the Battle Pass claim action."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Resgatar",
+          "textMapHash": "1851220636"
+        }
+      ]
+    },
+    "common.all": {
+      "zh-Hans": [
+        {
+          "value": "一键",
+          "source": "curated",
+          "reason": "Legacy task-local OCR fragment retained for the one-click claim control."
+        },
+        {
+          "value": "全部",
+          "textMapHash": "4080025135"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "一鍵",
+          "source": "curated",
+          "reason": "Legacy task-local OCR fragment retained for the one-click claim control."
+        },
+        {
+          "value": "全部",
+          "textMapHash": "4080025135"
+        }
+      ],
+      "en": [
+        {
+          "value": "All",
+          "textMapHash": "4080025135"
+        }
+      ],
+      "ja": [
+        {
+          "value": "すべて",
+          "textMapHash": "4080025135"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Tout",
+          "textMapHash": "4080025135"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Tudo",
+          "textMapHash": "4080025135"
+        }
+      ]
+    },
+    "adventurers_guild.katheryne": {
+      "zh-Hans": [
+        {
+          "value": "凯瑟琳",
+          "textMapHash": "1058049835"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "凱瑟琳",
+          "textMapHash": "1058049835"
+        }
+      ],
+      "en": [
+        {
+          "value": "Katheryne",
+          "textMapHash": "1058049835"
+        }
+      ],
+      "ja": [
+        {
+          "value": "キャサリン",
+          "textMapHash": "1058049835"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Catherine",
+          "textMapHash": "1058049835"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Katheryne",
+          "textMapHash": "1058049835"
+        }
+      ]
+    },
+    "adventurers_guild.daily_commissions": {
+      "zh-Hans": [
+        {
+          "value": "每日",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias for the daily commissions dialogue option."
+        },
+        {
+          "value": "委托",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias for the Adventurer Handbook commissions entry."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "每日",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias for the daily commissions dialogue option."
+        },
+        {
+          "value": "委託",
+          "source": "curated",
+          "reason": "Literal expansion of the legacy task-local OCR regex for the commissions entry."
+        },
+        {
+          "value": "委話",
+          "source": "curated",
+          "reason": "OCR-tolerant literal expansion of the legacy task-local Traditional Chinese regex."
+        }
+      ],
+      "en": [
+        {
+          "value": "Daily",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias for the daily commissions dialogue option."
+        },
+        {
+          "value": "Commissions",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias for the Adventurer Handbook commissions entry."
+        }
+      ],
+      "ja": [
+        {
+          "value": "デイリー依頼",
+          "source": "curated",
+          "reason": "Short OCR-visible daily commissions label derived from longer pinned TextMap reward strings."
+        }
+      ],
+      "fr": [
+        {
+          "value": "quotidien",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias for the daily commissions dialogue option."
+        },
+        {
+          "value": "Missions",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR alias for the Adventurer Handbook commissions entry."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Missões Diárias",
+          "source": "curated",
+          "reason": "Short OCR-visible daily commissions label derived from longer pinned TextMap progress strings."
+        },
+        {
+          "value": "Comissões",
+          "source": "curated",
+          "reason": "Short OCR alias used by the Adventurer Handbook commissions entry."
+        }
+      ]
+    },
+    "adventure_handbook.daily_reward_claimed": {
+      "zh-Hans": [
+        {
+          "value": "今日奖励已领取",
+          "source": "curated",
+          "reason": "Legacy task-local OCR status is not present as a standalone pinned TextMap value."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "今日獎勵已領取",
+          "source": "curated",
+          "reason": "Legacy task-local OCR status is not present as a standalone pinned TextMap value."
+        }
+      ],
+      "en": [
+        {
+          "value": "claimed",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR status retained for compatibility."
+        }
+      ],
+      "ja": [
+        {
+          "value": "本日の報酬は受け取り済み",
+          "source": "curated",
+          "reason": "OCR-visible daily reward status is not present as a standalone pinned TextMap value."
+        }
+      ],
+      "fr": [
+        {
+          "value": "récupérées",
+          "source": "curated",
+          "reason": "Legacy task-local short OCR status retained for compatibility."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "A recompensa de hoje já foi resgatada",
+          "source": "curated",
+          "reason": "OCR-visible daily reward status is not present as a standalone pinned TextMap value."
+        }
+      ]
+    },
+    "serenitea_pot.spirit": {
+      "zh-Hans": [
+        {
+          "value": "阿圆",
+          "textMapHash": "3952400907"
+        },
+        {
+          "value": "壶灵",
+          "textMapHash": "3612188361"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "阿圓",
+          "textMapHash": "3952400907"
+        },
+        {
+          "value": "壺靈",
+          "textMapHash": "3612188361"
+        }
+      ],
+      "en": [
+        {
+          "value": "Tubby",
+          "textMapHash": "3952400907"
+        },
+        {
+          "value": "Teapot Spirit",
+          "textMapHash": "3612188361"
+        }
+      ],
+      "ja": [
+        {
+          "value": "マル",
+          "textMapHash": "3952400907"
+        },
+        {
+          "value": "壺の精霊",
+          "textMapHash": "3612188361"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Taby",
+          "textMapHash": "3952400907"
+        },
+        {
+          "value": "Esprit de la théière",
+          "textMapHash": "3612188361"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Tubby",
+          "textMapHash": "3952400907"
+        },
+        {
+          "value": "Espírito do Bule",
+          "textMapHash": "3612188361"
+        }
+      ]
+    },
+    "serenitea_pot.trust_rank": {
+      "zh-Hans": [
+        {
+          "value": "信任等阶",
+          "textMapHash": "750199690"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "信任等階",
+          "textMapHash": "750199690"
+        }
+      ],
+      "en": [
+        {
+          "value": "Trust Rank",
+          "textMapHash": "750199690"
+        }
+      ],
+      "ja": [
+        {
+          "value": "信頼ランク",
+          "textMapHash": "750199690"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Niveau de confiance",
+          "textMapHash": "750199690"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Nível de confiança",
+          "textMapHash": "750199690"
+        }
+      ]
+    },
+    "serenitea_pot.realm_depot": {
+      "zh-Hans": [
+        {
+          "value": "洞天百宝",
+          "textMapHash": "2216456058"
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "洞天百寶",
+          "textMapHash": "2216456058"
+        }
+      ],
+      "en": [
+        {
+          "value": "Realm Depot",
+          "textMapHash": "2216456058"
+        }
+      ],
+      "ja": [
+        {
+          "value": "洞天百貨",
+          "textMapHash": "2216456058"
+        }
+      ],
+      "fr": [
+        {
+          "value": "Bazar du royaume",
+          "textMapHash": "2216456058"
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Tesouro do Paraíso Mágico",
+          "textMapHash": "2216456058"
         }
       ]
     }

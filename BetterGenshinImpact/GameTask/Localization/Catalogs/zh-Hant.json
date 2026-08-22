@@ -19,7 +19,15 @@
       "點擊任意處關閉"
     ],
     "common.crafting": [
+      "合成",
       "煉金合成"
+    ],
+    "common.claim": [
+      "領取"
+    ],
+    "common.all": [
+      "一鍵",
+      "全部"
     ],
     "resin.original": [
       "原粹樹脂"
@@ -43,7 +51,29 @@
       "挑戰完成"
     ],
     "expedition.entry": [
+      "探索",
       "探索派遣"
+    ],
+    "adventurers_guild.katheryne": [
+      "凱瑟琳"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "每日",
+      "委託",
+      "委話"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "今日獎勵已領取"
+    ],
+    "serenitea_pot.spirit": [
+      "阿圓",
+      "壺靈"
+    ],
+    "serenitea_pot.trust_rank": [
+      "信任等階"
+    ],
+    "serenitea_pot.realm_depot": [
+      "洞天百寶"
     ]
   }
 }

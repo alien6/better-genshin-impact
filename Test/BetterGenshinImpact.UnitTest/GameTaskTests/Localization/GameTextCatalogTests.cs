@@ -17,6 +17,8 @@ public class GameTextCatalogTests
         ["Common.Use"] = "common.use",
         ["Common.ClickAnywhereToClose"] = "common.click_anywhere_to_close",
         ["Common.Crafting"] = "common.crafting",
+        ["Common.Claim"] = "common.claim",
+        ["Common.All"] = "common.all",
         ["Resin.Original"] = "resin.original",
         ["Resin.Condensed"] = "resin.condensed",
         ["Resin.Fragile"] = "resin.fragile",
@@ -24,7 +26,13 @@ public class GameTextCatalogTests
         ["Resin.Replenish"] = "resin.replenish",
         ["Resin.Insufficient"] = "resin.insufficient",
         ["Domain.ChallengeCompleted"] = "domain.challenge_completed",
-        ["Expedition.Entry"] = "expedition.entry"
+        ["Expedition.Entry"] = "expedition.entry",
+        ["AdventurersGuild.Katheryne"] = "adventurers_guild.katheryne",
+        ["AdventurersGuild.DailyCommissions"] = "adventurers_guild.daily_commissions",
+        ["AdventureHandbook.DailyRewardClaimed"] = "adventure_handbook.daily_reward_claimed",
+        ["SereniteaPot.Spirit"] = "serenitea_pot.spirit",
+        ["SereniteaPot.TrustRank"] = "serenitea_pot.trust_rank",
+        ["SereniteaPot.RealmDepot"] = "serenitea_pot.realm_depot"
     };
 
     [Fact]
@@ -130,6 +138,14 @@ public class GameTextCatalogTests
     [InlineData("expedition.entry", "Expedição")]
     [InlineData("common.crafting", "Sintetizar")]
     [InlineData("common.revive", "Reviver")]
+    [InlineData("common.claim", "Resgatar")]
+    [InlineData("common.all", "Tudo")]
+    [InlineData("adventurers_guild.katheryne", "Katheryne")]
+    [InlineData("adventurers_guild.daily_commissions", "Missões Diárias")]
+    [InlineData("adventure_handbook.daily_reward_claimed", "A recompensa de hoje já foi resgatada")]
+    [InlineData("serenitea_pot.spirit", "Espírito do Bule")]
+    [InlineData("serenitea_pot.trust_rank", "Nível de confiança")]
+    [InlineData("serenitea_pot.realm_depot", "Tesouro do Paraíso Mágico")]
     public void PortugueseCatalog_ContainsRequiredSemanticAlias(string key, string alias)
     {
         var provider = new EmbeddedGameTextCatalogProvider();

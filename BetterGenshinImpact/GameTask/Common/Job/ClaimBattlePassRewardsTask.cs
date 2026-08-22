@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.Core.Simulator.Extensions;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
+using BetterGenshinImpact.GameTask.Common.GameText;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.Helpers;
 using BetterGenshinImpact.Helpers.Extensions;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Vanara.PInvoke;
 using static BetterGenshinImpact.GameTask.Common.TaskControl;
@@ -25,15 +24,15 @@ public class ClaimBattlePassRewardsTask
 {
     private readonly ReturnMainUiTask _returnMainUiTask = new();
 
-    private readonly string[] claimAllLocalizedStrings;
+    private readonly CommonJobTextRecognizer _textRecognizer;
 
     private bool _manualSelectionReminderLogged;
 
     public ClaimBattlePassRewardsTask()
     {
-        IStringLocalizer<ClaimBattlePassRewardsTask> stringLocalizer = App.GetService<IStringLocalizer<ClaimBattlePassRewardsTask>>() ?? throw new NullReferenceException();
-        CultureInfo cultureInfo = new CultureInfo(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
-        this.claimAllLocalizedStrings = ((string[])["一键", "领取"]).Select(i => stringLocalizer.WithCultureGet(cultureInfo, i)).ToArray();
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new CommonJobTextRecognizer(matcher);
     }
 
     public async Task Start(CancellationToken ct)
@@ -89,7 +88,11 @@ public class ClaimBattlePassRewardsTask
     {
         using var ra = CaptureToRectArea();
         var ocrList = ra.FindMulti(RecognitionObject.Ocr(ra.ToRect().CutRightBottom(0.3, 0.2)));
-        var wt = ocrList.FirstOrDefault(txt => this.claimAllLocalizedStrings.Any(i => Regex.IsMatch(txt.Text, i)));
+        var hasClaimAll = _textRecognizer.IsClaimAll(ocrList.Select(txt => txt.Text));
+        var wt = hasClaimAll
+            ? ocrList.FirstOrDefault(txt => _textRecognizer.IsClaim(txt.Text))
+              ?? ocrList.FirstOrDefault(txt => _textRecognizer.IsAll(txt.Text))
+            : null;
         if (wt != null)
         {
             wt.Click();
