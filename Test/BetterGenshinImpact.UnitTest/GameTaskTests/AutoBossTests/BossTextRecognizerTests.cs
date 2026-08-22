@@ -149,6 +149,16 @@ public class BossTextRecognizerTests
             sut.TryGetFullRecoveryTime("Atualização: 01:02:03 Recuperação total: 12:34:56"));
     }
 
+    [Fact]
+    public void RecoveryTime_IgnoresUnrelatedTimeAfterRecoveryValue()
+    {
+        var sut = Create("en");
+
+        Assert.Equal(
+            new TimeSpan(12, 34, 56),
+            sut.TryGetFullRecoveryTime("Full Recovery 12:34:56 Last sync 23:59:59"));
+    }
+
     [Theory]
     [InlineData(500, 300, 2)]
     [InlineData(1500, 1000, 2)]

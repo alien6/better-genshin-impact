@@ -58,15 +58,12 @@ public sealed class BossTextRecognizer
             return TimeSpan.Zero;
         }
 
-        if (!IsFullRecovery(recognizedText))
-        {
-            return null;
-        }
-
-        var matches = Regex.Matches(
-            StringUtils.ConvertFullWidthNumToHalfWidth(recognizedText).Replace('：', ':'),
-            @"(?<hours>\d{1,3}):(?<minutes>\d{2}):(?<seconds>\d{2})");
-        var match = matches.Count > 0 ? matches[^1] : null;
+        var recoveryText = StringUtils.ConvertFullWidthNumToHalfWidth(recognizedText).Replace('：', ':');
+        var match = Regex.Matches(
+                recoveryText,
+                @"(?<hours>\d{1,3}):(?<minutes>\d{2}):(?<seconds>\d{2})")
+            .Cast<Match>()
+            .FirstOrDefault(candidate => IsFullRecovery(recoveryText[..candidate.Index]));
         return match is { Success: true }
             && int.TryParse(match.Groups["hours"].Value, NumberStyles.None, CultureInfo.InvariantCulture, out var hours)
             && int.TryParse(match.Groups["minutes"].Value, NumberStyles.None, CultureInfo.InvariantCulture, out var minutes)
