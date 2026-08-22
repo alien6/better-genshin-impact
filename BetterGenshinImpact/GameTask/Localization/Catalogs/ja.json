@@ -103,6 +103,12 @@
     "expedition.entry": [
       "探索派遣"
     ],
+    "expedition.time_shortened": ["時間短縮"],
+    "expedition.rewards_increased": ["報酬増加"],
+    "expedition.no_bonus": ["ボーナスなし"],
+    "expedition.complete": ["探索完了"],
+    "expedition.in_progress": ["探索中"],
+    "expedition.rewards": ["探索派遣報酬"],
     "adventurers_guild.katheryne": [
       "キャサリン"
     ],

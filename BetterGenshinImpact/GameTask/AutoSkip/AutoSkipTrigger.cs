@@ -25,6 +25,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using BetterGenshinImpact.GameTask.AutoPick.Assets;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
+using BetterGenshinImpact.GameTask.Localization;
 using Vanara.PInvoke;
 using Region = BetterGenshinImpact.GameTask.Model.Area.Region;
 
@@ -73,6 +74,7 @@ public partial class AutoSkipTrigger : ITaskTrigger
     private const int PageCloseRecognitionDelayMilliseconds = 200;
 
     private readonly AutoSkipConfig _config;
+    private readonly ExpeditionTextRecognizer _expeditionTextRecognizer;
     private readonly DialogueOptionAudioWaiter _dialogueOptionAudioWaiter = new();
 
     /// <summary>
@@ -102,6 +104,7 @@ public partial class AutoSkipTrigger : ITaskTrigger
     public AutoSkipTrigger()
     {
         _config = TaskContext.Instance().Config.AutoSkipConfig;
+        _expeditionTextRecognizer = CreateExpeditionTextRecognizer();
     }
     
     /// <summary>
@@ -111,8 +114,13 @@ public partial class AutoSkipTrigger : ITaskTrigger
     public AutoSkipTrigger(AutoSkipConfig config)
     {
         _config = config;
+        _expeditionTextRecognizer = CreateExpeditionTextRecognizer();
         _isCustomConfiguration = true;
     }
+
+    private static ExpeditionTextRecognizer CreateExpeditionTextRecognizer() => new(
+        App.GetService<IGameTextMatcher>()
+        ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
 
     public void Init()
     {
@@ -714,7 +722,8 @@ public partial class AutoSkipTrigger : ITaskTrigger
                         var textMat = item.ToImageRegion().SrcMat;
                         if (IsOrangeOption(textMat))
                         {
-                            if (_config.AutoGetDailyRewardsEnabled && (item.Text.Contains("每日") || item.Text.Contains("委托")))
+                            var normalizedItemText = _expeditionTextRecognizer.NormalizeOcrText(item.Text);
+                            if (_config.AutoGetDailyRewardsEnabled && _expeditionTextRecognizer.IsDailyCommissionNormalized(normalizedItemText))
                             {
                                 if (!ClickOcrRegion(item, "每日委托"))
                                 {
@@ -733,7 +742,7 @@ public partial class AutoSkipTrigger : ITaskTrigger
                                 
                                 _prevGetDailyRewardsTime = DateTime.Now; // 记录领取时间
                             }
-                            else if (_config.AutoReExploreEnabled && (item.Text.Contains("探索") || item.Text.Contains("派遣")))
+                            else if (_config.AutoReExploreEnabled && _expeditionTextRecognizer.IsExplorationDispatchNormalized(normalizedItemText))
                             {
                                 if (!ClickOcrRegion(item, "探索派遣"))
                                 {
@@ -743,10 +752,7 @@ public partial class AutoSkipTrigger : ITaskTrigger
                                 Thread.Sleep(800); // 等待探索派遣界面打开
                                 new OneKeyExpeditionTask().Run();
                             }
-                            else if (!item.Text.Contains("每日")
-                                && !item.Text.Contains("委托")
-                                && !item.Text.Contains("探索")
-                                && !item.Text.Contains("派遣"))
+                            else if (!_expeditionTextRecognizer.IsExcludedDialogueOptionNormalized(normalizedItemText))
                             {
                                 if (!ClickOcrRegion(item))
                                 {
@@ -1000,7 +1006,8 @@ public partial class AutoSkipTrigger : ITaskTrigger
 
     private void AutoSkipLog(string text)
     {
-        if (text.Contains("每日委托") || text.Contains("探索派遣"))
+        var normalizedText = _expeditionTextRecognizer.NormalizeOcrText(text);
+        if (_expeditionTextRecognizer.IsExcludedDialogueOptionNormalized(normalizedText))
         {
             _logger.LogInformation("自动剧情：{Text}", text);
         }

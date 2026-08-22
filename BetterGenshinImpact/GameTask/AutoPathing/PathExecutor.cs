@@ -35,6 +35,7 @@ using BetterGenshinImpact.Core.Simulator.Extensions;
 using BetterGenshinImpact.GameTask;
 using BetterGenshinImpact.GameTask.AutoPathing;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Common.Exceptions;
 using BetterGenshinImpact.GameTask.Common.Map.Maps;
 using BetterGenshinImpact.GameTask.AutoFight;
@@ -46,6 +47,7 @@ public partial class PathExecutor
     private readonly CameraRotateTask _rotateTask;
     private readonly TrapEscaper _trapEscaper;
     private readonly BlessingOfTheWelkinMoonTask _blessingOfTheWelkinMoonTask = new();
+    private readonly ExpeditionTextRecognizer _expeditionTextRecognizer;
     private AutoSkipTrigger? _autoSkipTrigger;
     public int SuccessFight = 0;
     //路径追踪完全走完所有路径结束的标识
@@ -58,6 +60,9 @@ public partial class PathExecutor
     {
         _trapEscaper = new(ct);
         _rotateTask = new(ct);
+        _expeditionTextRecognizer = new ExpeditionTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
         this.ct = ct;
         pathExecutorSuspend = new PathExecutorSuspend(this);
     }
@@ -696,7 +701,8 @@ public partial class PathExecutor
             var textRect = new Rect(60, 20, 160, 260);
             using var textMat = new Mat(ra1.SrcMat, textRect);
             string text = OcrFactory.Paddle.Ocr(textMat);
-            if (text.Contains("探索派遣奖励"))
+            var normalizedText = _expeditionTextRecognizer.NormalizeOcrText(text);
+            if (_expeditionTextRecognizer.IsExplorationDispatchRewardsNormalized(normalizedText))
             {
                 changeBigMap = true;
                 Logger.LogInformation("开始自动领取派遣任务！");

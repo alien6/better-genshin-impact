@@ -104,6 +104,12 @@
       "Expedição",
       "Envie alguém para Expedição"
     ],
+    "expedition.time_shortened": ["Tempo reduzido"],
+    "expedition.rewards_increased": ["Recompensas aumentadas"],
+    "expedition.no_bonus": ["Sem bônus"],
+    "expedition.complete": ["Expedição concluída"],
+    "expedition.in_progress": ["Expedição em andamento"],
+    "expedition.rewards": ["Recompensas de Expedição"],
     "adventurers_guild.katheryne": [
       "Katheryne"
     ],

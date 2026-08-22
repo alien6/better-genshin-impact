@@ -94,6 +94,12 @@ public static class GameTextKeys
     public static class Expedition
     {
         public const string Entry = "expedition.entry";
+        public const string TimeShortened = "expedition.time_shortened";
+        public const string RewardsIncreased = "expedition.rewards_increased";
+        public const string NoBonus = "expedition.no_bonus";
+        public const string Complete = "expedition.complete";
+        public const string InProgress = "expedition.in_progress";
+        public const string Rewards = "expedition.rewards";
     }
 
     public static class AdventurersGuild
@@ -222,6 +228,12 @@ public static class GameTextKeys
         Stygian.NormalChallenge,
         Stygian.PresetTeams,
         Expedition.Entry,
+        Expedition.TimeShortened,
+        Expedition.RewardsIncreased,
+        Expedition.NoBonus,
+        Expedition.Complete,
+        Expedition.InProgress,
+        Expedition.Rewards,
         AdventurersGuild.Katheryne,
         AdventurersGuild.DailyCommissions,
         AdventureHandbook.DailyRewardClaimed,

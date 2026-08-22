@@ -111,6 +111,12 @@
       "Expedition",
       "Dispatch Character on Expedition"
     ],
+    "expedition.time_shortened": ["Time Shortened"],
+    "expedition.rewards_increased": ["Rewards Increased"],
+    "expedition.no_bonus": ["No Bonus"],
+    "expedition.complete": ["Expedition Complete"],
+    "expedition.in_progress": ["Expedition in Progress"],
+    "expedition.rewards": ["Expedition Rewards"],
     "adventurers_guild.katheryne": [
       "Katheryne"
     ],

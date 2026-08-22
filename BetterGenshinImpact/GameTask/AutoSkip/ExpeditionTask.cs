@@ -1,6 +1,7 @@
 ﻿using BetterGenshinImpact.Core.Recognition.OCR;
 using BetterGenshinImpact.GameTask.AutoSkip.Model;
 using BetterGenshinImpact.GameTask.Common;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.View.Drawable;
 using Microsoft.Extensions.Logging;
 using OpenCvSharp;
@@ -22,8 +23,16 @@ namespace BetterGenshinImpact.GameTask.AutoSkip;
 public class ExpeditionTask
 {
     private static readonly List<string> ExpeditionCharacterList = [];
+    private readonly ExpeditionTextRecognizer _textRecognizer;
 
     private int _expeditionCount = 0;
+
+    public ExpeditionTask()
+    {
+        _textRecognizer = new ExpeditionTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
+    }
 
     public void Run(CaptureContent content)
     {
@@ -74,7 +83,11 @@ public class ExpeditionTask
         {
             var result = CaptureAndOcr(content,
                 new Rect(0, 0, captureRect.Width - (int)(480 * assetScale), captureRect.Height));
-            var rect = result.FindRectByText("探险完成");
+            var completeRegion = result.Regions
+                .Select(region => (Region: region, NormalizedText: _textRecognizer.NormalizeOcrText(region.Text)))
+                .FirstOrDefault(item => _textRecognizer.IsExpeditionCompleteNormalized(item.NormalizedText))
+                .Region;
+            var rect = completeRegion.Rect.BoundingRect();
             // TODO i>1 的时候,可以通过关键词“探索派遣限制 4 / 5 ”判断是否已经派遣完成？
             if (rect != default)
             {
@@ -161,40 +174,39 @@ public class ExpeditionTask
             .Where(r => r.Rect.X + r.Rect.Width < captureRect.Width / 2)
             .OrderBy(r => r.Rect.Y)
             .ThenBy(r => r.Rect.X)
+            .Select(ocrResultRect => (OcrResultRect: ocrResultRect,
+                NormalizedText: _textRecognizer.NormalizeOcrText(ocrResultRect.Text)))
             .ToList();
 
         var cards = new List<ExpeditionCharacterCard>();
         foreach (var ocrResultRect in ocrResultRects)
         {
-            if (ocrResultRect.Text.Contains("时间缩短") || ocrResultRect.Text.Contains("奖励增加") ||
-                ocrResultRect.Text.Contains("暂无加成"))
+            if (_textRecognizer.IsExpeditionBonusNormalized(ocrResultRect.NormalizedText))
             {
                 var card = new ExpeditionCharacterCard();
-                card.Rects.Add(ocrResultRect.Rect);
-                card.Addition = ocrResultRect.Text;
+                card.Rects.Add(ocrResultRect.OcrResultRect.Rect);
+                card.Addition = ocrResultRect.OcrResultRect.Text;
                 foreach (var ocrResultRect2 in ocrResultRects)
                 {
-                    if (ocrResultRect2.Rect.Y > ocrResultRect.Rect.Y - 50 * assetScale
-                        && ocrResultRect2.Rect.Y + ocrResultRect2.Rect.Height <
-                        ocrResultRect.Rect.Y + ocrResultRect.Rect.Height)
+                    if (ocrResultRect2.OcrResultRect.Rect.Y > ocrResultRect.OcrResultRect.Rect.Y - 50 * assetScale
+                        && ocrResultRect2.OcrResultRect.Rect.Y + ocrResultRect2.OcrResultRect.Rect.Height <
+                        ocrResultRect.OcrResultRect.Rect.Y + ocrResultRect.OcrResultRect.Rect.Height)
                     {
-                        if (ocrResultRect2.Text.Contains("探险完成") || ocrResultRect2.Text.Contains("探险中"))
+                        if (_textRecognizer.IsExpeditionStateNormalized(ocrResultRect2.NormalizedText))
                         {
                             card.Idle = false;
-                            var name = ocrResultRect2.Text.Replace("探险完成", "").Replace("探险中", "").Replace("/", "")
-                                .Trim();
+                            var name = _textRecognizer.RemoveExpeditionStateText(ocrResultRect2.OcrResultRect.Text);
                             if (!string.IsNullOrEmpty(name))
                             {
                                 card.Name = name;
                             }
                         }
-                        else if (!ocrResultRect2.Text.Contains("时间缩短") && !ocrResultRect2.Text.Contains("奖励增加") &&
-                                 !ocrResultRect2.Text.Contains("暂无加成"))
+                        else if (!_textRecognizer.IsExpeditionBonusNormalized(ocrResultRect2.NormalizedText))
                         {
-                            card.Name = ocrResultRect2.Text;
+                            card.Name = ocrResultRect2.OcrResultRect.Text;
                         }
 
-                        card.Rects.Add(ocrResultRect2.Rect);
+                        card.Rects.Add(ocrResultRect2.OcrResultRect.Rect);
                     }
                 }
 

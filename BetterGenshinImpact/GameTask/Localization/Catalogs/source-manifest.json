@@ -1072,6 +1072,54 @@
         }
       ]
     },
+    "expedition.time_shortened": {
+      "zh-Hans": [{ "value": "时间缩短", "source": "curated", "reason": "Legacy expedition-card OCR state retained from the deprecated re-exploration task." }],
+      "zh-Hant": [{ "value": "時間縮短", "source": "curated", "reason": "Traditional Chinese localization of the legacy expedition-card OCR state." }],
+      "en": [{ "value": "Time Shortened", "source": "curated", "reason": "English expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "時間短縮", "source": "curated", "reason": "Japanese expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Temps réduit", "source": "curated", "reason": "French expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Tempo reduzido", "source": "curated", "reason": "Portuguese expedition-card OCR state; no standalone pinned TextMap value exists." }]
+    },
+    "expedition.rewards_increased": {
+      "zh-Hans": [{ "value": "奖励增加", "source": "curated", "reason": "Legacy expedition-card OCR state retained from the deprecated re-exploration task." }],
+      "zh-Hant": [{ "value": "獎勵增加", "source": "curated", "reason": "Traditional Chinese localization of the legacy expedition-card OCR state." }],
+      "en": [{ "value": "Rewards Increased", "source": "curated", "reason": "English expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "報酬増加", "source": "curated", "reason": "Japanese expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Récompenses augmentées", "source": "curated", "reason": "French expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Recompensas aumentadas", "source": "curated", "reason": "Portuguese expedition-card OCR state; no standalone pinned TextMap value exists." }]
+    },
+    "expedition.no_bonus": {
+      "zh-Hans": [{ "value": "暂无加成", "source": "curated", "reason": "Legacy expedition-card OCR state retained from the deprecated re-exploration task." }],
+      "zh-Hant": [{ "value": "暫無加成", "source": "curated", "reason": "Traditional Chinese localization of the legacy expedition-card OCR state." }],
+      "en": [{ "value": "No Bonus", "source": "curated", "reason": "English expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "ボーナスなし", "source": "curated", "reason": "Japanese expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Aucun bonus", "source": "curated", "reason": "French expedition-card OCR state; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Sem bônus", "source": "curated", "reason": "Portuguese expedition-card OCR state; no standalone pinned TextMap value exists." }]
+    },
+    "expedition.complete": {
+      "zh-Hans": [{ "value": "探险完成", "source": "curated", "reason": "Legacy expedition status OCR state retained from the deprecated re-exploration task." }],
+      "zh-Hant": [{ "value": "探險完成", "source": "curated", "reason": "Traditional Chinese localization of the legacy expedition status OCR state." }],
+      "en": [{ "value": "Expedition Complete", "source": "curated", "reason": "English expedition status OCR state; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "探索完了", "source": "curated", "reason": "Japanese expedition status OCR state; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Expédition terminée", "source": "curated", "reason": "French expedition status OCR state; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Expedição concluída", "source": "curated", "reason": "Portuguese expedition status OCR state; no standalone pinned TextMap value exists." }]
+    },
+    "expedition.in_progress": {
+      "zh-Hans": [{ "value": "探险中", "source": "curated", "reason": "Legacy expedition status OCR state retained from the deprecated re-exploration task." }],
+      "zh-Hant": [{ "value": "探險中", "source": "curated", "reason": "Traditional Chinese localization of the legacy expedition status OCR state." }],
+      "en": [{ "value": "Expedition in Progress", "source": "curated", "reason": "English expedition status OCR state; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "探索中", "source": "curated", "reason": "Japanese expedition status OCR state; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Expédition en cours", "source": "curated", "reason": "French expedition status OCR state; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Expedição em andamento", "source": "curated", "reason": "Portuguese expedition status OCR state; no standalone pinned TextMap value exists." }]
+    },
+    "expedition.rewards": {
+      "zh-Hans": [{ "value": "探索派遣奖励", "source": "curated", "reason": "Legacy PathExecutor map OCR heading retained during expedition localization." }],
+      "zh-Hant": [{ "value": "探索派遣獎勵", "source": "curated", "reason": "Traditional Chinese localization of the expedition reward map heading." }],
+      "en": [{ "value": "Expedition Rewards", "source": "curated", "reason": "English expedition reward map heading; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "探索派遣報酬", "source": "curated", "reason": "Japanese expedition reward map heading; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Récompenses d'expédition", "source": "curated", "reason": "French expedition reward map heading; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Recompensas de Expedição", "source": "curated", "reason": "Portuguese expedition reward map heading; no standalone pinned TextMap value exists." }]
+    },
     "common.claim": {
       "zh-Hans": [
         {

@@ -115,6 +115,12 @@
       "Expédition",
       "Expéditions"
     ],
+    "expedition.time_shortened": ["Temps réduit"],
+    "expedition.rewards_increased": ["Récompenses augmentées"],
+    "expedition.no_bonus": ["Aucun bonus"],
+    "expedition.complete": ["Expédition terminée"],
+    "expedition.in_progress": ["Expédition en cours"],
+    "expedition.rewards": ["Récompenses d'expédition"],
     "adventurers_guild.katheryne": [
       "Catherine"
     ],

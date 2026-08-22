@@ -121,6 +121,12 @@
       "探索",
       "探索派遣"
     ],
+    "expedition.time_shortened": ["時間縮短"],
+    "expedition.rewards_increased": ["獎勵增加"],
+    "expedition.no_bonus": ["暫無加成"],
+    "expedition.complete": ["探險完成"],
+    "expedition.in_progress": ["探險中"],
+    "expedition.rewards": ["探索派遣獎勵"],
     "adventurers_guild.katheryne": [
       "凱瑟琳"
     ],

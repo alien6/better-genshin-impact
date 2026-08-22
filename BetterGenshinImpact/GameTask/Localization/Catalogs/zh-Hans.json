@@ -115,6 +115,12 @@
       "探索",
       "探索派遣"
     ],
+    "expedition.time_shortened": ["时间缩短"],
+    "expedition.rewards_increased": ["奖励增加"],
+    "expedition.no_bonus": ["暂无加成"],
+    "expedition.complete": ["探险完成"],
+    "expedition.in_progress": ["探险中"],
+    "expedition.rewards": ["探索派遣奖励"],
     "adventurers_guild.katheryne": [
       "凯瑟琳"
     ],
