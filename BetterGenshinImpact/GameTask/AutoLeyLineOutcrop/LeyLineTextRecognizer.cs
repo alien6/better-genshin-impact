@@ -77,9 +77,16 @@ public sealed class LeyLineTextRecognizer
     public bool IsRewardBlossomPrompt(IEnumerable<string> recognizedTexts)
     {
         var texts = Materialize(recognizedTexts);
+        return IsCombinedMatch(texts, GameTextKeys.LeyLine.Line)
+            && (IsCombinedMatch(texts, GameTextKeys.LeyLine.Activate)
+                || IsCombinedMatch(texts, GameTextKeys.LeyLine.Select));
+    }
+
+    public bool IsRewardBlossomTitle(IEnumerable<string> recognizedTexts)
+    {
+        var texts = Materialize(recognizedTexts);
         return IsCombinedMatch(texts, GameTextKeys.LeyLine.Select)
-            || (IsCombinedMatch(texts, GameTextKeys.LeyLine.Line)
-                && IsCombinedMatch(texts, GameTextKeys.LeyLine.Activate));
+               || IsRewardBlossomPrompt(texts);
     }
 
     public bool IsConfiguredResin(string recognizedText, string resinName) => resinName switch

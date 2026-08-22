@@ -1983,7 +1983,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
 
     private bool IsRewardPromptTitleText(string text)
     {
-        return _textRecognizer.IsRewardBlossomPrompt([text])
+        return _textRecognizer.IsRewardBlossomTitle([text])
                || (_textRecognizer.IsLeyLine(text) && _textRecognizer.IsOutcrop(text));
     }
 

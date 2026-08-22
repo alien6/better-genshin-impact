@@ -46,7 +46,15 @@ public class LeyLineTextRecognizerTests
     {
         var sut = Create("en");
 
-        Assert.True(sut.IsRewardBlossomPrompt(Normalize(sut, ["Select Activation Method"])));
+        Assert.True(sut.IsRewardBlossomTitle(Normalize(sut, ["Select Activation Method"])));
+    }
+
+    [Fact]
+    public void RewardBlossomPrompt_RejectsContentWithOnlySelectionText()
+    {
+        var sut = Create("en");
+
+        Assert.False(sut.IsRewardBlossomPrompt(Normalize(sut, ["Select"])));
     }
 
     [Fact]
