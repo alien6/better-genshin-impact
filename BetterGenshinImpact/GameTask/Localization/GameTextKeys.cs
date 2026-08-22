@@ -31,6 +31,14 @@ public static class GameTextKeys
     public static class Domain
     {
         public const string ChallengeCompleted = "domain.challenge_completed";
+        public const string AutoLeaving = "domain.auto_leaving";
+        public const string Skip = "domain.skip";
+        public const string LeyLineDisorder = "domain.ley_line_disorder";
+        public const string LimitedTimeFullyOpen = "domain.limited_time_fully_open";
+        public const string SoloChallenge = "domain.solo_challenge";
+        public const string StartChallenge = "domain.start_challenge";
+        public const string PetrifiedTree = "domain.petrified_tree";
+        public const string ResinUsePrompt = "domain.resin_use_prompt";
     }
 
     public static class Expedition
@@ -117,6 +125,14 @@ public static class GameTextKeys
         Resin.Replenish,
         Resin.Insufficient,
         Domain.ChallengeCompleted,
+        Domain.AutoLeaving,
+        Domain.Skip,
+        Domain.LeyLineDisorder,
+        Domain.LimitedTimeFullyOpen,
+        Domain.SoloChallenge,
+        Domain.StartChallenge,
+        Domain.PetrifiedTree,
+        Domain.ResinUsePrompt,
         Expedition.Entry,
         AdventurersGuild.Katheryne,
         AdventurersGuild.DailyCommissions,

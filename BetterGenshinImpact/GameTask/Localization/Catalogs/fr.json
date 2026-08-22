@@ -17,7 +17,9 @@
       "Utiliser"
     ],
     "common.click_anywhere_to_close": [
-      "Cliquez n'importe où pour fermer"
+      "Cliquez n'importe où pour fermer",
+      "Cliquez.*pour.*fermer",
+      "Cliquez pour fermer"
     ],
     "common.crafting": [
       "Synthétiser",
@@ -51,7 +53,35 @@
       "Résine originelle insuffisante"
     ],
     "domain.challenge_completed": [
-      "Défi terminé"
+      "Défi terminé",
+      "(Défi|terminé)",
+      "Défi",
+      "terminé"
+    ],
+    "domain.auto_leaving": [
+      "Sortie"
+    ],
+    "domain.skip": [
+      "Passer"
+    ],
+    "domain.ley_line_disorder": [
+      "Anomalie énergétique",
+      "Anomalie.*énergétique"
+    ],
+    "domain.limited_time_fully_open": [
+      "Tous disponibles pour une durée limitée"
+    ],
+    "domain.solo_challenge": [
+      "Défi solo"
+    ],
+    "domain.start_challenge": [
+      "Défi lancé"
+    ],
+    "domain.petrified_tree": [
+      "Arbre pétrifié"
+    ],
+    "domain.resin_use_prompt": [
+      "Souhaitez-vous toujours défier ce donjon ?"
     ],
     "expedition.entry": [
       "Expédition",

@@ -210,6 +210,11 @@
           "value": "点击任意处关闭",
           "source": "curated",
           "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        },
+        {
+          "value": "点击任意位置关闭",
+          "source": "curated",
+          "reason": "Legacy AutoDomain task-local OCR resource alias retained during domain recognition migration."
         }
       ],
       "zh-Hant": [
@@ -217,6 +222,11 @@
           "value": "點擊任意處關閉",
           "source": "curated",
           "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        },
+        {
+          "value": "點擊任意位置關閉",
+          "source": "curated",
+          "reason": "Legacy AutoDomain task-local OCR resource alias retained during domain recognition migration."
         }
       ],
       "en": [
@@ -224,6 +234,11 @@
           "value": "Click anywhere to close",
           "source": "curated",
           "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        },
+        {
+          "value": "Click.*any.*where.*to.*close",
+          "source": "curated",
+          "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration."
         }
       ],
       "ja": [
@@ -238,6 +253,16 @@
           "value": "Cliquez n'importe où pour fermer",
           "source": "curated",
           "reason": "OCR-visible UI instruction is not present as a standalone value in the pinned TextMap."
+        },
+        {
+          "value": "Cliquez.*pour.*fermer",
+          "source": "curated",
+          "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration."
+        },
+        {
+          "value": "Cliquez pour fermer",
+          "source": "curated",
+          "reason": "Literal compatibility expansion of the legacy AutoDomain French OCR regular expression."
         }
       ],
       "pt-BR": [
@@ -537,6 +562,11 @@
           "value": "原粹树脂不足",
           "source": "curated",
           "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+        },
+        {
+          "value": "数量不足",
+          "source": "curated",
+          "reason": "Short legacy AutoDomain OCR substring retained from the resin prompt represented by pinned TextMap hash 1019822723."
         }
       ],
       "zh-Hant": [
@@ -544,6 +574,11 @@
           "value": "原粹樹脂不足",
           "source": "curated",
           "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+        },
+        {
+          "value": "數量不足",
+          "source": "curated",
+          "reason": "Traditional Chinese counterpart of the short legacy AutoDomain OCR substring in pinned TextMap hash 1019822723."
         }
       ],
       "en": [
@@ -580,18 +615,63 @@
         {
           "value": "挑战完成",
           "textMapHash": "343200509"
+        },
+        {
+          "value": "(挑战|达成)",
+          "source": "curated",
+          "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration."
+        },
+        {
+          "value": "挑战",
+          "source": "curated",
+          "reason": "Finite compatibility expansion of the legacy AutoDomain Simplified Chinese OCR alternation."
+        },
+        {
+          "value": "达成",
+          "source": "curated",
+          "reason": "Finite compatibility expansion of the legacy AutoDomain Simplified Chinese OCR alternation."
         }
       ],
       "zh-Hant": [
         {
           "value": "挑戰完成",
           "textMapHash": "343200509"
+        },
+        {
+          "value": "(挑戰|達成)",
+          "source": "curated",
+          "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration."
+        },
+        {
+          "value": "挑戰",
+          "source": "curated",
+          "reason": "Finite compatibility expansion of the legacy AutoDomain Traditional Chinese OCR alternation."
+        },
+        {
+          "value": "達成",
+          "source": "curated",
+          "reason": "Finite compatibility expansion of the legacy AutoDomain Traditional Chinese OCR alternation."
         }
       ],
       "en": [
         {
           "value": "Challenge Completed",
           "textMapHash": "343200509"
+        },
+        {
+          "value": "(Challenge|Completed)",
+          "source": "curated",
+          "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration."
+        },
+        {
+          "value": "Challenge",
+          "source": "curated",
+          "reason": "Finite compatibility expansion of the legacy AutoDomain English OCR alternation."
+        },
+        {
+          "value": "Completed",
+          "source": "curated",
+          "reason": "Finite compatibility expansion of the legacy AutoDomain English OCR alternation."
         }
       ],
       "ja": [
@@ -604,6 +684,21 @@
         {
           "value": "Défi terminé",
           "textMapHash": "343200509"
+        },
+        {
+          "value": "(Défi|terminé)",
+          "source": "curated",
+          "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration."
+        },
+        {
+          "value": "Défi",
+          "source": "curated",
+          "reason": "Finite compatibility expansion of the legacy AutoDomain French OCR alternation."
+        },
+        {
+          "value": "terminé",
+          "source": "curated",
+          "reason": "Finite compatibility expansion of the legacy AutoDomain French OCR alternation."
         }
       ],
       "pt-BR": [
@@ -612,6 +707,115 @@
           "textMapHash": "343200509"
         }
       ]
+    },
+    "domain.auto_leaving": {
+      "zh-Hans": [
+        { "value": "自动退出", "source": "curated", "reason": "Stable OCR substring extracted from pinned TextMap hash 3901007629 after runtime placeholder substitution." },
+        { "value": "(自动|退出)", "source": "curated", "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration." },
+        { "value": "自动", "source": "curated", "reason": "Finite compatibility expansion of the legacy AutoDomain Simplified Chinese OCR alternation." },
+        { "value": "退出", "source": "curated", "reason": "Finite compatibility expansion of the legacy AutoDomain Simplified Chinese OCR alternation." }
+      ],
+      "zh-Hant": [
+        { "value": "自動退出", "source": "curated", "reason": "Stable OCR substring extracted from pinned TextMap hash 3901007629 after runtime placeholder substitution." },
+        { "value": "(自動|退出)", "source": "curated", "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration." },
+        { "value": "自動", "source": "curated", "reason": "Finite compatibility expansion of the legacy AutoDomain Traditional Chinese OCR alternation." },
+        { "value": "退出", "source": "curated", "reason": "Finite compatibility expansion of the legacy AutoDomain Traditional Chinese OCR alternation." }
+      ],
+      "en": [
+        { "value": "Exiting", "source": "curated", "reason": "Stable OCR substring extracted from pinned TextMap hash 3901007629 after runtime placeholder substitution." },
+        { "value": "Leaving", "source": "curated", "reason": "Legacy AutoDomain task-local English OCR resource alias retained during domain recognition migration." }
+      ],
+      "ja": [
+        { "value": "自動的に終了", "source": "curated", "reason": "Stable OCR substring extracted from pinned TextMap hash 3901007629 after runtime placeholder substitution." }
+      ],
+      "fr": [
+        { "value": "Sortie", "source": "curated", "reason": "Legacy AutoDomain alias and stable OCR substring of pinned TextMap hash 3901007629." }
+      ],
+      "pt-BR": [
+        { "value": "Saindo", "source": "curated", "reason": "Stable OCR substring extracted from pinned TextMap hash 3901007629 after runtime placeholder substitution." }
+      ]
+    },
+    "domain.skip": {
+      "zh-Hans": [{ "value": "跳过", "textMapHash": "2263846587" }],
+      "zh-Hant": [{ "value": "跳過", "textMapHash": "2263846587" }],
+      "en": [{ "value": "Skip", "textMapHash": "2263846587" }],
+      "ja": [{ "value": "スキップ", "textMapHash": "2263846587" }],
+      "fr": [{ "value": "Passer", "textMapHash": "2263846587" }],
+      "pt-BR": [{ "value": "Pular", "textMapHash": "2263846587" }]
+    },
+    "domain.ley_line_disorder": {
+      "zh-Hans": [
+        { "value": "地脉异常", "source": "curated", "reason": "Legacy AutoDomain OCR resource alias retained; the pinned TextMap contains the term only inside longer values." }
+      ],
+      "zh-Hant": [
+        { "value": "地脈異常", "source": "curated", "reason": "Literal compatibility expansion of the legacy AutoDomain Traditional Chinese OCR character-class expression." },
+        { "value": "地[脈服][異翼昊]常", "source": "curated", "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration." },
+        { "value": "地脈翼常", "source": "curated", "reason": "Finite compatibility expansion of the legacy Traditional Chinese OCR character classes." },
+        { "value": "地脈昊常", "source": "curated", "reason": "Finite compatibility expansion of the legacy Traditional Chinese OCR character classes." },
+        { "value": "地服異常", "source": "curated", "reason": "Finite compatibility expansion of the legacy Traditional Chinese OCR character classes." },
+        { "value": "地服翼常", "source": "curated", "reason": "Finite compatibility expansion of the legacy Traditional Chinese OCR character classes." },
+        { "value": "地服昊常", "source": "curated", "reason": "Finite compatibility expansion of the legacy Traditional Chinese OCR character classes." }
+      ],
+      "en": [
+        { "value": "Ley Line Disorder", "source": "curated", "reason": "Literal compatibility expansion of the legacy AutoDomain English OCR regular expression." },
+        { "value": "Ley.*Line.*Disorder", "source": "curated", "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration." }
+      ],
+      "ja": [
+        { "value": "地脈異常", "source": "curated", "reason": "Japanese domain OCR terminology aligned with the legacy Chinese domain decision; no standalone pinned TextMap value exists." }
+      ],
+      "fr": [
+        { "value": "Anomalie énergétique", "source": "curated", "reason": "Literal compatibility expansion of the legacy AutoDomain French OCR regular expression." },
+        { "value": "Anomalie.*énergétique", "source": "curated", "reason": "Legacy AutoDomain task-local OCR regular-expression alias retained one-to-one during domain recognition migration." }
+      ],
+      "pt-BR": [
+        { "value": "Anomalia da Linha Ley", "source": "curated", "reason": "Portuguese domain OCR terminology aligned with the legacy domain decision; no standalone pinned TextMap value exists." }
+      ]
+    },
+    "domain.limited_time_fully_open": {
+      "zh-Hans": [
+        { "value": "限时全部开放", "source": "curated", "reason": "Live AutoDomain OCR label previously accessed through an absent task-local resource entry." },
+        { "value": "限时开放", "source": "curated", "reason": "Short live AutoDomain OCR variant previously accessed through an absent task-local resource entry." }
+      ],
+      "zh-Hant": [
+        { "value": "限時全部開放", "source": "curated", "reason": "Traditional Chinese counterpart of the live AutoDomain OCR label." },
+        { "value": "限時開放", "source": "curated", "reason": "Traditional Chinese counterpart of the short live AutoDomain OCR variant." }
+      ],
+      "en": [{ "value": "All available for a limited time", "source": "curated", "reason": "English domain availability label curated because no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "期間限定ですべて開放", "source": "curated", "reason": "Japanese domain availability label curated because no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Tous disponibles pour une durée limitée", "source": "curated", "reason": "French domain availability label curated because no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Todos disponíveis por tempo limitado", "source": "curated", "reason": "Portuguese domain availability label curated because no standalone pinned TextMap value exists." }]
+    },
+    "domain.solo_challenge": {
+      "zh-Hans": [{ "value": "单人挑战", "source": "curated", "reason": "Exact live AutoDomain OCR button retained from the migrated consumer; no standalone pinned TextMap value exists." }],
+      "zh-Hant": [{ "value": "單人挑戰", "source": "curated", "reason": "Traditional Chinese counterpart of the live AutoDomain solo-challenge button." }],
+      "en": [{ "value": "Solo Challenge", "source": "curated", "reason": "English counterpart of the live AutoDomain solo-challenge button; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "ソロ挑戦", "source": "curated", "reason": "Japanese counterpart of the live AutoDomain solo-challenge button; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Défi solo", "source": "curated", "reason": "French counterpart of the live AutoDomain solo-challenge button; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Desafio Solo", "source": "curated", "reason": "Portuguese counterpart of the live AutoDomain solo-challenge button; no standalone pinned TextMap value exists." }]
+    },
+    "domain.start_challenge": {
+      "zh-Hans": [{ "value": "开始挑战", "textMapHash": "1185417774" }],
+      "zh-Hant": [{ "value": "開始挑戰", "textMapHash": "1185417774" }],
+      "en": [{ "value": "Start Challenge", "textMapHash": "1185417774" }],
+      "ja": [{ "value": "挑戦開始", "textMapHash": "1185417774" }],
+      "fr": [{ "value": "Défi lancé", "textMapHash": "1185417774" }],
+      "pt-BR": [{ "value": "Iniciar Desafio", "textMapHash": "1185417774" }]
+    },
+    "domain.petrified_tree": {
+      "zh-Hans": [{ "value": "石化古树", "textMapHash": "2943681175" }],
+      "zh-Hant": [{ "value": "石化古樹", "textMapHash": "2943681175" }],
+      "en": [{ "value": "Petrified Tree", "textMapHash": "2943681175" }],
+      "ja": [{ "value": "石化古樹", "textMapHash": "2943681175" }],
+      "fr": [{ "value": "Arbre pétrifié", "textMapHash": "2943681175" }],
+      "pt-BR": [{ "value": "Árvore Petrificada", "textMapHash": "2943681175" }]
+    },
+    "domain.resin_use_prompt": {
+      "zh-Hans": [{ "value": "是否仍要挑战该秘境", "source": "curated", "reason": "Exact live AutoDomain OCR prompt retained from the migrated consumer; no standalone pinned TextMap value exists." }],
+      "zh-Hant": [{ "value": "是否仍要挑戰該秘境", "source": "curated", "reason": "Traditional Chinese counterpart of the live AutoDomain OCR prompt." }],
+      "en": [{ "value": "Do you still wish to challenge this Domain?", "source": "curated", "reason": "English counterpart of the live AutoDomain OCR prompt; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "この秘境に引き続き挑戦しますか？", "source": "curated", "reason": "Japanese counterpart of the live AutoDomain OCR prompt; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Souhaitez-vous toujours défier ce donjon ?", "source": "curated", "reason": "French counterpart of the live AutoDomain OCR prompt; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Ainda deseja desafiar este Domínio?", "source": "curated", "reason": "Portuguese counterpart of the live AutoDomain OCR prompt; no standalone pinned TextMap value exists." }]
     },
     "expedition.entry": {
       "zh-Hans": [

@@ -16,7 +16,8 @@
       "使用"
     ],
     "common.click_anywhere_to_close": [
-      "点击任意处关闭"
+      "点击任意处关闭",
+      "点击任意位置关闭"
     ],
     "common.crafting": [
       "合成",
@@ -45,10 +46,42 @@
       "补充原粹树脂"
     ],
     "resin.insufficient": [
-      "原粹树脂不足"
+      "原粹树脂不足",
+      "数量不足"
     ],
     "domain.challenge_completed": [
-      "挑战完成"
+      "挑战完成",
+      "(挑战|达成)",
+      "挑战",
+      "达成"
+    ],
+    "domain.auto_leaving": [
+      "自动退出",
+      "(自动|退出)",
+      "自动",
+      "退出"
+    ],
+    "domain.skip": [
+      "跳过"
+    ],
+    "domain.ley_line_disorder": [
+      "地脉异常"
+    ],
+    "domain.limited_time_fully_open": [
+      "限时全部开放",
+      "限时开放"
+    ],
+    "domain.solo_challenge": [
+      "单人挑战"
+    ],
+    "domain.start_challenge": [
+      "开始挑战"
+    ],
+    "domain.petrified_tree": [
+      "石化古树"
+    ],
+    "domain.resin_use_prompt": [
+      "是否仍要挑战该秘境"
     ],
     "expedition.entry": [
       "探索",

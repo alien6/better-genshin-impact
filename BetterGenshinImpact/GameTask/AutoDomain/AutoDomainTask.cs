@@ -30,9 +30,6 @@ using BetterGenshinImpact.Service.Notification.Model.Enum;
 using static BetterGenshinImpact.GameTask.Common.TaskControl;
 using static Vanara.PInvoke.Kernel32;
 using static Vanara.PInvoke.User32;
-using Microsoft.Extensions.Localization;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using BetterGenshinImpact.GameTask.AutoArtifactSalvage;
 using System.Collections.ObjectModel;
 using BetterGenshinImpact.Core.Script.Dependence;
@@ -42,6 +39,7 @@ using BetterGenshinImpact.GameTask.Common.Reward;
 using Compunet.YoloSharp;
 using Microsoft.Extensions.DependencyInjection;
 using BetterGenshinImpact.GameTask.AutoFight;
+using BetterGenshinImpact.GameTask.Localization;
 
 namespace BetterGenshinImpact.GameTask.AutoDomain;
 
@@ -63,15 +61,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
     private ObservableCollection<OneDragonFlowConfig> ConfigList = [];
 
-    private readonly string challengeCompletedLocalizedString;
-    private readonly string autoLeavingLocalizedString;
-    private readonly string skipLocalizedString;
-    private readonly string leyLineDisorderLocalizedString;
-    private readonly string clickanywheretocloseLocalizedString;
-    private readonly string matchingChallengeString;
-    private readonly string rapidformationString;
-    private readonly string limitedFullyString;
-    private readonly string limitedFullyAllString;
+    private readonly DomainTextRecognizer _textRecognizer;
 
     private List<ResinUseRecord> _resinPriorityListWhenSpecifyUse;
 
@@ -94,28 +84,19 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
         _resinPriorityListWhenSpecifyUse = ResinUseRecord.BuildFromDomainParam(taskParam);
 
-        IStringLocalizer<AutoDomainTask> stringLocalizer =
-            App.GetService<IStringLocalizer<AutoDomainTask>>() ?? throw new NullReferenceException();
-        CultureInfo cultureInfo = new CultureInfo(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
-        this.challengeCompletedLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "挑战达成");
-        this.autoLeavingLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "自动退出");
-        this.skipLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "跳过");
-        this.leyLineDisorderLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "地脉异常");
-        this.clickanywheretocloseLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "点击任意位置关闭");
-        this.matchingChallengeString = stringLocalizer.WithCultureGet(cultureInfo, "匹配挑战");
-        this.rapidformationString = stringLocalizer.WithCultureGet(cultureInfo, "快速编队");
-        this.limitedFullyString = stringLocalizer.WithCultureGet(cultureInfo, "限时全部开放");
-        this.limitedFullyAllString = stringLocalizer.WithCultureGet(cultureInfo, "限时开放");
+        _textRecognizer = new DomainTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
     }
 
-    private static RecognitionObject GetConfirmRa(params string[] targetText)
+    private static RecognitionObject GetConfirmRa(IReadOnlyList<string> targetText)
     {
         using var screenArea = CaptureToRectArea();
         var x = (int)(screenArea.Width * 0.5);
         var y = (int)(screenArea.Height * 0.5);
         var width = (int)(screenArea.Width * 0.5);
         var height = (int)(screenArea.Height * 0.5);
-        return RecognitionObject.OcrMatch(x, y, width, height, targetText);
+        return RecognitionObject.OcrMatch(x, y, width, height, targetText.ToArray());
     }
 
     Task ISoloTask.Start(CancellationToken ct) => Start(ct);
@@ -401,7 +382,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
             500
         );
         var menuFound = await NewRetry.WaitForElementAppear(
-            GetConfirmRa("单人挑战"),
+            GetConfirmRa(_textRecognizer.SoloChallengeAliases),
             null,//只等待,不执行操作
             _ct,
             20,
@@ -417,7 +398,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
             limitedFullyStringRa.FindMulti(RecognitionObject.Ocr(0, 0, limitedFullyStringRa.Width * 0.5,
                 limitedFullyStringRa.Height * 0.5));
         var limitedFullyStringRaocrListdone = limitedFullyStringRaocrList.LastOrDefault(t =>
-            Regex.IsMatch(t.Text, this.limitedFullyString) || Regex.IsMatch(t.Text, this.limitedFullyAllString));
+            _textRecognizer.IsLimitedTimeFullyOpen(t.Text));
         // 检测是否为限时全开秘境
         if (limitedFullyStringRaocrListdone != null)
         {
@@ -451,7 +432,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
                             abnormalRa.FindMulti(RecognitionObject.Ocr(0, 0, abnormalRa.Width * 0.5,
                                 abnormalRa.Height));
                         var done = ocrList.LastOrDefault(t =>
-                            Regex.IsMatch(t.Text, this.leyLineDisorderLocalizedString));
+                            _textRecognizer.IsLeyLineDisorder(t.Text));
                         if (done != null)
                         {
                             await Delay(300, _ct);
@@ -504,7 +485,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
                 using var confirmRectArea2 = ra.Find(RecognitionObject.Ocr(ra.Width * 0.263, ra.Height * 0.32,
                     ra.Width - ra.Width * 0.263 * 2, ra.Height - ra.Height * 0.32 - ra.Height * 0.353));
-                if (confirmRectArea2.IsExist() && confirmRectArea2.Text.Contains("是否仍要挑战该秘境"))
+                if (confirmRectArea2.IsExist() && _textRecognizer.IsResinUsePrompt(confirmRectArea2.Text))
                 {
                     Logger.LogWarning("自动秘境：检测到树脂不足提示：{Text}", confirmRectArea2.Text);
                     throw new Exception("当前树脂不足，自动秘境停止运行。");
@@ -534,7 +515,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
         // 点击开始挑战确认并等待“开始挑战”文字消失
         var startFightFound = await NewRetry.WaitForElementDisappear(
-            GetConfirmRa("开始挑战"),
+            GetConfirmRa(_textRecognizer.StartChallengeAliases),
             screen =>
             {
                 screen.Find(RecognitionAssets.Get("AutoFight", "Confirm", screen), ra =>
@@ -566,8 +547,8 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
             var ocrList = ra.FindMulti(RecognitionObject.Ocr(0, ra.Height * 0.2, ra.Width, ra.Height * 0.6));
             var ocrListLeft = ra.Find(RecognitionAssets.Get("AutoFight", "AbnormalIcon", ra));
-            return (ocrList.Any(t => t.Text.Contains(leyLineDisorderLocalizedString) ||
-                                     t.Text.Contains(clickanywheretocloseLocalizedString))) || ocrListLeft.IsExist();
+            return ocrList.Any(t => _textRecognizer.IsLeyLineDisorder(t.Text) ||
+                                    _textRecognizer.IsClickAnywhereToClose(t.Text)) || ocrListLeft.IsExist();
         }, _ct, 40, 500);
         if (!domainTipFound)
         {
@@ -581,8 +562,8 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
             var ocrList = ra.FindMulti(RecognitionObject.Ocr(0, ra.Height * 0.2, ra.Width, ra.Height * 0.6));
             // 查找目标文字
             var done = ocrList.FirstOrDefault(t =>
-                Regex.IsMatch(t.Text, this.leyLineDisorderLocalizedString) ||
-                Regex.IsMatch(t.Text, this.clickanywheretocloseLocalizedString));
+                _textRecognizer.IsLeyLineDisorder(t.Text) ||
+                _textRecognizer.IsClickAnywhereToClose(t.Text));
             if (done != null)
             {
                 done.Click();
@@ -807,7 +788,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
         var fightAssets = AutoFightAssets.Get(ra);
         var endTipsRect = ra.DeriveCrop(fightAssets.EndTipsUpperRect);
         var text = OcrFactory.Paddle.Ocr(endTipsRect.SrcMat);
-        if (Regex.IsMatch(text, this.challengeCompletedLocalizedString))
+        if (_textRecognizer.IsChallengeCompleted(text))
         {
             Logger.LogInformation("检测到秘境结束提示(挑战达成)，结束秘境");
             return true;
@@ -815,7 +796,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
         endTipsRect = ra.DeriveCrop(fightAssets.EndTipsRect);
         text = OcrFactory.Paddle.Ocr(endTipsRect.SrcMat);
-        if (Regex.IsMatch(text, this.autoLeavingLocalizedString))
+        if (_textRecognizer.IsAutoLeaving(text))
         {
             Logger.LogInformation("检测到秘境结束提示(xxx秒后自动退出)，结束秘境");
             return true;
@@ -1153,7 +1134,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
         {
             using var ra = CaptureToRectArea();
             var regionList = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.25, ra.Height * 0.2, ra.Width * 0.5, ra.Height * 0.6));
-            var res = regionList.FirstOrDefault(t => t.Text.Contains("石化古树"));
+            var res = regionList.FirstOrDefault(t => _textRecognizer.IsPetrifiedTree(t.Text));
             if (res != null)
             {
                 // 解决水龙王按下左键后没松开，然后后续点击按下就没反应了，界面上点一下
@@ -1169,7 +1150,8 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
         // 再 OCR 一次，弹出框，确认当前是否有原粹树脂
         using var ra2 = CaptureToRectArea();
         var textListInPrompt = ra2.FindMulti(RecognitionObject.Ocr(ra2.Width * 0.25, ra2.Height * 0.2, ra2.Width * 0.5, ra2.Height * 0.6));
-        if (textListInPrompt.Any(t => t.Text.Contains("数量不足") || t.Text.Contains("补充原粹树脂")))
+        if (textListInPrompt.Any(t => _textRecognizer.IsResinInsufficient(t.Text) ||
+                                      _textRecognizer.IsResinReplenishPrompt(t.Text)))
         {
             // 没有原粹树脂，直接退出秘境
             Logger.LogInformation("自动秘境：原粹树脂已用尽，退出秘境");
@@ -1198,12 +1180,12 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
                 bool resinUsed = false;
                 if (resinStatus.CondensedResinCount > 0)
                 {
-                    (resinUsed, _) = PressUseResin(ra3, "浓缩树脂");
+                    (resinUsed, _) = PressUseLocalizedResin(ra3, "浓缩树脂");
                     resinStatus.CondensedResinCount -= 1;
                 }
                 else if (resinStatus.OriginalResinCount >= 20)
                 {
-                    (resinUsed, var num) = PressUseResin(ra3, "原粹树脂");
+                    (resinUsed, var num) = PressUseLocalizedResin(ra3, "原粹树脂");
                     resinStatus.OriginalResinCount -= num;
                 }
 
@@ -1250,7 +1232,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
                             }
                         }
 
-                        var (success, _) = PressUseResin(textListInPrompt2, record.Name);
+                        var (success, _) = PressUseLocalizedResin(textListInPrompt2, record.Name);
                         if (success)
                         {
                             record.RemainCount -= 1;
@@ -1323,9 +1305,9 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
                         await Delay(900, _ct);
                         using var noResinPromptCapture = CaptureToRectArea();
                         var textListInNoResinPrompt = noResinPromptCapture.FindMulti(RecognitionObject.Ocr(ra2.Width * 0.25, ra2.Height * 0.2, ra2.Width * 0.5, ra2.Height * 0.6));
-                        if (textListInNoResinPrompt.Any(t => t.Text.Contains("是否仍要") && t.Text.Contains("挑战") && t.Text.Contains("秘境")))
+                        if (textListInNoResinPrompt.Any(t => _textRecognizer.IsResinUsePrompt(t.Text)))
                         {
-                            var cancelBtn = textListInNoResinPrompt.FirstOrDefault(t => t.Text.Contains("取消"));
+                            var cancelBtn = textListInNoResinPrompt.FirstOrDefault(t => _textRecognizer.IsCancel(t.Text));
                             if (cancelBtn != null)
                             {
                                 cancelBtn.Click();
@@ -1384,6 +1366,57 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
         using var capture = CaptureToRectArea();
         Bv.ClickBlackConfirmButton(capture);
     }
+
+    private (bool, int) PressUseLocalizedResin(ImageRegion ra, string resinName, string logPrefix = "自动秘境")
+    {
+        var regionList = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.25, ra.Height * 0.2, ra.Width * 0.5, ra.Height * 0.6));
+        return PressUseLocalizedResin(regionList, resinName, logPrefix);
+    }
+
+    private (bool, int) PressUseLocalizedResin(List<Region> regionList, string resinName, string logPrefix = "自动秘境")
+    {
+        if (resinName == "原粹树脂20" || resinName == "原粹树脂40")
+        {
+            resinName = "原粹树脂";
+        }
+
+        var resinKey = regionList.FirstOrDefault(t => IsConfiguredResin(t.Text, resinName));
+        if (resinKey != null)
+        {
+            var useList = regionList.Where(t => _textRecognizer.IsUse(t.Text)).ToList();
+            if (useList.Count != 0)
+            {
+                var useKey = useList.FirstOrDefault(t => t.X > TaskContext.Instance().SystemInfo.ScaleMax1080PCaptureRect.Width / 2
+                                                         && IsHeightOverlap(t, resinKey));
+                if (useKey != null)
+                {
+                    useKey.Click();
+                    Sleep(60);
+                    useKey.Click();
+                    var num = GetResinNum(resinKey, resinName, logPrefix);
+                    Logger.LogInformation("{LogPrefix}：使用 {ResinName}, 数量：{Num}", logPrefix, resinName, num);
+                    return (true, num);
+                }
+
+                Logger.LogWarning("{LogPrefix}：未找到 {ResinName} 的使用按键", logPrefix, resinName);
+            }
+            else
+            {
+                Logger.LogWarning("{LogPrefix}：未找到 {ResinName} 的使用按键", logPrefix, resinName);
+            }
+        }
+
+        return (false, 0);
+    }
+
+    private bool IsConfiguredResin(string recognizedText, string resinName) => resinName switch
+    {
+        "原粹树脂" => _textRecognizer.IsOriginalResin(recognizedText),
+        "浓缩树脂" => _textRecognizer.IsCondensedResin(recognizedText),
+        "脆弱树脂" => _textRecognizer.IsFragileResin(recognizedText),
+        "须臾树脂" => _textRecognizer.IsTransientResin(recognizedText),
+        _ => false
+    };
 
     public static (bool, int) PressUseResin(ImageRegion ra, string resinName, string logPrefix = "自动秘境")
     {

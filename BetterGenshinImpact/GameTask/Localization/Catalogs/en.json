@@ -17,7 +17,8 @@
       "Use"
     ],
     "common.click_anywhere_to_close": [
-      "Click anywhere to close"
+      "Click anywhere to close",
+      "Click.*any.*where.*to.*close"
     ],
     "common.crafting": [
       "Craft"
@@ -47,7 +48,36 @@
       "Insufficient Original Resin"
     ],
     "domain.challenge_completed": [
-      "Challenge Completed"
+      "Challenge Completed",
+      "(Challenge|Completed)",
+      "Challenge",
+      "Completed"
+    ],
+    "domain.auto_leaving": [
+      "Exiting",
+      "Leaving"
+    ],
+    "domain.skip": [
+      "Skip"
+    ],
+    "domain.ley_line_disorder": [
+      "Ley Line Disorder",
+      "Ley.*Line.*Disorder"
+    ],
+    "domain.limited_time_fully_open": [
+      "All available for a limited time"
+    ],
+    "domain.solo_challenge": [
+      "Solo Challenge"
+    ],
+    "domain.start_challenge": [
+      "Start Challenge"
+    ],
+    "domain.petrified_tree": [
+      "Petrified Tree"
+    ],
+    "domain.resin_use_prompt": [
+      "Do you still wish to challenge this Domain?"
     ],
     "expedition.entry": [
       "Expedition",

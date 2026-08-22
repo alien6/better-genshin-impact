@@ -48,6 +48,30 @@
     "domain.challenge_completed": [
       "挑戦完了"
     ],
+    "domain.auto_leaving": [
+      "自動的に終了"
+    ],
+    "domain.skip": [
+      "スキップ"
+    ],
+    "domain.ley_line_disorder": [
+      "地脈異常"
+    ],
+    "domain.limited_time_fully_open": [
+      "期間限定ですべて開放"
+    ],
+    "domain.solo_challenge": [
+      "ソロ挑戦"
+    ],
+    "domain.start_challenge": [
+      "挑戦開始"
+    ],
+    "domain.petrified_tree": [
+      "石化古樹"
+    ],
+    "domain.resin_use_prompt": [
+      "この秘境に引き続き挑戦しますか？"
+    ],
     "expedition.entry": [
       "探索派遣"
     ],

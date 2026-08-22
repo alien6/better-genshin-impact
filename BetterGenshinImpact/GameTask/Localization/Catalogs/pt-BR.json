@@ -48,6 +48,30 @@
     "domain.challenge_completed": [
       "Desafio concluído"
     ],
+    "domain.auto_leaving": [
+      "Saindo"
+    ],
+    "domain.skip": [
+      "Pular"
+    ],
+    "domain.ley_line_disorder": [
+      "Anomalia da Linha Ley"
+    ],
+    "domain.limited_time_fully_open": [
+      "Todos disponíveis por tempo limitado"
+    ],
+    "domain.solo_challenge": [
+      "Desafio Solo"
+    ],
+    "domain.start_challenge": [
+      "Iniciar Desafio"
+    ],
+    "domain.petrified_tree": [
+      "Árvore Petrificada"
+    ],
+    "domain.resin_use_prompt": [
+      "Ainda deseja desafiar este Domínio?"
+    ],
     "expedition.entry": [
       "Expedição",
       "Envie alguém para Expedição"
