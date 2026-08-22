@@ -45,9 +45,24 @@ $verifiedAliasCount = 0
 
 foreach ($culture in $cultureFiles.Keys) {
     $catalogPath = Join-Path $catalogDirectory "$culture.json"
-    $textMapPath = Join-Path $checkoutPath "TextMap\$($cultureFiles[$culture])"
+    $relativeTextMapPath = "TextMap/$($cultureFiles[$culture])"
+    $textMapPath = Join-Path $checkoutPath $relativeTextMapPath
     if (-not (Test-Path -LiteralPath $textMapPath -PathType Leaf)) {
         throw "Required TextMap '$textMapPath' was not found."
+    }
+
+    $commitBlob = (& git -C $checkoutPath rev-parse "${pinnedCommit}:$relativeTextMapPath").Trim()
+    if ($LASTEXITCODE -ne 0) {
+        throw "Could not resolve pinned TextMap '$relativeTextMapPath'."
+    }
+
+    $workingTreeBlob = (& git -C $checkoutPath hash-object "--path=$relativeTextMapPath" -- $relativeTextMapPath).Trim()
+    if ($LASTEXITCODE -ne 0) {
+        throw "Could not hash working-tree TextMap '$textMapPath'."
+    }
+
+    if ($workingTreeBlob -cne $commitBlob) {
+        throw "Working-tree TextMap '$textMapPath' differs from pinned commit '$pinnedCommit'."
     }
 
     $catalog = Get-Content -LiteralPath $catalogPath -Raw -Encoding UTF8 | ConvertFrom-Json -AsHashtable
