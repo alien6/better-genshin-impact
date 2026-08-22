@@ -34,6 +34,18 @@ public class GameTextScriptApiTests
     }
 
     [Fact]
+    public void Aliases_ReportsTheUnknownKeyAndCulture()
+    {
+        var (matcher, cultureProvider) = CreateMatcher();
+        var sut = new GameTextScriptApi(matcher, cultureProvider);
+
+        var error = Assert.Throws<KeyNotFoundException>((Action)(() => { _ = sut.aliases("missing.key"); }));
+
+        Assert.Contains("missing.key", error.Message);
+        Assert.Contains("pt-BR", error.Message);
+    }
+
+    [Fact]
     public void V8Bridge_ExposesOnlyTheGameTextSurface()
     {
         var (matcher, cultureProvider) = CreateMatcher();
@@ -45,8 +57,14 @@ public class GameTextScriptApiTests
         Assert.Equal(true, engine.Evaluate("gameText.matchesAny(['Vida', 'Resina Original'], 'resin.original')"));
         Assert.Equal("pt-BR", engine.Evaluate("gameText.culture"));
         Assert.Throws<ScriptEngineException>((Action)(() => engine.Evaluate("gameText.matchesAny([], 'resin.original')")));
+        Assert.Throws<ScriptEngineException>((Action)(() => engine.Evaluate("gameText.matchesAny(['Resina Original', 1], 'resin.original')")));
+        Assert.Throws<ScriptEngineException>((Action)(() => engine.Evaluate("gameText.matchesAny('Resina Original', 'resin.original')")));
         Assert.Throws<ScriptEngineException>((Action)(() => engine.Evaluate("'use strict'; gameText.culture = 'en-US'")));
         Assert.Equal("undefined", engine.Evaluate("typeof keyMouseScript"));
+
+        var error = Assert.Throws<ScriptEngineException>((Action)(() => engine.Evaluate("gameText.aliases('missing.key')")));
+        Assert.Contains("missing.key", error.Message);
+        Assert.Contains("pt-BR", error.Message);
     }
 
     private static (GameTextMatcher Matcher, IGameCultureProvider CultureProvider) CreateMatcher()
