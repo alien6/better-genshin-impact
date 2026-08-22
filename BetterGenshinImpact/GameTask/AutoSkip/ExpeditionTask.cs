@@ -140,7 +140,7 @@ public class ExpeditionTask
     {
         var captureRect = TaskContext.Instance().SystemInfo.CaptureAreaRect;
         var result = CaptureAndOcr(content, new Rect(0, 0, captureRect.Width / 2, captureRect.Height));
-        if (result.RegionHasText("角色选择"))
+        if (result.RegionHasText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Expedition.CharacterSelection)))
         {
             var cards = GetCharacterCards(result);
             if (cards.Count > 0)

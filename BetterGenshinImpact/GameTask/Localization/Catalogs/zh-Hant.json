@@ -394,6 +394,15 @@
     "party.friendship": [
       "好感"
     ],
+    "party.replace": [
+      "更換"
+    ],
+    "party.join": [
+      "加入"
+    ],
+    "party.order": [
+      "順序"
+    ],
     "redemption.account": [
       "帳戶"
     ],
@@ -408,6 +417,9 @@
     ],
     "expedition.select_character": [
       "選擇角色"
+    ],
+    "expedition.character_selection": [
+      "角色選擇"
     ],
     "ley_line.fight_success": [
       "挑戰達成",

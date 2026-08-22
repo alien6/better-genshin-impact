@@ -92,6 +92,9 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
     private string? _pendingFilterElementType;
     private string? _pendingFilterWeaponType;
     private readonly RemainingGameTextRecognizer _textRecognizer;
+    private readonly IReadOnlyCollection<string> _replaceOrJoinTexts;
+    private readonly string _partyOrderText;
+    private readonly string _partyFriendshipText;
 
     /// <summary>
     /// 状态机日志对象。
@@ -136,6 +139,13 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
         _textRecognizer = new RemainingGameTextRecognizer(
             App.GetService<IGameTextMatcher>()
             ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
+        _replaceOrJoinTexts = Array.AsReadOnly(
+        [
+            _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Replace),
+            _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Join),
+        ]);
+        _partyOrderText = _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Order);
+        _partyFriendshipText = _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Friendship);
         RegisterStateMethodsByAttribute();
         RegisterStateTransitions(
             (SwitchCharacterState.Unknown, [
@@ -863,7 +873,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
             throw new PartySetupFailedException($"切换角色：未找到目标角色 {_currentRole.Name}");
         }
 
-        if (!TryClickAnyText(page, ["更换", "加入"], Rect1080(382, 994, 87, 51)))
+        if (!TryClickAnyText(page, _replaceOrJoinTexts, Rect1080(382, 994, 87, 51)))
         {
             _logger.LogWarning("切换角色：未识别到“更换”或“加入”按钮");
             return StateHandlerResult.Retry;
@@ -1495,7 +1505,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
             SortTypeRoi1080.Height);
         using (var capture = CaptureToRectArea())
         {
-            if (ContainsText(capture, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Friendship), sortTypeRoi))
+            if (ContainsText(capture, _partyFriendshipText, sortTypeRoi))
             {
                 return;
             }
@@ -1511,11 +1521,11 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
             await page.Flow()
                 .WithDefaultTimeout(2000)
                 .WithDefaultRetryInterval(200)
-                .WaitUntilText("顺序", sortTypeRoi)
+                .WaitUntilText(_partyOrderText, sortTypeRoi)
                 .Click()
-                .WaitUntilText("好感", sortOptionsRoi)
+                .WaitUntilText(_partyFriendshipText, sortOptionsRoi)
                 .Click()
-                .WaitUntilText("好感", sortTypeRoi)
+                .WaitUntilText(_partyFriendshipText, sortTypeRoi)
                 .Run();
         }
         catch (InvalidOperationException ex)

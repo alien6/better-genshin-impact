@@ -393,6 +393,15 @@
     "party.friendship": [
       "Affinité"
     ],
+    "party.replace": [
+      "Remplacer"
+    ],
+    "party.join": [
+      "Ajouter"
+    ],
+    "party.order": [
+      "Ordre"
+    ],
     "redemption.account": [
       "Compte"
     ],
@@ -407,6 +416,9 @@
     ],
     "expedition.select_character": [
       "Sélectionner un personnage"
+    ],
+    "expedition.character_selection": [
+      "Sélection de personnage"
     ],
     "ley_line.fight_success": [
       "Défi terminé",

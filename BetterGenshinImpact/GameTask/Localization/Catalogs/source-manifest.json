@@ -4911,6 +4911,182 @@
           "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
         }
       ]
+    },
+    "party.replace": {
+      "zh-Hans": [
+        {
+          "value": "更换",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "更換",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Replace",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "変更",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Remplacer",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Substituir",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ]
+    },
+    "party.join": {
+      "zh-Hans": [
+        {
+          "value": "加入",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "加入",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Join",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "加入",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Ajouter",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Adicionar",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ]
+    },
+    "party.order": {
+      "zh-Hans": [
+        {
+          "value": "顺序",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "順序",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Order",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "順序",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Ordre",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Ordem",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ]
+    },
+    "expedition.character_selection": {
+      "zh-Hans": [
+        {
+          "value": "角色选择",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "角色選擇",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Character Selection",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "キャラクター選択",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Sélection de personnage",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Seleção de Personagem",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        }
+      ]
     }
   }
 }

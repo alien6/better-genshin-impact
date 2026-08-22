@@ -20,6 +20,7 @@ public sealed class ExpeditionTextRecognizer
         GameTextKeys.Expedition.InProgress,
         GameTextKeys.Expedition.Rewards,
         GameTextKeys.Expedition.SelectCharacter,
+        GameTextKeys.Expedition.CharacterSelection,
         GameTextKeys.Common.Claim,
         GameTextKeys.AdventurersGuild.DailyCommissions,
     ];

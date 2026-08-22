@@ -98,6 +98,9 @@ public sealed class RemainingGameTextRecognitionTests
         Assert.True(recognizer.IsMatch("Configuração da Equipe", GameTextKeys.Party.Configuration));
         Assert.True(recognizer.IsMatch("Remover", GameTextKeys.Party.Remove));
         Assert.True(recognizer.IsMatch("Amizade", GameTextKeys.Party.Friendship));
+        Assert.True(recognizer.IsMatch("Substituir", GameTextKeys.Party.Replace));
+        Assert.True(recognizer.IsMatch("Adicionar", GameTextKeys.Party.Join));
+        Assert.True(recognizer.IsMatch("Ordem", GameTextKeys.Party.Order));
         Assert.Equal("Limpar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Clear));
         Assert.Equal("Filtrar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Filter));
         Assert.Equal("Sintetizar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Crafting));
@@ -108,6 +111,9 @@ public sealed class RemainingGameTextRecognitionTests
         Assert.Equal("Configuração da Equipe", recognizer.GetPrimaryAlias(GameTextKeys.Party.Configuration));
         Assert.Equal("Remover", recognizer.GetPrimaryAlias(GameTextKeys.Party.Remove));
         Assert.Equal("Amizade", recognizer.GetPrimaryAlias(GameTextKeys.Party.Friendship));
+        Assert.Equal("Substituir", recognizer.GetPrimaryAlias(GameTextKeys.Party.Replace));
+        Assert.Equal("Adicionar", recognizer.GetPrimaryAlias(GameTextKeys.Party.Join));
+        Assert.Equal("Ordem", recognizer.GetPrimaryAlias(GameTextKeys.Party.Order));
     }
 
     [Fact]
@@ -117,6 +123,7 @@ public sealed class RemainingGameTextRecognitionTests
 
         Assert.True(recognizer.IsMatch("Resgatar", GameTextKeys.Common.Claim));
         Assert.True(recognizer.IsMatch("Selecionar Personagem", GameTextKeys.Expedition.SelectCharacter));
+        Assert.True(recognizer.IsMatch("Seleção de Personagem", GameTextKeys.Expedition.CharacterSelection));
         Assert.True(recognizer.IsMatch("Entrar", GameTextKeys.Common.Enter));
         Assert.True(recognizer.IsMatch("Sair", GameTextKeys.Common.Leave));
         Assert.True(recognizer.IsMatch("Bule de Relachá", GameTextKeys.WorldArea.SereniteaPot));
@@ -127,6 +134,7 @@ public sealed class RemainingGameTextRecognitionTests
         Assert.True(recognizer.IsMatch("Resgate realizado com sucesso", GameTextKeys.Redemption.Success));
         Assert.Equal("Resgatar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Claim));
         Assert.Equal("Selecionar Personagem", recognizer.GetPrimaryAlias(GameTextKeys.Expedition.SelectCharacter));
+        Assert.Equal("Seleção de Personagem", recognizer.GetPrimaryAlias(GameTextKeys.Expedition.CharacterSelection));
         Assert.Equal("Entrar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Enter));
         Assert.Equal("Sair", recognizer.GetPrimaryAlias(GameTextKeys.Common.Leave));
         Assert.Equal("Bule de Relachá", recognizer.GetPrimaryAlias(GameTextKeys.WorldArea.SereniteaPot));
@@ -268,8 +276,12 @@ public sealed class RemainingGameTextRecognitionTests
             (GameTextKeys.Party.Configuration, culture == "pt-BR" ? "Configuração da Equipe" : "队伍配置"),
             (GameTextKeys.Party.Remove, culture == "pt-BR" ? "Remover" : "换下"),
             (GameTextKeys.Party.Friendship, culture == "pt-BR" ? "Amizade" : "好感"),
+            (GameTextKeys.Party.Replace, culture == "pt-BR" ? "Substituir" : "更换"),
+            (GameTextKeys.Party.Join, culture == "pt-BR" ? "Adicionar" : "加入"),
+            (GameTextKeys.Party.Order, culture == "pt-BR" ? "Ordem" : "顺序"),
             (GameTextKeys.Common.Claim, culture == "pt-BR" ? "Resgatar" : "领取"),
             (GameTextKeys.Expedition.SelectCharacter, culture == "pt-BR" ? "Selecionar Personagem" : "选择角色"),
+            (GameTextKeys.Expedition.CharacterSelection, culture == "pt-BR" ? "Seleção de Personagem" : "角色选择"),
             (GameTextKeys.Common.Enter, culture == "pt-BR" ? "Entrar" : "进入"),
             (GameTextKeys.Common.Leave, culture == "pt-BR" ? "Sair" : "离开"),
             (GameTextKeys.WorldArea.SereniteaPot, culture == "pt-BR" ? "Bule de Relachá" : "尘歌壶"),

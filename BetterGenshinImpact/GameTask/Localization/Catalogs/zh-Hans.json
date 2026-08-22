@@ -387,6 +387,15 @@
     "party.friendship": [
       "好感"
     ],
+    "party.replace": [
+      "更换"
+    ],
+    "party.join": [
+      "加入"
+    ],
+    "party.order": [
+      "顺序"
+    ],
     "redemption.account": [
       "账户"
     ],
@@ -401,6 +410,9 @@
     ],
     "expedition.select_character": [
       "选择角色"
+    ],
+    "expedition.character_selection": [
+      "角色选择"
     ],
     "ley_line.fight_success": [
       "挑战达成",

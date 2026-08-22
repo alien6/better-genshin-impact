@@ -11,7 +11,7 @@ if ($LASTEXITCODE -ne 0 -or $trackedFiles.Count -eq 0) {
     throw 'Could not enumerate tracked GameTask C# files.'
 }
 
-$candidatePattern = '(?i)ContainsText|TryClickText|GetBy(?:Any)?Text|Find(?:Rect)?ByText|Bv\s*\.\s*FindF?|Text|Ocr|Region|Title|ClassName'
+$candidatePattern = '(?i)ContainsText|RegionHasText|TryClick(?:Any)?Text|WaitUntilText|GetBy(?:Any)?Text|Find(?:Rect)?ByText|Bv\s*\.\s*FindF?|Text|Ocr|Region|Title|ClassName'
 $rgOutput = @(& rg --json --line-number --no-messages --color never --regexp $candidatePattern -- $trackedFiles)
 if ($LASTEXITCODE -notin @(0, 1)) {
     throw "rg failed while auditing GameTask sources (exit $LASTEXITCODE)."
@@ -103,13 +103,15 @@ function Get-InvocationEnd([string]$source, [int]$openParenthesisIndex) {
 }
 
 $helperInvocationPattern = [regex]::new(
-    '(?im)\b(?:(?:Bv)\s*\.\s*(?:FindF?|FindByText)|ContainsText|TryClickText|GetByAnyText|GetByText|FindRectByText|OcrMatch)\s*\(')
+    '(?im)\b(?:(?:Bv)\s*\.\s*(?:FindF?|FindByText)|ContainsText|RegionHasText|TryClickAnyText|TryClickText|WaitUntilText|GetByAnyText|GetByText|FindRectByText|OcrMatch)\s*\(')
 $directMethodPattern = [regex]::new(
     '(?is)\b(?<receiver>[A-Za-z_]\w*(?:\s*\.\s*[A-Za-z_]\w*)*)\s*\.\s*(?:Contains|StartsWith|EndsWith|Equals)\s*\(\s*"(?<literal>(?:[^"\\]|\\.)+)"')
 $directEqualityPattern = [regex]::new(
     '(?is)(?:\b(?<receiver>[A-Za-z_]\w*(?:\s*\.\s*[A-Za-z_]\w*)*)\s*(?:==|!=)\s*"(?<literal>(?:[^"\\]|\\.)+)"|"(?<reverseLiteral>(?:[^"\\]|\\.)+)"\s*(?:==|!=)\s*\b(?<reverseReceiver>[A-Za-z_]\w*(?:\s*\.\s*[A-Za-z_]\w*)*))')
-$collectionDeclarationPattern = [regex]::new(
-    '(?is)\b(?<name>[A-Za-z_]\w*)\s*=\s*new\s*\[\s*\]\s*\{(?<items>.{0,1500}?)\}\s*;')
+$collectionDeclarationPatterns = @(
+    [regex]::new('(?is)\b(?<name>[A-Za-z_]\w*)\s*=\s*new\s*\[\s*\]\s*\{(?<items>.{0,1500}?)\}\s*;'),
+    [regex]::new('(?is)\b(?<name>[A-Za-z_]\w*)\s*=\s*\[(?<items>.{0,1500}?)\]\s*;')
+)
 
 foreach ($path in $candidatePaths) {
     $absolutePath = Join-Path $repositoryRoot $path
@@ -140,14 +142,16 @@ foreach ($path in $candidatePaths) {
         Add-Candidate $path $literalGroup.Index $literalGroup.Value
     }
 
-    foreach ($collectionMatch in $collectionDeclarationPattern.Matches($source)) {
-        $tailLength = [Math]::Min(3000, $source.Length - ($collectionMatch.Index + $collectionMatch.Length))
-        $tail = $source.Substring($collectionMatch.Index + $collectionMatch.Length, $tailLength)
-        $collectionName = [regex]::Escape($collectionMatch.Groups['name'].Value)
-        if ($tail -notmatch "(?is)\b$collectionName\s*\.\s*Any\s*\(\s*\w*(?:text|ocr|region)\w*\s*\.\s*Contains") { continue }
-        $itemsGroup = $collectionMatch.Groups['items']
-        foreach ($literalMatch in [regex]::Matches($itemsGroup.Value, '"(?<literal>(?:[^"\\]|\\.)+)"')) {
-            Add-Candidate $path ($itemsGroup.Index + $literalMatch.Index) $literalMatch.Groups['literal'].Value
+    foreach ($collectionDeclarationPattern in $collectionDeclarationPatterns) {
+        foreach ($collectionMatch in $collectionDeclarationPattern.Matches($source)) {
+            $tailLength = [Math]::Min(3000, $source.Length - ($collectionMatch.Index + $collectionMatch.Length))
+            $tail = $source.Substring($collectionMatch.Index + $collectionMatch.Length, $tailLength)
+            $collectionName = [regex]::Escape($collectionMatch.Groups['name'].Value)
+            if ($tail -notmatch "(?is)\b$collectionName\s*\.\s*Any\s*\(\s*\w*(?:text|ocr|region)\w*\s*\.\s*Contains") { continue }
+            $itemsGroup = $collectionMatch.Groups['items']
+            foreach ($literalMatch in [regex]::Matches($itemsGroup.Value, '"(?<literal>(?:[^"\\]|\\.)+)"')) {
+                Add-Candidate $path ($itemsGroup.Index + $literalMatch.Index) $literalMatch.Groups['literal'].Value
+            }
         }
     }
 }

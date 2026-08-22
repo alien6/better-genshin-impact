@@ -52,11 +52,56 @@ function Invoke-AuditFixture([string]$source, [object[]]$allowlistEntries) {
 }
 
 function Assert-NegativeAudit([string]$name, [pscustomobject]$result, [string]$expectedOutput) {
-    if ($result.ExitCode -eq 0) { throw "${name}: audit unexpectedly succeeded.`n$($result.Output)" }
+    if ($result.ExitCode -eq 0) {
+        $script:assertionFailures.Add("${name}: audit unexpectedly succeeded.`n$($result.Output)")
+        return
+    }
     if ($result.Output.IndexOf($expectedOutput, [StringComparison]::Ordinal) -lt 0) {
-        throw "${name}: output did not contain '$expectedOutput'.`n$($result.Output)"
+        $script:assertionFailures.Add("${name}: output did not contain '$expectedOutput'.`n$($result.Output)")
     }
 }
+
+$assertionFailures = [System.Collections.Generic.List[string]]::new()
+
+$regionHasTextResult = Invoke-AuditFixture @'
+namespace Fixture;
+public sealed class RegionHasTextGate
+{
+    public bool Detect(OcrResult result) => result.RegionHasText("角色选择");
+}
+'@ @()
+Assert-NegativeAudit 'RegionHasText helper fixture' $regionHasTextResult 'UNCLASSIFIED'
+
+$tryClickAnyTextResult = Invoke-AuditFixture @'
+namespace Fixture;
+public sealed class TryClickAnyTextGate
+{
+    public bool Detect(BvPage page) => TryClickAnyText(page, new[] { "更换", "加入" }, default);
+}
+'@ @()
+Assert-NegativeAudit 'TryClickAnyText helper fixture' $tryClickAnyTextResult 'UNCLASSIFIED'
+
+$waitUntilTextResult = Invoke-AuditFixture @'
+namespace Fixture;
+public sealed class WaitUntilTextGate
+{
+    public BvFlow Detect(BvFlow flow) => flow.WaitUntilText("顺序");
+}
+'@ @()
+Assert-NegativeAudit 'WaitUntilText helper fixture' $waitUntilTextResult 'UNCLASSIFIED'
+
+$collectionExpressionResult = Invoke-AuditFixture @'
+namespace Fixture;
+public sealed class CollectionExpressionGate
+{
+    public bool Detect(string ocrText)
+    {
+        string[] labels = ["更换", "加入"];
+        return labels.Any(ocrText.Contains);
+    }
+}
+'@ @()
+Assert-NegativeAudit 'C# collection expression fixture' $collectionExpressionResult 'UNCLASSIFIED'
 
 $helperResult = Invoke-AuditFixture @'
 namespace Fixture;
@@ -91,7 +136,7 @@ public sealed class ExtractedGate
 '@ @()
 Assert-NegativeAudit 'extracted-text comparison fixture' $extractedComparisonResult 'UNCLASSIFIED'
 if ($extractedComparisonResult.Output.IndexOf('战斗失败', [StringComparison]::Ordinal) -lt 0) {
-    throw "extracted-text comparison fixture: second extracted collection was missed.`n$($extractedComparisonResult.Output)"
+    $assertionFailures.Add("extracted-text comparison fixture: second extracted collection was missed.`n$($extractedComparisonResult.Output)")
 }
 
 $staleId = 'BetterGenshinImpact/GameTask/Fixture/AuditFixture.cs::Missing::stale'
@@ -106,4 +151,8 @@ $staleResult = Invoke-AuditFixture 'namespace Fixture; public sealed class NoGat
     })
 Assert-NegativeAudit 'stale allowlist fixture' $staleResult '1 stale allowlist entries'
 
-Write-Host 'Audit regression fixtures passed: helper API, multiline invocation, extracted comparison, and stale allowlist all fail closed.'
+if ($assertionFailures.Count -gt 0) {
+    throw ($assertionFailures -join "`n`n")
+}
+
+Write-Host 'Audit regression fixtures passed: RegionHasText, TryClickAnyText, WaitUntilText, C# collection expression, helper API, multiline invocation, extracted comparison, and stale allowlist all fail closed.'

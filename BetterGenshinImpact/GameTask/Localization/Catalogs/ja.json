@@ -373,6 +373,15 @@
     "party.friendship": [
       "好感度"
     ],
+    "party.replace": [
+      "変更"
+    ],
+    "party.join": [
+      "加入"
+    ],
+    "party.order": [
+      "順序"
+    ],
     "redemption.account": [
       "アカウント"
     ],
@@ -387,6 +396,9 @@
     ],
     "expedition.select_character": [
       "キャラクターを選択"
+    ],
+    "expedition.character_selection": [
+      "キャラクター選択"
     ],
     "ley_line.fight_success": [
       "挑戦達成",

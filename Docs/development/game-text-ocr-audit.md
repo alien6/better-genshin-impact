@@ -2,7 +2,7 @@
 
 ## Scope and repeatable check
 
-The Task 14 audit covers every tracked C# source below `BetterGenshinImpact/GameTask`. The read-only checker runs `rg` over the tracked file list from Git, then parses complete helper invocations and recognition comparisons across line boundaries. It covers `ContainsText`, `TryClickText`, `GetByText`/`GetByAnyText`, `FindRectByText`, `Bv.Find`/`FindF`, direct text/OCR/region/title comparisons, and literal collections consumed by extracted OCR-text comparisons. Each candidate is assigned a stable `path::symbol::literal` identifier and checked against `game-text-non-ocr-allowlist.json`.
+The Task 14 audit covers every tracked C# source below `BetterGenshinImpact/GameTask`. The read-only checker runs `rg` over the tracked file list from Git, then parses complete helper invocations and recognition comparisons across line boundaries. It covers `ContainsText`/`RegionHasText`, `TryClickText`/`TryClickAnyText`, `WaitUntilText`, `GetByText`/`GetByAnyText`, `FindRectByText`, `Bv.Find`/`FindF`, direct text/OCR/region/title comparisons, and both array initializers and C# collection expressions consumed by extracted OCR-text comparisons. Each candidate is assigned a stable `path::symbol::literal` identifier and checked against `game-text-non-ocr-allowlist.json`.
 
 Run from the repository root:
 
@@ -39,9 +39,9 @@ The command exits non-zero when a new candidate is unclassified or an allowlist 
 | `LowerHeadThenWalkToTask` | activate prompt | Migrated to existing `ley_line.activate`. |
 | `GoToSereniteaPotTask` | sold-out, unavailable companionship EXP, and goodbye option | Migrated to `serenitea_pot.*` and `common.goodbye`. |
 | `AutoDomainTask.PressUseResin` | use button | Ruling 11 migration to existing `common.use`; raw resin names and 20/40 quantities remain unchanged. |
-| Character selection and party setup | clear/filter, confirm-filter, party-state/title, elemental resonance, remove, and friendship labels | Ruling 12 migration to `common.*` and `party.*`; character and filter names remain raw inputs. |
+| Character selection and party setup | clear/filter, confirm-filter, party-state/title, elemental resonance, remove/replace/join, order, and friendship labels | Ruling 12 migration to `common.*` and `party.*`; character and filter names remain raw inputs. |
 | `CraftMaterialTask` | filter, crafting, and confirmation labels | Ruling 12 migration to existing/new `common.*`; TextMap material/product names and numeric quantities remain separate. |
-| `ExpeditionTask` | claim and select-character labels | Ruling 12 migration to `common.claim` and `expedition.select_character`. |
+| `ExpeditionTask` | claim, select-character button, and character-selection title labels | Ruling 12 migration to `common.claim`, `expedition.select_character`, and `expedition.character_selection`. |
 | `AutoLeyLineOutcropTask` | fight-success, fight-failure, and objective fragments | Ruling 12 migration to `ley_line.fight_*`; resin numbers and combat behavior remain unchanged. |
 | `QuickSereniteaPotTask.Done` | enter/leave and Serenitea Pot interaction labels | Ruling 12 migration to `common.*` and `world_area.serenitea_pot`. |
 | `UseRedemptionCodeTask` | account, redemption-navigation, paste/clear, and success labels | Ruling 12 migration to `redemption.*` and `common.*`; redemption-code input remains untouched. |

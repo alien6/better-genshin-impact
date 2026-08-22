@@ -58,6 +58,9 @@ public static class GameTextKeys
         public const string Configuration = "party.configuration";
         public const string Remove = "party.remove";
         public const string Friendship = "party.friendship";
+        public const string Replace = "party.replace";
+        public const string Join = "party.join";
+        public const string Order = "party.order";
     }
 
     public static class Redemption
@@ -169,6 +172,7 @@ public static class GameTextKeys
         public const string InProgress = "expedition.in_progress";
         public const string Rewards = "expedition.rewards";
         public const string SelectCharacter = "expedition.select_character";
+        public const string CharacterSelection = "expedition.character_selection";
     }
 
     public static class AdventurersGuild
@@ -273,6 +277,9 @@ public static class GameTextKeys
         Party.Configuration,
         Party.Remove,
         Party.Friendship,
+        Party.Replace,
+        Party.Join,
+        Party.Order,
         Redemption.Account,
         Redemption.GoToRedeem,
         Redemption.RedeemReward,
@@ -344,6 +351,7 @@ public static class GameTextKeys
         Expedition.InProgress,
         Expedition.Rewards,
         Expedition.SelectCharacter,
+        Expedition.CharacterSelection,
         AdventurersGuild.Katheryne,
         AdventurersGuild.DailyCommissions,
         AdventureHandbook.DailyRewardClaimed,
@@ -409,11 +417,15 @@ public sealed class RemainingGameTextRecognizer
         GameTextKeys.Party.Configuration,
         GameTextKeys.Party.Remove,
         GameTextKeys.Party.Friendship,
+        GameTextKeys.Party.Replace,
+        GameTextKeys.Party.Join,
+        GameTextKeys.Party.Order,
         GameTextKeys.Redemption.Account,
         GameTextKeys.Redemption.GoToRedeem,
         GameTextKeys.Redemption.RedeemReward,
         GameTextKeys.Redemption.Success,
         GameTextKeys.Expedition.SelectCharacter,
+        GameTextKeys.Expedition.CharacterSelection,
         GameTextKeys.WorldArea.SereniteaPot,
         GameTextKeys.LeyLine.FightSuccess,
         GameTextKeys.LeyLine.FightFailure,
