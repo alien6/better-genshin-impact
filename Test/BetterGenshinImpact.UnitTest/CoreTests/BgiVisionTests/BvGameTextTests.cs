@@ -91,6 +91,19 @@ public class BvGameTextTests
         Assert.False(locator.MatchesOcrText("unrelated text"));
     }
 
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("---")]
+    public void SemanticLocator_NormalizedEmptyAliasDoesNotMatchArbitraryOcr(string alias)
+    {
+        var locator = new BvPage(gameTextMatcher: new MutableAliasMatcher(alias))
+            .GetByTextKey(GameTextKeys.Resin.Original);
+
+        Assert.Empty(locator.NormalizedAnyTexts);
+        Assert.False(locator.MatchesOcrText("unrelated text"));
+    }
+
     [Fact]
     public void SemanticLocatorCreation_RejectsUnknownKeysImmediately()
     {

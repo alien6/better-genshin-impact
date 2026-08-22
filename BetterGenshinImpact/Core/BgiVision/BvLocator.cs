@@ -143,7 +143,8 @@ public class BvLocator
         {
             var normalizedText = GameTextNormalizer.Normalize(text);
             return normalizedText.Length > 0
-                && _normalizedAnyTexts.Any(alias => normalizedText.Contains(alias, StringComparison.Ordinal));
+                && _normalizedAnyTexts.Any(alias => alias.Length > 0
+                    && normalizedText.Contains(alias, StringComparison.Ordinal));
         }
 
         if (_anyTexts.Count > 0)

@@ -213,6 +213,7 @@ public class BvPage
             .ToArray();
         var normalizedAliases = aliases
             .Select(GameTextNormalizer.Normalize)
+            .Where(alias => alias.Length > 0)
             .Distinct(StringComparer.Ordinal)
             .ToArray();
 
