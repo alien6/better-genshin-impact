@@ -139,13 +139,13 @@ internal static class ExpeditionOcrFragmentGrouping
     {
         ArgumentNullException.ThrowIfNull(fragments);
         return fragments
-            .Where(fragment => OverlapsVertically(anchorRect, fragment.Rect))
+            .Where(fragment => AreOnSameLine(anchorRect, fragment.Rect))
             .OrderBy(fragment => fragment.Rect.Y)
             .ThenBy(fragment => fragment.Rect.X)
             .Select(fragment => fragment.Text)
             .ToArray();
     }
 
-    private static bool OverlapsVertically(Rect first, Rect second) =>
+    internal static bool AreOnSameLine(Rect first, Rect second) =>
         first.Y < second.Y + second.Height && second.Y < first.Y + first.Height;
 }

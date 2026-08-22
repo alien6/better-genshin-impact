@@ -170,44 +170,62 @@ public class ExpeditionTask
         var captureRect = TaskContext.Instance().SystemInfo.CaptureAreaRect;
         var assetScale = TaskContext.Instance().SystemInfo.AssetScale;
 
-        var ocrResultRects = result.Regions
-            .Select(x => x.ToOcrResultRect())
-            .Where(r => r.Rect.X + r.Rect.Width < captureRect.Width / 2)
+        return BuildCharacterCards(
+            result.Regions.Select(x => x.ToOcrResultRect()),
+            captureRect.Width,
+            assetScale,
+            _textRecognizer);
+    }
+
+    internal static List<ExpeditionCharacterCard> BuildCharacterCards(
+        IEnumerable<PaddleOcrResultRect> fragments,
+        int captureWidth,
+        double assetScale,
+        ExpeditionTextRecognizer textRecognizer)
+    {
+        ArgumentNullException.ThrowIfNull(fragments);
+        ArgumentNullException.ThrowIfNull(textRecognizer);
+
+        var ocrResultRects = fragments
+            .Where(r => r.Rect.X + r.Rect.Width < captureWidth / 2)
             .OrderBy(r => r.Rect.Y)
             .ThenBy(r => r.Rect.X)
             .ToList();
+        var cardLineGroups = GetCardLineGroups(ocrResultRects);
 
         var cards = new List<ExpeditionCharacterCard>();
-        foreach (var ocrResultRect in ocrResultRects)
+        foreach (var cardLineGroup in cardLineGroups)
         {
-            var cardLineTexts = GetSameCardLineOcrTexts(ocrResultRect, ocrResultRects);
-            if (_textRecognizer.IsExpeditionBonus(cardLineTexts))
+            var bonusAnchor = cardLineGroup[0];
+            var cardLineTexts = cardLineGroup.Select(fragment => fragment.Text);
+            if (textRecognizer.IsExpeditionBonus(cardLineTexts))
             {
                 var card = new ExpeditionCharacterCard();
-                card.Rects.Add(ocrResultRect.Rect);
-                card.Addition = ocrResultRect.Text;
-                foreach (var ocrResultRect2 in ocrResultRects)
+                card.Rects.Add(bonusAnchor.Rect);
+                card.Addition = bonusAnchor.Text;
+                foreach (var stateLineGroup in cardLineGroups)
                 {
-                    if (ocrResultRect2.Rect.Y > ocrResultRect.Rect.Y - 50 * assetScale
-                        && ocrResultRect2.Rect.Y + ocrResultRect2.Rect.Height <
-                        ocrResultRect.Rect.Y + ocrResultRect.Rect.Height)
+                    var stateAnchor = stateLineGroup[0];
+                    if (stateAnchor.Rect.Y > bonusAnchor.Rect.Y - 50 * assetScale
+                        && stateAnchor.Rect.Y + stateAnchor.Rect.Height <
+                        bonusAnchor.Rect.Y + bonusAnchor.Rect.Height)
                     {
-                        var stateLineTexts = GetSameCardLineOcrTexts(ocrResultRect2, ocrResultRects);
-                        if (_textRecognizer.IsExpeditionState(stateLineTexts))
+                        var stateLineTexts = stateLineGroup.Select(fragment => fragment.Text);
+                        if (textRecognizer.IsExpeditionState(stateLineTexts))
                         {
                             card.Idle = false;
-                            var name = _textRecognizer.RemoveExpeditionStateText(string.Concat(stateLineTexts));
+                            var name = textRecognizer.RemoveExpeditionStateText(string.Concat(stateLineTexts));
                             if (!string.IsNullOrEmpty(name))
                             {
                                 card.Name = name;
                             }
                         }
-                        else if (!_textRecognizer.IsExpeditionBonus(stateLineTexts))
+                        else if (!textRecognizer.IsExpeditionBonus(stateLineTexts))
                         {
-                            card.Name = ocrResultRect2.Text;
+                            card.Name = stateAnchor.Text;
                         }
 
-                        card.Rects.Add(ocrResultRect2.Rect);
+                        card.Rects.AddRange(stateLineGroup.Select(fragment => fragment.Rect));
                     }
                 }
 
@@ -223,6 +241,27 @@ public class ExpeditionTask
         }
 
         return cards;
+    }
+
+    private static List<List<PaddleOcrResultRect>> GetCardLineGroups(
+        IEnumerable<PaddleOcrResultRect> fragments)
+    {
+        var cardLineGroups = new List<List<PaddleOcrResultRect>>();
+        foreach (var fragment in fragments)
+        {
+            var cardLineGroup = cardLineGroups.FirstOrDefault(group =>
+                group.Any(existing => ExpeditionOcrFragmentGrouping.AreOnSameLine(existing.Rect, fragment.Rect)));
+            if (cardLineGroup is null)
+            {
+                cardLineGroups.Add([fragment]);
+            }
+            else
+            {
+                cardLineGroup.Add(fragment);
+            }
+        }
+
+        return cardLineGroups;
     }
 
     internal static IReadOnlyList<string> GetSameCardLineOcrTexts(

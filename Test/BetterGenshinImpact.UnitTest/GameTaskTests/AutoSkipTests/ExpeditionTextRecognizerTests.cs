@@ -106,6 +106,25 @@ public class ExpeditionTextRecognizerTests
     }
 
     [Fact]
+    public void ExpeditionTask_CardGroups_CreateOneCardForFragmentedBonusAndKeepFirstAnchor()
+    {
+        var sut = Create("fr");
+        var bonusAnchor = new PaddleOcrResultRect(new Rect(10, 100, 50, 20), "Temps", 1);
+        var fragments = new[]
+        {
+            bonusAnchor,
+            new PaddleOcrResultRect(new Rect(65, 100, 65, 20), "réduit", 1),
+            new PaddleOcrResultRect(new Rect(10, 70, 50, 15), "Aether", 1),
+        };
+
+        var cards = ExpeditionTask.BuildCharacterCards(fragments, 500, 1, sut);
+
+        var card = Assert.Single(cards);
+        Assert.Equal(bonusAnchor.Rect, card.Rects[0]);
+        Assert.Equal("Temps", card.Addition);
+    }
+
+    [Fact]
     public void AutoSkip_OptionClassification_CombinesOnlyTheSameOptionLineFragments()
     {
         var sut = Create("fr");
