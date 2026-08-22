@@ -32,6 +32,9 @@
         <None Include="..\..\BetterGenshinImpact\GameTask\Localization\Catalogs\source-manifest.json"
               Link="Assets\GameText\source-manifest.json"
               CopyToOutputDirectory="PreserveNewest" />
+        <None Update="Fixtures\OCR\pt-BR-resina-original.png"
+              Link="Assets\OCR\pt-BR-resina-original.png"
+              CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <ItemGroup>

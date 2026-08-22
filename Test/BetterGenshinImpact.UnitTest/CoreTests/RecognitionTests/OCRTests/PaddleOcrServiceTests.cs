@@ -1,5 +1,6 @@
 using OpenCvSharp;
 using System.Drawing;
+using System.Globalization;
 using BetterGenshinImpact.Core.Recognition.OCR.Paddle;
 using OpenCvSharp.Extensions;
 
@@ -12,6 +13,14 @@ namespace BetterGenshinImpact.UnitTest.CoreTests.RecognitionTests.OCRTests
         public PaddleOcrServiceTests(PaddleFixture paddle)
         {
             this.paddle = paddle;
+        }
+
+        [Fact]
+        public void FromCultureInfo_PtBr_UsesV5Latin()
+        {
+            Assert.Same(
+                PaddleOcrService.PaddleOcrModelType.V5Latin,
+                PaddleOcrService.PaddleOcrModelType.FromCultureInfo(new CultureInfo("pt-BR")));
         }
 
         [Theory]
@@ -71,6 +80,19 @@ namespace BetterGenshinImpact.UnitTest.CoreTests.RecognitionTests.OCRTests
             {
                 Assert.Matches(pattern, actual);
             }
+        }
+
+        [Fact]
+        public void PaddleOcrService_PtBrFixture_RecognizesPortugueseText()
+        {
+            using var mat = Cv2.ImRead(Path.Combine(
+                AppContext.BaseDirectory,
+                "Assets",
+                "OCR",
+                "pt-BR-resina-original.png"));
+            var actual = paddle.Get("pt-BR").Ocr(mat);
+
+            Assert.Matches("(?i)Resina\\s*Original", actual);
         }
 
         [Fact]
