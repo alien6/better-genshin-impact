@@ -49,6 +49,17 @@
       "当前拥有的 原粹树脂数量不足",
       "数量不足"
     ],
+    "boss.full_resin_recovered": ["原粹树脂已完全恢复"],
+    "boss.full_recovery": ["全部恢复"],
+    "boss.quick_use": ["快捷使用"],
+    "boss.use_quantity": ["使用数量"],
+    "boss.obtain": ["获得"],
+    "boss.touch_trounce_blossom": ["接触征讨之花"],
+    "boss.click_blank_area_to_continue": ["点击空白区域继续"],
+    "boss.use_prompt_lead": ["使用"],
+    "boss.replenish_prompt_lead": ["补充"],
+    "boss.replenish_prompt_original": ["原粹"],
+    "boss.replenish_prompt_resin": ["树脂"],
     "domain.challenge_completed": [
       "挑战完成",
       "(挑战|达成)",

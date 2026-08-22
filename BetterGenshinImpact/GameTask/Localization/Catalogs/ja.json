@@ -45,6 +45,17 @@
     "resin.insufficient": [
       "現在天然樹脂が足りませんので"
     ],
+    "boss.full_resin_recovered": ["天然樹脂はすべて回復しました"],
+    "boss.full_recovery": ["すべて回復"],
+    "boss.quick_use": ["クイック使用"],
+    "boss.use_quantity": ["使用数"],
+    "boss.obtain": ["獲得"],
+    "boss.touch_trounce_blossom": ["征討の花に触れる"],
+    "boss.click_blank_area_to_continue": ["空白部分をクリックして続ける"],
+    "boss.use_prompt_lead": ["使用"],
+    "boss.replenish_prompt_lead": ["補充"],
+    "boss.replenish_prompt_original": ["天然"],
+    "boss.replenish_prompt_resin": ["樹脂"],
     "domain.challenge_completed": [
       "挑戦完了"
     ],

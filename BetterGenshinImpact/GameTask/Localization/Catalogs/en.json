@@ -47,6 +47,17 @@
     "resin.insufficient": [
       "You don't have enough Original Resin"
     ],
+    "boss.full_resin_recovered": ["Original Resin fully recovered"],
+    "boss.full_recovery": ["Full Recovery"],
+    "boss.quick_use": ["Quick Use"],
+    "boss.use_quantity": ["Amount Used"],
+    "boss.obtain": ["Obtained"],
+    "boss.touch_trounce_blossom": ["Touch the Trounce Blossom"],
+    "boss.click_blank_area_to_continue": ["Click blank area to continue"],
+    "boss.use_prompt_lead": ["Use"],
+    "boss.replenish_prompt_lead": ["Replenish"],
+    "boss.replenish_prompt_original": ["Original"],
+    "boss.replenish_prompt_resin": ["Resin"],
     "domain.challenge_completed": [
       "Challenge Completed",
       "(Challenge|Completed)",

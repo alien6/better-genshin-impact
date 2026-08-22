@@ -52,6 +52,17 @@
     "resin.insufficient": [
       "Vous n'avez pas assez de Résine originelle"
     ],
+    "boss.full_resin_recovered": ["Résine originelle entièrement restaurée"],
+    "boss.full_recovery": ["Récupération complète"],
+    "boss.quick_use": ["Utilisation rapide"],
+    "boss.use_quantity": ["Quantité à utiliser"],
+    "boss.obtain": ["Obtenu"],
+    "boss.touch_trounce_blossom": ["Toucher la fleur de la ligne tellurique"],
+    "boss.click_blank_area_to_continue": ["Cliquez dans une zone vide pour continuer"],
+    "boss.use_prompt_lead": ["Utiliser"],
+    "boss.replenish_prompt_lead": ["Recharger"],
+    "boss.replenish_prompt_original": ["originelle"],
+    "boss.replenish_prompt_resin": ["résine"],
     "domain.challenge_completed": [
       "Défi terminé",
       "(Défi|terminé)",

@@ -45,6 +45,17 @@
     "resin.insufficient": [
       "Você não possui Resina Original suficientes"
     ],
+    "boss.full_resin_recovered": ["Resina Original totalmente recuperada"],
+    "boss.full_recovery": ["Recuperação total"],
+    "boss.quick_use": ["Uso Rápido"],
+    "boss.use_quantity": ["Quantidade a usar"],
+    "boss.obtain": ["Obtido"],
+    "boss.touch_trounce_blossom": ["Toque na Flor da Linha Ley"],
+    "boss.click_blank_area_to_continue": ["Clique em uma área em branco para continuar"],
+    "boss.use_prompt_lead": ["Usar"],
+    "boss.replenish_prompt_lead": ["Repor"],
+    "boss.replenish_prompt_original": ["Original"],
+    "boss.replenish_prompt_resin": ["Resina"],
     "domain.challenge_completed": [
       "Desafio concluído"
     ],

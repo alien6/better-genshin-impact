@@ -610,6 +610,94 @@
         }
       ]
     },
+    "boss.full_resin_recovered": {
+      "zh-Hans": [{ "value": "原粹树脂已完全恢复", "source": "curated", "reason": "Boss resin-detail OCR state curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "zh-Hant": [{ "value": "原粹樹脂已完全恢復", "source": "curated", "reason": "Boss resin-detail OCR state curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "en": [{ "value": "Original Resin fully recovered", "source": "curated", "reason": "Boss resin-detail OCR state curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "天然樹脂はすべて回復しました", "source": "curated", "reason": "Boss resin-detail OCR state curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Résine originelle entièrement restaurée", "source": "curated", "reason": "Boss resin-detail OCR state curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Resina Original totalmente recuperada", "source": "curated", "reason": "Boss resin-detail OCR state curated from the in-game UI; no standalone pinned TextMap value exists." }]
+    },
+    "boss.full_recovery": {
+      "zh-Hans": [{ "value": "全部恢复", "source": "curated", "reason": "Boss resin-detail recovery label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "zh-Hant": [{ "value": "完全恢復", "source": "curated", "reason": "Boss resin-detail recovery label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "en": [{ "value": "Full Recovery", "source": "curated", "reason": "Boss resin-detail recovery label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "すべて回復", "source": "curated", "reason": "Boss resin-detail recovery label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Récupération complète", "source": "curated", "reason": "Boss resin-detail recovery label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Recuperação total", "source": "curated", "reason": "Boss resin-detail recovery label curated from the in-game UI; no standalone pinned TextMap value exists." }]
+    },
+    "boss.quick_use": {
+      "zh-Hans": [{ "value": "快捷使用", "source": "curated", "reason": "Boss quick-use panel label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "zh-Hant": [{ "value": "快速使用", "source": "curated", "reason": "Boss quick-use panel label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "en": [{ "value": "Quick Use", "source": "curated", "reason": "Boss quick-use panel label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "クイック使用", "source": "curated", "reason": "Boss quick-use panel label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Utilisation rapide", "source": "curated", "reason": "Boss quick-use panel label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Uso Rápido", "source": "curated", "reason": "Boss quick-use panel label curated from the in-game UI; no standalone pinned TextMap value exists." }]
+    },
+    "boss.use_quantity": {
+      "zh-Hans": [{ "value": "使用数量", "textMapHash": "1661070114" }],
+      "zh-Hant": [{ "value": "使用數量", "textMapHash": "1661070114" }],
+      "en": [{ "value": "Amount Used", "textMapHash": "1661070114" }],
+      "ja": [{ "value": "使用数", "textMapHash": "1661070114" }],
+      "fr": [{ "value": "Quantité à utiliser", "textMapHash": "1661070114" }],
+      "pt-BR": [{ "value": "Quantidade a usar", "textMapHash": "1661070114" }]
+    },
+    "boss.obtain": {
+      "zh-Hans": [{ "value": "获得", "source": "curated", "reason": "Boss supplemental-resin result label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "zh-Hant": [{ "value": "獲得", "source": "curated", "reason": "Boss supplemental-resin result label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "en": [{ "value": "Obtained", "source": "curated", "reason": "Boss supplemental-resin result label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "獲得", "source": "curated", "reason": "Boss supplemental-resin result label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Obtenu", "source": "curated", "reason": "Boss supplemental-resin result label curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Obtido", "source": "curated", "reason": "Boss supplemental-resin result label curated from the in-game UI; no standalone pinned TextMap value exists." }]
+    },
+    "boss.touch_trounce_blossom": {
+      "zh-Hans": [{ "value": "接触征讨之花", "source": "curated", "reason": "Boss reward interaction prompt curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "zh-Hant": [{ "value": "接觸征討之花", "source": "curated", "reason": "Boss reward interaction prompt curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "en": [{ "value": "Touch the Trounce Blossom", "source": "curated", "reason": "Boss reward interaction prompt curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "征討の花に触れる", "source": "curated", "reason": "Boss reward interaction prompt curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Toucher la fleur de la ligne tellurique", "source": "curated", "reason": "Boss reward interaction prompt curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Toque na Flor da Linha Ley", "source": "curated", "reason": "Boss reward interaction prompt curated from the in-game UI; no standalone pinned TextMap value exists." }]
+    },
+    "boss.click_blank_area_to_continue": {
+      "zh-Hans": [{ "value": "点击空白区域继续", "source": "curated", "reason": "Boss reward-result instruction curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "zh-Hant": [{ "value": "點擊空白區域繼續", "source": "curated", "reason": "Boss reward-result instruction curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "en": [{ "value": "Click blank area to continue", "source": "curated", "reason": "Boss reward-result instruction curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "空白部分をクリックして続ける", "source": "curated", "reason": "Boss reward-result instruction curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Cliquez dans une zone vide pour continuer", "source": "curated", "reason": "Boss reward-result instruction curated from the in-game UI; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Clique em uma área em branco para continuar", "source": "curated", "reason": "Boss reward-result instruction curated from the in-game UI; no standalone pinned TextMap value exists." }]
+    },
+    "boss.use_prompt_lead": {
+      "zh-Hans": [{ "value": "使用", "source": "curated", "reason": "Semantic use fragment from the boss Original Resin reward prompt, retained for OCR split-region matching." }],
+      "zh-Hant": [{ "value": "使用", "source": "curated", "reason": "Semantic use fragment from the boss Original Resin reward prompt, retained for OCR split-region matching." }],
+      "en": [{ "value": "Use", "source": "curated", "reason": "Semantic use fragment from the boss Original Resin reward prompt, retained for OCR split-region matching." }],
+      "ja": [{ "value": "使用", "source": "curated", "reason": "Semantic use fragment from the boss Original Resin reward prompt, retained for OCR split-region matching." }],
+      "fr": [{ "value": "Utiliser", "source": "curated", "reason": "Semantic use fragment from the boss Original Resin reward prompt, retained for OCR split-region matching." }],
+      "pt-BR": [{ "value": "Usar", "source": "curated", "reason": "Semantic use fragment from the boss Original Resin reward prompt, retained for OCR split-region matching." }]
+    },
+    "boss.replenish_prompt_lead": {
+      "zh-Hans": [{ "value": "补充", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "zh-Hant": [{ "value": "補充", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "en": [{ "value": "Replenish", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "ja": [{ "value": "補充", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "fr": [{ "value": "Recharger", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "pt-BR": [{ "value": "Repor", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }]
+    },
+    "boss.replenish_prompt_original": {
+      "zh-Hans": [{ "value": "原粹", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "zh-Hant": [{ "value": "原粹", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "en": [{ "value": "Original", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "ja": [{ "value": "天然", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "fr": [{ "value": "originelle", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "pt-BR": [{ "value": "Original", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }]
+    },
+    "boss.replenish_prompt_resin": {
+      "zh-Hans": [{ "value": "树脂", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "zh-Hant": [{ "value": "樹脂", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "en": [{ "value": "Resin", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "ja": [{ "value": "樹脂", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "fr": [{ "value": "résine", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
+      "pt-BR": [{ "value": "Resina", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }]
+    },
     "domain.challenge_completed": {
       "zh-Hans": [
         {

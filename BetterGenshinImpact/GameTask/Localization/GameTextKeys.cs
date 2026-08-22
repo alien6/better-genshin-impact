@@ -43,6 +43,21 @@ public static class GameTextKeys
         public const string ResinUsePromptDomain = "domain.resin_use_prompt_domain";
     }
 
+    public static class Boss
+    {
+        public const string FullResinRecovered = "boss.full_resin_recovered";
+        public const string FullRecovery = "boss.full_recovery";
+        public const string QuickUse = "boss.quick_use";
+        public const string UseQuantity = "boss.use_quantity";
+        public const string Obtain = "boss.obtain";
+        public const string TouchTrounceBlossom = "boss.touch_trounce_blossom";
+        public const string ClickBlankAreaToContinue = "boss.click_blank_area_to_continue";
+        public const string UsePromptLead = "boss.use_prompt_lead";
+        public const string ReplenishPromptLead = "boss.replenish_prompt_lead";
+        public const string ReplenishPromptOriginal = "boss.replenish_prompt_original";
+        public const string ReplenishPromptResin = "boss.replenish_prompt_resin";
+    }
+
     public static class Expedition
     {
         public const string Entry = "expedition.entry";
@@ -137,6 +152,17 @@ public static class GameTextKeys
         Domain.ResinUsePromptLead,
         Domain.ResinUsePromptChallenge,
         Domain.ResinUsePromptDomain,
+        Boss.FullResinRecovered,
+        Boss.FullRecovery,
+        Boss.QuickUse,
+        Boss.UseQuantity,
+        Boss.Obtain,
+        Boss.TouchTrounceBlossom,
+        Boss.ClickBlankAreaToContinue,
+        Boss.UsePromptLead,
+        Boss.ReplenishPromptLead,
+        Boss.ReplenishPromptOriginal,
+        Boss.ReplenishPromptResin,
         Expedition.Entry,
         AdventurersGuild.Katheryne,
         AdventurersGuild.DailyCommissions,
