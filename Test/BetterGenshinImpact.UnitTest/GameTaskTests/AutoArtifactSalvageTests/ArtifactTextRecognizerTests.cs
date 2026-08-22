@@ -7,7 +7,8 @@ namespace BetterGenshinImpact.UnitTest.GameTaskTests.AutoArtifactSalvageTests;
 public class ArtifactTextRecognizerTests
 {
     [Theory]
-    [InlineData("Seleção rápida", true)]
+    [InlineData("Escolha rápida", true)]
+    [InlineData("Seleção rápida", false)]
     [InlineData("Selecionar", false)]
     public void IsQuickSelect_MatchesPortugueseOcrText(string recognizedText, bool expected)
     {

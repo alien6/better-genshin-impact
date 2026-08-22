@@ -95,6 +95,28 @@ namespace BetterGenshinImpact.UnitTest.CoreTests.RecognitionTests.OCRTests
             Assert.Matches("(?i)Resina\\s*Original", actual);
         }
 
+        [Theory]
+        [InlineData("pt-BR-escolha-rapida.png", "Escolha rápida")]
+        [InlineData("pt-BR-artefatos-4-estrelas.png", "Artefatos de 4 estrelas")]
+        public void PaddleOcrService_PtBrOfficialArtifactFixtures_RecognizesExactTextIgnoringCaseAndWhitespace(
+            string fixtureName,
+            string expected)
+        {
+            using var mat = Cv2.ImRead(Path.Combine(
+                AppContext.BaseDirectory,
+                "Assets",
+                "OCR",
+                fixtureName));
+            var actual = paddle.Get("pt-BR").Ocr(mat);
+
+            Assert.True(
+                string.Equals(RemoveWhitespace(expected), RemoveWhitespace(actual), StringComparison.OrdinalIgnoreCase),
+                $"Expected OCR text '{expected}' but received '{actual}'.");
+        }
+
+        private static string RemoveWhitespace(string value) =>
+            string.Concat(value.Where(character => !char.IsWhiteSpace(character)));
+
         [Fact]
         public void PaddleOcrService_Version_ShouldBeCorrect()
         {

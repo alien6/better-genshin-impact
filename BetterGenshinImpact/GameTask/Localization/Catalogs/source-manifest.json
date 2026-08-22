@@ -1174,7 +1174,7 @@
         { "value": "Sélection rapide", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
         { "value": "Sélection.*rapide", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
       ],
-      "pt-BR": [{ "value": "Seleção rápida", "source": "curated", "reason": "Portuguese artifact-salvage OCR control text curated because no standalone pinned TextMap entry exists." }]
+      "pt-BR": [{ "value": "Escolha rápida", "source": "curated", "reason": "Official HoYoverse version 4.0 text uses 'função de escolha rápida': https://genshin.hoyoverse.com/pt/news/detail/112690." }]
     },
     "artifact.star_1": {
       "zh-Hans": [{ "value": "1星圣遗物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
@@ -1188,7 +1188,7 @@
         { "value": "Artéfact 1★", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
         { "value": "Artéfact.*1★?", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
       ],
-      "pt-BR": [{ "value": "Artefatos de 1 estrela", "source": "curated", "reason": "Portuguese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }]
+      "pt-BR": [{ "value": "Artefatos de 1 estrela", "source": "curated", "reason": "Grammar-derived compatibility label from the official HoYoverse version 4.0 phrase 'Artefatos de 4 estrelas', using singular agreement for one star: https://genshin.hoyoverse.com/pt/news/detail/112690." }]
     },
     "artifact.star_2": {
       "zh-Hans": [{ "value": "2星圣遗物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
@@ -1202,7 +1202,7 @@
         { "value": "Artéfact 2★", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
         { "value": "Artéfact.*2★?", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
       ],
-      "pt-BR": [{ "value": "Artefatos de 2 estrelas", "source": "curated", "reason": "Portuguese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }]
+      "pt-BR": [{ "value": "Artefatos de 2 estrelas", "source": "curated", "reason": "Grammar-derived compatibility label from the official HoYoverse version 4.0 phrase 'Artefatos de 4 estrelas': https://genshin.hoyoverse.com/pt/news/detail/112690." }]
     },
     "artifact.star_3": {
       "zh-Hans": [{ "value": "3星圣遗物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
@@ -1216,7 +1216,7 @@
         { "value": "Artéfact 3★", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
         { "value": "Artéfact.*3★?", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
       ],
-      "pt-BR": [{ "value": "Artefatos de 3 estrelas", "source": "curated", "reason": "Portuguese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }]
+      "pt-BR": [{ "value": "Artefatos de 3 estrelas", "source": "curated", "reason": "Grammar-derived compatibility label from the official HoYoverse version 4.0 phrase 'Artefatos de 4 estrelas': https://genshin.hoyoverse.com/pt/news/detail/112690." }]
     },
     "artifact.star_4": {
       "zh-Hans": [{ "value": "4星圣遗物", "source": "curated", "reason": "Legacy artifact-salvage OCR resource alias retained; no standalone pinned TextMap entry exists for this filter label." }],
@@ -1230,7 +1230,7 @@
         { "value": "Artéfact 4★", "source": "curated", "reason": "Literal expansion retained for the legacy French OCR regular-expression alias." },
         { "value": "Artéfact.*4★?", "source": "curated", "reason": "Legacy task-local OCR regular-expression alias retained one-to-one during catalog migration." }
       ],
-      "pt-BR": [{ "value": "Artefatos de 4 estrelas", "source": "curated", "reason": "Portuguese artifact-star OCR filter text curated because no standalone pinned TextMap entry exists." }]
+      "pt-BR": [{ "value": "Artefatos de 4 estrelas", "source": "curated", "reason": "Exact official HoYoverse version 4.0 phrase 'Artefatos de 4 estrelas': https://genshin.hoyoverse.com/pt/news/detail/112690." }]
     },
     "artifact.affix.atk": {
       "zh-Hans": [{ "value": "攻击力", "textMapHash": "476614152" }],

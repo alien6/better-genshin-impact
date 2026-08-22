@@ -1,19 +1,19 @@
 using BetterGenshinImpact.Helpers;
+using BetterGenshinImpact.GameTask.Model;
 using Microsoft.ClearScript;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
 
 namespace BetterGenshinImpact.GameTask.AutoFishing
 {
-    public class AutoFishingTaskParam
+    public class AutoFishingTaskParam : BaseTaskParam<AutoFishingTask>
     {
-        public AutoFishingTaskParam(int wholeProcessTimeoutSeconds, int throwRodTimeOutTimeoutSeconds, FishingTimePolicy fishingTimePolicy, bool saveScreenshotOnKeyTick, CultureInfo? cultureInfo, IStringLocalizer<AutoFishingTask>? stringLocalizer)
+        public AutoFishingTaskParam(int wholeProcessTimeoutSeconds, int throwRodTimeOutTimeoutSeconds, FishingTimePolicy fishingTimePolicy, bool saveScreenshotOnKeyTick, CultureInfo? cultureInfo, IStringLocalizer<AutoFishingTask>? stringLocalizer) : base(cultureInfo, stringLocalizer)
         {
             WholeProcessTimeoutSeconds = wholeProcessTimeoutSeconds;
             ThrowRodTimeOutTimeoutSeconds = throwRodTimeOutTimeoutSeconds;
             FishingTimePolicy = fishingTimePolicy;
             SaveScreenshotOnKeyTick = saveScreenshotOnKeyTick;
-            GameCultureInfo = cultureInfo ?? new CultureInfo(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
         }
 
 
@@ -21,8 +21,6 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
         public int ThrowRodTimeOutTimeoutSeconds { get; set; }
         public FishingTimePolicy FishingTimePolicy { get; set; }
         public bool SaveScreenshotOnKeyTick { get; set; }
-        public CultureInfo GameCultureInfo { get; }
-
         /// <summary>
         /// 从JS请求参数构建任务参数
         /// </summary>

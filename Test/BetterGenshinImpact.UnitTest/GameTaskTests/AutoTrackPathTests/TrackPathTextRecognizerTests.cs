@@ -30,6 +30,14 @@ public class TrackPathTextRecognizerTests
         Assert.False(sut.IsSwitchAreaCandidateMatch("Liyue", "层岩巨渊"));
     }
 
+    [Fact]
+    public void IsSwitchAreaCandidateMatch_KnownAreaDoesNotAcceptInternalRouteLabel()
+    {
+        var sut = new TrackPathTextRecognizer(CreateMatcher("pt-BR"));
+
+        Assert.False(sut.IsSwitchAreaCandidateMatch("蒙德", "蒙德"));
+    }
+
     [Theory]
     [MemberData(nameof(LegacyAreaResourceValues))]
     public void Catalog_PreservesEveryLegacyAreaResourceValue(

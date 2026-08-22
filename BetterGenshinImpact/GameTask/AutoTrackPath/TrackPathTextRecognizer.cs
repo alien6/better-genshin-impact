@@ -36,10 +36,9 @@ public sealed class TrackPathTextRecognizer
         ArgumentNullException.ThrowIfNull(recognizedText);
         ArgumentException.ThrowIfNullOrWhiteSpace(routeAreaName);
 
-        if (AreaKeys.TryGetValue(routeAreaName, out var key)
-            && _matcher.IsMatch(recognizedText, key, _culture))
+        if (AreaKeys.TryGetValue(routeAreaName, out var key))
         {
-            return true;
+            return _matcher.IsMatch(recognizedText, key, _culture);
         }
 
         var normalizedRouteArea = GameTextNormalizer.Normalize(routeAreaName);
