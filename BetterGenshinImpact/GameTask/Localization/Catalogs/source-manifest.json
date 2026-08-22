@@ -1748,6 +1748,118 @@
       "fr": [{ "value": "Bonus de DGT Cryo", "textMapHash": "903704337" }],
       "pt-BR": [{ "value": "Bônus de Dano Cryo", "textMapHash": "903704337" }]
     },
+    "stygian.return": {
+      "zh-Hans": [{ "value": "返回", "textMapHash": "3867302486" }],
+      "zh-Hant": [{ "value": "返回", "textMapHash": "3867302486" }],
+      "en": [{ "value": "Return", "textMapHash": "3867302486" }],
+      "ja": [{ "value": "戻る", "textMapHash": "3867302486" }],
+      "fr": [{ "value": "Retour", "textMapHash": "3867302486" }],
+      "pt-BR": [{ "value": "Voltar", "textMapHash": "3867302486" }]
+    },
+    "stygian.challenge_failed": {
+      "zh-Hans": [{ "value": "挑战失败", "textMapHash": "1689917966" }],
+      "zh-Hant": [{ "value": "挑戰失敗", "textMapHash": "1689917966" }],
+      "en": [{ "value": "Challenge Failed", "textMapHash": "1689917966" }],
+      "ja": [{ "value": "挑戦失敗", "textMapHash": "1689917966" }],
+      "fr": [{ "value": "Défi échoué", "textMapHash": "1689917966" }],
+      "pt-BR": [{ "value": "Desafio Fracassado", "textMapHash": "1689917966" }]
+    },
+    "stygian.retry_challenge": {
+      "zh-Hans": [{ "value": "重新挑战", "source": "curated", "reason": "Legacy Stygian retry-button OCR label retained during localization migration." }],
+      "zh-Hant": [{ "value": "重新挑戰", "source": "curated", "reason": "Localized retry-button OCR label curated for Stygian recognition." }],
+      "en": [{ "value": "Retry Challenge", "source": "curated", "reason": "Localized retry-button OCR label curated for Stygian recognition." }],
+      "ja": [{ "value": "再挑戦", "source": "curated", "reason": "Localized retry-button OCR label curated for Stygian recognition." }],
+      "fr": [{ "value": "Réessayer le défi", "source": "curated", "reason": "Localized retry-button OCR label curated for Stygian recognition." }],
+      "pt-BR": [{ "value": "Tentar Novamente", "source": "curated", "reason": "Localized retry-button OCR label curated for Stygian recognition." }]
+    },
+    "stygian.ley_line_blossom": {
+      "zh-Hans": [{ "value": "地脉之花", "textMapHash": "199263767" }],
+      "zh-Hant": [{ "value": "地脈之花", "textMapHash": "199263767" }],
+      "en": [{ "value": "Ley Line Blossom", "textMapHash": "199263767" }],
+      "ja": [{ "value": "地脈の花", "textMapHash": "199263767" }],
+      "fr": [{ "value": "Fleur des lignes énergétiques", "textMapHash": "199263767" }],
+      "pt-BR": [{ "value": "Flor de Linha Ley", "textMapHash": "199263767" }]
+    },
+    "stygian.character_preview": {
+      "zh-Hans": [{ "value": "角色预览", "textMapHash": "1408236262" }],
+      "zh-Hant": [{ "value": "角色預覽", "textMapHash": "1408236262" }],
+      "en": [{ "value": "Character Preview", "textMapHash": "1408236262" }],
+      "ja": [{ "value": "キャラプレビュー", "textMapHash": "1408236262" }],
+      "fr": [{ "value": "Aperçu de personnage", "textMapHash": "1408236262" }],
+      "pt-BR": [{ "value": "Pré-visualização de Personagem", "textMapHash": "1408236262" }]
+    },
+    "stygian.event_name": {
+      "zh-Hans": [{ "value": "幽境危战", "textMapHash": "4078939709" }],
+      "zh-Hant": [{ "value": "幽境危戰", "textMapHash": "4078939709" }],
+      "en": [{ "value": "Stygian Onslaught", "textMapHash": "4078939709" }],
+      "ja": [{ "value": "幽境の激戦", "textMapHash": "4078939709" }],
+      "fr": [{ "value": "Carnage chtonien", "textMapHash": "4078939709" }],
+      "pt-BR": [{ "value": "Confronto Abissal", "textMapHash": "4078939709" }]
+    },
+    "stygian.event_overview": {
+      "zh-Hans": [{ "value": "活动一览", "source": "curated", "reason": "Current Stygian event-menu OCR heading is not a standalone pinned TextMap value." }],
+      "zh-Hant": [{ "value": "活動一覽", "source": "curated", "reason": "Current Stygian event-menu OCR heading is not a standalone pinned TextMap value." }],
+      "en": [{ "value": "Event Overview", "source": "curated", "reason": "Current Stygian event-menu OCR heading is not a standalone pinned TextMap value." }],
+      "ja": [{ "value": "イベント概要", "source": "curated", "reason": "Current Stygian event-menu OCR heading is not a standalone pinned TextMap value." }],
+      "fr": [{ "value": "Aperçu des événements", "source": "curated", "reason": "Current Stygian event-menu OCR heading is not a standalone pinned TextMap value." }],
+      "pt-BR": [{ "value": "Visão geral do evento", "source": "curated", "reason": "Current Stygian event-menu OCR heading is not a standalone pinned TextMap value." }]
+    },
+    "stygian.reward_phase": {
+      "zh-Hans": [{ "value": "紊乱爆发期", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
+      "zh-Hant": [{ "value": "紊亂爆發期", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
+      "en": [{ "value": "Turbulent Outbreak Phase", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
+      "ja": [{ "value": "紊乱爆发期", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
+      "fr": [{ "value": "Phase d'explosion turbulente", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
+      "pt-BR": [{ "value": "Período de Erupção de Caos", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }]
+    },
+    "stygian.phase_ended": {
+      "zh-Hans": [{ "value": "已结束", "source": "curated", "reason": "Stable phase-complete OCR fragment used with the version-specific reward-phase key." }],
+      "zh-Hant": [{ "value": "已結束", "source": "curated", "reason": "Stable phase-complete OCR fragment used with the version-specific reward-phase key." }],
+      "en": [{ "value": "Ended", "source": "curated", "reason": "Stable phase-complete OCR fragment used with the version-specific reward-phase key." }],
+      "ja": [{ "value": "終了", "source": "curated", "reason": "Stable phase-complete OCR fragment used with the version-specific reward-phase key." }],
+      "fr": [{ "value": "Terminé", "source": "curated", "reason": "Stable phase-complete OCR fragment used with the version-specific reward-phase key." }],
+      "pt-BR": [{ "value": "Encerrado", "source": "curated", "reason": "Stable phase-complete OCR fragment used with the version-specific reward-phase key." }]
+    },
+    "stygian.go_to_challenge": {
+      "zh-Hans": [{ "value": "前往挑战", "source": "curated", "reason": "Stygian navigation-button OCR label curated from the current UI." }],
+      "zh-Hant": [{ "value": "前往挑戰", "source": "curated", "reason": "Stygian navigation-button OCR label curated from the current UI." }],
+      "en": [{ "value": "Go to Challenge", "source": "curated", "reason": "Stygian navigation-button OCR label curated from the current UI." }],
+      "ja": [{ "value": "挑戦へ", "source": "curated", "reason": "Stygian navigation-button OCR label curated from the current UI." }],
+      "fr": [{ "value": "Aller au défi", "source": "curated", "reason": "Stygian navigation-button OCR label curated from the current UI." }],
+      "pt-BR": [{ "value": "Ir para o Desafio", "source": "curated", "reason": "Stygian navigation-button OCR label curated from the current UI." }]
+    },
+    "stygian.hard_difficulty": {
+      "zh-Hans": [{ "value": "困难", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "zh-Hant": [{ "value": "困難", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "en": [{ "value": "Hard", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "ja": [{ "value": "困難", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "fr": [{ "value": "Difficile", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "pt-BR": [{ "value": "Difícil", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }]
+    },
+    "stygian.ultimate_challenge": {
+      "zh-Hans": [{ "value": "至危挑战", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "zh-Hant": [{ "value": "至危挑戰", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "en": [{ "value": "Dire Challenge", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "ja": [{ "value": "至難の挑戦", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "fr": [{ "value": "Défi périlleux", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "pt-BR": [{ "value": "Desafio Ameaçador", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }]
+    },
+    "stygian.normal_challenge": {
+      "zh-Hans": [{ "value": "常规挑战", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "zh-Hant": [{ "value": "常規挑戰", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "en": [{ "value": "Normal Challenge", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "ja": [{ "value": "通常挑戦", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "fr": [{ "value": "Défi normal", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }],
+      "pt-BR": [{ "value": "Desafio Normal", "source": "curated", "reason": "Stygian difficulty-picker OCR label curated from the current UI." }]
+    },
+    "stygian.preset_teams": {
+      "zh-Hans": [{ "value": "预设队伍", "source": "curated", "reason": "Stygian team-panel OCR label curated from the current UI." }],
+      "zh-Hant": [{ "value": "預設隊伍", "source": "curated", "reason": "Stygian team-panel OCR label curated from the current UI." }],
+      "en": [{ "value": "Preset Teams", "source": "curated", "reason": "Stygian team-panel OCR label curated from the current UI." }],
+      "ja": [{ "value": "チーム編成", "source": "curated", "reason": "Stygian team-panel OCR label curated from the current UI." }],
+      "fr": [{ "value": "Équipes prédéfinies", "source": "curated", "reason": "Stygian team-panel OCR label curated from the current UI." }],
+      "pt-BR": [{ "value": "Equipes Predefinidas", "source": "curated", "reason": "Stygian team-panel OCR label curated from the current UI." }]
+    },
     "artifact.affix.geo_dmg_bonus": {
       "zh-Hans": [{ "value": "岩元素伤害加成", "textMapHash": "3622047323" }],
       "zh-Hant": [{ "value": "岩元素傷害加成", "textMapHash": "3622047323" }],

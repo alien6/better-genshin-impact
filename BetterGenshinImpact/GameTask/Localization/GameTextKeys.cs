@@ -73,6 +73,24 @@ public static class GameTextKeys
         public const string OriginalResin40Prompt = "ley_line.original_resin_40_prompt";
     }
 
+    public static class Stygian
+    {
+        public const string Return = "stygian.return";
+        public const string ChallengeFailed = "stygian.challenge_failed";
+        public const string RetryChallenge = "stygian.retry_challenge";
+        public const string LeyLineBlossom = "stygian.ley_line_blossom";
+        public const string CharacterPreview = "stygian.character_preview";
+        public const string EventName = "stygian.event_name";
+        public const string EventOverview = "stygian.event_overview";
+        public const string RewardPhase = "stygian.reward_phase";
+        public const string PhaseEnded = "stygian.phase_ended";
+        public const string GoToChallenge = "stygian.go_to_challenge";
+        public const string HardDifficulty = "stygian.hard_difficulty";
+        public const string UltimateChallenge = "stygian.ultimate_challenge";
+        public const string NormalChallenge = "stygian.normal_challenge";
+        public const string PresetTeams = "stygian.preset_teams";
+    }
+
     public static class Expedition
     {
         public const string Entry = "expedition.entry";
@@ -189,6 +207,20 @@ public static class GameTextKeys
         LeyLine.BlossomOfRevelation,
         LeyLine.Stop,
         LeyLine.OriginalResin40Prompt,
+        Stygian.Return,
+        Stygian.ChallengeFailed,
+        Stygian.RetryChallenge,
+        Stygian.LeyLineBlossom,
+        Stygian.CharacterPreview,
+        Stygian.EventName,
+        Stygian.EventOverview,
+        Stygian.RewardPhase,
+        Stygian.PhaseEnded,
+        Stygian.GoToChallenge,
+        Stygian.HardDifficulty,
+        Stygian.UltimateChallenge,
+        Stygian.NormalChallenge,
+        Stygian.PresetTeams,
         Expedition.Entry,
         AdventurersGuild.Katheryne,
         AdventurersGuild.DailyCommissions,

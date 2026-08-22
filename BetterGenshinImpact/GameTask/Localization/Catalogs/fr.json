@@ -237,6 +237,20 @@
     ],
     "artifact.affix.geo_dmg_bonus": [
       "Bonus de DGT Géo"
-    ]
+    ],
+    "stygian.return": ["Retour"],
+    "stygian.challenge_failed": ["Défi échoué"],
+    "stygian.retry_challenge": ["Réessayer le défi"],
+    "stygian.ley_line_blossom": ["Fleur des lignes énergétiques"],
+    "stygian.character_preview": ["Aperçu de personnage"],
+    "stygian.event_name": ["Carnage chtonien"],
+    "stygian.event_overview": ["Aperçu des événements"],
+    "stygian.reward_phase": ["Phase d'explosion turbulente"],
+    "stygian.phase_ended": ["Terminé"],
+    "stygian.go_to_challenge": ["Aller au défi"],
+    "stygian.hard_difficulty": ["Difficile"],
+    "stygian.ultimate_challenge": ["Défi périlleux"],
+    "stygian.normal_challenge": ["Défi normal"],
+    "stygian.preset_teams": ["Équipes prédéfinies"]
   }
 }

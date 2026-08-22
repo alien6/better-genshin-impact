@@ -231,6 +231,20 @@
     ],
     "artifact.affix.geo_dmg_bonus": [
       "Geo DMG Bonus"
-    ]
+    ],
+    "stygian.return": ["Return"],
+    "stygian.challenge_failed": ["Challenge Failed"],
+    "stygian.retry_challenge": ["Retry Challenge"],
+    "stygian.ley_line_blossom": ["Ley Line Blossom"],
+    "stygian.character_preview": ["Character Preview"],
+    "stygian.event_name": ["Stygian Onslaught"],
+    "stygian.event_overview": ["Event Overview"],
+    "stygian.reward_phase": ["Turbulent Outbreak Phase"],
+    "stygian.phase_ended": ["Ended"],
+    "stygian.go_to_challenge": ["Go to Challenge"],
+    "stygian.hard_difficulty": ["Hard"],
+    "stygian.ultimate_challenge": ["Dire Challenge"],
+    "stygian.normal_challenge": ["Normal Challenge"],
+    "stygian.preset_teams": ["Preset Teams"]
   }
 }

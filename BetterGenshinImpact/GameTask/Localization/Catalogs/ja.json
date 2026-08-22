@@ -217,6 +217,20 @@
     ],
     "artifact.affix.geo_dmg_bonus": [
       "岩元素ダメージ"
-    ]
+    ],
+    "stygian.return": ["戻る"],
+    "stygian.challenge_failed": ["挑戦失敗"],
+    "stygian.retry_challenge": ["再挑戦"],
+    "stygian.ley_line_blossom": ["地脈の花"],
+    "stygian.character_preview": ["キャラプレビュー"],
+    "stygian.event_name": ["幽境の激戦"],
+    "stygian.event_overview": ["イベント概要"],
+    "stygian.reward_phase": ["紊乱爆发期"],
+    "stygian.phase_ended": ["終了"],
+    "stygian.go_to_challenge": ["挑戦へ"],
+    "stygian.hard_difficulty": ["困難"],
+    "stygian.ultimate_challenge": ["至難の挑戦"],
+    "stygian.normal_challenge": ["通常挑戦"],
+    "stygian.preset_teams": ["チーム編成"]
   }
 }

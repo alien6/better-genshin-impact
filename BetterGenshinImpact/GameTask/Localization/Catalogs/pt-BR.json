@@ -221,6 +221,20 @@
     ],
     "artifact.affix.geo_dmg_bonus": [
       "Bônus de Dano Geo"
-    ]
+    ],
+    "stygian.return": ["Voltar"],
+    "stygian.challenge_failed": ["Desafio Fracassado"],
+    "stygian.retry_challenge": ["Tentar Novamente"],
+    "stygian.ley_line_blossom": ["Flor de Linha Ley"],
+    "stygian.character_preview": ["Pré-visualização de Personagem"],
+    "stygian.event_name": ["Confronto Abissal"],
+    "stygian.event_overview": ["Visão geral do evento"],
+    "stygian.reward_phase": ["Período de Erupção de Caos"],
+    "stygian.phase_ended": ["Encerrado"],
+    "stygian.go_to_challenge": ["Ir para o Desafio"],
+    "stygian.hard_difficulty": ["Difícil"],
+    "stygian.ultimate_challenge": ["Desafio Ameaçador"],
+    "stygian.normal_challenge": ["Desafio Normal"],
+    "stygian.preset_teams": ["Equipes Predefinidas"]
   }
 }

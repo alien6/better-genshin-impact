@@ -237,6 +237,20 @@
     ],
     "artifact.affix.geo_dmg_bonus": [
       "岩元素傷害加成"
-    ]
+    ],
+    "stygian.return": ["返回"],
+    "stygian.challenge_failed": ["挑戰失敗"],
+    "stygian.retry_challenge": ["重新挑戰"],
+    "stygian.ley_line_blossom": ["地脈之花"],
+    "stygian.character_preview": ["角色預覽"],
+    "stygian.event_name": ["幽境危戰"],
+    "stygian.event_overview": ["活動一覽"],
+    "stygian.reward_phase": ["紊亂爆發期"],
+    "stygian.phase_ended": ["已結束"],
+    "stygian.go_to_challenge": ["前往挑戰"],
+    "stygian.hard_difficulty": ["困難"],
+    "stygian.ultimate_challenge": ["至危挑戰"],
+    "stygian.normal_challenge": ["常規挑戰"],
+    "stygian.preset_teams": ["預設隊伍"]
   }
 }
