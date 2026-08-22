@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using BetterGenshinImpact.GameTask.Localization;
+using OpenCvSharp;
 
 namespace BetterGenshinImpact.GameTask.AutoSkip;
 
@@ -66,6 +67,18 @@ public sealed class ExpeditionTextRecognizer
     public bool IsExpeditionInProgress(IEnumerable<string> recognizedTexts) => IsExpeditionInProgressNormalized(CombineNormalizedOcrTexts(recognizedTexts));
     public bool IsExplorationDispatchRewards(IEnumerable<string> recognizedTexts) => IsExplorationDispatchRewardsNormalized(CombineNormalizedOcrTexts(recognizedTexts));
 
+    public bool IsExpeditionBonus(IEnumerable<string> recognizedTexts)
+    {
+        var normalizedText = CombineNormalizedOcrTexts(recognizedTexts);
+        return IsExpeditionBonusNormalized(normalizedText);
+    }
+
+    public bool IsExpeditionState(IEnumerable<string> recognizedTexts)
+    {
+        var normalizedText = CombineNormalizedOcrTexts(recognizedTexts);
+        return IsExpeditionStateNormalized(normalizedText);
+    }
+
     public bool IsDailyCommission(IEnumerable<string> recognizedTexts) =>
         IsDailyCommissionNormalized(CombineNormalizedOcrTexts(recognizedTexts));
 
@@ -116,4 +129,23 @@ public sealed class ExpeditionTextRecognizer
 
     private bool IsMatch(string normalizedText, string key) =>
         normalizedText.Length > 0 && _aliases[key].Any(alias => normalizedText.Contains(alias, StringComparison.Ordinal));
+}
+
+internal static class ExpeditionOcrFragmentGrouping
+{
+    public static IReadOnlyList<string> GetSameLineTexts(
+        Rect anchorRect,
+        IEnumerable<(Rect Rect, string Text)> fragments)
+    {
+        ArgumentNullException.ThrowIfNull(fragments);
+        return fragments
+            .Where(fragment => OverlapsVertically(anchorRect, fragment.Rect))
+            .OrderBy(fragment => fragment.Rect.Y)
+            .ThenBy(fragment => fragment.Rect.X)
+            .Select(fragment => fragment.Text)
+            .ToArray();
+    }
+
+    private static bool OverlapsVertically(Rect first, Rect second) =>
+        first.Y < second.Y + second.Height && second.Y < first.Y + first.Height;
 }

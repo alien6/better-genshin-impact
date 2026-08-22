@@ -722,8 +722,8 @@ public partial class AutoSkipTrigger : ITaskTrigger
                         var textMat = item.ToImageRegion().SrcMat;
                         if (IsOrangeOption(textMat))
                         {
-                            var normalizedItemText = _expeditionTextRecognizer.NormalizeOcrText(item.Text);
-                            if (_config.AutoGetDailyRewardsEnabled && _expeditionTextRecognizer.IsDailyCommissionNormalized(normalizedItemText))
+                            var optionOcrTexts = GetSameOptionLineOcrTexts(item, rs);
+                            if (_config.AutoGetDailyRewardsEnabled && _expeditionTextRecognizer.IsDailyCommission(optionOcrTexts))
                             {
                                 if (!ClickOcrRegion(item, "每日委托"))
                                 {
@@ -742,7 +742,7 @@ public partial class AutoSkipTrigger : ITaskTrigger
                                 
                                 _prevGetDailyRewardsTime = DateTime.Now; // 记录领取时间
                             }
-                            else if (_config.AutoReExploreEnabled && _expeditionTextRecognizer.IsExplorationDispatchNormalized(normalizedItemText))
+                            else if (_config.AutoReExploreEnabled && _expeditionTextRecognizer.IsExplorationDispatch(optionOcrTexts))
                             {
                                 if (!ClickOcrRegion(item, "探索派遣"))
                                 {
@@ -752,7 +752,7 @@ public partial class AutoSkipTrigger : ITaskTrigger
                                 Thread.Sleep(800); // 等待探索派遣界面打开
                                 new OneKeyExpeditionTask().Run();
                             }
-                            else if (!_expeditionTextRecognizer.IsExcludedDialogueOptionNormalized(normalizedItemText))
+                            else if (!_expeditionTextRecognizer.IsExcludedDialogueOption(optionOcrTexts))
                             {
                                 if (!ClickOcrRegion(item))
                                 {
@@ -826,6 +826,13 @@ public partial class AutoSkipTrigger : ITaskTrigger
 
         return false;
     }
+
+    internal static IReadOnlyList<string> GetSameOptionLineOcrTexts(
+        Region anchor,
+        IEnumerable<Region> fragments) =>
+        ExpeditionOcrFragmentGrouping.GetSameLineTexts(
+            anchor.ToRect(),
+            fragments.Select(fragment => (fragment.ToRect(), fragment.Text)));
 
     private bool ClickOcrRegion(Region region, string optionType = "")
     {

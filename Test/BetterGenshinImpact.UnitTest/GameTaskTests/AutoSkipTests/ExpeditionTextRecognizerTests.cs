@@ -1,6 +1,9 @@
 using System.Globalization;
 using BetterGenshinImpact.GameTask.AutoSkip;
+using BetterGenshinImpact.GameTask.AutoSkip.Model;
 using BetterGenshinImpact.GameTask.Localization;
+using BetterGenshinImpact.GameTask.Model.Area;
+using OpenCvSharp;
 
 namespace BetterGenshinImpact.UnitTest.GameTaskTests.AutoSkipTests;
 
@@ -83,6 +86,42 @@ public class ExpeditionTextRecognizerTests
         Assert.True(sut.IsExpeditionComplete([completePart1, completePart2]));
         Assert.True(sut.IsExpeditionInProgress([inProgressPart1, inProgressPart2]));
         Assert.True(sut.IsExplorationDispatchRewards([rewardsPart1, rewardsPart2]));
+    }
+
+    [Fact]
+    public void ExpeditionTask_CardClassification_CombinesOnlyTheSameLineFragments()
+    {
+        var sut = Create("fr");
+        var fragments = new[]
+        {
+            new PaddleOcrResultRect(new Rect(10, 20, 65, 20), "Expédition", 1),
+            new PaddleOcrResultRect(new Rect(80, 20, 60, 20), "terminée", 1),
+            new PaddleOcrResultRect(new Rect(10, 70, 60, 20), "Temps réduit", 1),
+        };
+
+        var sameLineTexts = ExpeditionTask.GetSameCardLineOcrTexts(fragments[0], fragments);
+
+        Assert.True(sut.IsExpeditionComplete(sameLineTexts));
+        Assert.DoesNotContain("Temps réduit", sameLineTexts);
+    }
+
+    [Fact]
+    public void AutoSkip_OptionClassification_CombinesOnlyTheSameOptionLineFragments()
+    {
+        var sut = Create("fr");
+        var option = new Region { X = 10, Y = 20, Width = 65, Height = 20, Text = "Missions" };
+        var fragments = new[]
+        {
+            option,
+            new Region { X = 80, Y = 20, Width = 90, Height = 20, Text = "quotidiennes" },
+            new Region { X = 10, Y = 70, Width = 80, Height = 20, Text = "Expédition" },
+        };
+
+        var sameOptionTexts = AutoSkipTrigger.GetSameOptionLineOcrTexts(option, fragments);
+
+        Assert.True(sut.IsDailyCommission(sameOptionTexts));
+        Assert.False(sut.IsExplorationDispatch(sameOptionTexts));
+        Assert.DoesNotContain("Expédition", sameOptionTexts);
     }
 
     private static string LocalizedRewardsIncreased(string culture) => culture switch
