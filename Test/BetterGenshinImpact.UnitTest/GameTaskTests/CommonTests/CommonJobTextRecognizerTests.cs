@@ -1,3 +1,4 @@
+using System.Globalization;
 using BetterGenshinImpact.GameTask.Common.GameText;
 using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.UnitTest.GameTaskTests.Localization;
@@ -24,6 +25,29 @@ public class CommonJobTextRecognizerTests
         var recognizer = Create(culture, GameTextKeys.Common.Crafting, recognizedText);
 
         Assert.True(recognizer.IsCrafting(recognizedText));
+    }
+
+    [Fact]
+    public void CraftingSearchText_MatchesBothFrenchCatalogAliases()
+    {
+        var recognizer = CreateFromEmbeddedCatalog("fr");
+        var searchPattern = recognizer.CraftingSearchText;
+
+        Assert.Matches(searchPattern, "Synthèse");
+        Assert.Matches(searchPattern, "Synthétiser");
+    }
+
+    [Fact]
+    public void CraftingSearchText_EscapesRegexSyntax()
+    {
+        var matcher = GameTextTestFactory.Create(
+            "fr",
+            (GameTextKeys.Common.Crafting, "Synth.*"));
+        var recognizer = new CommonJobTextRecognizer(matcher);
+        var searchPattern = recognizer.CraftingSearchText;
+
+        Assert.Matches(searchPattern, "Synth.*");
+        Assert.DoesNotMatch(searchPattern, "SynthABC");
     }
 
     [Theory]
@@ -58,31 +82,38 @@ public class CommonJobTextRecognizerTests
 
     [Theory]
     [InlineData("pt-BR", "Resgatar", "Tudo")]
-    [InlineData("zh-Hans", "一键", "领取")]
+    [InlineData("zh-Hans", "领取", "一键")]
     public void IsClaimAll_MatchesCombinedPortugueseAndLegacyWords(
         string culture,
         string claimText,
         string allText)
     {
-        var matcher = GameTextTestFactory.Create(
-            culture,
-            (GameTextKeys.Common.Claim, claimText),
-            (GameTextKeys.Common.All, allText));
-        var recognizer = new CommonJobTextRecognizer(matcher);
+        var recognizer = CreateFromEmbeddedCatalog(culture);
 
+        Assert.True(recognizer.IsClaim(claimText));
+        Assert.True(recognizer.IsAll(allText));
         Assert.True(recognizer.IsClaimAll([claimText, allText]));
         Assert.False(recognizer.IsClaimAll([claimText]));
         Assert.False(recognizer.IsClaimAll([allText]));
     }
 
     [Theory]
-    [InlineData("pt-BR", "A recompensa de hoje já foi resgatada")]
-    [InlineData("en", "Today's reward claimed")]
-    public void IsDailyRewardClaimed_MatchesPortugueseAndLegacyGameText(string culture, string recognizedText)
+    [InlineData("A recompensa de hoje já foi coletada")]
+    [InlineData("Você já coletou a recompensa de hoje. Volte amanhã para mais missões!")]
+    [InlineData("A recompensa de hoje já foi resgatada")]
+    public void IsDailyRewardClaimed_MatchesRealPortugueseForms(string recognizedText)
     {
-        var recognizer = Create(culture, GameTextKeys.AdventureHandbook.DailyRewardClaimed, recognizedText);
+        var recognizer = CreateFromEmbeddedCatalog("pt-BR");
 
         Assert.True(recognizer.IsDailyRewardClaimed(recognizedText));
+    }
+
+    [Fact]
+    public void IsDailyRewardClaimed_MatchesLegacyEnglishGameText()
+    {
+        var recognizer = Create("en", GameTextKeys.AdventureHandbook.DailyRewardClaimed, "claimed");
+
+        Assert.True(recognizer.IsDailyRewardClaimed("Today's reward claimed"));
     }
 
     [Theory]
@@ -126,4 +157,14 @@ public class CommonJobTextRecognizerTests
 
     private static CommonJobTextRecognizer Create(string culture, string key, string alias) =>
         new(GameTextTestFactory.Create(culture, (key, alias)));
+
+    private static CommonJobTextRecognizer CreateFromEmbeddedCatalog(string culture) =>
+        new(new GameTextMatcher(
+            new FixedGameCultureProvider(CultureInfo.GetCultureInfo(culture)),
+            new EmbeddedGameTextCatalogProvider()));
+
+    private sealed class FixedGameCultureProvider(CultureInfo currentCulture) : IGameCultureProvider
+    {
+        public CultureInfo CurrentCulture { get; } = currentCulture;
+    }
 }

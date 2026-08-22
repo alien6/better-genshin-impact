@@ -907,6 +907,15 @@
       ],
       "pt-BR": [
         {
+          "value": "A recompensa de hoje já foi coletada",
+          "source": "curated",
+          "reason": "Existing pt-BR UI translation for 今日奖励已领取 in BetterGenshinImpact/User/I18n/pt-BR.json."
+        },
+        {
+          "value": "Você já coletou a recompensa de hoje. Volte amanhã para mais missões!",
+          "textMapHash": "3042594753"
+        },
+        {
           "value": "A recompensa de hoje já foi resgatada",
           "source": "curated",
           "reason": "OCR-visible daily reward status is not present as a standalone pinned TextMap value."

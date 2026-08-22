@@ -142,6 +142,8 @@ public class GameTextCatalogTests
     [InlineData("common.all", "Tudo")]
     [InlineData("adventurers_guild.katheryne", "Katheryne")]
     [InlineData("adventurers_guild.daily_commissions", "Missões Diárias")]
+    [InlineData("adventure_handbook.daily_reward_claimed", "A recompensa de hoje já foi coletada")]
+    [InlineData("adventure_handbook.daily_reward_claimed", "Você já coletou a recompensa de hoje. Volte amanhã para mais missões!")]
     [InlineData("adventure_handbook.daily_reward_claimed", "A recompensa de hoje já foi resgatada")]
     [InlineData("serenitea_pot.spirit", "Espírito do Bule")]
     [InlineData("serenitea_pot.trust_rank", "Nível de confiança")]

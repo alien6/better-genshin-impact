@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using BetterGenshinImpact.GameTask.Localization;
 
 namespace BetterGenshinImpact.GameTask.Common.GameText;
@@ -14,7 +15,7 @@ public sealed class CommonJobTextRecognizer
         _matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
     }
 
-    public string CraftingSearchText => FirstAlias(GameTextKeys.Common.Crafting);
+    public string CraftingSearchText => AliasRegex(GameTextKeys.Common.Crafting);
 
     public string KatheryneSearchText => FirstAlias(GameTextKeys.AdventurersGuild.Katheryne);
 
@@ -70,4 +71,7 @@ public sealed class CommonJobTextRecognizer
         _matcher.IsMatch(recognizedText, GameTextKeys.SereniteaPot.RealmDepot);
 
     private string FirstAlias(string key) => _matcher.GetAliases(key)[0];
+
+    private string AliasRegex(string key) =>
+        string.Join('|', _matcher.GetAliases(key).Select(Regex.Escape));
 }
