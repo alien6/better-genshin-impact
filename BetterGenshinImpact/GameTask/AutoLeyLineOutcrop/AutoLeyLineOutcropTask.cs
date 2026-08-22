@@ -1331,9 +1331,6 @@ public class AutoLeyLineOutcropTask : ISoloTask
         var seekEnemyEnabled = _taskParam.FightConfig.SeekEnemyEnabled;
         var seekEnemyInterval = TimeSpan.FromSeconds(Math.Clamp(_taskParam.FightConfig.SeekEnemyIntervalSeconds, 1, 60));
         var seekEnemyRotaryFactor = Math.Clamp(_taskParam.FightConfig.SeekEnemyRotaryFactor, 1, 13);
-        var successKeywords = new[] { "挑战达成", "战斗胜利", "挑战成功" };
-        var failureKeywords = new[] { "挑战失败" };
-
         while ((DateTime.UtcNow - start).TotalMilliseconds < timeoutMs)
         {
             string text;
@@ -1347,13 +1344,13 @@ public class AutoLeyLineOutcropTask : ISoloTask
                 foundText = RecognizeFightText(capture);
             }
 
-            if (successKeywords.Any(text.Contains))
+            if (_textRecognizer.IsFightSuccess(text))
             {
                 // OCR recognizes victory text; treat as success.
                 return true;
             }
 
-            if (failureKeywords.Any(text.Contains))
+            if (_textRecognizer.IsFightFailure(text))
             {
                 // OCR recognizes failure text; stop early.
                 return false;
@@ -1439,12 +1436,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
         return ContainsRewardPromptActionText(result2Text) || HasRewardPrompt(capture);
     }
 
-    private static bool ContainsFightText(string text)
-    {
-        text = NormalizeLeyLineOcrText(text);
-        var keywords = new[] { "打倒", "所有", "敌人" };
-        return keywords.Any(text.Contains);
-    }
+    private bool ContainsFightText(string text) => _textRecognizer.IsFightObjective(text);
 
     private async Task AutoNavigateToReward()
     {

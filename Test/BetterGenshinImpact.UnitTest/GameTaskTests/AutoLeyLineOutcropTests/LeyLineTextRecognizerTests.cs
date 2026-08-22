@@ -83,6 +83,17 @@ public class LeyLineTextRecognizerTests
         Assert.Equal(callsAfterConstruction, matcher.GetAliasesCalls);
     }
 
+    [Fact]
+    public void FightOutcomeAndObjective_RecognizePortugueseOcrAtTheBoundary()
+    {
+        var sut = Create("pt-BR");
+
+        Assert.True(sut.IsFightSuccess("  DESAFIO CONCLUÍDO!  "));
+        Assert.True(sut.IsFightFailure("Desafio Fracassado"));
+        Assert.True(sut.IsFightObjective("Derrote todos os inimigos"));
+        Assert.False(sut.IsFightSuccess("Desafio Fracassado"));
+    }
+
     public static IEnumerable<object[]> LocalizedDecisionCases()
     {
         yield return ["zh-Hans", "resin-original", "原粹树脂"];

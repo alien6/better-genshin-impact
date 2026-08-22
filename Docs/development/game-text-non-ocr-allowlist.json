@@ -2,14 +2,6 @@
   "schemaVersion": 1,
   "entries": [
     {
-      "id": "BetterGenshinImpact/GameTask/AutoPathing/PathExecutor.cs::TryGetExpeditionRewardsDispatch::无",
-      "category": "configuration-user-string",
-      "reason": "Sentinel value from the AutoFetchDispatchAdventurersGuildCountry configuration, evaluated before OCR begins.",
-      "path": "BetterGenshinImpact/GameTask/AutoPathing/PathExecutor.cs",
-      "symbol": "TryGetExpeditionRewardsDispatch",
-      "literal": "无"
-    },
-    {
       "id": "BetterGenshinImpact/GameTask/AutoLeyLineOutcrop/AutoLeyLineOutcropTask.cs::TryUseRewardResinOnce::20",
       "category": "raw-name-number-free-form",
       "reason": "Language-independent numeric resin-cost extraction remains separate from semantic text recognition.",
@@ -82,60 +74,12 @@
       "literal": "登录"
     },
     {
-      "id": "BetterGenshinImpact/GameTask/SkillCd/SkillCdTrigger.cs::UpdateOverlay::SkillCdText",
-      "category": "internal-identifier",
-      "reason": "Overlay child-element identifier, not recognized game text.",
-      "path": "BetterGenshinImpact/GameTask/SkillCd/SkillCdTrigger.cs",
-      "symbol": "UpdateOverlay",
-      "literal": "SkillCdText"
-    },
-    {
       "id": "BetterGenshinImpact/GameTask/Model/GameUI/GridItemCountRecognizer.cs::RecognizeCropped::1",
       "category": "raw-name-number-free-form",
       "reason": "Language-independent numeric count fallback after OCR.",
       "path": "BetterGenshinImpact/GameTask/Model/GameUI/GridItemCountRecognizer.cs",
       "symbol": "RecognizeCropped",
       "literal": "1"
-    },
-    {
-      "id": "BetterGenshinImpact/GameTask/Music/Service/MusicScoreParser.cs::CreateInvalidScore::.json",
-      "category": "internal-identifier",
-      "reason": "File-format extension used to select the score parser, not OCR text.",
-      "path": "BetterGenshinImpact/GameTask/Music/Service/MusicScoreParser.cs",
-      "symbol": "CreateInvalidScore",
-      "literal": ".json"
-    },
-    {
-      "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::EnterDomain::自动秘境：限时全开秘境奖励序号 {sundaySelectedValue}",
-      "category": "log-public-api",
-      "reason": "Diagnostic log template selected by configuration state; no OCR value is compared with it.",
-      "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
-      "symbol": "EnterDomain",
-      "literal": "自动秘境：限时全开秘境奖励序号 {sundaySelectedValue}"
-    },
-    {
-      "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::EnterDomain::自动秘境：周日设置了秘境奖励序号 {sundaySelectedValue}",
-      "category": "log-public-api",
-      "reason": "Diagnostic log template selected by configuration state; no OCR value is compared with it.",
-      "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
-      "symbol": "EnterDomain",
-      "literal": "自动秘境：周日设置了秘境奖励序号 {sundaySelectedValue}"
-    },
-    {
-      "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::EnterDomain::自动秘境：限时全开秘境未设置特定秘境奖励",
-      "category": "log-public-api",
-      "reason": "Diagnostic log template selected by configuration state; no OCR value is compared with it.",
-      "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
-      "symbol": "EnterDomain",
-      "literal": "自动秘境：限时全开秘境未设置特定秘境奖励"
-    },
-    {
-      "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::EnterDomain::自动秘境：周日秘境未设置特定秘境奖励",
-      "category": "log-public-api",
-      "reason": "Diagnostic log template selected by configuration state; no OCR value is compared with it.",
-      "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
-      "symbol": "EnterDomain",
-      "literal": "自动秘境：周日秘境未设置特定秘境奖励"
     },
     {
       "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::SwitchOriginalResinType::20",
@@ -168,6 +112,22 @@
       "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
       "symbol": "GetResinNum",
       "literal": "40"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs::IsBurstReadyByClassify::cd 1",
+      "category": "internal-identifier",
+      "reason": "Internal classifier class label returned by the burst-ready model; no OCR or localized game text is involved.",
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs",
+      "symbol": "IsBurstReadyByClassify",
+      "literal": "cd 1"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs::IsBurstReadyByClassify::energy 1 cd 0",
+      "category": "internal-identifier",
+      "reason": "Internal classifier class label returned by the burst-ready model; no OCR or localized game text is involved.",
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs",
+      "symbol": "IsBurstReadyByClassify",
+      "literal": "energy 1 cd 0"
     }
   ]
 }

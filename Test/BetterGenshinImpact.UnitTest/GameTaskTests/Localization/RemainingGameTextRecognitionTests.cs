@@ -46,7 +46,7 @@ public sealed class RemainingGameTextRecognitionTests
     {
         var recognizer = CreatePortugueseRecognizer();
 
-        Assert.True(recognizer.IsAgePrompt("Classificação indicativa"));
+        Assert.True(recognizer.IsAgePrompt("Classificação etária"));
         Assert.True(recognizer.IsAgePrompt("Orientação dos responsáveis"));
     }
 
@@ -84,6 +84,70 @@ public sealed class RemainingGameTextRecognitionTests
     }
 
     [Fact]
+    public void HiddenHelperApiLabels_RecognizePortugueseCharacterCraftingAndPartyUi()
+    {
+        var recognizer = CreatePortugueseRecognizer();
+
+        Assert.True(recognizer.IsMatch("Limpar", GameTextKeys.Common.Clear));
+        Assert.True(recognizer.IsMatch("Filtrar", GameTextKeys.Common.Filter));
+        Assert.True(recognizer.IsMatch("Sintetizar", GameTextKeys.Common.Crafting));
+        Assert.True(recognizer.IsMatch("Confirmar", GameTextKeys.Common.Confirm));
+        Assert.True(recognizer.IsMatch("Confirmar Filtro", GameTextKeys.Party.ConfirmFilter));
+        Assert.True(recognizer.IsMatch("Não é possível configurar a equipe no estado atual", GameTextKeys.Party.ConfigurationUnavailable));
+        Assert.True(recognizer.IsMatch("Ressonância Elemental", GameTextKeys.Party.ElementalResonance));
+        Assert.True(recognizer.IsMatch("Configuração da Equipe", GameTextKeys.Party.Configuration));
+        Assert.True(recognizer.IsMatch("Remover", GameTextKeys.Party.Remove));
+        Assert.True(recognizer.IsMatch("Amizade", GameTextKeys.Party.Friendship));
+        Assert.Equal("Limpar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Clear));
+        Assert.Equal("Filtrar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Filter));
+        Assert.Equal("Sintetizar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Crafting));
+        Assert.Equal("Confirmar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Confirm));
+        Assert.Equal("Confirmar Filtro", recognizer.GetPrimaryAlias(GameTextKeys.Party.ConfirmFilter));
+        Assert.Equal("Não é possível configurar a equipe no estado atual", recognizer.GetPrimaryAlias(GameTextKeys.Party.ConfigurationUnavailable));
+        Assert.Equal("Ressonância Elemental", recognizer.GetPrimaryAlias(GameTextKeys.Party.ElementalResonance));
+        Assert.Equal("Configuração da Equipe", recognizer.GetPrimaryAlias(GameTextKeys.Party.Configuration));
+        Assert.Equal("Remover", recognizer.GetPrimaryAlias(GameTextKeys.Party.Remove));
+        Assert.Equal("Amizade", recognizer.GetPrimaryAlias(GameTextKeys.Party.Friendship));
+    }
+
+    [Fact]
+    public void HiddenHelperApiLabels_RecognizePortugueseExpeditionTeapotAndRedemptionUi()
+    {
+        var recognizer = CreatePortugueseRecognizer();
+
+        Assert.True(recognizer.IsMatch("Resgatar", GameTextKeys.Common.Claim));
+        Assert.True(recognizer.IsMatch("Selecionar Personagem", GameTextKeys.Expedition.SelectCharacter));
+        Assert.True(recognizer.IsMatch("Entrar", GameTextKeys.Common.Enter));
+        Assert.True(recognizer.IsMatch("Sair", GameTextKeys.Common.Leave));
+        Assert.True(recognizer.IsMatch("Bule de Relachá", GameTextKeys.WorldArea.SereniteaPot));
+        Assert.True(recognizer.IsMatch("Conta", GameTextKeys.Redemption.Account));
+        Assert.True(recognizer.IsMatch("Ir para Resgatar", GameTextKeys.Redemption.GoToRedeem));
+        Assert.True(recognizer.IsMatch("Resgatar Recompensa", GameTextKeys.Redemption.RedeemReward));
+        Assert.True(recognizer.IsMatch("Colar", GameTextKeys.Common.Paste));
+        Assert.True(recognizer.IsMatch("Resgate realizado com sucesso", GameTextKeys.Redemption.Success));
+        Assert.Equal("Resgatar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Claim));
+        Assert.Equal("Selecionar Personagem", recognizer.GetPrimaryAlias(GameTextKeys.Expedition.SelectCharacter));
+        Assert.Equal("Entrar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Enter));
+        Assert.Equal("Sair", recognizer.GetPrimaryAlias(GameTextKeys.Common.Leave));
+        Assert.Equal("Bule de Relachá", recognizer.GetPrimaryAlias(GameTextKeys.WorldArea.SereniteaPot));
+        Assert.Equal("Conta", recognizer.GetPrimaryAlias(GameTextKeys.Redemption.Account));
+        Assert.Equal("Ir para Resgatar", recognizer.GetPrimaryAlias(GameTextKeys.Redemption.GoToRedeem));
+        Assert.Equal("Resgatar Recompensa", recognizer.GetPrimaryAlias(GameTextKeys.Redemption.RedeemReward));
+        Assert.Equal("Colar", recognizer.GetPrimaryAlias(GameTextKeys.Common.Paste));
+        Assert.Equal("Resgate realizado com sucesso", recognizer.GetPrimaryAlias(GameTextKeys.Redemption.Success));
+    }
+
+    [Fact]
+    public void ExtractedLeyLineLabels_RecognizePortugueseOutcomeAndFightObjective()
+    {
+        var recognizer = CreatePortugueseRecognizer();
+
+        Assert.True(recognizer.IsMatch("Desafio concluído", GameTextKeys.LeyLine.FightSuccess));
+        Assert.True(recognizer.IsMatch("Desafio Fracassado", GameTextKeys.LeyLine.FightFailure));
+        Assert.True(recognizer.IsMatch("Derrote todos os inimigos", GameTextKeys.LeyLine.FightObjective));
+    }
+
+    [Fact]
     public void SimplifiedChineseCompatibility_CoversEveryMigratedBranch()
     {
         var recognizer = CreateSimplifiedChineseRecognizer();
@@ -118,7 +182,7 @@ public sealed class RemainingGameTextRecognitionTests
             elementalBurst: "Supremo",
             talentLevel: "Nível de Talento",
             obtained: "Obtido",
-            agePrompt: "classificação etária|responsável",
+            agePrompt: "classificação etária|respons",
             ore: "Minério de Refinamento|Minério de Refinamento Fino|Minério de Refinamento Místico",
             wood: "Madeira de Pinheiro",
             activate: "Ativar",
@@ -193,7 +257,30 @@ public sealed class RemainingGameTextRecognitionTests
             (GameTextKeys.SereniteaPot.SoldOut, culture == "pt-BR" ? "Esgotado" : "已售"),
             (GameTextKeys.Common.Goodbye, culture == "pt-BR" ? "Adeus" : "再见"),
             (GameTextKeys.Common.All, culture == "pt-BR" ? "Tudo" : "全部"),
-            (GameTextKeys.Common.Use, culture == "pt-BR" ? "Usar" : "使用")
+            (GameTextKeys.Common.Use, culture == "pt-BR" ? "Usar" : "使用"),
+            (GameTextKeys.Common.Clear, culture == "pt-BR" ? "Limpar" : "清除"),
+            (GameTextKeys.Common.Filter, culture == "pt-BR" ? "Filtrar" : "筛选"),
+            (GameTextKeys.Common.Crafting, culture == "pt-BR" ? "Sintetizar" : "合成"),
+            (GameTextKeys.Common.Confirm, culture == "pt-BR" ? "Confirmar" : "确认"),
+            (GameTextKeys.Party.ConfirmFilter, culture == "pt-BR" ? "Confirmar Filtro" : "确认筛选"),
+            (GameTextKeys.Party.ConfigurationUnavailable, culture == "pt-BR" ? "Não é possível configurar a equipe no estado atual" : "当前状态不可进行队伍配置"),
+            (GameTextKeys.Party.ElementalResonance, culture == "pt-BR" ? "Ressonância Elemental" : "元素共鸣"),
+            (GameTextKeys.Party.Configuration, culture == "pt-BR" ? "Configuração da Equipe" : "队伍配置"),
+            (GameTextKeys.Party.Remove, culture == "pt-BR" ? "Remover" : "换下"),
+            (GameTextKeys.Party.Friendship, culture == "pt-BR" ? "Amizade" : "好感"),
+            (GameTextKeys.Common.Claim, culture == "pt-BR" ? "Resgatar" : "领取"),
+            (GameTextKeys.Expedition.SelectCharacter, culture == "pt-BR" ? "Selecionar Personagem" : "选择角色"),
+            (GameTextKeys.Common.Enter, culture == "pt-BR" ? "Entrar" : "进入"),
+            (GameTextKeys.Common.Leave, culture == "pt-BR" ? "Sair" : "离开"),
+            (GameTextKeys.WorldArea.SereniteaPot, culture == "pt-BR" ? "Bule de Relachá" : "尘歌壶"),
+            (GameTextKeys.Redemption.Account, culture == "pt-BR" ? "Conta" : "账户"),
+            (GameTextKeys.Redemption.GoToRedeem, culture == "pt-BR" ? "Ir para Resgatar" : "前往兑换"),
+            (GameTextKeys.Redemption.RedeemReward, culture == "pt-BR" ? "Resgatar Recompensa" : "兑换奖励"),
+            (GameTextKeys.Common.Paste, culture == "pt-BR" ? "Colar" : "粘贴"),
+            (GameTextKeys.Redemption.Success, culture == "pt-BR" ? "Resgate realizado com sucesso" : "兑换成功"),
+            (GameTextKeys.LeyLine.FightSuccess, culture == "pt-BR" ? "Desafio concluído" : "挑战达成|战斗胜利|挑战成功"),
+            (GameTextKeys.LeyLine.FightFailure, culture == "pt-BR" ? "Desafio Fracassado" : "挑战失败"),
+            (GameTextKeys.LeyLine.FightObjective, culture == "pt-BR" ? "Derrote todos os inimigos" : "打倒|所有|敌人")
         };
         var matcher = GameTextTestFactory.Create(
             culture,

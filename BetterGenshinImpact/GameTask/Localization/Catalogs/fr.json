@@ -359,6 +359,67 @@
     ],
     "character.elemental_burst": [
       "Déchaînement élémentaire"
+    ],
+    "common.clear": [
+      "Effacer"
+    ],
+    "common.filter": [
+      "Filtrer"
+    ],
+    "common.enter": [
+      "Entrer"
+    ],
+    "common.leave": [
+      "Quitter"
+    ],
+    "common.paste": [
+      "Coller"
+    ],
+    "party.confirm_filter": [
+      "Confirmer le filtre"
+    ],
+    "party.configuration_unavailable": [
+      "La configuration d'équipe est indisponible dans l'état actuel"
+    ],
+    "party.elemental_resonance": [
+      "Résonance élémentaire"
+    ],
+    "party.configuration": [
+      "Configuration d'équipe"
+    ],
+    "party.remove": [
+      "Retirer"
+    ],
+    "party.friendship": [
+      "Affinité"
+    ],
+    "redemption.account": [
+      "Compte"
+    ],
+    "redemption.go_to_redeem": [
+      "Accéder à l'échange"
+    ],
+    "redemption.redeem_reward": [
+      "Échanger la récompense"
+    ],
+    "redemption.success": [
+      "Échange réussi"
+    ],
+    "expedition.select_character": [
+      "Sélectionner un personnage"
+    ],
+    "ley_line.fight_success": [
+      "Défi terminé",
+      "Victoire",
+      "Défi réussi"
+    ],
+    "ley_line.fight_failure": [
+      "Échec du défi"
+    ],
+    "ley_line.fight_objective": [
+      "Vaincre",
+      "tous",
+      "ennemis"
     ]
   }
 }

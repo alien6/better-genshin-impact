@@ -29,6 +29,9 @@ public sealed class LeyLineTextRecognizer
         GameTextKeys.LeyLine.BlossomOfRevelation,
         GameTextKeys.LeyLine.Stop,
         GameTextKeys.LeyLine.OriginalResin40Prompt,
+        GameTextKeys.LeyLine.FightSuccess,
+        GameTextKeys.LeyLine.FightFailure,
+        GameTextKeys.LeyLine.FightObjective,
     ];
 
     private readonly FrozenDictionary<string, IReadOnlyList<string>> _aliases;
@@ -65,6 +68,9 @@ public sealed class LeyLineTextRecognizer
     public bool IsUse(string recognizedText) => IsMatch(recognizedText, GameTextKeys.Common.Use);
     public bool IsStop(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.Stop);
     public bool IsOriginalResin40Prompt(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.OriginalResin40Prompt);
+    public bool IsFightSuccess(string recognizedText) => IsMatch(NormalizeOcrText(recognizedText), GameTextKeys.LeyLine.FightSuccess);
+    public bool IsFightFailure(string recognizedText) => IsMatch(NormalizeOcrText(recognizedText), GameTextKeys.LeyLine.FightFailure);
+    public bool IsFightObjective(string recognizedText) => IsMatch(NormalizeOcrText(recognizedText), GameTextKeys.LeyLine.FightObjective);
 
     public string NormalizeOcrText(string recognizedText) => GameTextNormalizer.Normalize(recognizedText);
 

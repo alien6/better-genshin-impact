@@ -2836,7 +2836,7 @@
           "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
         },
         {
-          "value": "responsável",
+          "value": "respons",
           "source": "curated",
           "reason": "Localized OCR-facing UI text curated because this fragment is not a reliable standalone TextMap value."
         }
@@ -3953,6 +3953,962 @@
         {
           "value": "Supremo",
           "textMapHash": "2198177347"
+        }
+      ]
+    },
+    "common.clear": {
+      "zh-Hans": [
+        {
+          "value": "清除",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "清除",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Clear",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "クリア",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Effacer",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Limpar",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "common.filter": {
+      "zh-Hans": [
+        {
+          "value": "筛选",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "篩選",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Filter",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "フィルター",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Filtrer",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Filtrar",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "common.enter": {
+      "zh-Hans": [
+        {
+          "value": "进入",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "進入",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Enter",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "入る",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Entrer",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Entrar",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "common.leave": {
+      "zh-Hans": [
+        {
+          "value": "离开",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "離開",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Leave",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "出る",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Quitter",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Sair",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "common.paste": {
+      "zh-Hans": [
+        {
+          "value": "粘贴",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "貼上",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Paste",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "貼り付け",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Coller",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Colar",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "party.confirm_filter": {
+      "zh-Hans": [
+        {
+          "value": "确认筛选",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "確認篩選",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Confirm Filter",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "絞り込みを確定",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Confirmer le filtre",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Confirmar Filtro",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "party.configuration_unavailable": {
+      "zh-Hans": [
+        {
+          "value": "当前状态不可进行队伍配置",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "當前狀態不可進行隊伍配置",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Party setup is unavailable in the current state",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "現在の状態ではチーム編成を行えません",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "La configuration d'équipe est indisponible dans l'état actuel",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Não é possível configurar a equipe no estado atual",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "party.elemental_resonance": {
+      "zh-Hans": [
+        {
+          "value": "元素共鸣",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "元素共鳴",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Elemental Resonance",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "元素共鳴",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Résonance élémentaire",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Ressonância Elemental",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "party.configuration": {
+      "zh-Hans": [
+        {
+          "value": "队伍配置",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "隊伍配置",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Party Setup",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "チーム編成",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Configuration d'équipe",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Configuração da Equipe",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "party.remove": {
+      "zh-Hans": [
+        {
+          "value": "换下",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "換下",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Remove",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "外す",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Retirer",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Remover",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "party.friendship": {
+      "zh-Hans": [
+        {
+          "value": "好感",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "好感",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Companionship",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "好感度",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Affinité",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Amizade",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "redemption.account": {
+      "zh-Hans": [
+        {
+          "value": "账户",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "帳戶",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Account",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "アカウント",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Compte",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Conta",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "redemption.go_to_redeem": {
+      "zh-Hans": [
+        {
+          "value": "前往兑换",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "前往兌換",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Go to Redeem",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "交換へ",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Accéder à l'échange",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Ir para Resgatar",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "redemption.redeem_reward": {
+      "zh-Hans": [
+        {
+          "value": "兑换奖励",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "兌換獎勵",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Redeem Reward",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "報酬を交換",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Échanger la récompense",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Resgatar Recompensa",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "redemption.success": {
+      "zh-Hans": [
+        {
+          "value": "兑换成功",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "兌換成功",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Redemption successful",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "交換成功",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Échange réussi",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Resgate realizado com sucesso",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "expedition.select_character": {
+      "zh-Hans": [
+        {
+          "value": "选择角色",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "選擇角色",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Select Character",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "キャラクターを選択",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Sélectionner un personnage",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Selecionar Personagem",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "ley_line.fight_success": {
+      "zh-Hans": [
+        {
+          "value": "挑战达成",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "战斗胜利",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "挑战成功",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "挑戰達成",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "戰鬥勝利",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "挑戰成功",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Challenge Complete",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "Battle Victory",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "Challenge Success",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "挑戦達成",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "戦闘勝利",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "挑戦成功",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Défi terminé",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "Victoire",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "Défi réussi",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Desafio concluído",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "Vitória",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "Desafio bem-sucedido",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "ley_line.fight_failure": {
+      "zh-Hans": [
+        {
+          "value": "挑战失败",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "挑戰失敗",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Challenge Failed",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "挑戦失敗",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Échec du défi",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Desafio Fracassado",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ]
+    },
+    "ley_line.fight_objective": {
+      "zh-Hans": [
+        {
+          "value": "打倒",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "所有",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "敌人",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "zh-Hant": [
+        {
+          "value": "打倒",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "所有",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "敵人",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "en": [
+        {
+          "value": "Defeat",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "all",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "enemies",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "ja": [
+        {
+          "value": "倒す",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "すべて",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "敵",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "fr": [
+        {
+          "value": "Vaincre",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "tous",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "ennemis",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        }
+      ],
+      "pt-BR": [
+        {
+          "value": "Derrote",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "todos",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "inimigos",
+          "source": "curated",
+          "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
         }
       ]
     }

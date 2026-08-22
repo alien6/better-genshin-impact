@@ -21,6 +21,11 @@ public static class GameTextKeys
         public const string All = "common.all";
         public const string Obtained = "common.obtained";
         public const string Goodbye = "common.goodbye";
+        public const string Clear = "common.clear";
+        public const string Filter = "common.filter";
+        public const string Enter = "common.enter";
+        public const string Leave = "common.leave";
+        public const string Paste = "common.paste";
     }
 
     public static class AutoPick
@@ -43,6 +48,24 @@ public static class GameTextKeys
         public const string Attribute = "character.attribute";
         public const string Weapon = "character.weapon";
         public const string Talent = "character.talent";
+    }
+
+    public static class Party
+    {
+        public const string ConfirmFilter = "party.confirm_filter";
+        public const string ConfigurationUnavailable = "party.configuration_unavailable";
+        public const string ElementalResonance = "party.elemental_resonance";
+        public const string Configuration = "party.configuration";
+        public const string Remove = "party.remove";
+        public const string Friendship = "party.friendship";
+    }
+
+    public static class Redemption
+    {
+        public const string Account = "redemption.account";
+        public const string GoToRedeem = "redemption.go_to_redeem";
+        public const string RedeemReward = "redemption.redeem_reward";
+        public const string Success = "redemption.success";
     }
 
     public static class GameLoading
@@ -113,6 +136,9 @@ public static class GameTextKeys
         public const string BlossomOfRevelation = "ley_line.blossom_of_revelation";
         public const string Stop = "ley_line.stop";
         public const string OriginalResin40Prompt = "ley_line.original_resin_40_prompt";
+        public const string FightSuccess = "ley_line.fight_success";
+        public const string FightFailure = "ley_line.fight_failure";
+        public const string FightObjective = "ley_line.fight_objective";
     }
 
     public static class Stygian
@@ -142,6 +168,7 @@ public static class GameTextKeys
         public const string Complete = "expedition.complete";
         public const string InProgress = "expedition.in_progress";
         public const string Rewards = "expedition.rewards";
+        public const string SelectCharacter = "expedition.select_character";
     }
 
     public static class AdventurersGuild
@@ -221,6 +248,11 @@ public static class GameTextKeys
         Common.All,
         Common.Obtained,
         Common.Goodbye,
+        Common.Clear,
+        Common.Filter,
+        Common.Enter,
+        Common.Leave,
+        Common.Paste,
         AutoPick.SuppressedLabel,
         AutoPick.TribeLead,
         AutoPick.TribeMarker,
@@ -235,6 +267,16 @@ public static class GameTextKeys
         Character.Attribute,
         Character.Weapon,
         Character.Talent,
+        Party.ConfirmFilter,
+        Party.ConfigurationUnavailable,
+        Party.ElementalResonance,
+        Party.Configuration,
+        Party.Remove,
+        Party.Friendship,
+        Redemption.Account,
+        Redemption.GoToRedeem,
+        Redemption.RedeemReward,
+        Redemption.Success,
         GameLoading.AgePrompt,
         Inventory.EnhancementOre,
         Wood.Material,
@@ -277,6 +319,9 @@ public static class GameTextKeys
         LeyLine.BlossomOfRevelation,
         LeyLine.Stop,
         LeyLine.OriginalResin40Prompt,
+        LeyLine.FightSuccess,
+        LeyLine.FightFailure,
+        LeyLine.FightObjective,
         Stygian.Return,
         Stygian.ChallengeFailed,
         Stygian.RetryChallenge,
@@ -298,6 +343,7 @@ public static class GameTextKeys
         Expedition.Complete,
         Expedition.InProgress,
         Expedition.Rewards,
+        Expedition.SelectCharacter,
         AdventurersGuild.Katheryne,
         AdventurersGuild.DailyCommissions,
         AdventureHandbook.DailyRewardClaimed,
@@ -349,6 +395,29 @@ public sealed class RemainingGameTextRecognizer
         GameTextKeys.Common.Use,
         GameTextKeys.Common.All,
         GameTextKeys.Common.Obtained,
+        GameTextKeys.Common.Clear,
+        GameTextKeys.Common.Filter,
+        GameTextKeys.Common.Enter,
+        GameTextKeys.Common.Leave,
+        GameTextKeys.Common.Paste,
+        GameTextKeys.Common.Crafting,
+        GameTextKeys.Common.Confirm,
+        GameTextKeys.Common.Claim,
+        GameTextKeys.Party.ConfirmFilter,
+        GameTextKeys.Party.ConfigurationUnavailable,
+        GameTextKeys.Party.ElementalResonance,
+        GameTextKeys.Party.Configuration,
+        GameTextKeys.Party.Remove,
+        GameTextKeys.Party.Friendship,
+        GameTextKeys.Redemption.Account,
+        GameTextKeys.Redemption.GoToRedeem,
+        GameTextKeys.Redemption.RedeemReward,
+        GameTextKeys.Redemption.Success,
+        GameTextKeys.Expedition.SelectCharacter,
+        GameTextKeys.WorldArea.SereniteaPot,
+        GameTextKeys.LeyLine.FightSuccess,
+        GameTextKeys.LeyLine.FightFailure,
+        GameTextKeys.LeyLine.FightObjective,
         GameTextKeys.AutoPick.SuppressedLabel,
         GameTextKeys.AutoPick.TribeLead,
         GameTextKeys.AutoPick.TribeMarker,

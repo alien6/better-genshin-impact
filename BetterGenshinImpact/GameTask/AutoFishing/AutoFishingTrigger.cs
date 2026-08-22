@@ -172,18 +172,6 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
         //     }
         // }
 
-        //private bool OcrStartFishingForExclusive(CaptureContent content)
-        //{
-        //    var srcMat = content.CaptureRectArea.SrcMat;
-        //    var rightBottomMat = CutHelper.CutRightBottom(srcMat, srcMat.Width / 2, srcMat.Height / 2);
-        //    var text = _ocrService.Ocr(rightBottomMat.ToBitmap());
-        //    if (!string.IsNullOrEmpty(text) && StringUtils.RemoveAllSpace(text).Contains("开始") && StringUtils.RemoveAllSpace(text).Contains("钓鱼"))
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
         /// <summary>
         /// 钓鱼有3种场景
         /// 1. 未抛竿 BaitButtonRo存在 && WaitBiteButtonRo不存在

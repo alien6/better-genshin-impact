@@ -4,6 +4,7 @@ using BetterGenshinImpact.Core.Recognition.OCR;
 using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.GameTask.AutoFight.Config;
 using BetterGenshinImpact.GameTask.Common.Job;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.Model.GameUI;
 using Microsoft.Extensions.Logging;
@@ -55,6 +56,10 @@ internal static class CharacterSelectionHelper
     internal const double MatchThreshold = 0.7;
     private const int EmptyDetectionRetryCount = 3;
     private static readonly Rect GridRoi1080 = new(40, 76, 641, 897);
+    private static readonly Lazy<RemainingGameTextRecognizer> TextRecognizer = new(() =>
+        new RemainingGameTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.")));
 
     public static CharacterSelectionTarget CreateTarget(string name)
     {
@@ -141,11 +146,11 @@ internal static class CharacterSelectionHelper
     }
 
     public static bool IsFilterApplied(ImageRegion capture, double assetScale) =>
-        ContainsText(capture, "清除", GetClearFilterRoi(assetScale));
+        ContainsText(capture, TextRecognizer.Value.GetPrimaryAlias(GameTextKeys.Common.Clear), GetClearFilterRoi(assetScale));
 
     public static void ClearFilter(BvPage page, double assetScale, ILogger logger)
     {
-        if (!TryClickText(page, "清除", GetClearFilterRoi(assetScale)))
+        if (!TryClickText(page, TextRecognizer.Value.GetPrimaryAlias(GameTextKeys.Common.Clear), GetClearFilterRoi(assetScale)))
         {
             logger.LogDebug("角色养成识别：未找到清除筛选按钮，继续执行");
         }
@@ -155,7 +160,7 @@ internal static class CharacterSelectionHelper
         Rect1080(assetScale, 605, 925, 54, 28);
 
     public static bool IsFilterPanel(ImageRegion capture, double assetScale) =>
-        ContainsText(capture, "确认筛选", GetConfirmFilterRoi(assetScale));
+        ContainsText(capture, TextRecognizer.Value.GetPrimaryAlias(GameTextKeys.Party.ConfirmFilter), GetConfirmFilterRoi(assetScale));
 
     public static Rect GetElementFilterOptionsRoi(double assetScale) =>
         Rect1080(assetScale, 35, 150, 745, 360);

@@ -2,7 +2,7 @@
 
 ## Scope and repeatable check
 
-The Task 14 audit covers every tracked C# source below `BetterGenshinImpact/GameTask`. The read-only checker runs `rg` over the tracked file list from Git, finds literal comparisons on recognition-adjacent lines (`Text`, `Ocr`, `OcrResult`, or `Region` identifiers), derives a stable surrounding symbol, and compares the resulting `path::symbol::literal` identifiers with `game-text-non-ocr-allowlist.json`.
+The Task 14 audit covers every tracked C# source below `BetterGenshinImpact/GameTask`. The read-only checker runs `rg` over the tracked file list from Git, then parses complete helper invocations and recognition comparisons across line boundaries. It covers `ContainsText`, `TryClickText`, `GetByText`/`GetByAnyText`, `FindRectByText`, `Bv.Find`/`FindF`, direct text/OCR/region/title comparisons, and literal collections consumed by extracted OCR-text comparisons. Each candidate is assigned a stable `path::symbol::literal` identifier and checked against `game-text-non-ocr-allowlist.json`.
 
 Run from the repository root:
 
@@ -10,11 +10,17 @@ Run from the repository root:
 rtk pwsh scripts/game-text/Audit-LanguageDependentRecognition.ps1
 ```
 
+The fail-closed regression fixtures can be run with:
+
+```powershell
+rtk powershell -NoProfile -ExecutionPolicy Bypass -File scripts/game-text/Test-Audit-LanguageDependentRecognition.ps1
+```
+
 The successful Task 14 baseline is:
 
 ```text
 0 unclassified OCR-dependent literal comparisons
-21 intentional non-OCR literals
+16 intentional non-OCR literals
 ```
 
 The command exits non-zero when a new candidate is unclassified or an allowlist entry becomes stale. The allowlist deliberately does not use line numbers as identity.
@@ -33,17 +39,21 @@ The command exits non-zero when a new candidate is unclassified or an allowlist 
 | `LowerHeadThenWalkToTask` | activate prompt | Migrated to existing `ley_line.activate`. |
 | `GoToSereniteaPotTask` | sold-out, unavailable companionship EXP, and goodbye option | Migrated to `serenitea_pot.*` and `common.goodbye`. |
 | `AutoDomainTask.PressUseResin` | use button | Ruling 11 migration to existing `common.use`; raw resin names and 20/40 quantities remain unchanged. |
+| Character selection and party setup | clear/filter, confirm-filter, party-state/title, elemental resonance, remove, and friendship labels | Ruling 12 migration to `common.*` and `party.*`; character and filter names remain raw inputs. |
+| `CraftMaterialTask` | filter, crafting, and confirmation labels | Ruling 12 migration to existing/new `common.*`; TextMap material/product names and numeric quantities remain separate. |
+| `ExpeditionTask` | claim and select-character labels | Ruling 12 migration to `common.claim` and `expedition.select_character`. |
+| `AutoLeyLineOutcropTask` | fight-success, fight-failure, and objective fragments | Ruling 12 migration to `ley_line.fight_*`; resin numbers and combat behavior remain unchanged. |
+| `QuickSereniteaPotTask.Done` | enter/leave and Serenitea Pot interaction labels | Ruling 12 migration to `common.*` and `world_area.serenitea_pot`. |
+| `UseRedemptionCodeTask` | account, redemption-navigation, paste/clear, and success labels | Ruling 12 migration to `redemption.*` and `common.*`; redemption-code input remains untouched. |
 
 The shared recognizer snapshots raw aliases and pre-normalized aliases once from the central singleton matcher. Each OCR string is normalized once at its recognition boundary; catalog resolution is not performed inside OCR result loops.
 
 ## Intentional literal classifications
 
-The machine-readable allowlist is authoritative for the 21 candidates and records file, stable symbol, category, and reason. The inventory groups are:
+The machine-readable allowlist is authoritative for the 16 candidates and records file, stable symbol, category, and reason. The inventory groups are:
 
 - **Raw name/number/free-form extraction:** resin costs `20`/`40`, inventory count fallback `1`, and the compact `Lv` marker used to locate numeric talent rows. These values are language-independent parsing inputs, not semantic UI branches.
-- **Internal identifier/protocol/window title:** `SkillCdText`, `.json`, and the bilibili/agreement/login launcher-title fragments. These identify program objects, formats, or native windows rather than OCR game text.
-- **Configuration/user string:** the `无` sentinel in the expedition-country configuration is evaluated before recognition begins.
-- **Logs/public behavior:** four AutoDomain diagnostic templates happen to share a conditional line with a text-related identifier but are never compared with OCR output.
+- **Internal identifier/protocol/window title:** the two burst-ready classifier class labels and the bilibili/agreement/login launcher-title fragments. These identify model classes or native windows rather than OCR game text.
 
 Raw item names in `GetGridIconsTask`, raw weapon names/levels in character development, redemption-code input, combat syntax, character IDs, route labels, AutoGenius configuration values, logs, protocols, public APIs, clicking, timing, and launcher class/title behavior were audited and intentionally preserved.
 

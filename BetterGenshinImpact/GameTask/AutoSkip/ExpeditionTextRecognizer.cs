@@ -19,6 +19,8 @@ public sealed class ExpeditionTextRecognizer
         GameTextKeys.Expedition.Complete,
         GameTextKeys.Expedition.InProgress,
         GameTextKeys.Expedition.Rewards,
+        GameTextKeys.Expedition.SelectCharacter,
+        GameTextKeys.Common.Claim,
         GameTextKeys.AdventurersGuild.DailyCommissions,
     ];
 
@@ -46,6 +48,8 @@ public sealed class ExpeditionTextRecognizer
     }
 
     public string NormalizeOcrText(string recognizedText) => GameTextNormalizer.Normalize(recognizedText);
+
+    public string GetPrimaryAlias(string key) => _rawAliases[key][0];
 
     public IReadOnlyList<string> NormalizeOcrTexts(IEnumerable<string> recognizedTexts)
     {

@@ -353,6 +353,67 @@
     ],
     "character.elemental_burst": [
       "元素爆发"
+    ],
+    "common.clear": [
+      "清除"
+    ],
+    "common.filter": [
+      "筛选"
+    ],
+    "common.enter": [
+      "进入"
+    ],
+    "common.leave": [
+      "离开"
+    ],
+    "common.paste": [
+      "粘贴"
+    ],
+    "party.confirm_filter": [
+      "确认筛选"
+    ],
+    "party.configuration_unavailable": [
+      "当前状态不可进行队伍配置"
+    ],
+    "party.elemental_resonance": [
+      "元素共鸣"
+    ],
+    "party.configuration": [
+      "队伍配置"
+    ],
+    "party.remove": [
+      "换下"
+    ],
+    "party.friendship": [
+      "好感"
+    ],
+    "redemption.account": [
+      "账户"
+    ],
+    "redemption.go_to_redeem": [
+      "前往兑换"
+    ],
+    "redemption.redeem_reward": [
+      "兑换奖励"
+    ],
+    "redemption.success": [
+      "兑换成功"
+    ],
+    "expedition.select_character": [
+      "选择角色"
+    ],
+    "ley_line.fight_success": [
+      "挑战达成",
+      "战斗胜利",
+      "挑战成功"
+    ],
+    "ley_line.fight_failure": [
+      "挑战失败"
+    ],
+    "ley_line.fight_objective": [
+      "打倒",
+      "所有",
+      "敌人"
     ]
   }
 }

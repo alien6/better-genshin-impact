@@ -99,7 +99,7 @@ public class ExpeditionTask
                 TaskControl.Sleep(100);
                 // 重新截图 找领取
                 result = CaptureAndOcr(content);
-                rect = result.FindRectByText("领取");
+                rect = result.FindRectByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Claim));
                 if (rect != default)
                 {
                     using var ra = content.CaptureRectArea.Derive(rect);
@@ -112,7 +112,7 @@ public class ExpeditionTask
 
                     // 选择角色
                     result = CaptureAndOcr(content);
-                    rect = result.FindRectByText("选择角色");
+                    rect = result.FindRectByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Expedition.SelectCharacter));
                     if (rect != default)
                     {
                         content.CaptureRectArea.Derive(rect).Click();

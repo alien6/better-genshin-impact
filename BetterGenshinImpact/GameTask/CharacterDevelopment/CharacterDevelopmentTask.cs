@@ -662,7 +662,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
         _workflowState = CharacterDevelopmentState.ConfirmFilterPanel;
         if (!CharacterSelectionHelper.TryClickText(
                 page,
-                "确认筛选",
+                _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.ConfirmFilter),
                 CharacterSelectionHelper.GetConfirmFilterRoi(_assetScale)))
         {
             return StateHandlerResult.Retry;

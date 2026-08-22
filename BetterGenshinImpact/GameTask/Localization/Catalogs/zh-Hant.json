@@ -360,6 +360,67 @@
     ],
     "character.elemental_burst": [
       "元素爆發"
+    ],
+    "common.clear": [
+      "清除"
+    ],
+    "common.filter": [
+      "篩選"
+    ],
+    "common.enter": [
+      "進入"
+    ],
+    "common.leave": [
+      "離開"
+    ],
+    "common.paste": [
+      "貼上"
+    ],
+    "party.confirm_filter": [
+      "確認篩選"
+    ],
+    "party.configuration_unavailable": [
+      "當前狀態不可進行隊伍配置"
+    ],
+    "party.elemental_resonance": [
+      "元素共鳴"
+    ],
+    "party.configuration": [
+      "隊伍配置"
+    ],
+    "party.remove": [
+      "換下"
+    ],
+    "party.friendship": [
+      "好感"
+    ],
+    "redemption.account": [
+      "帳戶"
+    ],
+    "redemption.go_to_redeem": [
+      "前往兌換"
+    ],
+    "redemption.redeem_reward": [
+      "兌換獎勵"
+    ],
+    "redemption.success": [
+      "兌換成功"
+    ],
+    "expedition.select_character": [
+      "選擇角色"
+    ],
+    "ley_line.fight_success": [
+      "挑戰達成",
+      "戰鬥勝利",
+      "挑戰成功"
+    ],
+    "ley_line.fight_failure": [
+      "挑戰失敗"
+    ],
+    "ley_line.fight_objective": [
+      "打倒",
+      "所有",
+      "敵人"
     ]
   }
 }

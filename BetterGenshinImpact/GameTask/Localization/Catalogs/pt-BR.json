@@ -292,7 +292,7 @@
     ],
     "game_loading.age_prompt": [
       "classificação etária",
-      "responsável"
+      "respons"
     ],
     "inventory.enhancement_ore": [
       "Minério de Refinamento",
@@ -343,6 +343,67 @@
     ],
     "character.elemental_burst": [
       "Supremo"
+    ],
+    "common.clear": [
+      "Limpar"
+    ],
+    "common.filter": [
+      "Filtrar"
+    ],
+    "common.enter": [
+      "Entrar"
+    ],
+    "common.leave": [
+      "Sair"
+    ],
+    "common.paste": [
+      "Colar"
+    ],
+    "party.confirm_filter": [
+      "Confirmar Filtro"
+    ],
+    "party.configuration_unavailable": [
+      "Não é possível configurar a equipe no estado atual"
+    ],
+    "party.elemental_resonance": [
+      "Ressonância Elemental"
+    ],
+    "party.configuration": [
+      "Configuração da Equipe"
+    ],
+    "party.remove": [
+      "Remover"
+    ],
+    "party.friendship": [
+      "Amizade"
+    ],
+    "redemption.account": [
+      "Conta"
+    ],
+    "redemption.go_to_redeem": [
+      "Ir para Resgatar"
+    ],
+    "redemption.redeem_reward": [
+      "Resgatar Recompensa"
+    ],
+    "redemption.success": [
+      "Resgate realizado com sucesso"
+    ],
+    "expedition.select_character": [
+      "Selecionar Personagem"
+    ],
+    "ley_line.fight_success": [
+      "Desafio concluído",
+      "Vitória",
+      "Desafio bem-sucedido"
+    ],
+    "ley_line.fight_failure": [
+      "Desafio Fracassado"
+    ],
+    "ley_line.fight_objective": [
+      "Derrote",
+      "todos",
+      "inimigos"
     ]
   }
 }

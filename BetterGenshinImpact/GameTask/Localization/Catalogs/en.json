@@ -353,6 +353,67 @@
     ],
     "character.elemental_burst": [
       "Elemental Burst"
+    ],
+    "common.clear": [
+      "Clear"
+    ],
+    "common.filter": [
+      "Filter"
+    ],
+    "common.enter": [
+      "Enter"
+    ],
+    "common.leave": [
+      "Leave"
+    ],
+    "common.paste": [
+      "Paste"
+    ],
+    "party.confirm_filter": [
+      "Confirm Filter"
+    ],
+    "party.configuration_unavailable": [
+      "Party setup is unavailable in the current state"
+    ],
+    "party.elemental_resonance": [
+      "Elemental Resonance"
+    ],
+    "party.configuration": [
+      "Party Setup"
+    ],
+    "party.remove": [
+      "Remove"
+    ],
+    "party.friendship": [
+      "Companionship"
+    ],
+    "redemption.account": [
+      "Account"
+    ],
+    "redemption.go_to_redeem": [
+      "Go to Redeem"
+    ],
+    "redemption.redeem_reward": [
+      "Redeem Reward"
+    ],
+    "redemption.success": [
+      "Redemption successful"
+    ],
+    "expedition.select_character": [
+      "Select Character"
+    ],
+    "ley_line.fight_success": [
+      "Challenge Complete",
+      "Battle Victory",
+      "Challenge Success"
+    ],
+    "ley_line.fight_failure": [
+      "Challenge Failed"
+    ],
+    "ley_line.fight_objective": [
+      "Defeat",
+      "all",
+      "enemies"
     ]
   }
 }
