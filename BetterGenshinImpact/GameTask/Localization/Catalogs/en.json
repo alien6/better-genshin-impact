@@ -45,7 +45,7 @@
       "Replenish Original Resin"
     ],
     "resin.insufficient": [
-      "Insufficient Original Resin"
+      "You don't have enough Original Resin"
     ],
     "domain.challenge_completed": [
       "Challenge Completed",
@@ -76,8 +76,14 @@
     "domain.petrified_tree": [
       "Petrified Tree"
     ],
-    "domain.resin_use_prompt": [
-      "Do you still wish to challenge this Domain?"
+    "domain.resin_use_prompt_lead": [
+      "Do you still wish"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "challenge"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "Domain"
     ],
     "expedition.entry": [
       "Expedition",

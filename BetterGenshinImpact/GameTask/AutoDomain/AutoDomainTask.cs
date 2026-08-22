@@ -382,7 +382,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
             500
         );
         var menuFound = await NewRetry.WaitForElementAppear(
-            GetConfirmRa(_textRecognizer.SoloChallengeAliases),
+            GetConfirmRa(_textRecognizer.SoloChallengeOcrMatchAliases),
             null,//只等待,不执行操作
             _ct,
             20,
@@ -515,7 +515,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
         // 点击开始挑战确认并等待“开始挑战”文字消失
         var startFightFound = await NewRetry.WaitForElementDisappear(
-            GetConfirmRa(_textRecognizer.StartChallengeAliases),
+            GetConfirmRa(_textRecognizer.StartChallengeOcrMatchAliases),
             screen =>
             {
                 screen.Find(RecognitionAssets.Get("AutoFight", "Confirm", screen), ra =>

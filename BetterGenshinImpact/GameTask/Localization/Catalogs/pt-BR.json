@@ -43,7 +43,7 @@
       "Repor Resina Original"
     ],
     "resin.insufficient": [
-      "Resina Original insuficiente"
+      "Você não possui Resina Original suficientes"
     ],
     "domain.challenge_completed": [
       "Desafio concluído"
@@ -69,8 +69,14 @@
     "domain.petrified_tree": [
       "Árvore Petrificada"
     ],
-    "domain.resin_use_prompt": [
-      "Ainda deseja desafiar este Domínio?"
+    "domain.resin_use_prompt_lead": [
+      "Ainda deseja"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "desafiar"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "Domínio"
     ],
     "expedition.entry": [
       "Expedição",

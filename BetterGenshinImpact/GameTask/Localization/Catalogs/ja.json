@@ -43,7 +43,7 @@
       "天然樹脂を補充する"
     ],
     "resin.insufficient": [
-      "天然樹脂が足りません"
+      "現在天然樹脂が足りませんので"
     ],
     "domain.challenge_completed": [
       "挑戦完了"
@@ -69,8 +69,14 @@
     "domain.petrified_tree": [
       "石化古樹"
     ],
-    "domain.resin_use_prompt": [
-      "この秘境に引き続き挑戦しますか？"
+    "domain.resin_use_prompt_lead": [
+      "引き続き"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "挑戦"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "秘境"
     ],
     "expedition.entry": [
       "探索派遣"

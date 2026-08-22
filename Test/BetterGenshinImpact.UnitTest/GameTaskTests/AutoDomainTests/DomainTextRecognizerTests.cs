@@ -1,6 +1,8 @@
 using System.Globalization;
+using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask.AutoDomain;
 using BetterGenshinImpact.GameTask.Localization;
+using BetterGenshinImpact.Helpers;
 
 namespace BetterGenshinImpact.UnitTest.GameTaskTests.AutoDomainTests;
 
@@ -40,10 +42,108 @@ public class DomainTextRecognizerTests
     {
         var sut = Create("pt-BR");
 
-        Assert.Equal(["Desafio Solo"], sut.SoloChallengeAliases);
-        Assert.Equal(["Iniciar Desafio"], sut.StartChallengeAliases);
-        Assert.True(((ICollection<string>)sut.SoloChallengeAliases).IsReadOnly);
-        Assert.True(((ICollection<string>)sut.StartChallengeAliases).IsReadOnly);
+        Assert.Equal(["DesafioSolo"], sut.SoloChallengeOcrMatchAliases);
+        Assert.Equal(["IniciarDesafio"], sut.StartChallengeOcrMatchAliases);
+        Assert.True(((ICollection<string>)sut.SoloChallengeOcrMatchAliases).IsReadOnly);
+        Assert.True(((ICollection<string>)sut.StartChallengeOcrMatchAliases).IsReadOnly);
+    }
+
+    [Fact]
+    public void ChallengeAliasSnapshots_NormalizeEveryAliasWithoutDroppingAny()
+    {
+        var sut = new DomainTextRecognizer(new ChallengeAliasMatcher());
+
+        Assert.Equal(["SoloChallenge", "LegacySoloChallenge"], sut.SoloChallengeOcrMatchAliases);
+        Assert.Equal(["StartChallenge", "LegacyStartChallenge"], sut.StartChallengeOcrMatchAliases);
+        Assert.True(((ICollection<string>)sut.SoloChallengeOcrMatchAliases).IsReadOnly);
+        Assert.True(((ICollection<string>)sut.StartChallengeOcrMatchAliases).IsReadOnly);
+    }
+
+    [Theory]
+    [InlineData("pt-BR", "solo", "Desafio Solo")]
+    [InlineData("pt-BR", "start", "Iniciar Desafio")]
+    [InlineData("en", "solo", "Solo Challenge")]
+    [InlineData("en", "start", "Start Challenge")]
+    [InlineData("fr", "solo", "Défi solo")]
+    [InlineData("fr", "start", "Défi lancé")]
+    public void ChallengeAliasSnapshots_MatchAtActualOcrMatchBoundary(
+        string culture,
+        string decision,
+        string recognizedText)
+    {
+        var sut = Create(culture);
+        var aliases = decision == "solo"
+            ? sut.SoloChallengeOcrMatchAliases
+            : sut.StartChallengeOcrMatchAliases;
+        var recognitionObject = RecognitionObject.OcrMatch(0, 0, 100, 100, aliases.ToArray());
+
+        // ImageRegion's OcrMatch path removes ASCII spaces/tabs from OCR text before containment.
+        var ocrBoundaryText = StringUtils.RemoveAllSpace(recognizedText);
+
+        Assert.All(recognitionObject.OneContainMatchText, alias =>
+        {
+            Assert.DoesNotContain(' ', alias);
+            Assert.DoesNotContain('\t', alias);
+        });
+        Assert.Contains(recognitionObject.OneContainMatchText,
+            alias => ocrBoundaryText.Contains(alias, StringComparison.Ordinal));
+    }
+
+    [Theory]
+    [InlineData("zh-Hans", "激活石化古树以收取秘宝。激活将消耗20个原粹树脂，当前拥有的原粹树脂数量不足，是否使用原石补充？")]
+    [InlineData("zh-Hant", "活化石化古樹以收取秘寶。活化將消耗20個原粹樹脂，目前擁有的原粹樹脂數量不足，是否使用原石補充？")]
+    [InlineData("en", "Revitalize the Petrified Tree to claim a reward. 20 Original Resin required. You don't have enough Original Resin. Purchase with Primogems?")]
+    [InlineData("ja", "石化古樹を活性化させると報酬を獲得できます。活性化は天然樹脂を20個消費します。現在天然樹脂が足りませんので、原石を消費して補充しますか？")]
+    [InlineData("fr", "Vous devez revitaliser l'Arbre pétrifié pour récupérer les récompenses. Cette action requiert Résine originelle ×20. Vous n'avez pas assez de Résine originelle Souhaitez-vous utiliser des primo-gemmes pour compléter ?")]
+    [InlineData("pt-BR", "Revitalize a Árvore Petrificada para resgatar uma recompensa. São necessários 20 Resina Original. Você não possui Resina Original suficientes. Comprar com Gemas Essenciais?")]
+    public void ResinInsufficient_MatchesOfficialFormattedPrompt(
+        string culture,
+        string recognizedText)
+    {
+        var sut = Create(culture);
+
+        Assert.True(sut.IsResinInsufficient(recognizedText));
+    }
+
+    [Theory]
+    [InlineData("zh-Hans", "是否仍要继续挑战该秘境")]
+    [InlineData("pt-BR", "Ainda deseja realmente desafiar este difícil Domínio?")]
+    public void ResinUsePrompt_AllowsOcrNoiseBetweenSemanticFragments(
+        string culture,
+        string recognizedText)
+    {
+        var sut = Create(culture);
+
+        Assert.True(sut.IsResinUsePrompt(recognizedText));
+    }
+
+    [Theory]
+    [InlineData("zh-Hans", "是否仍要挑战该秘境")]
+    [InlineData("zh-Hant", "是否仍要挑戰該秘境")]
+    [InlineData("en", "Do you still wish to challenge this Domain?")]
+    [InlineData("ja", "この秘境に引き続き挑戦しますか？")]
+    [InlineData("fr", "Souhaitez-vous toujours défier ce donjon ?")]
+    [InlineData("pt-BR", "Ainda deseja desafiar este Domínio?")]
+    public void ResinUsePrompt_MatchesAllThreeFragmentsInEveryCatalogCulture(
+        string culture,
+        string recognizedText)
+    {
+        var sut = Create(culture);
+
+        Assert.True(sut.IsResinUsePrompt(recognizedText));
+    }
+
+    [Theory]
+    [InlineData("zh-Hans", "是否仍要继续该秘境")]
+    [InlineData("pt-BR", "Ainda deseja realmente desafiar?")]
+    [InlineData("en", "challenge this Domain?")]
+    public void ResinUsePrompt_RejectsTextMissingOneSemanticFragment(
+        string culture,
+        string recognizedText)
+    {
+        var sut = Create(culture);
+
+        Assert.False(sut.IsResinUsePrompt(recognizedText));
     }
 
     [Theory]
@@ -104,17 +204,9 @@ public class DomainTextRecognizerTests
         yield return ["zh-Hans", "petrified-tree", "石化古树"];
         yield return ["en", "petrified-tree", "Petrified Tree"];
 
-        yield return ["pt-BR", "resin-insufficient", "Resina Original insuficiente"];
-        yield return ["zh-Hans", "resin-insufficient", "数量不足"];
-        yield return ["en", "resin-insufficient", "Insufficient Original Resin"];
-
         yield return ["pt-BR", "resin-replenish", "Repor Resina Original"];
         yield return ["zh-Hans", "resin-replenish", "补充原粹树脂"];
         yield return ["en", "resin-replenish", "Replenish Original Resin"];
-
-        yield return ["pt-BR", "resin-use-prompt", "Ainda deseja desafiar este Domínio?"];
-        yield return ["zh-Hans", "resin-use-prompt", "是否仍要挑战该秘境"];
-        yield return ["en", "resin-use-prompt", "Do you still wish to challenge this Domain?"];
 
         yield return ["pt-BR", "original-resin", "Resina Original"];
         yield return ["zh-Hans", "original-resin", "原粹树脂"];
@@ -221,6 +313,25 @@ public class DomainTextRecognizerTests
 
     private static GameTextMatcher CreateMatcher(string culture) =>
         new(new FixedGameCultureProvider(CultureInfo.GetCultureInfo(culture)), new EmbeddedGameTextCatalogProvider());
+
+    private sealed class ChallengeAliasMatcher : IGameTextMatcher
+    {
+        public IReadOnlyList<string> GetAliases(string key, CultureInfo? culture = null) => key switch
+        {
+            GameTextKeys.Domain.SoloChallenge => ["Solo Challenge", "Legacy Solo Challenge"],
+            GameTextKeys.Domain.StartChallenge => ["Start Challenge", "Legacy Start Challenge"],
+            _ => throw new KeyNotFoundException(key)
+        };
+
+        public bool IsMatch(string recognizedText, string key, CultureInfo? culture = null) =>
+            throw new NotSupportedException();
+
+        public bool IsAnyMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) =>
+            throw new NotSupportedException();
+
+        public bool IsCombinedMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) =>
+            throw new NotSupportedException();
+    }
 
     private sealed class FixedGameCultureProvider(CultureInfo currentCulture) : IGameCultureProvider
     {

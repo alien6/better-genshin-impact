@@ -46,7 +46,7 @@
       "补充原粹树脂"
     ],
     "resin.insufficient": [
-      "原粹树脂不足",
+      "当前拥有的 原粹树脂数量不足",
       "数量不足"
     ],
     "domain.challenge_completed": [
@@ -80,8 +80,14 @@
     "domain.petrified_tree": [
       "石化古树"
     ],
-    "domain.resin_use_prompt": [
-      "是否仍要挑战该秘境"
+    "domain.resin_use_prompt_lead": [
+      "是否仍要"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "挑战"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "秘境"
     ],
     "expedition.entry": [
       "探索",

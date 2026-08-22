@@ -38,7 +38,9 @@ public static class GameTextKeys
         public const string SoloChallenge = "domain.solo_challenge";
         public const string StartChallenge = "domain.start_challenge";
         public const string PetrifiedTree = "domain.petrified_tree";
-        public const string ResinUsePrompt = "domain.resin_use_prompt";
+        public const string ResinUsePromptLead = "domain.resin_use_prompt_lead";
+        public const string ResinUsePromptChallenge = "domain.resin_use_prompt_challenge";
+        public const string ResinUsePromptDomain = "domain.resin_use_prompt_domain";
     }
 
     public static class Expedition
@@ -132,7 +134,9 @@ public static class GameTextKeys
         Domain.SoloChallenge,
         Domain.StartChallenge,
         Domain.PetrifiedTree,
-        Domain.ResinUsePrompt,
+        Domain.ResinUsePromptLead,
+        Domain.ResinUsePromptChallenge,
+        Domain.ResinUsePromptDomain,
         Expedition.Entry,
         AdventurersGuild.Katheryne,
         AdventurersGuild.DailyCommissions,

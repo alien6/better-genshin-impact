@@ -50,7 +50,7 @@
       "Recharger la résine originelle"
     ],
     "resin.insufficient": [
-      "Résine originelle insuffisante"
+      "Vous n'avez pas assez de Résine originelle"
     ],
     "domain.challenge_completed": [
       "Défi terminé",
@@ -80,8 +80,14 @@
     "domain.petrified_tree": [
       "Arbre pétrifié"
     ],
-    "domain.resin_use_prompt": [
-      "Souhaitez-vous toujours défier ce donjon ?"
+    "domain.resin_use_prompt_lead": [
+      "Souhaitez-vous toujours"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "défier"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "donjon"
     ],
     "expedition.entry": [
       "Expédition",

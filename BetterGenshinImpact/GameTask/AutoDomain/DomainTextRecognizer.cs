@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using BetterGenshinImpact.GameTask.Localization;
+using BetterGenshinImpact.Helpers;
 
 namespace BetterGenshinImpact.GameTask.AutoDomain;
 
@@ -14,13 +16,15 @@ public sealed class DomainTextRecognizer
     {
         _matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
         _culture = culture;
-        SoloChallengeAliases = _matcher.GetAliases(GameTextKeys.Domain.SoloChallenge, _culture);
-        StartChallengeAliases = _matcher.GetAliases(GameTextKeys.Domain.StartChallenge, _culture);
+        SoloChallengeOcrMatchAliases = NormalizeForOcrMatch(
+            _matcher.GetAliases(GameTextKeys.Domain.SoloChallenge, _culture));
+        StartChallengeOcrMatchAliases = NormalizeForOcrMatch(
+            _matcher.GetAliases(GameTextKeys.Domain.StartChallenge, _culture));
     }
 
-    public IReadOnlyList<string> SoloChallengeAliases { get; }
+    public IReadOnlyList<string> SoloChallengeOcrMatchAliases { get; }
 
-    public IReadOnlyList<string> StartChallengeAliases { get; }
+    public IReadOnlyList<string> StartChallengeOcrMatchAliases { get; }
 
     public bool IsChallengeCompleted(string recognizedText) =>
         IsMatch(recognizedText, GameTextKeys.Domain.ChallengeCompleted);
@@ -62,7 +66,9 @@ public sealed class DomainTextRecognizer
         IsMatch(recognizedText, GameTextKeys.Resin.Replenish);
 
     public bool IsResinUsePrompt(string recognizedText) =>
-        IsMatch(recognizedText, GameTextKeys.Domain.ResinUsePrompt);
+        IsMatch(recognizedText, GameTextKeys.Domain.ResinUsePromptLead) &&
+        IsMatch(recognizedText, GameTextKeys.Domain.ResinUsePromptChallenge) &&
+        IsMatch(recognizedText, GameTextKeys.Domain.ResinUsePromptDomain);
 
     public bool IsOriginalResin(string recognizedText) =>
         IsMatch(recognizedText, GameTextKeys.Resin.Original);
@@ -84,4 +90,7 @@ public sealed class DomainTextRecognizer
 
     private bool IsMatch(string recognizedText, string key) =>
         _matcher.IsMatch(recognizedText, key, _culture);
+
+    private static IReadOnlyList<string> NormalizeForOcrMatch(IReadOnlyList<string> aliases) =>
+        aliases.Select(StringUtils.RemoveAllSpace).ToList().AsReadOnly();
 }

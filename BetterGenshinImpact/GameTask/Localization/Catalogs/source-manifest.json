@@ -559,9 +559,9 @@
     "resin.insufficient": {
       "zh-Hans": [
         {
-          "value": "原粹树脂不足",
+          "value": "当前拥有的 原粹树脂数量不足",
           "source": "curated",
-          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+          "reason": "Runtime-formatted stable fragment of pinned TextMap hash 1019822723 after substituting {1} with the cataloged Simplified Chinese Original Resin name."
         },
         {
           "value": "数量不足",
@@ -571,9 +571,9 @@
       ],
       "zh-Hant": [
         {
-          "value": "原粹樹脂不足",
+          "value": "目前擁有的 原粹樹脂數量不足",
           "source": "curated",
-          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+          "reason": "Runtime-formatted stable fragment of pinned TextMap hash 1019822723 after substituting {1} with the cataloged Traditional Chinese Original Resin name."
         },
         {
           "value": "數量不足",
@@ -583,30 +583,30 @@
       ],
       "en": [
         {
-          "value": "Insufficient Original Resin",
+          "value": "You don't have enough Original Resin",
           "source": "curated",
-          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+          "reason": "Runtime-formatted stable fragment of pinned TextMap hash 1019822723 after substituting {1} with the cataloged English Original Resin name."
         }
       ],
       "ja": [
         {
-          "value": "天然樹脂が足りません",
+          "value": "現在天然樹脂が足りませんので",
           "source": "curated",
-          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+          "reason": "Runtime-formatted stable fragment of pinned TextMap hash 1019822723 after substituting {1} with the cataloged Japanese Original Resin name."
         }
       ],
       "fr": [
         {
-          "value": "Résine originelle insuffisante",
+          "value": "Vous n'avez pas assez de Résine originelle",
           "source": "curated",
-          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+          "reason": "Runtime-formatted stable fragment of pinned TextMap hash 1019822723 after substituting {1} with the cataloged French Original Resin name."
         }
       ],
       "pt-BR": [
         {
-          "value": "Resina Original insuficiente",
+          "value": "Você não possui Resina Original suficientes",
           "source": "curated",
-          "reason": "OCR-visible resin status is not present as a standalone value in the pinned TextMap."
+          "reason": "Runtime-formatted stable fragment of pinned TextMap hash 1019822723 after substituting {1} with the cataloged Portuguese Original Resin name."
         }
       ]
     },
@@ -809,13 +809,29 @@
       "fr": [{ "value": "Arbre pétrifié", "textMapHash": "2943681175" }],
       "pt-BR": [{ "value": "Árvore Petrificada", "textMapHash": "2943681175" }]
     },
-    "domain.resin_use_prompt": {
-      "zh-Hans": [{ "value": "是否仍要挑战该秘境", "source": "curated", "reason": "Exact live AutoDomain OCR prompt retained from the migrated consumer; no standalone pinned TextMap value exists." }],
-      "zh-Hant": [{ "value": "是否仍要挑戰該秘境", "source": "curated", "reason": "Traditional Chinese counterpart of the live AutoDomain OCR prompt." }],
-      "en": [{ "value": "Do you still wish to challenge this Domain?", "source": "curated", "reason": "English counterpart of the live AutoDomain OCR prompt; no standalone pinned TextMap value exists." }],
-      "ja": [{ "value": "この秘境に引き続き挑戦しますか？", "source": "curated", "reason": "Japanese counterpart of the live AutoDomain OCR prompt; no standalone pinned TextMap value exists." }],
-      "fr": [{ "value": "Souhaitez-vous toujours défier ce donjon ?", "source": "curated", "reason": "French counterpart of the live AutoDomain OCR prompt; no standalone pinned TextMap value exists." }],
-      "pt-BR": [{ "value": "Ainda deseja desafiar este Domínio?", "source": "curated", "reason": "Portuguese counterpart of the live AutoDomain OCR prompt; no standalone pinned TextMap value exists." }]
+    "domain.resin_use_prompt_lead": {
+      "zh-Hans": [{ "value": "是否仍要", "source": "curated", "reason": "Stable lead fragment of the live AutoDomain prompt, split to preserve the legacy three-fragment OCR tolerance." }],
+      "zh-Hant": [{ "value": "是否仍要", "source": "curated", "reason": "Traditional Chinese lead fragment of the live AutoDomain prompt." }],
+      "en": [{ "value": "Do you still wish", "source": "curated", "reason": "English lead fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "引き続き", "source": "curated", "reason": "Japanese continuation fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "Souhaitez-vous toujours", "source": "curated", "reason": "French lead fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Ainda deseja", "source": "curated", "reason": "Portuguese lead fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }]
+    },
+    "domain.resin_use_prompt_challenge": {
+      "zh-Hans": [{ "value": "挑战", "source": "curated", "reason": "Stable challenge fragment of the live AutoDomain prompt, split to preserve the legacy three-fragment OCR tolerance." }],
+      "zh-Hant": [{ "value": "挑戰", "source": "curated", "reason": "Traditional Chinese challenge fragment of the live AutoDomain prompt." }],
+      "en": [{ "value": "challenge", "source": "curated", "reason": "English challenge fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "挑戦", "source": "curated", "reason": "Japanese challenge fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "défier", "source": "curated", "reason": "French challenge fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "desafiar", "source": "curated", "reason": "Portuguese challenge fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }]
+    },
+    "domain.resin_use_prompt_domain": {
+      "zh-Hans": [{ "value": "秘境", "source": "curated", "reason": "Stable domain fragment of the live AutoDomain prompt, split to preserve the legacy three-fragment OCR tolerance." }],
+      "zh-Hant": [{ "value": "秘境", "source": "curated", "reason": "Traditional Chinese domain fragment of the live AutoDomain prompt." }],
+      "en": [{ "value": "Domain", "source": "curated", "reason": "English domain fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "ja": [{ "value": "秘境", "source": "curated", "reason": "Japanese domain fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "fr": [{ "value": "donjon", "source": "curated", "reason": "French domain fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }],
+      "pt-BR": [{ "value": "Domínio", "source": "curated", "reason": "Portuguese domain fragment of the live AutoDomain prompt; no standalone pinned TextMap value exists." }]
     },
     "expedition.entry": {
       "zh-Hans": [
