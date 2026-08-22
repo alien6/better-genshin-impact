@@ -698,6 +698,94 @@
       "fr": [{ "value": "résine", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }],
       "pt-BR": [{ "value": "Resina", "source": "curated", "reason": "Semantic fragment from the boss replenish prompt, retained for OCR split-region matching." }]
     },
+    "ley_line.double_reward": {
+      "zh-Hans": [{ "value": "双倍", "source": "curated", "reason": "Stable reward multiplier fragment curated for ley line reward OCR." }],
+      "zh-Hant": [{ "value": "雙倍", "source": "curated", "reason": "Stable reward multiplier fragment curated for ley line reward OCR." }],
+      "en": [{ "value": "Double Rewards", "source": "curated", "reason": "Localized ley line double-reward control label curated for OCR." }],
+      "ja": [{ "value": "2倍の報酬", "source": "curated", "reason": "Localized ley line double-reward control label curated for OCR." }],
+      "fr": [{ "value": "Récompenses doublées", "source": "curated", "reason": "Localized ley line double-reward control label curated for OCR." }],
+      "pt-BR": [{ "value": "Recompensas em Dobro", "source": "curated", "reason": "Localized ley line double-reward control label curated for OCR." }]
+    },
+    "ley_line.double_reward_2x": {
+      "zh-Hans": [{ "value": "2倍", "source": "curated", "reason": "Compact double-reward OCR fragment curated for ley line reward selection." }],
+      "zh-Hant": [{ "value": "2倍", "source": "curated", "reason": "Compact double-reward OCR fragment curated for ley line reward selection." }],
+      "en": [{ "value": "2x Rewards", "source": "curated", "reason": "Compact double-reward OCR label curated for ley line reward selection." }],
+      "ja": [{ "value": "2倍", "source": "curated", "reason": "Compact double-reward OCR fragment curated for ley line reward selection." }],
+      "fr": [{ "value": "2x", "source": "curated", "reason": "Compact double-reward OCR fragment curated for ley line reward selection." }],
+      "pt-BR": [{ "value": "2x", "source": "curated", "reason": "Compact double-reward OCR fragment curated for ley line reward selection." }]
+    },
+    "ley_line.touch": {
+      "zh-Hans": [{ "value": "接触", "source": "curated", "reason": "Stable interaction verb curated for ley line OCR." }],
+      "zh-Hant": [{ "value": "接觸", "source": "curated", "reason": "Stable interaction verb curated for ley line OCR." }],
+      "en": [{ "value": "Touch", "source": "curated", "reason": "Stable interaction verb curated for ley line OCR." }],
+      "ja": [{ "value": "接触", "source": "curated", "reason": "Stable interaction verb curated for ley line OCR." }],
+      "fr": [{ "value": "Toucher", "source": "curated", "reason": "Stable interaction verb curated for ley line OCR." }],
+      "pt-BR": [{ "value": "Tocar", "source": "curated", "reason": "Stable interaction verb curated for ley line OCR." }]
+    },
+    "ley_line.activate": {
+      "zh-Hans": [{ "value": "激活", "source": "curated", "reason": "Stable activation verb curated from the ley line reward prompt." }],
+      "zh-Hant": [{ "value": "啟動", "source": "curated", "reason": "Stable activation verb curated from the ley line reward prompt." }],
+      "en": [{ "value": "Activate", "source": "curated", "reason": "Stable activation verb curated from the ley line reward prompt." }],
+      "ja": [{ "value": "活性化", "source": "curated", "reason": "Stable activation verb curated from the ley line reward prompt." }],
+      "fr": [{ "value": "Activer", "source": "curated", "reason": "Stable activation verb curated from the ley line reward prompt." }],
+      "pt-BR": [{ "value": "Ativar", "source": "curated", "reason": "Stable activation verb curated from the ley line reward prompt." }]
+    },
+    "ley_line.select": {
+      "zh-Hans": [{ "value": "选择", "source": "curated", "reason": "Stable reward-selection verb curated for split OCR prompt matching." }],
+      "zh-Hant": [{ "value": "選擇", "source": "curated", "reason": "Stable reward-selection verb curated for split OCR prompt matching." }],
+      "en": [{ "value": "Select", "source": "curated", "reason": "Stable reward-selection verb curated for split OCR prompt matching." }],
+      "ja": [{ "value": "選択", "source": "curated", "reason": "Stable reward-selection verb curated for split OCR prompt matching." }],
+      "fr": [{ "value": "Sélectionner", "source": "curated", "reason": "Stable reward-selection verb curated for split OCR prompt matching." }],
+      "pt-BR": [{ "value": "Selecione", "source": "curated", "reason": "Stable reward-selection verb curated for split OCR prompt matching." }]
+    },
+    "ley_line.line": {
+      "zh-Hans": [{ "value": "地脉", "source": "curated", "reason": "Stable ley line OCR fragment curated from the legacy task flow." }],
+      "zh-Hant": [{ "value": "地脈", "source": "curated", "reason": "Stable ley line OCR fragment curated from the legacy task flow." }],
+      "en": [{ "value": "Ley Line", "source": "curated", "reason": "Stable ley line OCR fragment curated from the legacy task flow." }],
+      "ja": [{ "value": "地脈", "source": "curated", "reason": "Stable ley line OCR fragment curated from the legacy task flow." }],
+      "fr": [{ "value": "Ligne énergétique", "source": "curated", "reason": "Stable ley line OCR fragment curated from the legacy task flow." }],
+      "pt-BR": [{ "value": "Linha Ley", "source": "curated", "reason": "Stable ley line OCR fragment curated from the legacy task flow." }]
+    },
+    "ley_line.outcrop": {
+      "zh-Hans": [{ "value": "地脉之花", "source": "curated", "reason": "Legacy ley line flower OCR label retained during catalog migration." }, { "value": "溢口", "source": "curated", "reason": "Known legacy Paddle OCR typo for the ley line outcrop interaction prompt; retained verbatim for compatibility." }],
+      "zh-Hant": [{ "value": "地脈之花", "source": "curated", "reason": "Legacy ley line flower OCR label retained during catalog migration." }],
+      "en": [{ "value": "Outcrop", "source": "curated", "reason": "Stable outcrop OCR fragment curated from the ley line title." }],
+      "ja": [{ "value": "地脈の花", "source": "curated", "reason": "Stable outcrop OCR fragment curated from the ley line title." }],
+      "fr": [{ "value": "émergence", "source": "curated", "reason": "Stable outcrop OCR fragment curated from the ley line title." }],
+      "pt-BR": [{ "value": "Afloramento", "source": "curated", "reason": "Stable outcrop OCR fragment curated from the ley line title." }]
+    },
+    "ley_line.blossom_of_wealth": {
+      "zh-Hans": [{ "value": "地脉衍出·藏金之花", "textMapHash": "3989768719" }],
+      "zh-Hant": [{ "value": "地脈衍出·藏金之花", "textMapHash": "3989768719" }],
+      "en": [{ "value": "Ley Line Outcrop: Blossom of Wealth", "textMapHash": "3989768719" }],
+      "ja": [{ "value": "地脈の花芽·蔵金の花", "textMapHash": "3989768719" }],
+      "fr": [{ "value": "Fleur de la fortune des lignes énergétiques", "textMapHash": "3989768719" }],
+      "pt-BR": [{ "value": "Afloramento da Linha Ley: Flor da Riqueza", "textMapHash": "3989768719" }]
+    },
+    "ley_line.blossom_of_revelation": {
+      "zh-Hans": [{ "value": "地脉衍出·启示之花", "textMapHash": "2112415311" }],
+      "zh-Hant": [{ "value": "地脈衍出·啟示之花", "textMapHash": "2112415311" }],
+      "en": [{ "value": "Ley Line Outcrop: Blossom of Revelation", "textMapHash": "2112415311" }],
+      "ja": [{ "value": "地脈の花芽・啓示の花", "textMapHash": "2112415311" }],
+      "fr": [{ "value": "Fleur de la révélation des lignes énergétiques", "textMapHash": "2112415311" }],
+      "pt-BR": [{ "value": "Afloramento da Linha Ley: Flor da Revelação", "textMapHash": "2112415311" }]
+    },
+    "ley_line.stop": {
+      "zh-Hans": [{ "value": "停止", "source": "curated", "reason": "Stable handbook tracking control label curated for OCR." }],
+      "zh-Hant": [{ "value": "停止", "source": "curated", "reason": "Stable handbook tracking control label curated for OCR." }],
+      "en": [{ "value": "Stop", "source": "curated", "reason": "Stable handbook tracking control label curated for OCR." }],
+      "ja": [{ "value": "停止する", "textMapHash": "2732129834" }],
+      "fr": [{ "value": "Arrêter", "source": "curated", "reason": "Stable handbook tracking control label curated for OCR." }],
+      "pt-BR": [{ "value": "Parar", "source": "curated", "reason": "Stable handbook tracking control label curated for OCR." }]
+    },
+    "ley_line.original_resin_40_prompt": {
+      "zh-Hans": [{ "value": "消耗40点原粹树脂", "textMapHash": "3263834633" }],
+      "zh-Hant": [{ "value": "消耗40點原粹樹脂", "textMapHash": "3263834633" }],
+      "en": [{ "value": "40 Original Resin", "source": "curated", "reason": "Stable 40-resin OCR fragment curated from the pinned full achievement prompt." }],
+      "ja": [{ "value": "40天然樹脂", "source": "curated", "reason": "Stable 40-resin OCR fragment curated for the reward selection prompt." }],
+      "fr": [{ "value": "40 Résine originelle", "source": "curated", "reason": "Stable 40-resin OCR fragment curated for the reward selection prompt." }],
+      "pt-BR": [{ "value": "40 Resina Original", "source": "curated", "reason": "Stable 40-resin OCR fragment curated for the reward selection prompt." }]
+    },
     "domain.challenge_completed": {
       "zh-Hans": [
         {

@@ -56,6 +56,17 @@
     "boss.replenish_prompt_lead": ["Repor"],
     "boss.replenish_prompt_original": ["Original"],
     "boss.replenish_prompt_resin": ["Resina"],
+    "ley_line.double_reward": ["Recompensas em Dobro"],
+    "ley_line.double_reward_2x": ["2x"],
+    "ley_line.touch": ["Tocar"],
+    "ley_line.activate": ["Ativar"],
+    "ley_line.select": ["Selecione"],
+    "ley_line.line": ["Linha Ley"],
+    "ley_line.outcrop": ["Afloramento"],
+    "ley_line.blossom_of_wealth": ["Afloramento da Linha Ley: Flor da Riqueza"],
+    "ley_line.blossom_of_revelation": ["Afloramento da Linha Ley: Flor da Revelação"],
+    "ley_line.stop": ["Parar"],
+    "ley_line.original_resin_40_prompt": ["40 Resina Original"],
     "domain.challenge_completed": [
       "Desafio concluído"
     ],

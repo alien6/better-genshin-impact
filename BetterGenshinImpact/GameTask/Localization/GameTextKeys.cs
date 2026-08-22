@@ -58,6 +58,21 @@ public static class GameTextKeys
         public const string ReplenishPromptResin = "boss.replenish_prompt_resin";
     }
 
+    public static class LeyLine
+    {
+        public const string DoubleReward = "ley_line.double_reward";
+        public const string DoubleReward2x = "ley_line.double_reward_2x";
+        public const string Touch = "ley_line.touch";
+        public const string Activate = "ley_line.activate";
+        public const string Select = "ley_line.select";
+        public const string Line = "ley_line.line";
+        public const string Outcrop = "ley_line.outcrop";
+        public const string BlossomOfWealth = "ley_line.blossom_of_wealth";
+        public const string BlossomOfRevelation = "ley_line.blossom_of_revelation";
+        public const string Stop = "ley_line.stop";
+        public const string OriginalResin40Prompt = "ley_line.original_resin_40_prompt";
+    }
+
     public static class Expedition
     {
         public const string Entry = "expedition.entry";
@@ -163,6 +178,17 @@ public static class GameTextKeys
         Boss.ReplenishPromptLead,
         Boss.ReplenishPromptOriginal,
         Boss.ReplenishPromptResin,
+        LeyLine.DoubleReward,
+        LeyLine.DoubleReward2x,
+        LeyLine.Touch,
+        LeyLine.Activate,
+        LeyLine.Select,
+        LeyLine.Line,
+        LeyLine.Outcrop,
+        LeyLine.BlossomOfWealth,
+        LeyLine.BlossomOfRevelation,
+        LeyLine.Stop,
+        LeyLine.OriginalResin40Prompt,
         Expedition.Entry,
         AdventurersGuild.Katheryne,
         AdventurersGuild.DailyCommissions,
