@@ -15,10 +15,13 @@ public class GameTextServiceCollectionExtensionsTests
 
         var firstMatcher = serviceProvider.GetRequiredService<IGameTextMatcher>();
         var secondMatcher = serviceProvider.GetRequiredService<IGameTextMatcher>();
+        var firstCultureProvider = serviceProvider.GetRequiredService<IGameCultureProvider>();
+        var secondCultureProvider = serviceProvider.GetRequiredService<IGameCultureProvider>();
         var firstCatalogProvider = serviceProvider.GetRequiredService<IGameTextCatalogProvider>();
         var secondCatalogProvider = serviceProvider.GetRequiredService<IGameTextCatalogProvider>();
 
         Assert.Same(firstMatcher, secondMatcher);
+        Assert.Same(firstCultureProvider, secondCultureProvider);
         Assert.Same(firstCatalogProvider, secondCatalogProvider);
     }
 }
