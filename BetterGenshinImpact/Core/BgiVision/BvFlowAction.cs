@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.Helpers;
 using OpenCvSharp;
@@ -133,6 +132,28 @@ public sealed class BvFlowAction
         _ = _flow.CreateAnyTextLocator(texts, rect);
         ValidateWaitOptions(timeout, retryInterval);
         return CompleteOnce().WaitUntilAnyText(texts, rect, timeout, retryInterval);
+    }
+
+    public BvFlow WaitUntilTextKey(
+        string key,
+        Rect rect = default,
+        int? timeout = null,
+        int? retryInterval = null)
+    {
+        var locator = _flow.CreateTextKeyLocator(key, rect);
+        ValidateWaitOptions(timeout, retryInterval);
+        return CompleteOnce().WaitUntil(locator, timeout, retryInterval);
+    }
+
+    public BvFlow WaitUntilAnyTextKey(
+        object keys,
+        Rect rect = default,
+        int? timeout = null,
+        int? retryInterval = null)
+    {
+        var locator = _flow.CreateAnyTextKeyLocator(keys, rect);
+        ValidateWaitOptions(timeout, retryInterval);
+        return CompleteOnce().WaitUntil(locator, timeout, retryInterval);
     }
 
     public BvFlow WaitUntil(BvLocator target, int? timeout = null, int? retryInterval = null)
@@ -291,17 +312,7 @@ public sealed class BvFlowAction
 
     private static string DescribeTarget(BvLocator locator)
     {
-        if (locator.AnyTexts.Count > 0)
-        {
-            return $"文字[{string.Join('|', locator.AnyTexts)}]";
-        }
-
-        return locator.RecognitionObject.RecognitionType switch
-        {
-            RecognitionTypes.Ocr => $"文字[{locator.RecognitionObject.Text}]",
-            RecognitionTypes.TemplateMatch => $"图像[{locator.RecognitionObject.Name}]",
-            _ => "识别元素"
-        };
+        return locator.DescribeTarget();
     }
 }
 
