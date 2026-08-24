@@ -5,6 +5,7 @@ using BetterGenshinImpact.GameTask.AutoFishing.Model;
 using BetterGenshinImpact.GameTask.Common;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.GetGridIcons;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.Helpers;
 using BetterGenshinImpact.Helpers.Extensions;
@@ -204,7 +205,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
         private DateTimeOffset? _pressFWaitEndTime;
         private DateTimeOffset? _clickWhiteConfirmButtonWaitEndTime;
         private DateTimeOffset? _overallWaitEndTime;
-        private readonly string _fishingLocalizedString;
+        private readonly FishingTextRecognizer _textRecognizer;
 
         [BlackboardKey(Access = Access.Read)]
         public BehaviourKeyAccess<ImageRegion> Screenshot { get; private set; } = null!;
@@ -229,7 +230,10 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
             _session = session;
             _prototypes = prototypes;
             _timeProvider = timeProvider ?? TimeProvider.System;
-            _fishingLocalizedString = stringLocalizer == null ? "钓鱼" : stringLocalizer.WithCultureGet(cultureInfo, "钓鱼");
+            _textRecognizer = new FishingTextRecognizer(
+                App.GetService<IGameTextMatcher>()
+                ?? throw new InvalidOperationException("IGameTextMatcher is not registered."),
+                cultureInfo);
         }
 
         protected async override Task<Status> Update()
@@ -243,7 +247,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
             }
 
             if ((_pressFWaitEndTime == null || _pressFWaitEndTime < _timeProvider.GetLocalNow()) &&
-                Bv.FindFAndPress(imageRegion, _input.Keyboard, _fishingLocalizedString))
+                Bv.FindFAndPress(imageRegion, _input.Keyboard, _textRecognizer.FishingSearchPattern))
             {
                 _logger.LogInformation("按下钓鱼键");
                 _pressFWaitEndTime = _timeProvider.GetLocalNow().AddSeconds(3);
@@ -304,7 +308,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
     {
         private readonly ILogger _logger;
         private readonly IInputSimulator _input;
-        private readonly string _fishingLocalizedString;
+        private readonly FishingTextRecognizer _textRecognizer;
 
         [BlackboardKey(Access = Access.Read)]
         public BehaviourKeyAccess<ImageRegion> Screenshot { get; private set; } = null!;
@@ -316,7 +320,10 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
         {
             _logger = logger;
             _input = input;
-            _fishingLocalizedString = stringLocalizer == null ? "钓鱼" : stringLocalizer.WithCultureGet(cultureInfo, "钓鱼");
+            _textRecognizer = new FishingTextRecognizer(
+                App.GetService<IGameTextMatcher>()
+                ?? throw new InvalidOperationException("IGameTextMatcher is not registered."),
+                cultureInfo);
         }
 
         protected async override Task<Status> Update()
@@ -328,7 +335,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
                 return Status.Running;
             }
 
-            if (Bv.FindF(imageRegion, _fishingLocalizedString))
+            if (Bv.FindF(imageRegion, _textRecognizer.FishingSearchPattern))
             {
                 _logger.LogInformation("退出完成");
                 return Status.Success;

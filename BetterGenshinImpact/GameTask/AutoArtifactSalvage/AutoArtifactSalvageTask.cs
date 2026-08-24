@@ -8,6 +8,7 @@ using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
 using BetterGenshinImpact.GameTask.Common.Job;
 using BetterGenshinImpact.GameTask.GetGridIcons;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.Model.GameUI;
 using BetterGenshinImpact.Helpers;
@@ -16,12 +17,10 @@ using BetterGenshinImpact.View.Drawable;
 using Fischless.WindowsInput;
 using Microsoft.ClearScript;
 using Microsoft.ClearScript.V8;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.ML.OnnxRuntime;
 using OpenCvSharp;
 using System;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -48,9 +47,7 @@ public class AutoArtifactSalvageTask : ISoloTask
 
     private readonly int star;
 
-    private readonly string quickSelectLocalizedString;
-
-    private readonly string[] numOfStarLocalizedString;
+    private readonly ArtifactTextRecognizer textRecognizer;
 
     private readonly string? javaScript;
 
@@ -64,8 +61,6 @@ public class AutoArtifactSalvageTask : ISoloTask
 
     private readonly CultureInfo? cultureInfo;
 
-    private readonly FrozenDictionary<ArtifactAffixType, string> artifactAffixStrDic;
-
     public AutoArtifactSalvageTask(AutoArtifactSalvageTaskParam param, ILogger? logger = null)
     {
         this.star = param.Star;
@@ -74,19 +69,16 @@ public class AutoArtifactSalvageTask : ISoloTask
         this.maxNumToCheck = param.MaxNumToCheck;
         this.recognitionFailurePolicy = param.RecognitionFailurePolicy;
         this.logger = logger ?? App.GetLogger<AutoArtifactSalvageTask>();
-        var stringLocalizer = param.StringLocalizer;
         this.cultureInfo = param.GameCultureInfo;
-        quickSelectLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "快速选择");
-        numOfStarLocalizedString =
-        [
-            stringLocalizer.WithCultureGet(cultureInfo, "1星圣遗物"),
-            stringLocalizer.WithCultureGet(cultureInfo, "2星圣遗物"),
-            stringLocalizer.WithCultureGet(cultureInfo, "3星圣遗物"),
-            stringLocalizer.WithCultureGet(cultureInfo, "4星圣遗物")
-        ];
-
-        artifactAffixStrDic = ArtifactAffix.DefaultStrDic.Select(kvp => new KeyValuePair<ArtifactAffixType, string>(kvp.Key, stringLocalizer.WithCultureGet(cultureInfo, kvp.Value))).ToFrozenDictionary();
+        textRecognizer = new ArtifactTextRecognizer(
+            param.GameTextMatcher
+            ?? App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."),
+            cultureInfo);
     }
+
+    internal bool IsArtifactStarLabel(string recognizedText, int artifactStar) =>
+        textRecognizer.IsStarLabel(recognizedText, artifactStar);
 
     public static async Task OpenInventory(GridScreenName gridScreenName, InputSimulator input, ILogger logger, CancellationToken ct)
     {
@@ -217,7 +209,7 @@ public class AutoArtifactSalvageTask : ISoloTask
         bool quickSelectBtnFound = false;
         foreach (var ocr in ocrList)
         {
-            if (Regex.IsMatch(ocr.Text, quickSelectLocalizedString))
+            if (textRecognizer.IsQuickSelect(ocr.Text))
             {
                 quickSelectBtnFound = true;
                 ocr.Click();
@@ -227,7 +219,7 @@ public class AutoArtifactSalvageTask : ISoloTask
         }
         if (!quickSelectBtnFound)
         {
-            logger.LogError("没有找到可匹配{regex}的按钮，终止分解", quickSelectLocalizedString);
+            logger.LogError("没有找到语义文本{key}对应的按钮，终止分解", GameTextKeys.Artifact.QuickSelect);
             return;
         }
 
@@ -242,7 +234,7 @@ public class AutoArtifactSalvageTask : ISoloTask
                 bool numOfStarFound = false;
                 foreach (var ocr in ocrList2)
                 {
-                    if (Regex.IsMatch(ocr.Text, numOfStarLocalizedString[i]))
+                    if (IsArtifactStarLabel(ocr.Text, i + 1))
                     {
                         numOfStarFound = true;
                         ocr.Click();
@@ -252,7 +244,7 @@ public class AutoArtifactSalvageTask : ISoloTask
                 }
                 if (!numOfStarFound)
                 {
-                    logger.LogError("没有找到可匹配{regex}的按钮，终止分解", numOfStarLocalizedString[i]);
+                    logger.LogError("没有找到{star}星圣遗物选项，终止分解", i + 1);
                     return;
                 }
             }
@@ -571,9 +563,19 @@ public class AutoArtifactSalvageTask : ISoloTask
         string name = nameOcrResult.Text;
 
         #region 主词条
-        var defaultMainAffix = this.artifactAffixStrDic.Select(kvp => kvp.Value).Distinct();
-        string mainAffixTypeLine = mainAffixLines.SingleOrDefault(l => defaultMainAffix.Contains(l)) ?? throw new Exception($"未找到主词条对应的行：\n{mainAffixText}");
-        ArtifactAffixType mainAffixType = this.artifactAffixStrDic.First(kvp => kvp.Value == mainAffixTypeLine).Key;
+        var mainAffixMatches = mainAffixLines
+            .Select(line => textRecognizer.TryGetAffixType(line, out var type)
+                ? (Line: line, Type: (ArtifactAffixType?)type)
+                : (Line: line, Type: (ArtifactAffixType?)null))
+            .Where(match => match.Type.HasValue)
+            .ToArray();
+        var mainAffixMatch = mainAffixMatches.SingleOrDefault();
+        if (!mainAffixMatch.Type.HasValue)
+        {
+            throw new Exception($"未找到主词条对应的行：\n{mainAffixText}");
+        }
+
+        ArtifactAffixType mainAffixType = mainAffixMatch.Type.Value;
         string mainAffixValueLine = mainAffixLines.Select(l =>
         {
             string pattern = @"^([\d., ]*)(%?)$";
@@ -618,9 +620,12 @@ public class AutoArtifactSalvageTask : ISoloTask
             {
                 continue;
             }
-            ArtifactAffixType artifactAffixType;
-            var dic = this.artifactAffixStrDic;
-            if (match.Groups[1].Value.Contains(dic[ArtifactAffixType.ATK]))
+            if (!textRecognizer.TryGetAffixType(match.Groups[1].Value, out var artifactAffixType))
+            {
+                throw new Exception($"未识别的副词条：{match.Groups[1].Value}");
+            }
+
+            if (artifactAffixType == ArtifactAffixType.ATK)
             {
                 if (String.IsNullOrEmpty(match.Groups[3].Value))
                 {
@@ -631,7 +636,7 @@ public class AutoArtifactSalvageTask : ISoloTask
                     artifactAffixType = ArtifactAffixType.ATKPercent;
                 }
             }
-            else if (match.Groups[1].Value.Contains(dic[ArtifactAffixType.DEF]))
+            else if (artifactAffixType == ArtifactAffixType.DEF)
             {
                 if (String.IsNullOrEmpty(match.Groups[3].Value))
                 {
@@ -642,7 +647,7 @@ public class AutoArtifactSalvageTask : ISoloTask
                     artifactAffixType = ArtifactAffixType.DEFPercent;
                 }
             }
-            else if (match.Groups[1].Value.Contains(dic[ArtifactAffixType.HP]))
+            else if (artifactAffixType == ArtifactAffixType.HP)
             {
                 if (String.IsNullOrEmpty(match.Groups[3].Value))
                 {
@@ -653,27 +658,6 @@ public class AutoArtifactSalvageTask : ISoloTask
                     artifactAffixType = ArtifactAffixType.HPPercent;
                 }
             }
-            else if (match.Groups[1].Value.Contains(dic[ArtifactAffixType.CRITRate]))
-            {
-                artifactAffixType = ArtifactAffixType.CRITRate;
-            }
-            else if (match.Groups[1].Value.Contains(dic[ArtifactAffixType.CRITDMG]))
-            {
-                artifactAffixType = ArtifactAffixType.CRITDMG;
-            }
-            else if (match.Groups[1].Value.Contains(dic[ArtifactAffixType.ElementalMastery]))
-            {
-                artifactAffixType = ArtifactAffixType.ElementalMastery;
-            }
-            else if (match.Groups[1].Value.Contains(dic[ArtifactAffixType.EnergyRecharge]))
-            {
-                artifactAffixType = ArtifactAffixType.EnergyRecharge;
-            }
-            else
-            {
-                throw new Exception($"未识别的副词条：{match.Groups[1].Value}");
-            }
-
             if (!float.TryParse(match.Groups[2].Value.Replace("。", "."), NumberStyles.Any, cultureInfo, out float affixValue))
             {
                 throw new Exception($"未识别的副词条数值：{match.Groups[2].Value}");

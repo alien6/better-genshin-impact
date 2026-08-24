@@ -1,0 +1,440 @@
+{
+  "schemaVersion": 1,
+  "culture": "zh-Hant",
+  "entries": {
+    "common.revive": [
+      "復甦",
+      "復甦角色"
+    ],
+    "common.confirm": [
+      "確認"
+    ],
+    "common.cancel": [
+      "取消"
+    ],
+    "common.use": [
+      "使用"
+    ],
+    "common.click_anywhere_to_close": [
+      "點擊任意處關閉",
+      "點擊任意位置關閉"
+    ],
+    "common.crafting": [
+      "合成",
+      "煉金合成"
+    ],
+    "common.claim": [
+      "領取"
+    ],
+    "common.all": [
+      "一鍵",
+      "全部"
+    ],
+    "resin.original": [
+      "原粹樹脂"
+    ],
+    "resin.condensed": [
+      "濃縮樹脂"
+    ],
+    "resin.fragile": [
+      "脆弱樹脂"
+    ],
+    "resin.transient": [
+      "須臾樹脂"
+    ],
+    "resin.replenish": [
+      "補充原粹樹脂"
+    ],
+    "resin.insufficient": [
+      "目前擁有的 原粹樹脂數量不足",
+      "數量不足"
+    ],
+    "boss.full_resin_recovered": ["原粹樹脂已完全恢復"],
+    "boss.full_recovery": ["完全恢復"],
+    "boss.quick_use": ["快速使用"],
+    "boss.use_quantity": ["使用數量"],
+    "boss.obtain": ["獲得"],
+    "boss.touch_trounce_blossom": ["接觸征討之花"],
+    "boss.click_blank_area_to_continue": ["點擊空白區域繼續"],
+    "boss.use_prompt_lead": ["使用"],
+    "boss.replenish_prompt_lead": ["補充"],
+    "boss.replenish_prompt_original": ["原粹"],
+    "boss.replenish_prompt_resin": ["樹脂"],
+    "ley_line.double_reward": ["雙倍"],
+    "ley_line.double_reward_2x": ["2倍"],
+    "ley_line.touch": ["接觸"],
+    "ley_line.activate": ["啟動"],
+    "ley_line.select": ["選擇"],
+    "ley_line.line": ["地脈"],
+    "ley_line.outcrop": ["地脈之花"],
+    "ley_line.blossom_of_wealth": ["地脈衍出·藏金之花"],
+    "ley_line.blossom_of_revelation": ["地脈衍出·啟示之花"],
+    "ley_line.stop": ["停止"],
+    "ley_line.original_resin_40_prompt": ["消耗40點原粹樹脂"],
+    "domain.challenge_completed": [
+      "挑戰完成",
+      "(挑戰|達成)",
+      "挑戰",
+      "達成"
+    ],
+    "domain.auto_leaving": [
+      "自動退出",
+      "(自動|退出)",
+      "自動",
+      "退出"
+    ],
+    "domain.skip": [
+      "跳過"
+    ],
+    "domain.ley_line_disorder": [
+      "地脈異常",
+      "地[脈服][異翼昊]常",
+      "地脈翼常",
+      "地脈昊常",
+      "地服異常",
+      "地服翼常",
+      "地服昊常"
+    ],
+    "domain.limited_time_fully_open": [
+      "限時全部開放",
+      "限時開放"
+    ],
+    "domain.solo_challenge": [
+      "單人挑戰"
+    ],
+    "domain.start_challenge": [
+      "開始挑戰"
+    ],
+    "domain.petrified_tree": [
+      "石化古樹"
+    ],
+    "domain.resin_use_prompt_lead": [
+      "是否仍要"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "挑戰"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "秘境"
+    ],
+    "expedition.entry": [
+      "探索",
+      "探索派遣"
+    ],
+    "expedition.time_shortened": ["時間縮短"],
+    "expedition.rewards_increased": ["獎勵增加"],
+    "expedition.no_bonus": ["暫無加成"],
+    "expedition.complete": ["探險完成"],
+    "expedition.in_progress": ["探險中"],
+    "expedition.rewards": ["探索派遣獎勵"],
+    "adventurers_guild.katheryne": [
+      "凱瑟琳"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "每日",
+      "委託",
+      "委話"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "今日獎勵已領取"
+    ],
+    "serenitea_pot.spirit": [
+      "阿圓",
+      "壺靈"
+    ],
+    "serenitea_pot.trust_rank": [
+      "信任等階"
+    ],
+    "serenitea_pot.realm_depot": [
+      "洞天百寶"
+    ],
+    "fishing.bite": [
+      "上鉤"
+    ],
+    "fishing.action": [
+      "釣魚"
+    ],
+    "world_area.serenitea_pot": [
+      "塵歌壺"
+    ],
+    "world_area.nod_krai": [
+      "挪德卡萊"
+    ],
+    "world_area.snezhnaya": [
+      "至冬"
+    ],
+    "world_area.fontaine": [
+      "楓丹"
+    ],
+    "world_area.liyue": [
+      "璃月"
+    ],
+    "world_area.inazuma": [
+      "稻妻"
+    ],
+    "world_area.natlan": [
+      "納塔"
+    ],
+    "world_area.mondstadt": [
+      "蒙德"
+    ],
+    "world_area.sumeru": [
+      "須彌"
+    ],
+    "artifact.quick_select": [
+      "快速選擇"
+    ],
+    "artifact.star_1": [
+      "一星聖遺物"
+    ],
+    "artifact.star_2": [
+      "二星聖遺物"
+    ],
+    "artifact.star_3": [
+      "三星聖遺物"
+    ],
+    "artifact.star_4": [
+      "四星聖遺物"
+    ],
+    "artifact.affix.atk": [
+      "攻擊力"
+    ],
+    "artifact.affix.def": [
+      "防禦力"
+    ],
+    "artifact.affix.hp": [
+      "生命值"
+    ],
+    "artifact.affix.crit_rate": [
+      "暴擊率"
+    ],
+    "artifact.affix.crit_dmg": [
+      "暴擊傷害"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "元素精通"
+    ],
+    "artifact.affix.energy_recharge": [
+      "元素充能效率"
+    ],
+    "artifact.affix.healing_bonus": [
+      "治療加成"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "物理傷害加成"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "火元素傷害加成"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "水元素傷害加成"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "草元素傷害加成"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "雷元素傷害加成"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "風元素傷害加成"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "冰元素傷害加成"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "岩元素傷害加成"
+    ],
+    "stygian.return": ["返回"],
+    "stygian.challenge_failed": ["挑戰失敗"],
+    "stygian.retry_challenge": ["重新挑戰"],
+    "stygian.ley_line_blossom": ["地脈之花"],
+    "stygian.character_preview": ["角色預覽"],
+    "stygian.event_name": ["幽境危戰"],
+    "stygian.event_overview": ["活動一覽"],
+    "stygian.reward_phase": ["紊亂爆發期"],
+    "stygian.phase_ended": ["已結束"],
+    "stygian.go_to_challenge": ["前往挑戰"],
+    "stygian.hard_difficulty": ["困難"],
+    "stygian.ultimate_challenge": ["至危挑戰"],
+    "stygian.normal_challenge": ["常規挑戰"],
+    "stygian.preset_teams": ["預設隊伍"],
+    "common.goodbye": [
+      "再見"
+    ],
+    "common.obtained": [
+      "獲得"
+    ],
+    "auto_pick.suppressed_label": [
+      "長時間",
+      "聚所",
+      "叮鈴",
+      "眶螂",
+      "西風成壘",
+      "望崖營壁",
+      "魔女的花園",
+      "月諭聖牌"
+    ],
+    "auto_pick.tribe_lead": [
+      "我在"
+    ],
+    "auto_pick.tribe_marker": [
+      "聲望",
+      "回聲",
+      "懸木人",
+      "流泉"
+    ],
+    "auto_pick.frostmoon": [
+      "霜月"
+    ],
+    "auto_pick.workshop": [
+      "坊"
+    ],
+    "auto_pick.egg_roll": [
+      "蛋捲"
+    ],
+    "character.talent_introduction": [
+      "天賦介紹"
+    ],
+    "character.talent_level": [
+      "天賦等級"
+    ],
+    "character.attribute": [
+      "屬性"
+    ],
+    "character.weapon": [
+      "武器"
+    ],
+    "character.talent": [
+      "天賦"
+    ],
+    "game_loading.age_prompt": [
+      "適齡",
+      "監護"
+    ],
+    "inventory.enhancement_ore": [
+      "精鍛用雜礦",
+      "精鍛用良礦",
+      "精鍛用魔礦"
+    ],
+    "wood.material": [
+      "懸鈴木",
+      "白梣木",
+      "炬木",
+      "椴木",
+      "香柏木",
+      "刺葵木",
+      "檉木",
+      "輝木",
+      "業果木",
+      "證悟木",
+      "楓木",
+      "垂香木",
+      "杉木",
+      "竹節",
+      "卻砂木",
+      "松木",
+      "萃華木",
+      "樺木",
+      "孔雀木",
+      "夢見木",
+      "御伽木",
+      "燃爆木",
+      "桃椰子木",
+      "灰灰樓林木",
+      "白栗櫟木"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "無法領取好感經驗"
+    ],
+    "serenitea_pot.sold_out": [
+      "售罄"
+    ],
+    "artifact.set_contains": [
+      "套裝包含"
+    ],
+    "character.normal_attack": [
+      "普通攻擊"
+    ],
+    "character.elemental_skill": [
+      "元素戰技"
+    ],
+    "character.elemental_burst": [
+      "元素爆發"
+    ],
+    "common.clear": [
+      "清除"
+    ],
+    "common.filter": [
+      "篩選"
+    ],
+    "common.enter": [
+      "進入"
+    ],
+    "common.leave": [
+      "離開"
+    ],
+    "common.paste": [
+      "貼上"
+    ],
+    "party.confirm_filter": [
+      "確認篩選"
+    ],
+    "party.configuration_unavailable": [
+      "當前狀態不可進行隊伍配置"
+    ],
+    "party.elemental_resonance": [
+      "元素共鳴"
+    ],
+    "party.configuration": [
+      "隊伍配置"
+    ],
+    "party.remove": [
+      "換下",
+      "卸下"
+    ],
+    "party.friendship": [
+      "好感"
+    ],
+    "party.replace": [
+      "更換",
+      "替換"
+    ],
+    "party.join": [
+      "加入"
+    ],
+    "party.order": [
+      "順序"
+    ],
+    "redemption.account": [
+      "帳戶"
+    ],
+    "redemption.go_to_redeem": [
+      "前往兌換"
+    ],
+    "redemption.redeem_reward": [
+      "兌換獎勵"
+    ],
+    "redemption.success": [
+      "兌換成功"
+    ],
+    "expedition.select_character": [
+      "選擇角色"
+    ],
+    "expedition.character_selection": [
+      "角色選擇"
+    ],
+    "ley_line.fight_success": [
+      "挑戰達成",
+      "戰鬥勝利",
+      "挑戰成功"
+    ],
+    "ley_line.fight_failure": [
+      "挑戰失敗"
+    ],
+    "ley_line.fight_objective": [
+      "打倒",
+      "所有",
+      "敵人"
+    ]
+  }
+}

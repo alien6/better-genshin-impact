@@ -10,6 +10,7 @@ using BetterGenshinImpact.GameTask.Common.Job;
 using BetterGenshinImpact.GameTask.Common.StateMachine;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.Model.GameUI;
+using BetterGenshinImpact.GameTask.Localization;
 using Microsoft.Extensions.Logging;
 using OpenCvSharp;
 using System;
@@ -217,16 +218,15 @@ internal enum CharacterDevelopmentState
 /// </remarks>
 internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<CharacterDevelopmentState, BvPage>
 {
-    private const string AttackTalentType = "普通攻击";
-    private const string SkillTalentType = "元素战技";
-    private const string BurstTalentType = "元素爆发";
+    private const string AttackTalentType = GameTextKeys.Character.NormalAttack;
+    private const string SkillTalentType = GameTextKeys.Character.ElementalSkill;
+    private const string BurstTalentType = GameTextKeys.Character.ElementalBurst;
     // 最终返回的数据要求解析结果连续三帧一致；十次采样仍不稳定则终止当前任务。
     private const int MaxOcrAttempts = 10;
     private const int RequiredStableOcrCount = 3;
     private const int OcrRetryDelayMilliseconds = 200;
 
     private static readonly Regex NumberRegex = new(@"\d+", RegexOptions.Compiled);
-    private static readonly Regex TalentBonusRegex = new(@"天赋\s*等级\s*[+＋]\s*3", RegexOptions.Compiled);
 
     private readonly ILogger<CharacterDevelopmentStateMachineTask> _logger = App.GetLogger<CharacterDevelopmentStateMachineTask>();
     private readonly ReturnMainUiTask _returnMainUiTask = new();
@@ -235,6 +235,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private readonly List<CharacterDevelopmentResult> _results = [];
     private readonly double _assetScale = TaskContext.Instance().SystemInfo.AssetScale;
     private readonly CharacterDevelopmentAssets _assets;
+    private readonly RemainingGameTextRecognizer _textRecognizer;
 
     private CharacterDevelopmentState _workflowState = CharacterDevelopmentState.OpenCharacterList;
     private AvatarGridIconRecognizer? _recognizer;
@@ -273,6 +274,9 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
         }
 
         _categories = categories;
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new RemainingGameTextRecognizer(matcher);
         _targets = characterNames.Select(CharacterSelectionHelper.CreateTarget).ToList();
         var captureRect = TaskContext.Instance().SystemInfo.ScaleMax1080PCaptureRect;
         _assets = CharacterDevelopmentAssets.Get(captureRect.Width, captureRect.Height);
@@ -395,7 +399,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     {
         return _workflowState == CharacterDevelopmentState.FindAndClickAvatar
                && IsCharacterList(capture)
-               && !CharacterSelectionHelper.IsFilterPanel(capture, _assetScale);
+               && !CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer);
     }
 
     [StateDetector(CharacterDevelopmentState.SelectedCharacter, Order = 13)]
@@ -439,13 +443,13 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private bool DetectSelectElementFilter(ImageRegion capture)
     {
         return _workflowState == CharacterDevelopmentState.SelectElementFilter
-               && CharacterSelectionHelper.IsFilterPanel(capture, _assetScale);
+               && CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer);
     }
 
     [StateDetector(CharacterDevelopmentState.SelectWeaponFilter, Order = 21)]
     private bool DetectSelectWeaponFilter(ImageRegion capture)
     {
-        if (!CharacterSelectionHelper.IsFilterPanel(capture, _assetScale))
+        if (!CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer))
         {
             return false;
         }
@@ -461,7 +465,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     [StateDetector(CharacterDevelopmentState.ConfirmFilterPanel, Order = 22)]
     private bool DetectConfirmFilterPanel(ImageRegion capture)
     {
-        if (!CharacterSelectionHelper.IsFilterPanel(capture, _assetScale))
+        if (!CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer))
         {
             return false;
         }
@@ -478,7 +482,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private bool DetectFilterPanel(ImageRegion capture)
     {
         return _workflowState == CharacterDevelopmentState.FilterPanel
-               && CharacterSelectionHelper.IsFilterPanel(capture, _assetScale);
+               && CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer);
     }
 
     [StateDetector(CharacterDevelopmentState.ReadCategory, Order = 30)]
@@ -573,7 +577,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private Task<StateHandlerResult> HandleFilterPanel(BvPage page)
     {
         using var capture = CaptureToRectArea();
-        if (CharacterSelectionHelper.IsFilterApplied(capture, _assetScale))
+        if (CharacterSelectionHelper.IsFilterApplied(capture, _assetScale, _textRecognizer))
         {
             CharacterSelectionHelper.ClearFilter(page, _assetScale, _logger);
             return Task.FromResult(StateHandlerResult.Wait);
@@ -656,9 +660,9 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private async Task<StateHandlerResult> HandleConfirmFilterPanel(BvPage page)
     {
         _workflowState = CharacterDevelopmentState.ConfirmFilterPanel;
-        if (!CharacterSelectionHelper.TryClickText(
+        if (!CharacterSelectionHelper.TryClickTextKey(
                 page,
-                "确认筛选",
+                GameTextKeys.Party.ConfirmFilter,
                 CharacterSelectionHelper.GetConfirmFilterRoi(_assetScale)))
         {
             return StateHandlerResult.Retry;
@@ -879,15 +883,15 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
         Cv2.InRange(hsv, new Scalar(0, 0, 243), new Scalar(30, 19, 249), mask);
         using var binary = mask.CvtColor(ColorConversionCodes.GRAY2BGR);
         var ocrResult = OcrFactory.Paddle.OcrResult(binary);
-        var categoryText = GetCategoryText(category);
-        var matched = ocrResult.Regions.Any(region => region.Text.Contains(categoryText, StringComparison.Ordinal));
+        var categoryKey = GetCategoryKey(category);
+        var matched = ocrResult.Regions.Any(region => _textRecognizer.IsMatch(region.Text, categoryKey));
         return matched;
     }
 
     private bool IsTalentDetail(ImageRegion capture)
     {
         var text = OcrText(capture, Rect1080(100, 219, 125, 33));
-        var matched = text.Contains("天赋介绍", StringComparison.Ordinal);
+        var matched = _textRecognizer.IsTalentIntroduction(text);
         return matched;
     }
 
@@ -1043,7 +1047,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     /// <remarks>三项组成一个不可拆分的稳定性比较单元，不能依赖天赋点击顺序。</remarks>
     private bool TryReadTalentDetail(ImageRegion capture, out string type, out int level, out bool hasBonus)
     {
-        type = NormalizeTalentType(OcrText(capture, Rect1080(242, 13, 98, 36)));
+        type = _textRecognizer.GetTalentTypeKey(OcrText(capture, Rect1080(242, 13, 98, 36)));
         level = 0;
         hasBonus = false;
         if (string.IsNullOrEmpty(type))
@@ -1058,7 +1062,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
         }
 
         var bonusText = OcrText(capture, Rect1080(35, 285, 146, 30));
-        hasBonus = HasTalentBonus(bonusText);
+        hasBonus = _textRecognizer.HasTalentBonus(bonusText);
         return true;
     }
 
@@ -1101,26 +1105,6 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
             $"最大连续次数={stableValues.MaxConsecutiveCount}，末次结果={lastResult}");
     }
 
-    internal static string NormalizeTalentType(string text)
-    {
-        if (text.Contains(AttackTalentType, StringComparison.Ordinal))
-        {
-            return AttackTalentType;
-        }
-
-        if (text.Contains(SkillTalentType, StringComparison.Ordinal))
-        {
-            return SkillTalentType;
-        }
-
-        if (text.Contains(BurstTalentType, StringComparison.Ordinal))
-        {
-            return BurstTalentType;
-        }
-
-        return string.Empty;
-    }
-
     internal static bool TryParseTalentLevel(string text, out int level)
     {
         level = 0;
@@ -1128,11 +1112,6 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
         return match.Success
                && int.TryParse(match.Value, out level)
                && level > 0;
-    }
-
-    internal static bool HasTalentBonus(string text)
-    {
-        return TalentBonusRegex.IsMatch(text);
     }
 
     internal static void ApplyTalentResult(CharacterDevelopmentResult result, string type, int level, bool hasBonus)
@@ -1212,13 +1191,18 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
         return new Rect(x, 0, capture.Width - x, capture.Height);
     }
 
-    private static string GetCategoryText(CharacterDevelopmentCategory category)
+    private string GetCategoryText(CharacterDevelopmentCategory category)
+    {
+        return _textRecognizer.GetPrimaryAlias(GetCategoryKey(category));
+    }
+
+    private static string GetCategoryKey(CharacterDevelopmentCategory category)
     {
         return category switch
         {
-            CharacterDevelopmentCategory.Attribute => "属性",
-            CharacterDevelopmentCategory.Weapon => "武器",
-            CharacterDevelopmentCategory.Talent => "天赋",
+            CharacterDevelopmentCategory.Attribute => GameTextKeys.Character.Attribute,
+            CharacterDevelopmentCategory.Weapon => GameTextKeys.Character.Weapon,
+            CharacterDevelopmentCategory.Talent => GameTextKeys.Character.Talent,
             _ => throw new ArgumentOutOfRangeException(nameof(category), category, "未知角色信息分类。")
         };
     }

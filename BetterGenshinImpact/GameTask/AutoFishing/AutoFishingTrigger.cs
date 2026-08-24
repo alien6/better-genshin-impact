@@ -61,7 +61,7 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
                             .CheckFishingUserInterfaceBehaviour("检查是否在钓鱼界面", this)
                             .FailureIsSuccess("拉条循环")
                                 .SequenceWithMemory("拉条")
-                                    .FishBite("自动提竿", _logger, input, ocrService, cultureInfo: autoFishingTaskParam.GameCultureInfo, stringLocalizer: autoFishingTaskParam.StringLocalizer)
+                                    .FishBite("自动提竿", _logger, input, ocrService, cultureInfo: autoFishingTaskParam.GameCultureInfo)
                                     .GetFishBoxArea("等待拉条出现", _logger, false)
                                     .Fishing("钓鱼拉条", _logger, false, input)
                                 .End()
@@ -171,18 +171,6 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
         //         WeakReferenceMessenger.Default.Send(new PropertyChangedMessage<object>(this, "RemoveButton", new object(), "开始自动钓鱼"));
         //     }
         // }
-
-        //private bool OcrStartFishingForExclusive(CaptureContent content)
-        //{
-        //    var srcMat = content.CaptureRectArea.SrcMat;
-        //    var rightBottomMat = CutHelper.CutRightBottom(srcMat, srcMat.Width / 2, srcMat.Height / 2);
-        //    var text = _ocrService.Ocr(rightBottomMat.ToBitmap());
-        //    if (!string.IsNullOrEmpty(text) && StringUtils.RemoveAllSpace(text).Contains("开始") && StringUtils.RemoveAllSpace(text).Contains("钓鱼"))
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
 
         /// <summary>
         /// 钓鱼有3种场景

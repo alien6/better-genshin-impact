@@ -4,6 +4,8 @@ using BetterGenshinImpact.GameTask.AutoPathing;
 using BetterGenshinImpact.GameTask.AutoPathing.Model;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
+using BetterGenshinImpact.GameTask.Common.GameText;
+using BetterGenshinImpact.GameTask.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
@@ -11,8 +13,6 @@ using System.Threading.Tasks;
 using BetterGenshinImpact.Core.Simulator.Extensions;
 using Vanara.PInvoke;
 using static BetterGenshinImpact.GameTask.Common.TaskControl;
-using Microsoft.Extensions.Localization;
-using System.Globalization;
 using BetterGenshinImpact.Helpers;
 using BetterGenshinImpact.Core.Recognition.OCR;
 using System.Collections.Generic;
@@ -36,13 +36,14 @@ public class GoToCraftingBenchTask
     private  OneDragonFlowConfig? SelectedConfig;
     private ObservableCollection<OneDragonFlowConfig> ConfigList = [];
     
-    private readonly string craftLocalizedString;
+    private readonly string _craftingSearchText;
 
     public GoToCraftingBenchTask()
     {
-        IStringLocalizer<GoToCraftingBenchTask> stringLocalizer = App.GetService<IStringLocalizer<GoToCraftingBenchTask>>() ?? throw new NullReferenceException();
-        CultureInfo cultureInfo = new CultureInfo(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
-        this.craftLocalizedString = stringLocalizer.WithCultureGet(cultureInfo, "合成");
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        var textRecognizer = new CommonJobTextRecognizer(matcher);
+        _craftingSearchText = textRecognizer.CraftingSearchText;
     }
     
     public async Task GoCraftResin(string country, CancellationToken ct)
@@ -243,7 +244,7 @@ public class GoToCraftingBenchTask
                 AutoSkipEnabled = true,
                 AutoRunEnabled = country != "枫丹",
             },
-            EndAction = region => Bv.FindFAndPress(region, text: this.craftLocalizedString)
+            EndAction = region => Bv.FindFAndPress(region, text: _craftingSearchText)
         };
         await pathingTask.Pathing(task);
 
@@ -290,7 +291,7 @@ public class GoToCraftingBenchTask
     private async Task<bool> TryPressCrafting( CancellationToken ct)
     {
         using var ra1 = CaptureToRectArea();
-        var res = Bv.FindFAndPress(ra1, text: this.craftLocalizedString);
+        var res = Bv.FindFAndPress(ra1, text: _craftingSearchText);
         if (res)
         {
             await Delay(1000, ct);

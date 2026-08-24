@@ -1,5 +1,5 @@
-using BetterGenshinImpact.GameTask.Model;
 using BetterGenshinImpact.Helpers;
+using BetterGenshinImpact.GameTask.Model;
 using Microsoft.ClearScript;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
@@ -21,7 +21,6 @@ namespace BetterGenshinImpact.GameTask.AutoFishing
         public int ThrowRodTimeOutTimeoutSeconds { get; set; }
         public FishingTimePolicy FishingTimePolicy { get; set; }
         public bool SaveScreenshotOnKeyTick { get; set; }
-
         /// <summary>
         /// 从JS请求参数构建任务参数
         /// </summary>

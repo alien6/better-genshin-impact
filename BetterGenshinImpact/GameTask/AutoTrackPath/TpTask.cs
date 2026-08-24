@@ -13,6 +13,7 @@ using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
 using BetterGenshinImpact.GameTask.Common.Exceptions;
 using BetterGenshinImpact.GameTask.Common.Job;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Common.Map.Maps;
 using BetterGenshinImpact.GameTask.Common.Map.Maps.Base;
 using BetterGenshinImpact.GameTask.Model.Area;
@@ -20,7 +21,6 @@ using BetterGenshinImpact.GameTask.QuickTeleport.Assets;
 using BetterGenshinImpact.Helpers;
 using BetterGenshinImpact.Helpers.Extensions;
 using Fischless.GameCapture;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using OpenCvSharp;
 using System;
@@ -49,7 +49,7 @@ public class TpTask
 
     private readonly CancellationToken ct;
     private readonly CultureInfo cultureInfo;
-    private readonly IStringLocalizer stringLocalizer;
+    private readonly TrackPathTextRecognizer textRecognizer;
 
     private const double DefaultDisplayTpPointZoomLevel = 4.4; // 传送点显示时的默认地图比例
     private const double MoonCanonDisplayTpPointZoomLevel = 3.0;
@@ -253,7 +253,10 @@ public class TpTask
         _assets = QuickTeleportAssets.Get(_captureRect.Width, _captureRect.Height);
         TpTaskParam param = new TpTaskParam();
         this.cultureInfo = param.GameCultureInfo;
-        this.stringLocalizer = param.StringLocalizer;
+        this.textRecognizer = new TrackPathTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."),
+            cultureInfo);
     }
 
     private static RecognitionObject GetQuickTeleportRecognitionObject(string objectName)
@@ -2436,7 +2439,6 @@ public class TpTask
     private async Task<bool> TrySwitchArea(string areaName)
     {
         GameCaptureRegion.GameRegionClick((rect, scale) => (rect.Width - 160 * scale, rect.Height - 60 * scale));
-        var minCountryLocalized = this.stringLocalizer.WithCultureGet(this.cultureInfo, areaName);
         var candidatesText = "";
         var stopwatch = Stopwatch.StartNew();
         while (stopwatch.ElapsedMilliseconds < SwitchAreaCandidateTimeoutMs)
@@ -2447,12 +2449,12 @@ public class TpTask
             candidatesText = FormatSwitchAreaCandidateTexts(list);
             var matchRect = list
                 .OrderByDescending(r => r.Y)
-                .FirstOrDefault(r => IsSwitchAreaCandidateMatch(r.Text, minCountryLocalized, areaName));
+                .FirstOrDefault(r => textRecognizer.IsSwitchAreaCandidateMatch(r.Text, areaName));
             if (matchRect != null)
             {
                 var clickedCandidateRect = new Rect(matchRect.X, matchRect.Y, matchRect.Width, matchRect.Height);
                 matchRect.Click();
-                await WaitForAreaSelectionApplied(areaName, minCountryLocalized, clickedCandidateRect);
+                await WaitForAreaSelectionApplied(areaName, clickedCandidateRect);
                 RememberAreaSwitchCenterPoint(areaName);
                 Logger.LogInformation("切换到区域：{Country}", areaName);
                 return true;
@@ -2470,7 +2472,6 @@ public class TpTask
 
     private async Task WaitForAreaSelectionApplied(
         string areaName,
-        string localizedAreaName,
         Rect clickedCandidateRect)
     {
         var stopwatch = Stopwatch.StartNew();
@@ -2480,7 +2481,7 @@ public class TpTask
             ct.ThrowIfCancellationRequested();
             using var capture = CaptureToRectArea();
             var clickedCandidateStillVisible = FindSwitchAreaCandidates(capture).Any(candidate =>
-                IsSwitchAreaCandidateMatch(candidate.Text, localizedAreaName, areaName) &&
+                textRecognizer.IsSwitchAreaCandidateMatch(candidate.Text, areaName) &&
                 IsSameSwitchAreaCandidatePosition(clickedCandidateRect, candidate));
 
             if (!clickedCandidateStillVisible &&
@@ -2532,13 +2533,6 @@ public class TpTask
             ["蒙德"] = ["蒙徳"],
             ["纳塔"] = ["娜塔"],
         };
-    }
-
-    private static bool IsSwitchAreaCandidateMatch(string candidateText, string localizedAreaName, string areaName)
-    {
-        var normalizedCandidate = NormalizeSwitchAreaCandidateText(candidateText);
-        return normalizedCandidate.Contains(NormalizeSwitchAreaCandidateText(localizedAreaName)) ||
-               normalizedCandidate.Contains(NormalizeSwitchAreaCandidateText(areaName));
     }
 
     private static string NormalizeSwitchAreaCandidateText(string text)

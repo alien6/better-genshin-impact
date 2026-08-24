@@ -4,6 +4,7 @@ using BetterGenshinImpact.Core.Simulator.Extensions;
 using BetterGenshinImpact.GameTask.AutoGeniusInvokation.Exception;
 using BetterGenshinImpact.GameTask.Common;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.View.Drawable;
 using Microsoft.Extensions.Logging;
@@ -109,9 +110,13 @@ public class QuickSereniteaPotTask
                 }
             }
             // 校验F交互是否是 进入/离开[尘歌壶] 
+            var textRecognizer = new RemainingGameTextRecognizer(
+                App.GetService<IGameTextMatcher>()
+                ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
+            var sereniteaPotText = textRecognizer.GetPrimaryAlias(GameTextKeys.WorldArea.SereniteaPot);
             using var capture = TaskControl.CaptureToRectArea();
-            bool isEnter = Bv.FindF(capture, "进入", "尘歌壶");
-            bool isLeave = Bv.FindF(capture, "离开", "尘歌壶");
+            bool isEnter = Bv.FindF(capture, textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Enter), sereniteaPotText);
+            bool isLeave = Bv.FindF(capture, textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Leave), sereniteaPotText);
 
             if (isEnter || isLeave) {
                 string action = isEnter ? "进入" : "离开";

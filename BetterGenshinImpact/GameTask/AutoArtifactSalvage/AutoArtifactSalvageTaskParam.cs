@@ -1,9 +1,7 @@
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace BetterGenshinImpact.GameTask.AutoArtifactSalvage
 {
@@ -23,5 +21,6 @@ namespace BetterGenshinImpact.GameTask.AutoArtifactSalvage
         public string? ArtifactSetFilter { get; set; }
         public int? MaxNumToCheck { get; set; }
         public RecognitionFailurePolicy? RecognitionFailurePolicy { get; set; }
+        public IGameTextMatcher? GameTextMatcher { get; init; }
     }
 }

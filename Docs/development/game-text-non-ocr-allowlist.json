@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoLeyLineOutcrop/AutoLeyLineOutcropTask.cs::TryUseRewardResinOnce::20",
+      "category": "raw-name-number-free-form",
+      "reason": "Language-independent numeric resin-cost extraction remains separate from semantic text recognition.",
+      "path": "BetterGenshinImpact/GameTask/AutoLeyLineOutcrop/AutoLeyLineOutcropTask.cs",
+      "symbol": "TryUseRewardResinOnce",
+      "literal": "20"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoLeyLineOutcrop/AutoLeyLineOutcropTask.cs::TryUseRewardResinOnce::40",
+      "category": "raw-name-number-free-form",
+      "reason": "Language-independent numeric resin-cost extraction remains separate from semantic text recognition.",
+      "path": "BetterGenshinImpact/GameTask/AutoLeyLineOutcrop/AutoLeyLineOutcropTask.cs",
+      "symbol": "TryUseRewardResinOnce",
+      "literal": "40"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs::TryFindTalentPoints::Lv",
+      "category": "raw-name-number-free-form",
+      "reason": "Compact level marker locates raw numeric talent rows; the number is parsed independently and Lv is invariant in supported game catalogs.",
+      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs",
+      "symbol": "TryFindTalentPoints",
+      "literal": "Lv"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/GameLoading/GameLoading.cs::GetBiliLoginWindow::bilibili",
+      "category": "protocol-window-title",
+      "reason": "Launcher window-title discriminator, not OCR text.",
+      "path": "BetterGenshinImpact/GameTask/GameLoading/GameLoading.cs",
+      "symbol": "GetBiliLoginWindow",
+      "literal": "bilibili"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/GameLoading/GameLoading.cs::GetBiliLoginWindow::协议",
+      "category": "protocol-window-title",
+      "reason": "Third-party launcher agreement window-title discriminator, not OCR text.",
+      "path": "BetterGenshinImpact/GameTask/GameLoading/GameLoading.cs",
+      "symbol": "GetBiliLoginWindow",
+      "literal": "协议"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/GameLoading/GameLoading.cs::GetBiliLoginWindow::登录",
+      "category": "protocol-window-title",
+      "reason": "Third-party launcher login window-title discriminator, not OCR text.",
+      "path": "BetterGenshinImpact/GameTask/GameLoading/GameLoading.cs",
+      "symbol": "GetBiliLoginWindow",
+      "literal": "登录"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs::LoginPrivate::bilibili",
+      "category": "protocol-window-title",
+      "reason": "Launcher window-title discriminator, not OCR text.",
+      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
+      "symbol": "LoginPrivate",
+      "literal": "bilibili"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs::LoginPrivate::协议",
+      "category": "protocol-window-title",
+      "reason": "Third-party launcher agreement window-title discriminator, not OCR text.",
+      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
+      "symbol": "LoginPrivate",
+      "literal": "协议"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs::LoginPrivate::登录",
+      "category": "protocol-window-title",
+      "reason": "Third-party launcher login window-title discriminator, not OCR text.",
+      "path": "BetterGenshinImpact/GameTask/AutoWood/Utils/Login3rdParty.cs",
+      "symbol": "LoginPrivate",
+      "literal": "登录"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/Model/GameUI/GridItemCountRecognizer.cs::RecognizeCropped::1",
+      "category": "raw-name-number-free-form",
+      "reason": "Language-independent numeric count fallback after OCR.",
+      "path": "BetterGenshinImpact/GameTask/Model/GameUI/GridItemCountRecognizer.cs",
+      "symbol": "RecognizeCropped",
+      "literal": "1"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::SwitchOriginalResinType::20",
+      "category": "raw-name-number-free-form",
+      "reason": "Language-independent numeric resin-cost selection remains separate from semantic OCR labels.",
+      "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
+      "symbol": "SwitchOriginalResinType",
+      "literal": "20"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::SwitchOriginalResinType::40",
+      "category": "raw-name-number-free-form",
+      "reason": "Language-independent numeric resin-cost selection remains separate from semantic OCR labels.",
+      "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
+      "symbol": "SwitchOriginalResinType",
+      "literal": "40"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::GetResinNum::20",
+      "category": "raw-name-number-free-form",
+      "reason": "Language-independent numeric resin quantity extraction remains separate from semantic OCR labels.",
+      "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
+      "symbol": "GetResinNum",
+      "literal": "20"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs::GetResinNum::40",
+      "category": "raw-name-number-free-form",
+      "reason": "Language-independent numeric resin quantity extraction remains separate from semantic OCR labels.",
+      "path": "BetterGenshinImpact/GameTask/AutoDomain/AutoDomainTask.cs",
+      "symbol": "GetResinNum",
+      "literal": "40"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs::IsBurstReadyByClassify::cd 1",
+      "category": "internal-identifier",
+      "reason": "Internal classifier class label returned by the burst-ready model; no OCR or localized game text is involved.",
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs",
+      "symbol": "IsBurstReadyByClassify",
+      "literal": "cd 1"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs::IsBurstReadyByClassify::energy 1 cd 0",
+      "category": "internal-identifier",
+      "reason": "Internal classifier class label returned by the burst-ready model; no OCR or localized game text is involved.",
+      "path": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs",
+      "symbol": "IsBurstReadyByClassify",
+      "literal": "energy 1 cd 0"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs::ReadTalentDetailWithRetry::<解析失败>",
+      "category": "internal-identifier",
+      "reason": "Internal diagnostic sentinel for an unsuccessful OCR parse; it is never compared with recognized game UI text.",
+      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs",
+      "symbol": "ReadTalentDetailWithRetry",
+      "literal": "<解析失败>"
+    }
+  ]
+}

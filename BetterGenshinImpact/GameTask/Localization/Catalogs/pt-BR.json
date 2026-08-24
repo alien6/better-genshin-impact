@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "culture": "pt-BR",
+  "entries": {
+    "common.revive": [
+      "Reviver",
+      "Reviver Personagem"
+    ],
+    "common.confirm": [
+      "Confirmar"
+    ],
+    "common.cancel": [
+      "Cancelar"
+    ],
+    "common.use": [
+      "Usar"
+    ],
+    "common.click_anywhere_to_close": [
+      "Clique em qualquer lugar para fechar"
+    ],
+    "common.crafting": [
+      "Sintetizar"
+    ],
+    "common.claim": [
+      "Resgatar"
+    ],
+    "common.all": [
+      "Tudo"
+    ],
+    "resin.original": [
+      "Resina Original"
+    ],
+    "resin.condensed": [
+      "Resina Condensada"
+    ],
+    "resin.fragile": [
+      "Resina Frágil"
+    ],
+    "resin.transient": [
+      "Resina Transiente"
+    ],
+    "resin.replenish": [
+      "Repor Resina Original"
+    ],
+    "resin.insufficient": [
+      "Você não possui Resina Original suficientes"
+    ],
+    "boss.full_resin_recovered": ["Resina Original totalmente recuperada"],
+    "boss.full_recovery": ["Recuperação total"],
+    "boss.quick_use": ["Uso Rápido"],
+    "boss.use_quantity": ["Quantidade a usar"],
+    "boss.obtain": ["Obtido"],
+    "boss.touch_trounce_blossom": ["Toque na Flor da Linha Ley"],
+    "boss.click_blank_area_to_continue": ["Clique em uma área em branco para continuar"],
+    "boss.use_prompt_lead": ["Usar"],
+    "boss.replenish_prompt_lead": ["Repor"],
+    "boss.replenish_prompt_original": ["Original"],
+    "boss.replenish_prompt_resin": ["Resina"],
+    "ley_line.double_reward": ["Recompensas em Dobro"],
+    "ley_line.double_reward_2x": ["2x"],
+    "ley_line.touch": ["Tocar"],
+    "ley_line.activate": ["Ativar"],
+    "ley_line.select": ["Selecione"],
+    "ley_line.line": ["Linha Ley"],
+    "ley_line.outcrop": ["Afloramento"],
+    "ley_line.blossom_of_wealth": ["Afloramento da Linha Ley: Flor da Riqueza"],
+    "ley_line.blossom_of_revelation": ["Afloramento da Linha Ley: Flor da Revelação"],
+    "ley_line.stop": ["Parar"],
+    "ley_line.original_resin_40_prompt": ["40 Resina Original"],
+    "domain.challenge_completed": [
+      "Desafio concluído"
+    ],
+    "domain.auto_leaving": [
+      "Saindo"
+    ],
+    "domain.skip": [
+      "Pular"
+    ],
+    "domain.ley_line_disorder": [
+      "Anomalia da Linha Ley"
+    ],
+    "domain.limited_time_fully_open": [
+      "Todos disponíveis por tempo limitado"
+    ],
+    "domain.solo_challenge": [
+      "Desafio Solo"
+    ],
+    "domain.start_challenge": [
+      "Iniciar Desafio"
+    ],
+    "domain.petrified_tree": [
+      "Árvore Petrificada"
+    ],
+    "domain.resin_use_prompt_lead": [
+      "Ainda deseja"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "desafiar"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "Domínio"
+    ],
+    "expedition.entry": [
+      "Expedição",
+      "Envie alguém para Expedição"
+    ],
+    "expedition.time_shortened": ["Tempo reduzido"],
+    "expedition.rewards_increased": ["Recompensas aumentadas"],
+    "expedition.no_bonus": ["Sem bônus"],
+    "expedition.complete": ["Expedição concluída"],
+    "expedition.in_progress": ["Expedição em andamento"],
+    "expedition.rewards": ["Recompensas de Expedição"],
+    "adventurers_guild.katheryne": [
+      "Katheryne"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "Missões Diárias",
+      "Comissões"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "A recompensa de hoje já foi coletada",
+      "Você já coletou a recompensa de hoje. Volte amanhã para mais missões!",
+      "A recompensa de hoje já foi resgatada"
+    ],
+    "serenitea_pot.spirit": [
+      "Tubby",
+      "Espírito do Bule"
+    ],
+    "serenitea_pot.trust_rank": [
+      "Nível de confiança"
+    ],
+    "serenitea_pot.realm_depot": [
+      "Tesouro do Paraíso Mágico"
+    ],
+    "fishing.bite": [
+      "Mordeu"
+    ],
+    "fishing.action": [
+      "Pescar"
+    ],
+    "world_area.serenitea_pot": [
+      "Bule de Relachá"
+    ],
+    "world_area.nod_krai": [
+      "Nod-Krai"
+    ],
+    "world_area.snezhnaya": [
+      "Snezhnaya"
+    ],
+    "world_area.fontaine": [
+      "Fontaine"
+    ],
+    "world_area.liyue": [
+      "Liyue"
+    ],
+    "world_area.inazuma": [
+      "Inazuma"
+    ],
+    "world_area.natlan": [
+      "Natlan"
+    ],
+    "world_area.mondstadt": [
+      "Mondstadt"
+    ],
+    "world_area.sumeru": [
+      "Sumeru"
+    ],
+    "artifact.quick_select": [
+      "Escolha rápida"
+    ],
+    "artifact.star_1": [
+      "Artefatos de 1 estrela"
+    ],
+    "artifact.star_2": [
+      "Artefatos de 2 estrelas"
+    ],
+    "artifact.star_3": [
+      "Artefatos de 3 estrelas"
+    ],
+    "artifact.star_4": [
+      "Artefatos de 4 estrelas"
+    ],
+    "artifact.affix.atk": [
+      "ATQ"
+    ],
+    "artifact.affix.def": [
+      "DEF"
+    ],
+    "artifact.affix.hp": [
+      "Vida"
+    ],
+    "artifact.affix.crit_rate": [
+      "Taxa Crítica"
+    ],
+    "artifact.affix.crit_dmg": [
+      "Dano Crítico"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "Proficiência Elemental"
+    ],
+    "artifact.affix.energy_recharge": [
+      "Recarga de Energia"
+    ],
+    "artifact.affix.healing_bonus": [
+      "Bônus de Cura"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "Bônus de Dano Físico"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "Bônus de Dano Pyro"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "Bônus de Dano Hydro"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "Bônus de Dano Dendro"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "Bônus de Dano Electro"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "Bônus de Dano Anemo"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "Bônus de Dano Cryo"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "Bônus de Dano Geo"
+    ],
+    "stygian.return": ["Voltar"],
+    "stygian.challenge_failed": ["Desafio Fracassado"],
+    "stygian.retry_challenge": ["Tentar Novamente"],
+    "stygian.ley_line_blossom": ["Flor de Linha Ley"],
+    "stygian.character_preview": ["Pré-visualização de Personagem"],
+    "stygian.event_name": ["Confronto Abissal"],
+    "stygian.event_overview": ["Visão geral do evento"],
+    "stygian.reward_phase": ["Período de Erupção de Caos"],
+    "stygian.phase_ended": ["Encerrado"],
+    "stygian.go_to_challenge": ["Ir para o Desafio"],
+    "stygian.hard_difficulty": ["Difícil"],
+    "stygian.ultimate_challenge": ["Desafio Ameaçador"],
+    "stygian.normal_challenge": ["Desafio Normal"],
+    "stygian.preset_teams": ["Equipes Predefinidas"],
+    "common.goodbye": [
+      "Adeus"
+    ],
+    "common.obtained": [
+      "Obtido"
+    ],
+    "auto_pick.suppressed_label": [
+      "muito tempo",
+      "Local de Encontro",
+      "Clinc-Clanc",
+      "Bastião do Vento Oeste",
+      "Acampamento de Vigília do Penhasco",
+      "Jardim da Bruxa",
+      "Carta do Oráculo Lunar"
+    ],
+    "auto_pick.tribe_lead": [
+      "Estou com"
+    ],
+    "auto_pick.tribe_marker": [
+      "Reputação",
+      "Ecos",
+      "Descendentes das Copas",
+      "Povo das Termas"
+    ],
+    "auto_pick.frostmoon": [
+      "Lua Gélida"
+    ],
+    "auto_pick.workshop": [
+      "Oficina"
+    ],
+    "auto_pick.egg_roll": [
+      "Bolo Crocante"
+    ],
+    "character.talent_introduction": [
+      "Informações do Talento"
+    ],
+    "character.talent_level": [
+      "Nível do Talento"
+    ],
+    "character.attribute": [
+      "Atributos"
+    ],
+    "character.weapon": [
+      "Arma"
+    ],
+    "character.talent": [
+      "Talentos"
+    ],
+    "game_loading.age_prompt": [
+      "classificação etária",
+      "respons"
+    ],
+    "inventory.enhancement_ore": [
+      "Minério de Refinamento",
+      "Minério de Refinamento Fino",
+      "Minério de Refinamento Místico"
+    ],
+    "wood.material": [
+      "Madeira de Malva",
+      "Madeira de Freixo Branco",
+      "Madeira de Tocha",
+      "Madeira de Tília",
+      "Madeira de Cipreste",
+      "Madeira de Tamareira",
+      "Madeira de Tamarisco",
+      "Madeira Brilhante",
+      "Madeira de Karmaphala",
+      "Madeira de Adhigama",
+      "Madeira de Bordo",
+      "Madeira de Cedro Fragrante",
+      "Madeira de Abeto",
+      "Segmento de Bambu",
+      "Madeira de Arenária",
+      "Madeira de Pinheiro",
+      "Madeira de Cuihua",
+      "Madeira de Bétula",
+      "Madeira de Arália",
+      "Madeira de Yumemiru",
+      "Madeira de Otogi",
+      "Madeira de Explosão",
+      "Madeira de Palmeira-Pêssego",
+      "Madeira de Aratiku Cinzento",
+      "Madeira de Carvalho-Castanheiro Branco"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "Não é possível resgatar EXP de Amizade"
+    ],
+    "serenitea_pot.sold_out": [
+      "Esgotado"
+    ],
+    "artifact.set_contains": [
+      "O Conjunto Inclui"
+    ],
+    "character.normal_attack": [
+      "Ataque Normal"
+    ],
+    "character.elemental_skill": [
+      "Habilidade Elemental"
+    ],
+    "character.elemental_burst": [
+      "Supremo"
+    ],
+    "common.clear": [
+      "Limpar"
+    ],
+    "common.filter": [
+      "Filtrar"
+    ],
+    "common.enter": [
+      "Entrar"
+    ],
+    "common.leave": [
+      "Sair"
+    ],
+    "common.paste": [
+      "Colar"
+    ],
+    "party.confirm_filter": [
+      "Confirmar Filtro"
+    ],
+    "party.configuration_unavailable": [
+      "Não é possível configurar a equipe no estado atual"
+    ],
+    "party.elemental_resonance": [
+      "Ressonância Elemental"
+    ],
+    "party.configuration": [
+      "Configuração da Equipe"
+    ],
+    "party.remove": [
+      "Remover"
+    ],
+    "party.friendship": [
+      "Amizade"
+    ],
+    "party.replace": [
+      "Substituir"
+    ],
+    "party.join": [
+      "Adicionar"
+    ],
+    "party.order": [
+      "Ordem"
+    ],
+    "redemption.account": [
+      "Conta"
+    ],
+    "redemption.go_to_redeem": [
+      "Ir para Resgatar"
+    ],
+    "redemption.redeem_reward": [
+      "Resgatar Recompensa"
+    ],
+    "redemption.success": [
+      "Resgate realizado com sucesso"
+    ],
+    "expedition.select_character": [
+      "Selecionar Personagem"
+    ],
+    "expedition.character_selection": [
+      "Seleção de Personagem"
+    ],
+    "ley_line.fight_success": [
+      "Desafio concluído",
+      "Vitória",
+      "Desafio bem-sucedido"
+    ],
+    "ley_line.fight_failure": [
+      "Desafio Fracassado"
+    ],
+    "ley_line.fight_objective": [
+      "Derrote",
+      "todos",
+      "inimigos"
+    ]
+  }
+}

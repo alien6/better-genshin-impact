@@ -1,11 +1,12 @@
 using BetterGenshinImpact.Core.Recognition.ONNX;
+using System;
 using System.Collections.Concurrent;
 using System.Globalization;
 using BetterGenshinImpact.Core.Recognition.OCR.Paddle;
 
 namespace BetterGenshinImpact.UnitTest.CoreTests.RecognitionTests.OCRTests
 {
-    public class PaddleFixture
+    public class PaddleFixture : IDisposable
     {
         private readonly ConcurrentDictionary<string, PaddleOcrService> _paddleOcrServices = new();
 
@@ -31,6 +32,16 @@ namespace BetterGenshinImpact.UnitTest.CoreTests.RecognitionTests.OCRTests
                     }
                 }
             });
+        }
+
+        public void Dispose()
+        {
+            foreach (var service in _paddleOcrServices.Values)
+            {
+                service.Dispose();
+            }
+
+            _paddleOcrServices.Clear();
         }
     }
 }

@@ -29,6 +29,21 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="..\..\BetterGenshinImpact\GameTask\Localization\Catalogs\source-manifest.json"
+              Link="Assets\GameText\source-manifest.json"
+              CopyToOutputDirectory="PreserveNewest" />
+        <None Update="Fixtures\OCR\pt-BR-resina-original.png"
+              Link="Assets\OCR\pt-BR-resina-original.png"
+              CopyToOutputDirectory="PreserveNewest" />
+        <None Update="Fixtures\OCR\pt-BR-escolha-rapida.png"
+              Link="Assets\OCR\pt-BR-escolha-rapida.png"
+              CopyToOutputDirectory="PreserveNewest" />
+        <None Update="Fixtures\OCR\pt-BR-artefatos-4-estrelas.png"
+              Link="Assets\OCR\pt-BR-artefatos-4-estrelas.png"
+              CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Folder Include="Assets\AutoFight\" />
     </ItemGroup>
 

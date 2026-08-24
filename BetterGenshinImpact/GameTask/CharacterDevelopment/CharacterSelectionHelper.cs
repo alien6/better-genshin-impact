@@ -4,6 +4,7 @@ using BetterGenshinImpact.Core.Recognition.OCR;
 using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.GameTask.AutoFight.Config;
 using BetterGenshinImpact.GameTask.Common.Job;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.Model.GameUI;
 using Microsoft.Extensions.Logging;
@@ -140,12 +141,12 @@ internal static class CharacterSelectionHelper
             .ToList();
     }
 
-    public static bool IsFilterApplied(ImageRegion capture, double assetScale) =>
-        ContainsText(capture, "清除", GetClearFilterRoi(assetScale));
+    public static bool IsFilterApplied(ImageRegion capture, double assetScale, RemainingGameTextRecognizer textRecognizer) =>
+        ContainsTextKey(capture, textRecognizer, GameTextKeys.Common.Clear, GetClearFilterRoi(assetScale));
 
     public static void ClearFilter(BvPage page, double assetScale, ILogger logger)
     {
-        if (!TryClickText(page, "清除", GetClearFilterRoi(assetScale)))
+        if (!TryClickTextKey(page, GameTextKeys.Common.Clear, GetClearFilterRoi(assetScale)))
         {
             logger.LogDebug("角色养成识别：未找到清除筛选按钮，继续执行");
         }
@@ -154,8 +155,8 @@ internal static class CharacterSelectionHelper
     private static Rect GetClearFilterRoi(double assetScale) =>
         Rect1080(assetScale, 605, 925, 54, 28);
 
-    public static bool IsFilterPanel(ImageRegion capture, double assetScale) =>
-        ContainsText(capture, "确认筛选", GetConfirmFilterRoi(assetScale));
+    public static bool IsFilterPanel(ImageRegion capture, double assetScale, RemainingGameTextRecognizer textRecognizer) =>
+        ContainsTextKey(capture, textRecognizer, GameTextKeys.Party.ConfirmFilter, GetConfirmFilterRoi(assetScale));
 
     public static Rect GetElementFilterOptionsRoi(double assetScale) =>
         Rect1080(assetScale, 35, 150, 745, 360);
@@ -189,6 +190,29 @@ internal static class CharacterSelectionHelper
         }
     }
 
+    public static bool TryClickTextKey(BvPage page, string key, Rect roi)
+    {
+        var regions = page.GetByTextKey(key, roi).FindAll();
+        try
+        {
+            var region = regions.OrderBy(item => item.Y).ThenBy(item => item.X).FirstOrDefault();
+            if (region == null)
+            {
+                return false;
+            }
+
+            region.Click();
+            return true;
+        }
+        finally
+        {
+            foreach (var region in regions)
+            {
+                region.Dispose();
+            }
+        }
+    }
+
     private static bool ContainsText(ImageRegion capture, string text, Rect roi)
     {
         var regions = capture.FindMulti(RecognitionObject.Ocr(roi));
@@ -196,6 +220,22 @@ internal static class CharacterSelectionHelper
         {
             var matched = regions.Any(region => region.Text.Contains(text, StringComparison.Ordinal));
             return matched;
+        }
+        finally
+        {
+            foreach (var region in regions)
+            {
+                region.Dispose();
+            }
+        }
+    }
+
+    private static bool ContainsTextKey(ImageRegion capture, RemainingGameTextRecognizer textRecognizer, string key, Rect roi)
+    {
+        var regions = capture.FindMulti(RecognitionObject.Ocr(roi));
+        try
+        {
+            return regions.Any(region => textRecognizer.IsMatch(region.Text, key));
         }
         finally
         {

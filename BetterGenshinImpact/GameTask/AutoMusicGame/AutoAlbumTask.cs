@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask.AutoGeniusInvokation.Exception;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.Service.Notification;
 using BetterGenshinImpact.Service.Notification.Model.Enum;
@@ -22,6 +23,9 @@ public class AutoAlbumTask(AutoMusicGameParam taskParam) : ISoloTask
     public string Name => "自动音游专辑";
 
     private AutoMusicGameTask _autoMusicGameTask = new AutoMusicGameTask(taskParam);
+    private readonly RemainingGameTextRecognizer _textRecognizer = new(
+        App.GetService<IGameTextMatcher>()
+        ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
 
     public async Task Start(CancellationToken ct)
     {
@@ -58,7 +62,7 @@ public class AutoAlbumTask(AutoMusicGameParam taskParam) : ISoloTask
             // OCR 后再次判断，区分是否是全部歌曲页面
             using var ocrArea = ra1.DeriveCrop(iconRa.Right, iconRa.Top, ra1.Width * 0.16, iconRa.Height);
             var ocrRes = ocrArea.FindMulti(RecognitionObject.OcrThis);
-            if (ocrRes.Any(region => region.Text.Contains("全部")))
+            if (ocrRes.Any(region => _textRecognizer.IsMatch(region.Text, GameTextKeys.Common.All)))
             {
                 throw new Exception("当前在全部歌曲页面，此页面无法运行本任务。请返回到主界面选择专辑列表中以国家为主题的专辑页！");
             }

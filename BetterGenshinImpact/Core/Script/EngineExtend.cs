@@ -20,6 +20,7 @@ using BetterGenshinImpact.GameTask.AutoLeyLineOutcrop;
 using BetterGenshinImpact.GameTask.AutoSkip;
 using BetterGenshinImpact.GameTask.AutoStygianOnslaught;
 using BetterGenshinImpact.GameTask.CharacterDevelopment;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.GameUI;
 using Region = BetterGenshinImpact.GameTask.Model.Area.Region;
 
@@ -36,6 +37,11 @@ public class EngineExtend
     public static void InitHost(IScriptEngine engine, string workDir, string[]? searchPaths = null, object? config = null)
     {
         // engine.AddHostObject("xHost", new ExtendedHostFunctions());  // 有越权的安全风险
+
+        AddGameTextHostObject(
+            engine,
+            App.GetService<IGameTextMatcher>() ?? throw new InvalidOperationException("IGameTextMatcher is not registered."),
+            App.GetService<IGameCultureProvider>() ?? throw new InvalidOperationException("IGameCultureProvider is not registered."));
 
         // 添加我的自定义实例化对象
         engine.AddHostObject("keyMouseScript", new KeyMouseScript(workDir));
@@ -132,6 +138,18 @@ public class EngineExtend
                 engine.DocumentSettings.SearchPath = string.Join(';', normalizedPaths);
             }
         }
+    }
+
+    internal static void AddGameTextHostObject(
+        IScriptEngine engine,
+        IGameTextMatcher matcher,
+        IGameCultureProvider cultureProvider)
+    {
+        ArgumentNullException.ThrowIfNull(engine);
+        ArgumentNullException.ThrowIfNull(matcher);
+        ArgumentNullException.ThrowIfNull(cultureProvider);
+
+        engine.AddHostObject("gameText", new GameTextScriptApi(matcher, cultureProvider));
     }
 
     public static void AddAllGlobalMethod(IScriptEngine engine)

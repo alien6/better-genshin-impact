@@ -5,6 +5,7 @@ using BetterGenshinImpact.Core.Recognition.ONNX.SVTR;
 using BetterGenshinImpact.Core.Script.Dependence.Model.TimerConfig;
 using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.GameTask.AutoPick.Assets;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.Helpers;
 using BetterGenshinImpact.Service;
 using BetterGenshinImpact.View.Windows;
@@ -57,9 +58,13 @@ public partial class AutoPickTrigger : ITaskTrigger
 
     // 外部配置
     private AutoPickExternalConfig? _externalConfig;
+    private readonly RemainingGameTextRecognizer _textRecognizer;
 
     public AutoPickTrigger()
     {
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new RemainingGameTextRecognizer(matcher);
     }
 
     public AutoPickTrigger(AutoPickExternalConfig? config) : this()
@@ -315,21 +320,6 @@ public partial class AutoPickTrigger : ITaskTrigger
                     boundingRect.Right + 5 < textMat.Width ? boundingRect.Right + 5 : textMat.Width, textMat.Height));
                 text = OcrFactory.Paddle.OcrWithoutDetector(textOnlyMat);
 
-                // if (RuntimeHelper.IsDebug)
-                // {
-                //     // 如果不等于正确文字，则保存图片
-                //     if (text != "烹饪")
-                //     {
-                //         var path = Global.Absolute("log/pick");
-                //         Directory.CreateDirectory(path);
-                //         var str = $"{DateTime.Now:yyyyMMddHHmmssfff}";
-                //         // textMat.SaveImage(Path.Combine(path, $"pick_ocr_ori_{str}.png"));
-                //         // 画上 boundingRect
-                //         Cv2.Rectangle(textMat, boundingRect, new Scalar(0, 0, 255), 1);
-                //         textMat.SaveImage(Path.Combine(path, $"pick_ocr_rect_{str}.png"));
-                //         bin.SaveImage(Path.Combine(path, $"bin_{str}.png"));
-                //     }
-                // }
             }
             else
             {
@@ -405,46 +395,7 @@ public partial class AutoPickTrigger : ITaskTrigger
 
     private bool DoNotPick(string text)
     {
-        // 唯一一个动态拾取项，特殊处理，不拾取
-        if (text.Contains("长时间"))
-        {
-            return true;
-        }
-
-        // 纳塔部落中文名特殊处理，不拾取
-        if (text.Contains("我在") && (text.Contains("声望") || text.Contains("回声") || text.Contains("悬木人") ||
-                                    text.Contains("流泉")))
-        {
-            return true;
-        }
-
-        // 挪德卡莱聚所中文名特殊处理，不拾取
-        if (text.Contains("聚所"))
-        {
-            return true;
-        }
-
-        if (text.Contains("霜月") && text.Contains("坊"))
-        {
-            return true;
-        }
-
-        if (text.Contains("叮铃") || text.Contains("眶螂") || (text.Contains("蛋卷") && text.Contains("坊")))
-        {
-            return true;
-        }
-
-        if (text.Contains("西风成垒") || text.Contains("望崖营壁") || text.Contains("魔女的花园"))
-        {
-            return true;
-        }
-        
-        if (text.Contains("月谕圣牌"))
-        {
-            return true;
-        }
-
-        return false;
+        return _textRecognizer.ShouldSuppressPickup(text);
     }
 
     public static Rect GetWhiteTextBoundingRect(Mat textMat)

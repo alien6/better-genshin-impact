@@ -1,0 +1,417 @@
+{
+  "schemaVersion": 1,
+  "culture": "ja",
+  "entries": {
+    "common.revive": [
+      "復活",
+      "キャラを復活"
+    ],
+    "common.confirm": [
+      "OK"
+    ],
+    "common.cancel": [
+      "キャンセル"
+    ],
+    "common.use": [
+      "使う"
+    ],
+    "common.click_anywhere_to_close": [
+      "任意の場所をクリックして閉じる"
+    ],
+    "common.crafting": [
+      "錬金合成"
+    ],
+    "common.claim": [
+      "受け取る"
+    ],
+    "common.all": [
+      "すべて"
+    ],
+    "resin.original": [
+      "天然樹脂"
+    ],
+    "resin.condensed": [
+      "濃縮樹脂"
+    ],
+    "resin.fragile": [
+      "脆弱樹脂"
+    ],
+    "resin.transient": [
+      "刹那樹脂"
+    ],
+    "resin.replenish": [
+      "天然樹脂を補充する"
+    ],
+    "resin.insufficient": [
+      "現在天然樹脂が足りませんので"
+    ],
+    "boss.full_resin_recovered": ["天然樹脂はすべて回復しました"],
+    "boss.full_recovery": ["すべて回復"],
+    "boss.quick_use": ["クイック使用"],
+    "boss.use_quantity": ["使用数"],
+    "boss.obtain": ["獲得"],
+    "boss.touch_trounce_blossom": ["征討の花に触れる"],
+    "boss.click_blank_area_to_continue": ["空白部分をクリックして続ける"],
+    "boss.use_prompt_lead": ["使用"],
+    "boss.replenish_prompt_lead": ["補充"],
+    "boss.replenish_prompt_original": ["天然"],
+    "boss.replenish_prompt_resin": ["樹脂"],
+    "ley_line.double_reward": ["2倍の報酬"],
+    "ley_line.double_reward_2x": ["2倍"],
+    "ley_line.touch": ["接触"],
+    "ley_line.activate": ["活性化"],
+    "ley_line.select": ["選択"],
+    "ley_line.line": ["地脈"],
+    "ley_line.outcrop": ["地脈の花"],
+    "ley_line.blossom_of_wealth": ["地脈の花芽·蔵金の花"],
+    "ley_line.blossom_of_revelation": ["地脈の花芽・啓示の花"],
+    "ley_line.stop": ["停止する"],
+    "ley_line.original_resin_40_prompt": ["40天然樹脂"],
+    "domain.challenge_completed": [
+      "挑戦完了"
+    ],
+    "domain.auto_leaving": [
+      "自動的に終了"
+    ],
+    "domain.skip": [
+      "スキップ"
+    ],
+    "domain.ley_line_disorder": [
+      "地脈異常"
+    ],
+    "domain.limited_time_fully_open": [
+      "期間限定ですべて開放"
+    ],
+    "domain.solo_challenge": [
+      "ソロ挑戦"
+    ],
+    "domain.start_challenge": [
+      "挑戦開始"
+    ],
+    "domain.petrified_tree": [
+      "石化古樹"
+    ],
+    "domain.resin_use_prompt_lead": [
+      "引き続き"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "挑戦"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "秘境"
+    ],
+    "expedition.entry": [
+      "探索派遣"
+    ],
+    "expedition.time_shortened": ["時間短縮"],
+    "expedition.rewards_increased": ["報酬増加"],
+    "expedition.no_bonus": ["ボーナスなし"],
+    "expedition.complete": ["探索完了"],
+    "expedition.in_progress": ["探索中"],
+    "expedition.rewards": ["探索派遣報酬"],
+    "adventurers_guild.katheryne": [
+      "キャサリン"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "デイリー依頼"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "本日の報酬は受け取り済み"
+    ],
+    "serenitea_pot.spirit": [
+      "マル",
+      "壺の精霊"
+    ],
+    "serenitea_pot.trust_rank": [
+      "信頼ランク"
+    ],
+    "serenitea_pot.realm_depot": [
+      "洞天百貨"
+    ],
+    "fishing.bite": [
+      "ヒット"
+    ],
+    "fishing.action": [
+      "釣り"
+    ],
+    "world_area.serenitea_pot": [
+      "塵歌壺"
+    ],
+    "world_area.nod_krai": [
+      "ナド・クライ"
+    ],
+    "world_area.snezhnaya": [
+      "スネージナヤ"
+    ],
+    "world_area.fontaine": [
+      "フォンテーヌ"
+    ],
+    "world_area.liyue": [
+      "璃月"
+    ],
+    "world_area.inazuma": [
+      "稲妻"
+    ],
+    "world_area.natlan": [
+      "ナタ"
+    ],
+    "world_area.mondstadt": [
+      "モンド"
+    ],
+    "world_area.sumeru": [
+      "スメール"
+    ],
+    "artifact.quick_select": [
+      "クイック選択"
+    ],
+    "artifact.star_1": [
+      "★1聖遺物"
+    ],
+    "artifact.star_2": [
+      "★2聖遺物"
+    ],
+    "artifact.star_3": [
+      "★3聖遺物"
+    ],
+    "artifact.star_4": [
+      "★4聖遺物"
+    ],
+    "artifact.affix.atk": [
+      "攻撃力"
+    ],
+    "artifact.affix.def": [
+      "防御力"
+    ],
+    "artifact.affix.hp": [
+      "HP"
+    ],
+    "artifact.affix.crit_rate": [
+      "会心率"
+    ],
+    "artifact.affix.crit_dmg": [
+      "会心ダメージ"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "元素熟知"
+    ],
+    "artifact.affix.energy_recharge": [
+      "元素チャージ効率"
+    ],
+    "artifact.affix.healing_bonus": [
+      "与える治療効果"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "物理ダメージ"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "炎元素ダメージ"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "水元素ダメージ"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "草元素ダメージ"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "雷元素ダメージ"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "風元素ダメージ"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "氷元素ダメージ"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "岩元素ダメージ"
+    ],
+    "stygian.return": ["戻る"],
+    "stygian.challenge_failed": ["挑戦失敗"],
+    "stygian.retry_challenge": ["再挑戦"],
+    "stygian.ley_line_blossom": ["地脈の花"],
+    "stygian.character_preview": ["キャラプレビュー"],
+    "stygian.event_name": ["幽境の激戦"],
+    "stygian.event_overview": ["イベント概要"],
+    "stygian.reward_phase": ["乱流爆発期"],
+    "stygian.phase_ended": ["終了"],
+    "stygian.go_to_challenge": ["挑戦へ"],
+    "stygian.hard_difficulty": ["困難"],
+    "stygian.ultimate_challenge": ["至難の挑戦"],
+    "stygian.normal_challenge": ["通常挑戦"],
+    "stygian.preset_teams": ["チーム編成"],
+    "common.goodbye": [
+      "さようなら"
+    ],
+    "common.obtained": [
+      "獲得"
+    ],
+    "auto_pick.suppressed_label": [
+      "長時間",
+      "集会所",
+      "チリン",
+      "西風の砦",
+      "崖見張りの陣",
+      "魔女の庭",
+      "月諭の聖牌"
+    ],
+    "auto_pick.tribe_lead": [
+      "私は"
+    ],
+    "auto_pick.tribe_marker": [
+      "評判",
+      "こだま",
+      "懸木の民",
+      "流泉の衆"
+    ],
+    "auto_pick.frostmoon": [
+      "霜月"
+    ],
+    "auto_pick.workshop": [
+      "工房"
+    ],
+    "auto_pick.egg_roll": [
+      "クルムカケ"
+    ],
+    "character.talent_introduction": [
+      "天賦紹介"
+    ],
+    "character.talent_level": [
+      "天賦Lv."
+    ],
+    "character.attribute": [
+      "ステータス"
+    ],
+    "character.weapon": [
+      "武器"
+    ],
+    "character.talent": [
+      "天賦"
+    ],
+    "game_loading.age_prompt": [
+      "対象年齢",
+      "保護者"
+    ],
+    "inventory.enhancement_ore": [
+      "仕上げ用雑鉱",
+      "仕上げ用良鉱",
+      "仕上げ用魔鉱"
+    ],
+    "wood.material": [
+      "マロウ材",
+      "ホワイトアッシュ材",
+      "トーチ材",
+      "リンデン材",
+      "コウハクジュ材",
+      "ナツメヤシ材",
+      "タマリスク材",
+      "輝光材",
+      "カルマパラ材",
+      "アディガマ材",
+      "カエデ材",
+      "垂香材",
+      "杉材",
+      "竹材",
+      "却砂材",
+      "松材",
+      "萃華材",
+      "樺材",
+      "孔雀材",
+      "夢見材",
+      "御伽材",
+      "フレイムボム材",
+      "ピーチココナッツ材",
+      "灰灰楼林材",
+      "ホワイトオーク材"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "好感度経験値を受け取れません"
+    ],
+    "serenitea_pot.sold_out": [
+      "売り切れ"
+    ],
+    "artifact.set_contains": [
+      "セット内容"
+    ],
+    "character.normal_attack": [
+      "通常攻撃"
+    ],
+    "character.elemental_skill": [
+      "元素スキル"
+    ],
+    "character.elemental_burst": [
+      "元素爆発"
+    ],
+    "common.clear": [
+      "クリア"
+    ],
+    "common.filter": [
+      "フィルター"
+    ],
+    "common.enter": [
+      "入る"
+    ],
+    "common.leave": [
+      "出る"
+    ],
+    "common.paste": [
+      "貼り付け"
+    ],
+    "party.confirm_filter": [
+      "絞り込みを確定"
+    ],
+    "party.configuration_unavailable": [
+      "現在の状態ではチーム編成を行えません"
+    ],
+    "party.elemental_resonance": [
+      "元素共鳴"
+    ],
+    "party.configuration": [
+      "チーム編成"
+    ],
+    "party.remove": [
+      "外す"
+    ],
+    "party.friendship": [
+      "好感度"
+    ],
+    "party.replace": [
+      "変更"
+    ],
+    "party.join": [
+      "加入"
+    ],
+    "party.order": [
+      "順序"
+    ],
+    "redemption.account": [
+      "アカウント"
+    ],
+    "redemption.go_to_redeem": [
+      "交換へ"
+    ],
+    "redemption.redeem_reward": [
+      "報酬を交換"
+    ],
+    "redemption.success": [
+      "交換成功"
+    ],
+    "expedition.select_character": [
+      "キャラクターを選択"
+    ],
+    "expedition.character_selection": [
+      "キャラクター選択"
+    ],
+    "ley_line.fight_success": [
+      "挑戦達成",
+      "戦闘勝利",
+      "挑戦成功"
+    ],
+    "ley_line.fight_failure": [
+      "挑戦失敗"
+    ],
+    "ley_line.fight_objective": [
+      "倒す",
+      "すべて",
+      "敵"
+    ]
+  }
+}

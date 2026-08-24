@@ -3,6 +3,7 @@ using BetterGenshinImpact.Core.Config;
 using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.GameTask.Common.Reward;
 using BetterGenshinImpact.GameTask.GetGridIcons;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.Model.GameUI;
 using BetterGenshinImpact.Helpers;
@@ -96,6 +97,7 @@ public class CraftMaterialTask
     private readonly string _materialName;
     private readonly int _targetQuantity;
     private readonly string? _materialType;
+    private readonly RemainingGameTextRecognizer _textRecognizer;
     private BvPage? _page;
     private CancellationToken _ct;
 
@@ -116,6 +118,9 @@ public class CraftMaterialTask
         _materialName = materialName?.Trim() ?? string.Empty;
         _targetQuantity = targetQuantity;
         _materialType = string.IsNullOrWhiteSpace(materialType) ? null : materialType.Trim();
+        _textRecognizer = new RemainingGameTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
     }
 
     /// <summary>
@@ -262,8 +267,8 @@ public class CraftMaterialTask
     /// <returns>处于合成界面时返回 true。</returns>
     private bool IsInCraftingUi()
     {
-        return ContainsText(Rect1080(40, 960, 720, 105), "筛选")
-               && ContainsText(Rect1080(0, 0, 260, 95), "合成");
+        return ContainsText(Rect1080(40, 960, 720, 105), _textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Filter))
+               && ContainsText(Rect1080(0, 0, 260, 95), _textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Crafting));
     }
 
     /// <summary>
@@ -294,7 +299,7 @@ public class CraftMaterialTask
             {
                 return true;
             }
-            await Page.GetByText("筛选", Rect1080(90, 1000, 60, 33)).Click(3000);
+            await Page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Filter), Rect1080(90, 1000, 60, 33)).Click(3000);
             await Page.GetByText(materialType, Rect1080(35, 124, 243, 615)).Click(5000);
             return true;
         }
@@ -546,10 +551,10 @@ public class CraftMaterialTask
             var rewards = CreateDefaultCraftRewards(actualQuantity);
 
             // 分别是右下角合成按钮、弹窗确认合成按钮、弹窗产物确认按钮。
-            await Page.GetByText("合成", Rect1080(1588, 967, 332, 113)).Click(5000);
-            await Page.GetByText("确认", Rect1080(980, 725, 370, 70)).Click(5000);
+            await Page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Crafting), Rect1080(1588, 967, 332, 113)).Click(5000);
+            await Page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Confirm), Rect1080(980, 725, 370, 70)).Click(5000);
 
-            var resultConfirmButtons = await Page.GetByText("确认", Rect1080(790, 875, 340, 65)).WaitFor(5000);
+            var resultConfirmButtons = await Page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Confirm), Rect1080(790, 875, 340, 65)).WaitFor(5000);
             rewards = RecognizeCraftRewards(actualQuantity);
 
             resultConfirmButtons.First().Click();

@@ -1,0 +1,431 @@
+{
+  "schemaVersion": 1,
+  "culture": "en",
+  "entries": {
+    "common.revive": [
+      "Revive",
+      "Revive Character",
+      "revival"
+    ],
+    "common.confirm": [
+      "Confirm"
+    ],
+    "common.cancel": [
+      "Cancel"
+    ],
+    "common.use": [
+      "Use"
+    ],
+    "common.click_anywhere_to_close": [
+      "Click anywhere to close",
+      "Click.*any.*where.*to.*close"
+    ],
+    "common.crafting": [
+      "Craft"
+    ],
+    "common.claim": [
+      "Claim"
+    ],
+    "common.all": [
+      "All"
+    ],
+    "resin.original": [
+      "Original Resin"
+    ],
+    "resin.condensed": [
+      "Condensed Resin"
+    ],
+    "resin.fragile": [
+      "Fragile Resin"
+    ],
+    "resin.transient": [
+      "Transient Resin"
+    ],
+    "resin.replenish": [
+      "Replenish Original Resin"
+    ],
+    "resin.insufficient": [
+      "You don't have enough Original Resin"
+    ],
+    "boss.full_resin_recovered": ["Original Resin fully recovered"],
+    "boss.full_recovery": ["Full Recovery"],
+    "boss.quick_use": ["Quick Use"],
+    "boss.use_quantity": ["Amount Used"],
+    "boss.obtain": ["Obtained"],
+    "boss.touch_trounce_blossom": ["Touch the Trounce Blossom"],
+    "boss.click_blank_area_to_continue": ["Click blank area to continue"],
+    "boss.use_prompt_lead": ["Use"],
+    "boss.replenish_prompt_lead": ["Replenish"],
+    "boss.replenish_prompt_original": ["Original"],
+    "boss.replenish_prompt_resin": ["Resin"],
+    "ley_line.double_reward": ["Double Rewards"],
+    "ley_line.double_reward_2x": ["2x Rewards"],
+    "ley_line.touch": ["Touch"],
+    "ley_line.activate": ["Activate"],
+    "ley_line.select": ["Select"],
+    "ley_line.line": ["Ley Line"],
+    "ley_line.outcrop": ["Outcrop"],
+    "ley_line.blossom_of_wealth": ["Ley Line Outcrop: Blossom of Wealth"],
+    "ley_line.blossom_of_revelation": ["Ley Line Outcrop: Blossom of Revelation"],
+    "ley_line.stop": ["Stop"],
+    "ley_line.original_resin_40_prompt": ["40 Original Resin"],
+    "domain.challenge_completed": [
+      "Challenge Completed",
+      "(Challenge|Completed)",
+      "Challenge",
+      "Completed"
+    ],
+    "domain.auto_leaving": [
+      "Exiting",
+      "Leaving"
+    ],
+    "domain.skip": [
+      "Skip"
+    ],
+    "domain.ley_line_disorder": [
+      "Ley Line Disorder",
+      "Ley.*Line.*Disorder"
+    ],
+    "domain.limited_time_fully_open": [
+      "All available for a limited time"
+    ],
+    "domain.solo_challenge": [
+      "Solo Challenge"
+    ],
+    "domain.start_challenge": [
+      "Start Challenge"
+    ],
+    "domain.petrified_tree": [
+      "Petrified Tree"
+    ],
+    "domain.resin_use_prompt_lead": [
+      "Do you still wish"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "challenge"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "Domain"
+    ],
+    "expedition.entry": [
+      "Expedition",
+      "Dispatch Character on Expedition"
+    ],
+    "expedition.time_shortened": ["Time Shortened"],
+    "expedition.rewards_increased": ["Rewards Increased"],
+    "expedition.no_bonus": ["No Bonus"],
+    "expedition.complete": ["Expedition Complete"],
+    "expedition.in_progress": ["Expedition in Progress"],
+    "expedition.rewards": ["Expedition Rewards"],
+    "adventurers_guild.katheryne": [
+      "Katheryne"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "Daily",
+      "Commissions"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "claimed"
+    ],
+    "serenitea_pot.spirit": [
+      "Tubby",
+      "Teapot Spirit"
+    ],
+    "serenitea_pot.trust_rank": [
+      "Trust Rank"
+    ],
+    "serenitea_pot.realm_depot": [
+      "Realm Depot"
+    ],
+    "fishing.bite": [
+      "bite"
+    ],
+    "fishing.action": [
+      "Fishing"
+    ],
+    "world_area.serenitea_pot": [
+      "Serenitea Pot"
+    ],
+    "world_area.nod_krai": [
+      "Nod-Krai"
+    ],
+    "world_area.snezhnaya": [
+      "Snezhnaya"
+    ],
+    "world_area.fontaine": [
+      "Fontaine"
+    ],
+    "world_area.liyue": [
+      "Liyue"
+    ],
+    "world_area.inazuma": [
+      "Inazuma"
+    ],
+    "world_area.natlan": [
+      "Natlan"
+    ],
+    "world_area.mondstadt": [
+      "Mondstadt"
+    ],
+    "world_area.sumeru": [
+      "Sumeru"
+    ],
+    "artifact.quick_select": [
+      "Quick Select",
+      "Quick.*Select"
+    ],
+    "artifact.star_1": [
+      "1-Star Artifacts",
+      "1-Star.*Artifacts"
+    ],
+    "artifact.star_2": [
+      "2-Star Artifacts",
+      "2-Star.*Artifacts"
+    ],
+    "artifact.star_3": [
+      "3-Star Artifacts",
+      "3-Star.*Artifacts"
+    ],
+    "artifact.star_4": [
+      "4-Star Artifacts",
+      "4-Star.*Artifacts"
+    ],
+    "artifact.affix.atk": [
+      "ATK"
+    ],
+    "artifact.affix.def": [
+      "DEF"
+    ],
+    "artifact.affix.hp": [
+      "HP"
+    ],
+    "artifact.affix.crit_rate": [
+      "CRIT Rate"
+    ],
+    "artifact.affix.crit_dmg": [
+      "CRIT DMG"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "Elemental Mastery"
+    ],
+    "artifact.affix.energy_recharge": [
+      "Energy Recharge"
+    ],
+    "artifact.affix.healing_bonus": [
+      "Healing Bonus"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "Physical DMG Bonus"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "Pyro DMG Bonus"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "Hydro DMG Bonus"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "Dendro DMG Bonus"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "Electro DMG Bonus"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "Anemo DMG Bonus"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "Cryo DMG Bonus"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "Geo DMG Bonus"
+    ],
+    "stygian.return": ["Return"],
+    "stygian.challenge_failed": ["Challenge Failed"],
+    "stygian.retry_challenge": ["Retry Challenge"],
+    "stygian.ley_line_blossom": ["Ley Line Blossom"],
+    "stygian.character_preview": ["Character Preview"],
+    "stygian.event_name": ["Stygian Onslaught"],
+    "stygian.event_overview": ["Event Overview"],
+    "stygian.reward_phase": ["Turbulent Outbreak Phase"],
+    "stygian.phase_ended": ["Ended"],
+    "stygian.go_to_challenge": ["Go to Challenge"],
+    "stygian.hard_difficulty": ["Hard"],
+    "stygian.ultimate_challenge": ["Dire Challenge"],
+    "stygian.normal_challenge": ["Normal Challenge"],
+    "stygian.preset_teams": ["Preset Teams"],
+    "common.goodbye": [
+      "Goodbye"
+    ],
+    "common.obtained": [
+      "Obtained"
+    ],
+    "auto_pick.suppressed_label": [
+      "a long time",
+      "Gathering Place",
+      "Clink-Clank",
+      "Westwind Bastion",
+      "Cliffwatch Camp",
+      "The Witch's Garden",
+      "Moon Oracle Card"
+    ],
+    "auto_pick.tribe_lead": [
+      "I am at"
+    ],
+    "auto_pick.tribe_marker": [
+      "Reputation",
+      "Echoes",
+      "Scions of the Canopy",
+      "People of the Springs"
+    ],
+    "auto_pick.frostmoon": [
+      "Frostmoon"
+    ],
+    "auto_pick.workshop": [
+      "Workshop"
+    ],
+    "auto_pick.egg_roll": [
+      "Krumkake"
+    ],
+    "character.talent_introduction": [
+      "Talent Info"
+    ],
+    "character.talent_level": [
+      "Talent Level"
+    ],
+    "character.attribute": [
+      "Attributes"
+    ],
+    "character.weapon": [
+      "Weapon"
+    ],
+    "character.talent": [
+      "Talents"
+    ],
+    "game_loading.age_prompt": [
+      "age rating",
+      "parental guidance"
+    ],
+    "inventory.enhancement_ore": [
+      "Enhancement Ore",
+      "Fine Enhancement Ore",
+      "Mystic Enhancement Ore"
+    ],
+    "wood.material": [
+      "Mallow Wood",
+      "Ash Wood",
+      "Torch Wood",
+      "Linden Wood",
+      "Cypress Wood",
+      "Mountain Date Wood",
+      "Athel Wood",
+      "Brightwood",
+      "Karmaphala Wood",
+      "Adhigama Wood",
+      "Maple Wood",
+      "Fragrant Cedar Wood",
+      "Fir Wood",
+      "Bamboo Segment",
+      "Sandbearer Wood",
+      "Pine Wood",
+      "Cuihua Wood",
+      "Birch Wood",
+      "Aralia Wood",
+      "Yumemiru Wood",
+      "Otogi Wood",
+      "Flammabomb Wood",
+      "Peach Palm Wood",
+      "Ashen Aratiku Wood",
+      "White Chestnut Oak Wood"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "Cannot claim Companionship EXP"
+    ],
+    "serenitea_pot.sold_out": [
+      "Sold Out"
+    ],
+    "artifact.set_contains": [
+      "Set Includes"
+    ],
+    "character.normal_attack": [
+      "Normal Attack"
+    ],
+    "character.elemental_skill": [
+      "Elemental Skill"
+    ],
+    "character.elemental_burst": [
+      "Elemental Burst"
+    ],
+    "common.clear": [
+      "Clear"
+    ],
+    "common.filter": [
+      "Filter"
+    ],
+    "common.enter": [
+      "Enter"
+    ],
+    "common.leave": [
+      "Leave"
+    ],
+    "common.paste": [
+      "Paste"
+    ],
+    "party.confirm_filter": [
+      "Confirm Filter"
+    ],
+    "party.configuration_unavailable": [
+      "Party setup is unavailable in the current state"
+    ],
+    "party.elemental_resonance": [
+      "Elemental Resonance"
+    ],
+    "party.configuration": [
+      "Party Setup"
+    ],
+    "party.remove": [
+      "Remove"
+    ],
+    "party.friendship": [
+      "Companionship"
+    ],
+    "party.replace": [
+      "Replace"
+    ],
+    "party.join": [
+      "Join"
+    ],
+    "party.order": [
+      "Order"
+    ],
+    "redemption.account": [
+      "Account"
+    ],
+    "redemption.go_to_redeem": [
+      "Go to Redeem"
+    ],
+    "redemption.redeem_reward": [
+      "Redeem Reward"
+    ],
+    "redemption.success": [
+      "Redemption successful"
+    ],
+    "expedition.select_character": [
+      "Select Character"
+    ],
+    "expedition.character_selection": [
+      "Character Selection"
+    ],
+    "ley_line.fight_success": [
+      "Challenge Complete",
+      "Battle Victory",
+      "Challenge Success"
+    ],
+    "ley_line.fight_failure": [
+      "Challenge Failed"
+    ],
+    "ley_line.fight_objective": [
+      "Defeat",
+      "all",
+      "enemies"
+    ]
+  }
+}

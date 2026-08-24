@@ -9,6 +9,7 @@ using BetterGenshinImpact.Core.Recognition.OCR;
 using BetterGenshinImpact.Core.Recognition.ONNX;
 using BetterGenshinImpact.Core.Monitor;
 using BetterGenshinImpact.GameTask;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Music.Service;
 using BetterGenshinImpact.Helpers;
 using BetterGenshinImpact.Helpers.Extensions;
@@ -116,6 +117,8 @@ public partial class App : Application
                 }
 
                 services.AddLocalization();
+                services.AddGameTextLocalization(
+                    () => configService.Get().OtherConfig.GameCultureInfoName);
 
                 services.AddNavigationViewPageProvider();
                 services.AddSingleton(InstanceBootstrap.Current);

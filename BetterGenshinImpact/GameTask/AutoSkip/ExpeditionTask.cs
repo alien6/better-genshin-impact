@@ -1,6 +1,7 @@
 ﻿using BetterGenshinImpact.Core.Recognition.OCR;
 using BetterGenshinImpact.GameTask.AutoSkip.Model;
 using BetterGenshinImpact.GameTask.Common;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.View.Drawable;
 using Microsoft.Extensions.Logging;
 using OpenCvSharp;
@@ -22,8 +23,16 @@ namespace BetterGenshinImpact.GameTask.AutoSkip;
 public class ExpeditionTask
 {
     private static readonly List<string> ExpeditionCharacterList = [];
+    private readonly ExpeditionTextRecognizer _textRecognizer;
 
     private int _expeditionCount = 0;
+
+    public ExpeditionTask()
+    {
+        _textRecognizer = new ExpeditionTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
+    }
 
     public void Run(CaptureContent content)
     {
@@ -74,7 +83,12 @@ public class ExpeditionTask
         {
             var result = CaptureAndOcr(content,
                 new Rect(0, 0, captureRect.Width - (int)(480 * assetScale), captureRect.Height));
-            var rect = result.FindRectByText("探险完成");
+            var completeRegion = result.Regions
+                .Select(region => (Region: region,
+                    Texts: GetSameCardLineOcrTexts(region, result.Regions)))
+                .FirstOrDefault(item => _textRecognizer.IsExpeditionComplete(item.Texts))
+                .Region;
+            var rect = completeRegion.Rect.BoundingRect();
             // TODO i>1 的时候,可以通过关键词“探索派遣限制 4 / 5 ”判断是否已经派遣完成？
             if (rect != default)
             {
@@ -85,7 +99,7 @@ public class ExpeditionTask
                 TaskControl.Sleep(100);
                 // 重新截图 找领取
                 result = CaptureAndOcr(content);
-                rect = result.FindRectByText("领取");
+                rect = FindRectByTextKey(result, GameTextKeys.Common.Claim);
                 if (rect != default)
                 {
                     using var ra = content.CaptureRectArea.Derive(rect);
@@ -98,7 +112,7 @@ public class ExpeditionTask
 
                     // 选择角色
                     result = CaptureAndOcr(content);
-                    rect = result.FindRectByText("选择角色");
+                    rect = FindRectByTextKey(result, GameTextKeys.Expedition.SelectCharacter);
                     if (rect != default)
                     {
                         content.CaptureRectArea.Derive(rect).Click();
@@ -126,7 +140,7 @@ public class ExpeditionTask
     {
         var captureRect = TaskContext.Instance().SystemInfo.CaptureAreaRect;
         var result = CaptureAndOcr(content, new Rect(0, 0, captureRect.Width / 2, captureRect.Height));
-        if (result.RegionHasText("角色选择"))
+        if (result.Regions.Any(region => _textRecognizer.MatchesKey(region.Text, GameTextKeys.Expedition.CharacterSelection)))
         {
             var cards = GetCharacterCards(result);
             if (cards.Count > 0)
@@ -156,45 +170,65 @@ public class ExpeditionTask
         var captureRect = TaskContext.Instance().SystemInfo.CaptureAreaRect;
         var assetScale = TaskContext.Instance().SystemInfo.AssetScale;
 
-        var ocrResultRects = result.Regions
-            .Select(x => x.ToOcrResultRect())
-            .Where(r => r.Rect.X + r.Rect.Width < captureRect.Width / 2)
+        return BuildCharacterCards(
+            result.Regions.Select(x => x.ToOcrResultRect()),
+            captureRect.Width,
+            assetScale,
+            _textRecognizer);
+    }
+
+    private Rect FindRectByTextKey(OcrResult result, string key) =>
+        result.Regions.FirstOrDefault(region => _textRecognizer.MatchesKey(region.Text, key)).Rect.BoundingRect();
+
+    internal static List<ExpeditionCharacterCard> BuildCharacterCards(
+        IEnumerable<PaddleOcrResultRect> fragments,
+        int captureWidth,
+        double assetScale,
+        ExpeditionTextRecognizer textRecognizer)
+    {
+        ArgumentNullException.ThrowIfNull(fragments);
+        ArgumentNullException.ThrowIfNull(textRecognizer);
+
+        var ocrResultRects = fragments
+            .Where(r => r.Rect.X + r.Rect.Width < captureWidth / 2)
             .OrderBy(r => r.Rect.Y)
             .ThenBy(r => r.Rect.X)
             .ToList();
+        var cardLineGroups = GetCardLineGroups(ocrResultRects);
 
         var cards = new List<ExpeditionCharacterCard>();
-        foreach (var ocrResultRect in ocrResultRects)
+        foreach (var cardLineGroup in cardLineGroups)
         {
-            if (ocrResultRect.Text.Contains("时间缩短") || ocrResultRect.Text.Contains("奖励增加") ||
-                ocrResultRect.Text.Contains("暂无加成"))
+            var bonusAnchor = cardLineGroup[0];
+            var cardLineTexts = cardLineGroup.Select(fragment => fragment.Text);
+            if (textRecognizer.IsExpeditionBonus(cardLineTexts))
             {
                 var card = new ExpeditionCharacterCard();
-                card.Rects.Add(ocrResultRect.Rect);
-                card.Addition = ocrResultRect.Text;
-                foreach (var ocrResultRect2 in ocrResultRects)
+                card.Rects.Add(bonusAnchor.Rect);
+                card.Addition = bonusAnchor.Text;
+                foreach (var stateLineGroup in cardLineGroups)
                 {
-                    if (ocrResultRect2.Rect.Y > ocrResultRect.Rect.Y - 50 * assetScale
-                        && ocrResultRect2.Rect.Y + ocrResultRect2.Rect.Height <
-                        ocrResultRect.Rect.Y + ocrResultRect.Rect.Height)
+                    var stateAnchor = stateLineGroup[0];
+                    if (stateAnchor.Rect.Y > bonusAnchor.Rect.Y - 50 * assetScale
+                        && stateAnchor.Rect.Y + stateAnchor.Rect.Height <
+                        bonusAnchor.Rect.Y + bonusAnchor.Rect.Height)
                     {
-                        if (ocrResultRect2.Text.Contains("探险完成") || ocrResultRect2.Text.Contains("探险中"))
+                        var stateLineTexts = stateLineGroup.Select(fragment => fragment.Text);
+                        if (textRecognizer.IsExpeditionState(stateLineTexts))
                         {
                             card.Idle = false;
-                            var name = ocrResultRect2.Text.Replace("探险完成", "").Replace("探险中", "").Replace("/", "")
-                                .Trim();
+                            var name = textRecognizer.RemoveExpeditionStateText(string.Concat(stateLineTexts));
                             if (!string.IsNullOrEmpty(name))
                             {
                                 card.Name = name;
                             }
                         }
-                        else if (!ocrResultRect2.Text.Contains("时间缩短") && !ocrResultRect2.Text.Contains("奖励增加") &&
-                                 !ocrResultRect2.Text.Contains("暂无加成"))
+                        else if (!textRecognizer.IsExpeditionBonus(stateLineTexts))
                         {
-                            card.Name = ocrResultRect2.Text;
+                            card.Name = stateAnchor.Text;
                         }
 
-                        card.Rects.Add(ocrResultRect2.Rect);
+                        card.Rects.AddRange(stateLineGroup.Select(fragment => fragment.Rect));
                     }
                 }
 
@@ -211,6 +245,41 @@ public class ExpeditionTask
 
         return cards;
     }
+
+    private static List<List<PaddleOcrResultRect>> GetCardLineGroups(
+        IEnumerable<PaddleOcrResultRect> fragments)
+    {
+        var cardLineGroups = new List<List<PaddleOcrResultRect>>();
+        foreach (var fragment in fragments)
+        {
+            var cardLineGroup = cardLineGroups.FirstOrDefault(group =>
+                group.Any(existing => ExpeditionOcrFragmentGrouping.AreOnSameLine(existing.Rect, fragment.Rect)));
+            if (cardLineGroup is null)
+            {
+                cardLineGroups.Add([fragment]);
+            }
+            else
+            {
+                cardLineGroup.Add(fragment);
+            }
+        }
+
+        return cardLineGroups;
+    }
+
+    internal static IReadOnlyList<string> GetSameCardLineOcrTexts(
+        PaddleOcrResultRect anchor,
+        IEnumerable<PaddleOcrResultRect> fragments) =>
+        ExpeditionOcrFragmentGrouping.GetSameLineTexts(
+            anchor.Rect,
+            fragments.Select(fragment => (fragment.Rect, fragment.Text)));
+
+    private static IReadOnlyList<string> GetSameCardLineOcrTexts(
+        OcrResultRegion anchor,
+        IEnumerable<OcrResultRegion> fragments) =>
+        ExpeditionOcrFragmentGrouping.GetSameLineTexts(
+            anchor.Rect.BoundingRect(),
+            fragments.Select(fragment => (fragment.Rect.BoundingRect(), fragment.Text)));
 
     private readonly Pen _pen = new(Color.Red, 1);
 

@@ -6,6 +6,7 @@ using BetterGenshinImpact.GameTask.AutoWood.Utils;
 using BetterGenshinImpact.GameTask.Common;
 using BetterGenshinImpact.GameTask.Common.Job;
 using BetterGenshinImpact.GameTask.Model.Area;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.Genshin.Settings;
 using BetterGenshinImpact.View.Drawable;
 using Microsoft.Extensions.Logging;
@@ -42,6 +43,7 @@ public partial class AutoWoodTask : ISoloTask
     // private VK _zKey = VK.VK_Z;
 
     private readonly WoodTaskParam _taskParam;
+    private readonly RemainingGameTextRecognizer _textRecognizer;
 
     private CancellationToken _ct;
 
@@ -50,6 +52,9 @@ public partial class AutoWoodTask : ISoloTask
     public AutoWoodTask(WoodTaskParam taskParam)
     {
         this._taskParam = taskParam;
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new RemainingGameTextRecognizer(matcher);
         _login3rdParty = new();
     }
 
@@ -60,7 +65,7 @@ public partial class AutoWoodTask : ISoloTask
 
     public async Task Start(CancellationToken ct)
     {
-        _printer = new WoodStatisticsPrinter();
+        _printer = new WoodStatisticsPrinter(_textRecognizer);
         _enterAndExitWonderlandJob = new EnterAndExitWonderlandJob();
         var runTimeWatch = new Stopwatch();
         _ct = ct;
@@ -137,6 +142,12 @@ public partial class AutoWoodTask : ISoloTask
 
     private partial class WoodStatisticsPrinter
     {
+        private readonly RemainingGameTextRecognizer _textRecognizer;
+
+        public WoodStatisticsPrinter(RemainingGameTextRecognizer textRecognizer)
+        {
+            _textRecognizer = textRecognizer;
+        }
         public bool ReachedWoodMaxCount;
         public int NothingCount;
         public readonly ConcurrentDictionary<string, int> WoodTotalDict = new();
@@ -145,14 +156,6 @@ public partial class AutoWoodTask : ISoloTask
         private string _firstWoodOcrText = "";
         private readonly Dictionary<string, int> _woodMetricsDict = [];
         private readonly Dictionary<string, bool> _woodNotPrintDict = [];
-
-        // from:https://api-static.mihoyo.com/common/blackboard/ys_obc/v1/home/content/list?app_sn=ys_obc&channel_id=13
-        private static readonly List<string> ExistWoods =
-        [
-            "悬铃木", "白梣木", "炬木", "椴木", "香柏木", "刺葵木", "柽木", "辉木", "业果木", "证悟木", "枫木", "垂香木",
-            "杉木", "竹节", "却砂木", "松木", "萃华木", "桦木", "孔雀木", "梦见木", "御伽木",
-            "燃爆木", "桃椰子木", "灰灰楼林木", "白栗栎木"
-        ];
 
         public CancellationToken Ct { get; set; }
 
@@ -249,11 +252,11 @@ public partial class AutoWoodTask : ISoloTask
             if (!_firstWoodOcr)
             {
                 return !string.IsNullOrEmpty(recognizedText) &&
-                       recognizedText.Contains("获得");
+                       _textRecognizer.IsObtained(recognizedText);
             }
 
             return !string.IsNullOrEmpty(recognizedText) &&
-                   recognizedText.Contains("获得") &&
+                   _textRecognizer.IsObtained(recognizedText) &&
                    (recognizedText.Contains('×') || recognizedText.Contains('x'));
         }
 
@@ -304,7 +307,7 @@ public partial class AutoWoodTask : ISoloTask
         private void UpdateWoodCount(string materialName, int quantity)
         {
             // 检查字典中是否已包含这种木材名称
-            if (!ExistWoods.Contains(materialName))
+            if (!_textRecognizer.IsKnownWoodName(materialName))
             {
                 Logger.LogWarning("未知的木材名：{woodName}，数量{Cnt}", materialName, quantity);
                 return;
@@ -322,7 +325,7 @@ public partial class AutoWoodTask : ISoloTask
             }
         }
 
-        private static string FindBestOcrResult(List<string> firstOcrResultList)
+        private string FindBestOcrResult(List<string> firstOcrResultList)
         {
             // return firstOcrResultList.Count == 0 ? "" : firstOcrResultList.OrderByDescending(s => s.Length).First();
             if (firstOcrResultList.Count == 0) return "";
@@ -356,7 +359,7 @@ public partial class AutoWoodTask : ISoloTask
 
                     var materialName = match.Groups[1].Value.Trim();
                     Debug.WriteLine($"第一次获取的木材名称：{materialName}");
-                    if (!ExistWoods.Contains(materialName))
+                    if (!_textRecognizer.IsKnownWoodName(materialName))
                     {
                         isFound = false;
                     }

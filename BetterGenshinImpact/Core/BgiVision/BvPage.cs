@@ -8,6 +8,7 @@ using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.GameTask.AutoGeniusInvokation.Exception;
 using BetterGenshinImpact.GameTask.Common;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using Fischless.WindowsInput;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,11 @@ public class BvPage
 {
     private static readonly ILogger Logger = App.GetLogger<BvPage>();
     private readonly CancellationToken _cancellationToken;
+    private IGameTextMatcher? _gameTextMatcher;
+
+    private IGameTextMatcher GameTextMatcher => _gameTextMatcher ??=
+        App.GetService<IGameTextMatcher>()
+        ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
 
     public IKeyboardSimulator Keyboard => Simulation.SendInput.Keyboard;
 
@@ -34,9 +40,10 @@ public class BvPage
     /// </summary>
     public int DefaultRetryInterval { get; set; } = 1000;
 
-    public BvPage(CancellationToken cancellationToken = default)
+    public BvPage(CancellationToken cancellationToken = default, IGameTextMatcher? gameTextMatcher = null)
     {
         _cancellationToken = cancellationToken;
+        _gameTextMatcher = gameTextMatcher;
     }
 
     public BvFlow Flow()
@@ -130,6 +137,25 @@ public class BvPage
         }, _cancellationToken, matchTexts);
     }
 
+    public BvLocator GetByTextKey(string key, Rect rect = default)
+    {
+        ValidateGameTextKey(key, nameof(key));
+        return CreateGameTextLocator([key], rect);
+    }
+
+    public BvLocator GetByAnyTextKey(object keys, Rect rect = default)
+    {
+        var gameTextKeys = ParseCollection<string>(keys, nameof(keys));
+        if (gameTextKeys.Any(string.IsNullOrWhiteSpace))
+        {
+            throw new ArgumentException("游戏文本键不能包含空字符串或纯空白字符串", nameof(keys));
+        }
+
+        return CreateGameTextLocator(
+            gameTextKeys.Distinct(StringComparer.Ordinal).ToArray(),
+            rect);
+    }
+
     public BvLocator GetByImage(BvImage image)
     {
         return Locator(image);
@@ -177,5 +203,32 @@ public class BvPage
         }
 
         return result;
+    }
+
+    private BvLocator CreateGameTextLocator(IReadOnlyList<string> keys, Rect rect)
+    {
+        var aliases = keys
+            .SelectMany(key => GameTextMatcher.GetAliases(key))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+        var normalizedAliases = aliases
+            .Select(GameTextNormalizer.Normalize)
+            .Where(alias => alias.Length > 0)
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+
+        return new BvLocator(new RecognitionObject
+        {
+            RecognitionType = RecognitionTypes.Ocr,
+            RegionOfInterest = rect
+        }, _cancellationToken, aliases, keys, normalizedAliases);
+    }
+
+    private static void ValidateGameTextKey(string key, string paramName)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            throw new ArgumentException("游戏文本键不能为空字符串或纯空白字符串", paramName);
+        }
     }
 }

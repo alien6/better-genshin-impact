@@ -8,6 +8,7 @@ using BetterGenshinImpact.GameTask.AutoTrackPath;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Exceptions;
 using BetterGenshinImpact.GameTask.Common.StateMachine;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.Model.GameUI;
 using Microsoft.Extensions.Logging;
@@ -90,6 +91,10 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
     private bool _usePhysicalSlots = true;
     private string? _pendingFilterElementType;
     private string? _pendingFilterWeaponType;
+    private readonly RemainingGameTextRecognizer _textRecognizer;
+    private readonly IReadOnlyCollection<string> _replaceOrJoinTexts;
+    private readonly string _partyOrderText;
+    private readonly string _partyFriendshipText;
 
     /// <summary>
     /// 状态机日志对象。
@@ -131,6 +136,16 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
     /// </summary>
     public SwitchCharacterStateMachineTask()
     {
+        _textRecognizer = new RemainingGameTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
+        _replaceOrJoinTexts = Array.AsReadOnly(
+        [
+            _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Replace),
+            _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Join),
+        ]);
+        _partyOrderText = _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Order);
+        _partyFriendshipText = _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Friendship);
         RegisterStateMethodsByAttribute();
         RegisterStateTransitions(
             (SwitchCharacterState.Unknown, [
@@ -412,7 +427,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
     [StateDetector(SwitchCharacterState.PartyConfigUnavailablePrompt, Order = 50)]
     private bool DetectPartyConfigUnavailablePrompt(ImageRegion capture)
     {
-        return ContainsText(capture, "当前状态不可进行队伍配置", Rect1080(806, 198, 314, 37));
+        return ContainsText(capture, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.ConfigurationUnavailable), Rect1080(806, 198, 314, 37));
     }
 
     /// <summary>
@@ -455,7 +470,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
     /// <returns>识别到元素共鸣文字返回 true。</returns>
     private bool IsCharacterList(ImageRegion capture)
     {
-        return ContainsText(capture, "元素共鸣", Rect1080(1655, 32, 106, 30));
+        return ContainsText(capture, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.ElementalResonance), Rect1080(1655, 32, 106, 30));
     }
 
     /// <summary>
@@ -465,7 +480,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
     /// <returns>识别到确认筛选按钮返回 true。</returns>
     private bool IsFilterPanel(ImageRegion capture)
     {
-        return ContainsText(capture, "确认筛选", Rect1080(360, 999, 128, 40));
+        return ContainsText(capture, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.ConfirmFilter), Rect1080(360, 999, 128, 40));
     }
 
     /// <summary>
@@ -475,7 +490,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
     /// <returns>识别到队伍配置标题返回 true。</returns>
     private bool IsPartyConfigPage(ImageRegion capture)
     {
-        return ContainsText(capture, "队伍配置", Rect1080(119, 30, 108, 37));
+        return ContainsText(capture, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Configuration), Rect1080(119, 30, 108, 37));
     }
 
     #endregion
@@ -615,7 +630,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
             {
                 ClickFixedTeamSlot(rebuildStartSlot);
                 await Delay(500, _ct);
-                if (!TryClickText(page, "换下", Rect1080(382, 994, 87, 51)))
+                if (!TryClickText(page, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Remove), Rect1080(382, 994, 87, 51)))
                 {
                     throw new PartySetupFailedException($"切换角色：未找到 {rebuildStartSlot} 号位的换下按钮");
                 }
@@ -696,7 +711,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
 
             ClickFixedTeamSlot(misplaced.Slot);
             await Delay(500, _ct);
-            if (!TryClickText(page, "换下", Rect1080(382, 994, 87, 51)))
+            if (!TryClickText(page, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Remove), Rect1080(382, 994, 87, 51)))
             {
                 throw new PartySetupFailedException($"切换角色：未找到 {misplaced.Slot} 号位的换下按钮");
             }
@@ -803,7 +818,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
     private Task<StateHandlerResult> HandleConfirmFilterPanel(BvPage page)
     {
         _workflowState = SwitchCharacterState.ConfirmFilterPanel;
-        if (!TryClickText(page, "确认筛选", Rect1080(360, 999, 128, 40)))
+        if (!TryClickText(page, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.ConfirmFilter), Rect1080(360, 999, 128, 40)))
         {
             _logger.LogWarning("切换角色：未找到确认筛选按钮");
             return Task.FromResult(StateHandlerResult.Retry);
@@ -858,7 +873,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
             throw new PartySetupFailedException($"切换角色：未找到目标角色 {_currentRole.Name}");
         }
 
-        if (!TryClickAnyText(page, ["更换", "加入"], Rect1080(382, 994, 87, 51)))
+        if (!TryClickAnyText(page, _replaceOrJoinTexts, Rect1080(382, 994, 87, 51)))
         {
             _logger.LogWarning("切换角色：未识别到“更换”或“加入”按钮");
             return StateHandlerResult.Retry;
@@ -1335,7 +1350,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
             ct.ThrowIfCancellationRequested();
             using var capture = CaptureToRectArea();
             if (IsPartyConfigPage(capture) &&
-                !ContainsText(capture, "换下", Rect1080(382, 994, 87, 51)))
+                !ContainsText(capture, _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.Remove), Rect1080(382, 994, 87, 51)))
             {
                 consecutiveMissingCount++;
                 if (consecutiveMissingCount >= 2)
@@ -1490,7 +1505,7 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
             SortTypeRoi1080.Height);
         using (var capture = CaptureToRectArea())
         {
-            if (ContainsText(capture, "好感", sortTypeRoi))
+            if (ContainsText(capture, _partyFriendshipText, sortTypeRoi))
             {
                 return;
             }
@@ -1506,11 +1521,11 @@ public sealed class SwitchCharacterStateMachineTask : StateMachineBase<SwitchCha
             await page.Flow()
                 .WithDefaultTimeout(2000)
                 .WithDefaultRetryInterval(200)
-                .WaitUntilText("顺序", sortTypeRoi)
+                .WaitUntilText(_partyOrderText, sortTypeRoi)
                 .Click()
-                .WaitUntilText("好感", sortOptionsRoi)
+                .WaitUntilText(_partyFriendshipText, sortOptionsRoi)
                 .Click()
-                .WaitUntilText("好感", sortTypeRoi)
+                .WaitUntilText(_partyFriendshipText, sortTypeRoi)
                 .Run();
         }
         catch (InvalidOperationException ex)

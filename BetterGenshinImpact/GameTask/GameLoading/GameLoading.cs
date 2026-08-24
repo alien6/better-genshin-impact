@@ -7,6 +7,7 @@ using BetterGenshinImpact.GameTask.Common;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
 using BetterGenshinImpact.GameTask.Model.Area;
+using BetterGenshinImpact.GameTask.Localization;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -58,9 +59,13 @@ public class GameLoadingTrigger : ITaskTrigger
     private DateTime _prevAgePromptOcrTime = DateTime.MinValue;
     private bool _agePromptTextMatched = false;
     private List<Region> _latestLoadingOcrRegions = [];
+    private readonly RemainingGameTextRecognizer _textRecognizer;
 
     public GameLoadingTrigger()
     {
+        var matcher = App.GetService<IGameTextMatcher>()
+                      ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new RemainingGameTextRecognizer(matcher);
     }
 
     public void InnerSetEnabled(bool enabled)
@@ -260,8 +265,7 @@ public class GameLoadingTrigger : ITaskTrigger
         {
             _prevAgePromptOcrTime = DateTime.Now;
             _latestLoadingOcrRegions = content.CaptureRectArea.FindMulti(RecognitionObject.OcrThis);
-            if (_latestLoadingOcrRegions.Any(region =>
-                    region.Text.Contains("适龄") || region.Text.Contains("监护")))
+            if (_latestLoadingOcrRegions.Any(region => _textRecognizer.IsAgePrompt(region.Text)))
             {
                 // 适龄提示窗口自动关闭
                 var agePopup = content.CaptureRectArea.Find(ElementRecognition.Get("BtnWhiteConfirm", content.CaptureRectArea));

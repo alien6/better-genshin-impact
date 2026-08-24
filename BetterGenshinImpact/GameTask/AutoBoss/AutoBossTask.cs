@@ -16,6 +16,7 @@ using BetterGenshinImpact.GameTask.Common;
 using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Job;
 using BetterGenshinImpact.GameTask.Common.Reward;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.Helpers;
 using BetterGenshinImpact.Service.Notification;
@@ -48,6 +49,7 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
     private readonly string? _jsonCombatStrategyPath;
     private readonly ReturnMainUiTask _returnMainUiTask = new();
     private readonly Dictionary<string, int> _rewardSummary = new();
+    private readonly BossTextRecognizer _textRecognizer;
     private SwitchPartyTask? _switchPartyTask;
     private CancellationToken _ct;
 
@@ -66,7 +68,10 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
 
     private sealed record OriginalResinInfo(int Count, int Limit);
 
-    private sealed record SupplementalResinOption(string Name, RecognitionObject Template);
+    private sealed record SupplementalResinOption(
+        string Name,
+        RecognitionObject Template,
+        Func<string, bool> IsSelectedText);
 
     /// <summary>
     /// 创建自动首领讨伐任务，并根据任务参数预解析战斗策略。
@@ -75,6 +80,9 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
     public AutoBossTask(AutoBossParam taskParam)
     {
         _taskParam = taskParam;
+        _textRecognizer = new BossTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
         if (string.IsNullOrWhiteSpace(_taskParam.CombatStrategyPath))
         {
             _taskParam.SetCombatStrategyPath(_taskParam.StrategyName);
@@ -392,44 +400,24 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
         return Regex.Replace(normalized, @"\s+", "");
     }
 
-    private static TimeSpan ExtractFullRecoveryTime(string text)
+    private TimeSpan ExtractFullRecoveryTime(string text)
     {
-        if (text.Contains("原粹树脂已完全恢复", StringComparison.Ordinal))
+        var semanticRecoveryTime = _textRecognizer.TryGetFullRecoveryTime(text);
+        if (semanticRecoveryTime != null)
         {
-            return TimeSpan.Zero;
+            return semanticRecoveryTime.Value;
         }
 
-        var fullRecoveryMatch = Regex.Match(text, @"全部恢复(?<time>\d{1,3}:\d{2}:\d{2})");
-        if (fullRecoveryMatch.Success)
+        if (_textRecognizer.IsFullRecovery(text))
         {
-            return ParseRecoveryTime(fullRecoveryMatch.Groups["time"].Value);
+            var timeMatches = Regex.Matches(text, @"\d{1,3}:\d{2}:\d{2}");
+            if (timeMatches.Count > 0)
+            {
+                throw new FormatException($"树脂恢复时间格式无效：{timeMatches[timeMatches.Count - 1].Value}");
+            }
         }
 
-        var timeMatches = Regex.Matches(text, @"\d{1,3}:\d{2}:\d{2}");
-        if (timeMatches.Count == 0)
-        {
-            throw new FormatException($"未识别到全部恢复时间：{text}");
-        }
-
-        return ParseRecoveryTime(timeMatches[timeMatches.Count - 1].Value);
-    }
-
-    private static TimeSpan ParseRecoveryTime(string timeText)
-    {
-        var parts = timeText.Split(':');
-        if (parts.Length != 3
-            || !int.TryParse(parts[0], NumberStyles.None, CultureInfo.InvariantCulture, out var hours)
-            || !int.TryParse(parts[1], NumberStyles.None, CultureInfo.InvariantCulture, out var minutes)
-            || !int.TryParse(parts[2], NumberStyles.None, CultureInfo.InvariantCulture, out var seconds)
-            || minutes < 0
-            || minutes > 59
-            || seconds < 0
-            || seconds > 59)
-        {
-            throw new FormatException($"树脂恢复时间格式无效：{timeText}");
-        }
-
-        return new TimeSpan(hours, minutes, seconds);
+        throw new FormatException($"未识别到全部恢复时间：{text}");
     }
 
     private static string FormatRecoveryTime(TimeSpan time)
@@ -518,12 +506,18 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
         var options = new List<SupplementalResinOption>();
         if (_taskParam.UseTransientResin)
         {
-            options.Add(new SupplementalResinOption("须臾树脂", LoadRecognitionObject("TransientResinInSupplementPane")));
+            options.Add(new SupplementalResinOption(
+                "须臾树脂",
+                LoadRecognitionObject("TransientResinInSupplementPane"),
+                _textRecognizer.IsTransientResin));
         }
 
         if (_taskParam.UseFragileResin)
         {
-            options.Add(new SupplementalResinOption("脆弱树脂", LoadRecognitionObject("FragileResinInSupplementPane")));
+            options.Add(new SupplementalResinOption(
+                "脆弱树脂",
+                LoadRecognitionObject("FragileResinInSupplementPane"),
+                _textRecognizer.IsFragileResin));
         }
 
         return options;
@@ -537,8 +531,7 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
     private async Task<bool> TryOpenResinSupplementPane(BvPage page)
     {
         var titleRect = ScaleRect(834, 247, 256, 60);
-        var titleLocator = page.Locator("补充原粹树脂", titleRect).WithRetryInterval(300);
-        if ((await titleLocator.TryWaitFor(500)).Count > 0)
+        if (await TryWaitForText(page, titleRect, _textRecognizer.IsReplenishOriginalResin, 500, 300) != null)
         {
             return true;
         }
@@ -549,16 +542,26 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
 
         try
         {
-            await titleLocator
-                .WithRetryAction(_ =>
+            var titleRegion = await TryWaitForText(
+                page,
+                titleRect,
+                _textRecognizer.IsReplenishOriginalResin,
+                5000,
+                300,
+                () =>
                 {
                     var buttons = openButtonLocator.FindAll();
                     if (buttons.Count > 0)
                     {
                         buttons[0].Click();
                     }
-                })
-                .WaitFor(5000);
+                });
+
+            if (titleRegion == null)
+            {
+                throw new TimeoutException();
+            }
+
             return true;
         }
         catch (TimeoutException e)
@@ -584,17 +587,25 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
         icons[0].Click();
         try
         {
-            await page.Locator(resin.Name, ScaleRect(906, 587, 110, 31))
-                .WithRetryInterval(300)
-                .WithRetryAction(_ =>
+            var selectedRegion = await TryWaitForText(
+                page,
+                ScaleRect(906, 587, 110, 31),
+                resin.IsSelectedText,
+                3000,
+                300,
+                () =>
                 {
                     var currentIcons = iconLocator.FindAll();
                     if (currentIcons.Count > 0)
                     {
                         currentIcons[0].Click();
                     }
-                })
-                .WaitFor(3000);
+                });
+            if (selectedRegion == null)
+            {
+                throw new TimeoutException();
+            }
+
             return true;
         }
         catch (TimeoutException e)
@@ -611,14 +622,13 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
             return 0;
         }
 
-        if (!await TryClickTextButton(page, "使用", ScaleRect(1163, 761, 61, 38), 3000))
+        if (!await TryClickTextButton(page, _textRecognizer.IsUse, ScaleRect(1163, 761, 61, 38), 3000))
         {
             return 0;
         }
 
         await Delay(500, _ct);
-        var quickUseRegions = await page.Locator("快捷使用", ScaleRect(875, 269, 184, 63)).TryWaitFor(1500);
-        if (quickUseRegions.Count > 0)
+        if (await TryWaitForText(page, ScaleRect(875, 269, 184, 63), _textRecognizer.IsQuickUse, 1500) != null)
         {
             return await TryUseQuickSupplementalResin(page, resin, targetQuantity);
         }
@@ -656,7 +666,7 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
             return 0;
         }
 
-        if (!await TryClickTextButton(page, "使用", ScaleRect(1152, 740, 64, 35), 3000))
+        if (!await TryClickTextButton(page, _textRecognizer.IsUse, ScaleRect(1152, 740, 64, 35), 3000))
         {
             return 0;
         }
@@ -761,34 +771,23 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
     private int? TryRecognizeQuickUseQuantity()
     {
         var text = NormalizeSupplementText(RecognizeSortedOcrText(ScaleRect(915, 540, 93, 81)));
-        if (!text.Contains("使用数量", StringComparison.Ordinal))
+        var quantity = _textRecognizer.TryGetUseQuantity(text);
+        if (quantity == null)
         {
             _logger.LogDebug("{Name}：快捷使用数量 OCR 未包含使用数量：{Text}", Name, text);
             return null;
         }
 
-        var match = Regex.Match(text, @"使用数量\D*(\d+)");
-        if (!match.Success)
-        {
-            match = Regex.Match(text, @"\d+");
-        }
-
-        var quantityText = match.Groups.Count > 1 && match.Groups[1].Success ? match.Groups[1].Value : match.Value;
-        if (!match.Success || !int.TryParse(quantityText, NumberStyles.None, CultureInfo.InvariantCulture, out var quantity))
-        {
-            _logger.LogDebug("{Name}：快捷使用数量 OCR 解析失败：{Text}", Name, text);
-            return null;
-        }
-
         _logger.LogDebug("{Name}：快捷使用数量 OCR：{Text} -> {Quantity}", Name, text, quantity);
-        return quantity;
+        return quantity.Value;
     }
 
     private async Task<bool> TryCloseSupplementObtainDialog(BvPage page)
     {
         try
         {
-            var obtainRegion = (await page.Locator("获得", ScaleRect(924, 279, 74, 38)).WaitFor(5000)).First();
+            var obtainRegion = await TryWaitForText(page, ScaleRect(924, 279, 74, 38), _textRecognizer.IsObtain, 5000)
+                ?? throw new TimeoutException();
             obtainRegion.Click();
             await Delay(800, _ct);
             return true;
@@ -800,19 +799,50 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
         }
     }
 
-    private async Task<bool> TryClickTextButton(BvPage page, string text, Rect rect, int timeout)
+    private async Task<bool> TryClickTextButton(BvPage page, Func<string, bool> isMatch, Rect rect, int timeout)
     {
         try
         {
-            await page.Locator(text, rect).Click(timeout);
+            var region = await TryWaitForText(page, rect, isMatch, timeout) ?? throw new TimeoutException();
+            region.Click();
             return true;
         }
         catch (TimeoutException e)
         {
-            _logger.LogWarning("{Name}：未能点击文本按钮 {Text}，原因：{Reason}", Name, text, e.Message);
+            _logger.LogWarning("{Name}：未能点击文本按钮，原因：{Reason}", Name, e.Message);
             return false;
         }
     }
+
+    private async Task<Region?> TryWaitForText(
+        BvPage page,
+        Rect rect,
+        Func<string, bool> isMatch,
+        int timeout,
+        int retryInterval = 1000,
+        Action? retryAction = null)
+    {
+        var retryCount = CalculateOcrPollingAttempts(timeout, retryInterval);
+        for (var attempt = 0; attempt < retryCount; attempt++)
+        {
+            var region = page.Ocr(rect).FirstOrDefault(region => isMatch(region.Text));
+            if (region != null)
+            {
+                return region;
+            }
+
+            retryAction?.Invoke();
+            if (attempt + 1 < retryCount)
+            {
+                await Delay(retryInterval, _ct);
+            }
+        }
+
+        return null;
+    }
+
+    internal static int CalculateOcrPollingAttempts(int timeout, int retryInterval) =>
+        Math.Max(1, (int)Math.Ceiling(timeout / (double)retryInterval));
 
     private string RecognizeTextWithoutDetector(Rect rect)
     {
@@ -1230,15 +1260,15 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
     private bool HasRewardInteractionPrompt(BvPage page)
     {
         var rewardRect = ScaleRect(1210, 300, 200, 400);
-        return page.Ocr(rewardRect).Any(region => region.Text.Contains("接触征讨之花", StringComparison.Ordinal));
+        return page.Ocr(rewardRect).Any(region => _textRecognizer.IsTouchTrounceBlossom(region.Text));
     }
 
     private bool HasRewardPanelPrompt(BvPage page)
     {
         var rewardPanelRect = ScaleRect(850, 740, 250, 35);
-        return page.Ocr(rewardPanelRect).Any(region =>
-            region.Text.Contains("使用原粹树脂", StringComparison.Ordinal)
-            || region.Text.Contains("补充原粹树脂", StringComparison.Ordinal));
+        var recognizedTexts = page.Ocr(rewardPanelRect).Select(region => region.Text).ToArray();
+        return _textRecognizer.IsRewardUseOriginalResinPrompt(recognizedTexts)
+            || _textRecognizer.IsSupplementPrompt(recognizedTexts);
     }
 
     private async Task MonitorRewardPromptTask(BvPage page, CancellationTokenSource navigationCts)
@@ -1430,7 +1460,7 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
         for (var i = 0; i < 20; i++)
         {
             var closeRegion = page.Ocr(closeRect)
-                .FirstOrDefault(r => r.Text.Contains("点击空白区域继续", StringComparison.Ordinal));
+                .FirstOrDefault(r => _textRecognizer.IsClickBlankAreaToContinue(r.Text));
             if (closeRegion != null)
             {
                 return true;
@@ -1453,14 +1483,18 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
 
         try
         {
-            await page.Locator("使用原粹树脂", useRect).ClickUntilDisappears(3000);
+            await ClickRewardUsePromptUntilDisappears(page, useRect, 3000);
             await Delay(1000, _ct);
             return true;
         }
         catch (TimeoutException e)
         {
-            var supplementRegions = await page.Locator("补充原粹树脂", useRect).TryWaitFor(1000);
-            if (supplementRegions.Count > 0)
+            var supplementRegions = await TryWaitForTextRegions(
+                page,
+                useRect,
+                _textRecognizer.IsSupplementPrompt,
+                1000);
+            if (supplementRegions != null)
             {
                 _logger.LogInformation("{Name}：领奖界面提示补充原粹树脂，当前原粹树脂不足", Name);
             }
@@ -1483,10 +1517,8 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
         for (var i = 0; i < 50; i++)
         {
             _ct.ThrowIfCancellationRequested();
-            var promptExists = page.Ocr(supplementRect).Any(region =>
-                region.Text.Contains("补充", StringComparison.Ordinal)
-                || region.Text.Contains("原粹", StringComparison.Ordinal)
-                || region.Text.Contains("树脂", StringComparison.Ordinal));
+            var promptExists = _textRecognizer.IsSupplementPrompt(
+                page.Ocr(supplementRect).Select(region => region.Text));
             if (!promptExists)
             {
                 return;
@@ -1497,6 +1529,65 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
         }
 
         throw new TimeoutException("关闭补充原粹树脂提示超时");
+    }
+
+    private async Task ClickRewardUsePromptUntilDisappears(BvPage page, Rect rect, int timeout)
+    {
+        var regions = await TryWaitForTextRegions(
+            page,
+            rect,
+            _textRecognizer.IsRewardUseOriginalResinPrompt,
+            timeout)
+            ?? throw new TimeoutException($"识别元素在 {timeout}ms 后超时未出现！");
+
+        ClickUseRegion(regions);
+        const int disappearTimeout = 10000;
+        const int retryInterval = 1000;
+        for (var elapsed = 0; elapsed < disappearTimeout; elapsed += retryInterval)
+        {
+            regions = page.Ocr(rect);
+            if (!_textRecognizer.IsRewardUseOriginalResinPrompt(regions.Select(region => region.Text)))
+            {
+                return;
+            }
+
+            ClickUseRegion(regions);
+            await Delay(retryInterval, _ct);
+        }
+
+        throw new TimeoutException($"识别元素在 {disappearTimeout}ms 后超时未消失！");
+    }
+
+    private void ClickUseRegion(IReadOnlyList<Region> regions)
+    {
+        var useRegion = regions.FirstOrDefault(region => _textRecognizer.IsRewardUsePromptLead(region.Text))
+            ?? regions.First();
+        useRegion.Click();
+    }
+
+    private async Task<IReadOnlyList<Region>?> TryWaitForTextRegions(
+        BvPage page,
+        Rect rect,
+        Func<IEnumerable<string>, bool> isMatch,
+        int timeout)
+    {
+        const int retryInterval = 1000;
+        var retryCount = CalculateOcrPollingAttempts(timeout, retryInterval);
+        for (var attempt = 0; attempt < retryCount; attempt++)
+        {
+            var regions = page.Ocr(rect);
+            if (isMatch(regions.Select(region => region.Text)))
+            {
+                return regions;
+            }
+
+            if (attempt + 1 < retryCount)
+            {
+                await Delay(retryInterval, _ct);
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -1517,7 +1608,7 @@ public class AutoBossTask : ISoloTask<Dictionary<string, int>>
             }
 
             var closeRegion = capture.FindMulti(RecognitionObject.Ocr(closeRect))
-                .FirstOrDefault(r => r.Text.Contains("点击空白区域继续", StringComparison.Ordinal));
+                .FirstOrDefault(r => _textRecognizer.IsClickBlankAreaToContinue(r.Text));
             if (closeRegion != null)
             {
                 closeRegion.Click();

@@ -177,6 +177,24 @@ public sealed class BvFlow
         return WaitUntil(CreateAnyTextLocator(texts, rect), timeout, retryInterval);
     }
 
+    public BvFlow WaitUntilTextKey(
+        string key,
+        Rect rect = default,
+        int? timeout = null,
+        int? retryInterval = null)
+    {
+        return WaitUntil(CreateTextKeyLocator(key, rect), timeout, retryInterval);
+    }
+
+    public BvFlow WaitUntilAnyTextKey(
+        object keys,
+        Rect rect = default,
+        int? timeout = null,
+        int? retryInterval = null)
+    {
+        return WaitUntil(CreateAnyTextKeyLocator(keys, rect), timeout, retryInterval);
+    }
+
     public BvFlow WaitUntil(BvLocator target, int? timeout = null, int? retryInterval = null)
     {
         ArgumentNullException.ThrowIfNull(target);
@@ -294,6 +312,16 @@ public sealed class BvFlow
     internal BvLocator CreateAnyTextLocator(object texts, Rect rect)
     {
         return _page.GetByAnyText(texts, rect);
+    }
+
+    internal BvLocator CreateTextKeyLocator(string key, Rect rect)
+    {
+        return _page.GetByTextKey(key, rect);
+    }
+
+    internal BvLocator CreateAnyTextKeyLocator(object keys, Rect rect)
+    {
+        return _page.GetByAnyTextKey(keys, rect);
     }
 
     internal static IReadOnlyList<BvLocator> ParseTargets(object targets, string paramName)

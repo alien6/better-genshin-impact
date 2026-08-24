@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 1,
+  "culture": "fr",
+  "entries": {
+    "common.revive": [
+      "Réanimer",
+      "Ressusciter un personnage",
+      "réanimation"
+    ],
+    "common.confirm": [
+      "Confirmer"
+    ],
+    "common.cancel": [
+      "Annuler"
+    ],
+    "common.use": [
+      "Utiliser"
+    ],
+    "common.click_anywhere_to_close": [
+      "Cliquez n'importe où pour fermer",
+      "Cliquez.*pour.*fermer",
+      "Cliquez pour fermer"
+    ],
+    "common.crafting": [
+      "Synthétiser",
+      "Synthèse",
+      "Synthése",
+      "Synthètiser"
+    ],
+    "common.claim": [
+      "Collecter",
+      "récupérer"
+    ],
+    "common.all": [
+      "Tout"
+    ],
+    "resin.original": [
+      "Résine originelle"
+    ],
+    "resin.condensed": [
+      "Résine condensée"
+    ],
+    "resin.fragile": [
+      "Résine fragile"
+    ],
+    "resin.transient": [
+      "Résine éphémère"
+    ],
+    "resin.replenish": [
+      "Recharger la résine originelle"
+    ],
+    "resin.insufficient": [
+      "Vous n'avez pas assez de Résine originelle"
+    ],
+    "boss.full_resin_recovered": ["Résine originelle entièrement restaurée"],
+    "boss.full_recovery": ["Récupération complète"],
+    "boss.quick_use": ["Utilisation rapide"],
+    "boss.use_quantity": ["Quantité à utiliser"],
+    "boss.obtain": ["Obtenu"],
+    "boss.touch_trounce_blossom": ["Toucher la fleur de la ligne tellurique"],
+    "boss.click_blank_area_to_continue": ["Cliquez dans une zone vide pour continuer"],
+    "boss.use_prompt_lead": ["Utiliser"],
+    "boss.replenish_prompt_lead": ["Recharger"],
+    "boss.replenish_prompt_original": ["originelle"],
+    "boss.replenish_prompt_resin": ["résine"],
+    "ley_line.double_reward": ["Récompenses doublées"],
+    "ley_line.double_reward_2x": ["2x"],
+    "ley_line.touch": ["Toucher"],
+    "ley_line.activate": ["Activer"],
+    "ley_line.select": ["Sélectionner"],
+    "ley_line.line": ["Ligne énergétique"],
+    "ley_line.outcrop": ["émergence"],
+    "ley_line.blossom_of_wealth": ["Fleur de la fortune des lignes énergétiques"],
+    "ley_line.blossom_of_revelation": ["Fleur de la révélation des lignes énergétiques"],
+    "ley_line.stop": ["Arrêter"],
+    "ley_line.original_resin_40_prompt": ["40 Résine originelle"],
+    "domain.challenge_completed": [
+      "Défi terminé",
+      "(Défi|terminé)",
+      "Défi",
+      "terminé"
+    ],
+    "domain.auto_leaving": [
+      "Sortie"
+    ],
+    "domain.skip": [
+      "Passer"
+    ],
+    "domain.ley_line_disorder": [
+      "Anomalie énergétique",
+      "Anomalie.*énergétique"
+    ],
+    "domain.limited_time_fully_open": [
+      "Tous disponibles pour une durée limitée"
+    ],
+    "domain.solo_challenge": [
+      "Défi solo"
+    ],
+    "domain.start_challenge": [
+      "Défi lancé"
+    ],
+    "domain.petrified_tree": [
+      "Arbre pétrifié"
+    ],
+    "domain.resin_use_prompt_lead": [
+      "Souhaitez-vous toujours"
+    ],
+    "domain.resin_use_prompt_challenge": [
+      "défier"
+    ],
+    "domain.resin_use_prompt_domain": [
+      "donjon"
+    ],
+    "expedition.entry": [
+      "Expédition",
+      "Expéditions"
+    ],
+    "expedition.time_shortened": ["Temps réduit"],
+    "expedition.rewards_increased": ["Récompenses augmentées"],
+    "expedition.no_bonus": ["Aucun bonus"],
+    "expedition.complete": ["Expédition terminée"],
+    "expedition.in_progress": ["Expédition en cours"],
+    "expedition.rewards": ["Récompenses d'expédition"],
+    "adventurers_guild.katheryne": [
+      "Catherine"
+    ],
+    "adventurers_guild.daily_commissions": [
+      "quotidien",
+      "Missions"
+    ],
+    "adventure_handbook.daily_reward_claimed": [
+      "récupérées"
+    ],
+    "serenitea_pot.spirit": [
+      "Taby",
+      "Esprit de la théière"
+    ],
+    "serenitea_pot.trust_rank": [
+      "Niveau de confiance"
+    ],
+    "serenitea_pot.realm_depot": [
+      "Bazar du royaume"
+    ],
+    "fishing.bite": [
+      "mordu"
+    ],
+    "fishing.action": [
+      "Pêcher",
+      "Pécher",
+      "P[êé]cher"
+    ],
+    "world_area.serenitea_pot": [
+      "Sérénithéière"
+    ],
+    "world_area.nod_krai": [
+      "Nod-Krai"
+    ],
+    "world_area.snezhnaya": [
+      "Snezhnaya"
+    ],
+    "world_area.fontaine": [
+      "Fontaine"
+    ],
+    "world_area.liyue": [
+      "Liyue"
+    ],
+    "world_area.inazuma": [
+      "Inazuma"
+    ],
+    "world_area.natlan": [
+      "Natlan"
+    ],
+    "world_area.mondstadt": [
+      "Mondstadt"
+    ],
+    "world_area.sumeru": [
+      "Sumeru"
+    ],
+    "artifact.quick_select": [
+      "Sélection rapide",
+      "Sélection.*rapide"
+    ],
+    "artifact.star_1": [
+      "Artéfact 1★",
+      "Artéfact.*1★?"
+    ],
+    "artifact.star_2": [
+      "Artéfact 2★",
+      "Artéfact.*2★?"
+    ],
+    "artifact.star_3": [
+      "Artéfact 3★",
+      "Artéfact.*3★?"
+    ],
+    "artifact.star_4": [
+      "Artéfact 4★",
+      "Artéfact.*4★?"
+    ],
+    "artifact.affix.atk": [
+      "ATQ"
+    ],
+    "artifact.affix.def": [
+      "DÉF"
+    ],
+    "artifact.affix.hp": [
+      "PV"
+    ],
+    "artifact.affix.crit_rate": [
+      "Taux CRIT"
+    ],
+    "artifact.affix.crit_dmg": [
+      "DGT CRIT"
+    ],
+    "artifact.affix.elemental_mastery": [
+      "Maîtrise élémentaire"
+    ],
+    "artifact.affix.energy_recharge": [
+      "Recharge d'énergie"
+    ],
+    "artifact.affix.healing_bonus": [
+      "Bonus de soins"
+    ],
+    "artifact.affix.physical_dmg_bonus": [
+      "Bonus de DGT physiques"
+    ],
+    "artifact.affix.pyro_dmg_bonus": [
+      "Bonus de DGT Pyro"
+    ],
+    "artifact.affix.hydro_dmg_bonus": [
+      "Bonus de DGT Hydro"
+    ],
+    "artifact.affix.dendro_dmg_bonus": [
+      "Bonus de DGT Dendro"
+    ],
+    "artifact.affix.electro_dmg_bonus": [
+      "Bonus de DGT Électro"
+    ],
+    "artifact.affix.anemo_dmg_bonus": [
+      "Bonus de DGT Anémo"
+    ],
+    "artifact.affix.cryo_dmg_bonus": [
+      "Bonus de DGT Cryo"
+    ],
+    "artifact.affix.geo_dmg_bonus": [
+      "Bonus de DGT Géo"
+    ],
+    "stygian.return": ["Retour"],
+    "stygian.challenge_failed": ["Défi échoué"],
+    "stygian.retry_challenge": ["Réessayer le défi"],
+    "stygian.ley_line_blossom": ["Fleur des lignes énergétiques"],
+    "stygian.character_preview": ["Aperçu de personnage"],
+    "stygian.event_name": ["Carnage chtonien"],
+    "stygian.event_overview": ["Aperçu des événements"],
+    "stygian.reward_phase": ["Phase d'explosion turbulente"],
+    "stygian.phase_ended": ["Terminé"],
+    "stygian.go_to_challenge": ["Aller au défi"],
+    "stygian.hard_difficulty": ["Difficile"],
+    "stygian.ultimate_challenge": ["Défi périlleux"],
+    "stygian.normal_challenge": ["Défi normal"],
+    "stygian.preset_teams": ["Équipes prédéfinies"],
+    "common.goodbye": [
+      "Au revoir"
+    ],
+    "common.obtained": [
+      "Obtenu"
+    ],
+    "auto_pick.suppressed_label": [
+      "longtemps",
+      "Lieu de rassemblement",
+      "Ding-dong",
+      "Bastion de l'Ouest",
+      "Camp du promontoire",
+      "Jardin de la sorcière",
+      "Carte oraculaire lunaire"
+    ],
+    "auto_pick.tribe_lead": [
+      "Je suis chez"
+    ],
+    "auto_pick.tribe_marker": [
+      "Réputation",
+      "Échos",
+      "Rejetons des canopées",
+      "Peuple des sources"
+    ],
+    "auto_pick.frostmoon": [
+      "Lune de givre"
+    ],
+    "auto_pick.workshop": [
+      "Atelier"
+    ],
+    "auto_pick.egg_roll": [
+      "Krumkake"
+    ],
+    "character.talent_introduction": [
+      "Infos sur les aptitudes"
+    ],
+    "character.talent_level": [
+      "Niveau d'aptitude"
+    ],
+    "character.attribute": [
+      "Attributs"
+    ],
+    "character.weapon": [
+      "Arme"
+    ],
+    "character.talent": [
+      "Aptitudes"
+    ],
+    "game_loading.age_prompt": [
+      "classification d'âge",
+      "contrôle parental"
+    ],
+    "inventory.enhancement_ore": [
+      "Minerai de renforcement",
+      "Minerai de renforcement raffiné",
+      "Minerai de renforcement mystique"
+    ],
+    "wood.material": [
+      "Bois de mauve",
+      "Bois de frêne blanc",
+      "Bois de torche",
+      "Bois de tilleul",
+      "Bois de cyprès",
+      "Bois de palmier-dattier",
+      "Bois d'athel",
+      "Bois lumineux",
+      "Bois de karmaphala",
+      "Bois d'adhigama",
+      "Bois d'érable",
+      "Bois de cèdre parfumé",
+      "Bois de sapin",
+      "Segment de bambou",
+      "Bois de sablonier",
+      "Bois de pin",
+      "Bois de cuihua",
+      "Bois de bouleau",
+      "Bois d'aralia",
+      "Bois de yumemiru",
+      "Bois d'otogi",
+      "Bois de flamboyance",
+      "Bois de palmier-pêche",
+      "Bois d'aratiku cendré",
+      "Bois de chêne-châtaignier blanc"
+    ],
+    "serenitea_pot.companionship_exp_unavailable": [
+      "Impossible de récupérer l'EXP d'affinité"
+    ],
+    "serenitea_pot.sold_out": [
+      "Épuisé"
+    ],
+    "artifact.set_contains": [
+      "Contenu de l'ensemble"
+    ],
+    "character.normal_attack": [
+      "Attaque normale"
+    ],
+    "character.elemental_skill": [
+      "Compétence élémentaire"
+    ],
+    "character.elemental_burst": [
+      "Déchaînement élémentaire"
+    ],
+    "common.clear": [
+      "Effacer"
+    ],
+    "common.filter": [
+      "Filtrer"
+    ],
+    "common.enter": [
+      "Entrer"
+    ],
+    "common.leave": [
+      "Quitter"
+    ],
+    "common.paste": [
+      "Coller"
+    ],
+    "party.confirm_filter": [
+      "Confirmer le filtre"
+    ],
+    "party.configuration_unavailable": [
+      "La configuration d'équipe est indisponible dans l'état actuel"
+    ],
+    "party.elemental_resonance": [
+      "Résonance élémentaire"
+    ],
+    "party.configuration": [
+      "Configuration d'équipe"
+    ],
+    "party.remove": [
+      "Retirer"
+    ],
+    "party.friendship": [
+      "Affinité"
+    ],
+    "party.replace": [
+      "Remplacer"
+    ],
+    "party.join": [
+      "Ajouter"
+    ],
+    "party.order": [
+      "Ordre"
+    ],
+    "redemption.account": [
+      "Compte"
+    ],
+    "redemption.go_to_redeem": [
+      "Accéder à l'échange"
+    ],
+    "redemption.redeem_reward": [
+      "Échanger la récompense"
+    ],
+    "redemption.success": [
+      "Échange réussi"
+    ],
+    "expedition.select_character": [
+      "Sélectionner un personnage"
+    ],
+    "expedition.character_selection": [
+      "Sélection de personnage"
+    ],
+    "ley_line.fight_success": [
+      "Défi terminé",
+      "Victoire",
+      "Défi réussi"
+    ],
+    "ley_line.fight_failure": [
+      "Échec du défi"
+    ],
+    "ley_line.fight_objective": [
+      "Vaincre",
+      "tous",
+      "ennemis"
+    ]
+  }
+}

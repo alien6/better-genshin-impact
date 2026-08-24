@@ -18,6 +18,7 @@ using BetterGenshinImpact.GameTask.Common.BgiVision;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
 using BetterGenshinImpact.GameTask.Common.Job;
 using BetterGenshinImpact.GameTask.Common.StateMachine;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.QuickTeleport.Assets;
 using BetterGenshinImpact.Helpers.Extensions;
@@ -82,11 +83,17 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     private readonly AutoStygianOnslaughtParam _taskParam;
     private readonly CombatScriptBag? _combatScriptBag;
     private readonly string? _jsonCombatStrategyPath;
+    private readonly StygianTextRecognizer _textRecognizer;
+    private readonly DomainTextRecognizer _resinTextRecognizer;
     private List<ResinUseRecord> _resinPriorityListWhenSpecifyUse;
     private LowerHeadThenWalkToTask? _lowerHeadThenWalkToTask;
     public AutoStygianOnslaughtTask(AutoStygianOnslaughtParam taskParam)
     {
         _taskParam = taskParam;
+        var matcher = App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new StygianTextRecognizer(matcher);
+        _resinTextRecognizer = AutoDomainTask.CreateResinTextRecognizer(matcher);
         if (taskParam.CombatScriptBagPath.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
         {
             _jsonCombatStrategyPath = taskParam.CombatScriptBagPath;
@@ -104,6 +111,10 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     public AutoStygianOnslaughtTask(AutoStygianOnslaughtParam taskParam, string path)
     {
         _taskParam = taskParam;
+        var matcher = App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new StygianTextRecognizer(matcher);
+        _resinTextRecognizer = AutoDomainTask.CreateResinTextRecognizer(matcher);
         if (path.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
         {
             _jsonCombatStrategyPath = path;
@@ -248,17 +259,19 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     [StateDetector(StygianState.BattleResultWin, Order = 60)]
     private bool DetectBattleResultWin(ImageRegion ra)
     {
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+            RecognitionObject.Ocr(ra.Width * 0.35, ra.Height * 0.7, ra.Width * 0.3, ra.Height * 0.2)).Select(o => o.Text));
         return ra.Find(ElementRecognition.Get("BtnWhiteCancel", ra)).IsExist() &&
-               ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.35, ra.Height * 0.7, ra.Width * 0.3, ra.Height * 0.2))
-                 .Any(o => o.Text.Contains("返回"));
+               ocrTexts.Any(_textRecognizer.IsReturn);
     }
 
     [StateDetector(StygianState.BattleResultLose, Order = 70)]
     private bool DetectBattleResultLose(ImageRegion ra)
     {
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+            RecognitionObject.Ocr(ra.Width * 0.2, ra.Height * 0.3, ra.Width * 0.6, ra.Height * 0.3)).Select(o => o.Text));
         return ra.Find(ElementRecognition.Get("BtnWhiteConfirm", ra)).IsExist() &&
-               ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.2, ra.Height * 0.3, ra.Width * 0.6, ra.Height * 0.3))
-                 .Any(o => o.Text.Contains("挑战失败") || o.Text.Contains("重新挑战"));
+               ocrTexts.Any(text => _textRecognizer.IsChallengeFailed(text) || _textRecognizer.IsRetryChallenge(text));
     }
 
     // ========== 第三优先级：OCR 检测 ==========
@@ -266,17 +279,17 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     [StateDetector(StygianState.ResinSelect, Order = 80)]
     private bool DetectResinSelect(ImageRegion ra)
     {
-        var ocrResult = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.2, ra.Height * 0.2, ra.Width * 0.6, ra.Height * 0.6));
-        return ocrResult.Any(t => t.Text.Contains("地脉之花")) &&
-               ocrResult.Any(t => t.Text.Contains("浓缩树脂") || t.Text.Contains("原粹树脂"));
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+            RecognitionObject.Ocr(ra.Width * 0.2, ra.Height * 0.2, ra.Width * 0.6, ra.Height * 0.6)).Select(o => o.Text));
+        return _textRecognizer.IsResinSelect(ocrTexts);
     }
 
     [StateDetector(StygianState.LeylineFlowerPrompt, Order = 90)]
     private bool DetectLeylineFlowerPrompt(ImageRegion ra)
     {
-        var ocrResult = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.2, ra.Height * 0.2, ra.Width * 0.6, ra.Height * 0.6));
-        var found = ocrResult.Any(t => t.Text.Contains("地脉之花"));
-        return found;
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+            RecognitionObject.Ocr(ra.Width * 0.2, ra.Height * 0.2, ra.Width * 0.6, ra.Height * 0.6)).Select(o => o.Text));
+        return ocrTexts.Any(_textRecognizer.IsLeyLineBlossom);
     }
 
     [StateDetector(StygianState.BossSelect, Order = 100)]
@@ -284,9 +297,10 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     {
         // "角色预览" 在右上角，"开始挑战" 在右下角
         // 检测右侧整个区域
-        var ocrResult = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.5, 0, ra.Width * 0.5, ra.Height));
-        var hasPreview = ocrResult.Any(o => o.Text.Contains("角色预览"));
-        var hasStart = ocrResult.Any(o => o.Text.Contains("开始挑战"));
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+            RecognitionObject.Ocr(ra.Width * 0.5, 0, ra.Width * 0.5, ra.Height)).Select(o => o.Text));
+        var hasPreview = ocrTexts.Any(_textRecognizer.IsCharacterPreview);
+        var hasStart = ocrTexts.Any(_textRecognizer.IsStartChallenge);
         var found = hasPreview && hasStart;
         return found;
     }
@@ -295,8 +309,9 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     private bool DetectDifficultySelect(ImageRegion ra)
     {
         // "单人挑战" 在右下角
-        return ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.5, ra.Height * 0.7, ra.Width * 0.5, ra.Height * 0.3))
-                 .Any(o => o.Text.Contains("单人挑战"));
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+            RecognitionObject.Ocr(ra.Width * 0.5, ra.Height * 0.7, ra.Width * 0.5, ra.Height * 0.3)).Select(o => o.Text));
+        return ocrTexts.Any(_textRecognizer.IsSoloChallenge);
     }
 
     [StateDetector(StygianState.DomainEntrance, Order = 120)]
@@ -305,8 +320,8 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
         // 秘境入口特征：屏幕右侧有"幽境危战"四个字
         // 坐标：左上角(1223, 510), 右下角(1376, 566)
         // 宽度=153, 高度=56
-        return ra.FindMulti(RecognitionObject.Ocr(1223, 510, 153, 56))
-                 .Any(o => o.Text.Contains("幽境危战"));
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(RecognitionObject.Ocr(1223, 510, 153, 56)).Select(o => o.Text));
+        return ocrTexts.Any(_textRecognizer.IsEventName);
     }
 
     [StateDetector(StygianState.EventMenu, Order = 130)]
@@ -314,16 +329,18 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     {
         // 活动一览位置：左上角(125, 142), 右下角(238, 170)
         // OCR 参数：(x, y, width, height)
-        return ra.FindMulti(RecognitionObject.Ocr(125, 142, 238 - 125, 170 - 142))
-                 .Any(o => o.Text.Contains("活动一览"));
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+            RecognitionObject.Ocr(125, 142, 238 - 125, 170 - 142)).Select(o => o.Text));
+        return ocrTexts.Any(_textRecognizer.IsEventOverview);
     }
 
     [StateDetector(StygianState.StygianOnslaughtPage, Order = 140)]
     private bool DetectStygianOnslaughtPage(ImageRegion ra)
     {
         // 活动详情页右侧主标题：左上角(1135, 278)，右下角(1400, 353)
-        return ra.FindMulti(RecognitionObject.Ocr(1135, 278, 1400 - 1135, 353 - 278))
-                 .Any(o => o.Text.Contains("幽境危战"));
+        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+            RecognitionObject.Ocr(1135, 278, 1400 - 1135, 353 - 278)).Select(o => o.Text));
+        return ocrTexts.Any(_textRecognizer.IsEventName);
     }
 
     #endregion
@@ -348,6 +365,7 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
         var listCenterX = (195 + 491) / 2;  // 343
         var listCenterY = (201 + 855) / 2;  // 528
         var listRegion = new Rect(195, 201, 491 - 195, 855 - 201);
+        var eventNameLocator = page.GetByTextKey(GameTextKeys.Stygian.EventName);
 
         // 最多尝试两次（先往下滑动搜索，如果没找到再往上滑动搜索）
         for (int attempt = 0; attempt < 2; attempt++)
@@ -369,7 +387,7 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
             await Delay(500, _ct);
 
             // 2. 在列表区域内查找"幽境危战"并点击
-            var target = page.GetByText("幽境危战").WithRoi(listRegion).FindAll().FirstOrDefault();
+            var target = eventNameLocator.WithRoi(listRegion).FindAll().FirstOrDefault();
             if (target != null)
             {
                 target.Click();
@@ -391,9 +409,9 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     {
         using (var ra = CaptureToRectArea())
         {
-            var ocrResult = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.32, ra.Height * 0.68, ra.Width * 0.16, ra.Height * 0.1));
-            if (ocrResult.Any(o => o.Text.Contains("紊乱爆发期")) &&
-                ocrResult.Any(o => o.Text.Contains("已结束")))
+            var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+                RecognitionObject.Ocr(ra.Width * 0.32, ra.Height * 0.68, ra.Width * 0.16, ra.Height * 0.1)).Select(o => o.Text));
+            if (_textRecognizer.IsRewardPhaseEnded(ocrTexts))
             {
                 Logger.LogInformation($"{Name}：检测到紊乱爆发期已结束，按 Esc 返回主界面");
                 Simulation.SendInput.Keyboard.KeyPress(Vanara.PInvoke.User32.VK.VK_ESCAPE);
@@ -403,7 +421,7 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
         }
 
         Logger.LogInformation($"{Name}：点击前往挑战");
-        var challengeButton = page.GetByText("前往挑战").WithRoi(r => r.CutRight(0.5)).FindAll().FirstOrDefault();
+        var challengeButton = page.GetByTextKey(GameTextKeys.Stygian.GoToChallenge).WithRoi(r => r.CutRight(0.5)).FindAll().FirstOrDefault();
         if (challengeButton == null)
         {
             Logger.LogWarning($"{Name}：未找到前往挑战按钮");
@@ -679,7 +697,8 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
         var textList = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.25, ra.Height * 0.2, ra.Width * 0.5, ra.Height * 0.6));
 
         // 检查是否无树脂
-        if (textList.Any(t => t.Text.Contains("数量不足") || t.Text.Contains("补充原粹树脂")))
+        var normalizedTexts = _textRecognizer.NormalizeOcrTexts(textList.Select(t => t.Text));
+        if (normalizedTexts.Any(text => _textRecognizer.IsResinInsufficient(text) || _textRecognizer.IsSupplementResin(text)))
         {
             Logger.LogInformation("原粹树脂已用尽");
             return false;
@@ -741,12 +760,12 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
 
             if (resinStatus.CondensedResinCount > 0)
             {
-                AutoDomainTask.PressUseResin(ra, "浓缩树脂", Name);
+                AutoDomainTask.PressUseResin(ra, "浓缩树脂", _resinTextRecognizer, Name);
                 resinStatus.CondensedResinCount -= 1;
             }
             else if (resinStatus.OriginalResinCount >= 20)
             {
-                var (_, num) = AutoDomainTask.PressUseResin(ra, "原粹树脂", Name);
+                var (_, num) = AutoDomainTask.PressUseResin(ra, "原粹树脂", _resinTextRecognizer, Name);
                 resinStatus.OriginalResinCount -= num;
             }
 
@@ -761,7 +780,7 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
             {
                 if (record.RemainCount > 0)
                 {
-                    var (success, _) = AutoDomainTask.PressUseResin(textList, record.Name, Name);
+                    var (success, _) = AutoDomainTask.PressUseResin(textList, record.Name, _resinTextRecognizer, Name);
                     if (success)
                     {
                         record.RemainCount -= 1;
@@ -862,7 +881,7 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
         // 先看看当前身边是否有F，有的话，直接F
         using var ra1 = CaptureToRectArea();
         var text = Bv.FindFKeyText(ra1);
-        if (string.IsNullOrEmpty(text) || !text.Contains("激活"))
+        if (string.IsNullOrEmpty(text) || !_textRecognizer.IsActivate(_textRecognizer.NormalizeOcrText(text)))
         {
             await _lowerHeadThenWalkToTask!.Start(_ct);
         }
@@ -873,8 +892,9 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
             Sleep(300, _ct);
 
             using var ra = CaptureToRectArea();
-            var ocrList = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.25, ra.Height * 0.2, ra.Width * 0.5, ra.Height * 0.6));
-            if (ocrList.Any(t => t.Text.Contains("地脉之花")))
+            var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+                RecognitionObject.Ocr(ra.Width * 0.25, ra.Height * 0.2, ra.Width * 0.5, ra.Height * 0.6)).Select(t => t.Text));
+            if (ocrTexts.Any(_textRecognizer.IsLeyLineBlossom))
             {
                 Logger.LogInformation($"{Name}：成功交互地脉花");
                 return true;
@@ -885,16 +905,19 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
 
     private async Task SwitchToHardModeLoop(BvPage page)
     {
+        var hardDifficultyLocator = page.GetByTextKey(GameTextKeys.Stygian.HardDifficulty);
+        var ultimateChallengeLocator = page.GetByTextKey(GameTextKeys.Stygian.UltimateChallenge);
+        var normalChallengeLocator = page.GetByTextKey(GameTextKeys.Stygian.NormalChallenge);
         var found = await NewRetry.WaitForAction(() =>
         {
             // 如果已经在困难模式，直接返回
-            if (page.GetByText("困难").WithRoi(r => r.CutTop(0.2)).IsExist())
+            if (hardDifficultyLocator.WithRoi(r => r.CutTop(0.2)).IsExist())
             {
                 return true;
             }
 
             // 检测是否在至危挑战模式，点击切换到常规挑战
-            var ultimateChallenge = page.GetByText("至危挑战").WithRoi(r => r.CutLeftTop(0.5, 0.2)).FindAll().FirstOrDefault();
+            var ultimateChallenge = ultimateChallengeLocator.WithRoi(r => r.CutLeftTop(0.5, 0.2)).FindAll().FirstOrDefault();
             if (ultimateChallenge != null)
             {
                 Logger.LogInformation($"{Name}：检测到至危挑战，点击切换到常规挑战");
@@ -904,7 +927,7 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
             }
 
             // 检测常规挑战模式，点击右侧打开难度选择菜单
-            var normalChallenge = page.GetByText("常规挑战").WithRoi(r => r.CutLeftTop(0.5, 0.2)).FindAll().FirstOrDefault();
+            var normalChallenge = normalChallengeLocator.WithRoi(r => r.CutLeftTop(0.5, 0.2)).FindAll().FirstOrDefault();
             if (normalChallenge != null)
             {
                 Logger.LogInformation($"{Name}：检测到常规挑战，点击打开难度菜单");
@@ -921,7 +944,7 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
             }
 
             // 在难度菜单中查找并点击“困难”
-            var hardMode = page.GetByText("困难").FindAll().FirstOrDefault();
+            var hardMode = hardDifficultyLocator.FindAll().FirstOrDefault();
             if (hardMode != null)
             {
                 Logger.LogInformation($"{Name}：点击困难模式");
@@ -1069,8 +1092,9 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
                     using var ret = ra.Find(whiteCancelRo);
                     if (ret.IsExist())
                     {
-                        var list = ra.FindMulti(RecognitionObject.Ocr(ret.X + 40 * assetScale, ret.Y - 20 * assetScale, 270 * assetScale, ret.Height * 2));
-                        if (list.Any(o => o.Text.Contains("返回")))
+                        var ocrTexts = _textRecognizer.NormalizeOcrTexts(ra.FindMulti(
+                            RecognitionObject.Ocr(ret.X + 40 * assetScale, ret.Y - 20 * assetScale, 270 * assetScale, ret.Height * 2)).Select(o => o.Text));
+                        if (ocrTexts.Any(_textRecognizer.IsReturn))
                         {
                             return true;
                         }
@@ -1104,14 +1128,15 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
 
     private async Task OpenTeamPanelLoop(BvPage page)
     {
+        var presetTeamsLocator = page.GetByTextKey(GameTextKeys.Stygian.PresetTeams);
         var found = await NewRetry.WaitForAction(() =>
         {
-            if (page.GetByText("预设队伍").WithRoi(r => r.CutLeftTop(0.15, 0.075)).IsExist())
+            if (presetTeamsLocator.WithRoi(r => r.CutLeftTop(0.15, 0.075)).IsExist())
             {
                 return true;
             }
 
-            var teamButton = page.GetByText("预设队伍").WithRoi(r => r.CutRightBottom(0.3, 0.1)).FindAll().FirstOrDefault();
+            var teamButton = presetTeamsLocator.WithRoi(r => r.CutRightBottom(0.3, 0.1)).FindAll().FirstOrDefault();
             teamButton?.Click();
             Sleep(300, _ct);
             return false;

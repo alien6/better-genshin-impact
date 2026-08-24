@@ -1,13 +1,13 @@
 using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask.AutoFight.Assets;
 using BetterGenshinImpact.GameTask.Common.Element.Assets;
+using BetterGenshinImpact.GameTask.Common.GameText;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using BetterGenshinImpact.GameTask.QuickTeleport.Assets;
 using BetterGenshinImpact.Helpers;
-using Microsoft.Extensions.Localization;
 using OpenCvSharp;
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -27,6 +27,12 @@ public enum GameUiCategory
 
 public static partial class Bv
 {
+    private static readonly Lazy<CommonJobTextRecognizer> CommonJobTextRecognizerLazy = new(
+        () => new CommonJobTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.")),
+        LazyThreadSafetyMode.ExecutionAndPublication);
+
     public static GameUiCategory WhichGameUi()
     {
         using var region = TaskControl.CaptureToRectArea();
@@ -254,10 +260,7 @@ public static partial class Bv
                 RegionOfInterest = new Rect(0, 0, region.Width, region.Height / 2)
             });
 
-            CultureInfo cultureInfo = new CultureInfo(TaskContext.Instance().Config.OtherConfig.GameCultureInfoName);
-            IStringLocalizer stringLocalizer = App.GetService<IStringLocalizer<BvResxHelper>>() ?? throw new Exception();
-            string revival = stringLocalizer.WithCultureGet(cultureInfo, "复苏");
-            if (list.Any(r => r.Text.Contains(revival)))
+            if (list.Any(r => CommonJobTextRecognizerLazy.Value.IsRevive(r.Text)))
             {
                 return true;
             }
@@ -278,7 +281,7 @@ public static partial class Bv
             RecognitionType = RecognitionTypes.Ocr,
             RegionOfInterest = new Rect(0, region.Height / 4 * 3, region.Width, region.Height / 4)
         });
-        using var r = list.FirstOrDefault(r => r.Text.Contains("复苏"));
+        using var r = list.FirstOrDefault(r => CommonJobTextRecognizerLazy.Value.IsRevive(r.Text));
         if (r != null)
         {
             r.Click();

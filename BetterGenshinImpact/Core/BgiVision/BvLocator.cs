@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask;
 using BetterGenshinImpact.GameTask.Common;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.Area;
 using Microsoft.Extensions.Logging;
 using OpenCvSharp;
@@ -22,6 +23,8 @@ public class BvLocator
     private static readonly ILogger Logger = App.GetLogger<BvLocator>();
     private readonly CancellationToken _cancellationToken;
     private readonly IReadOnlyList<string> _anyTexts;
+    private readonly IReadOnlyList<string> _gameTextKeys;
+    private readonly IReadOnlyList<string> _normalizedAnyTexts;
     private int? _timeout;
     private int? _retryInterval;
 
@@ -42,17 +45,40 @@ public class BvLocator
         RecognitionObject recognitionObject,
         CancellationToken cancellationToken,
         IReadOnlyList<string> anyTexts)
+        : this(recognitionObject, cancellationToken, anyTexts, [], [])
+    {
+    }
+
+    internal BvLocator(
+        RecognitionObject recognitionObject,
+        CancellationToken cancellationToken,
+        IReadOnlyList<string> anyTexts,
+        IReadOnlyList<string> gameTextKeys,
+        IReadOnlyList<string> normalizedAnyTexts)
     {
         RecognitionObject = recognitionObject.Clone();
         _cancellationToken = cancellationToken;
         _anyTexts = anyTexts.ToArray();
+        _gameTextKeys = gameTextKeys.ToArray();
+        _normalizedAnyTexts = normalizedAnyTexts.ToArray();
     }
 
     internal IReadOnlyList<string> AnyTexts => _anyTexts;
 
+    internal string? GameTextKey => _gameTextKeys.Count == 1 ? _gameTextKeys[0] : null;
+
+    internal IReadOnlyList<string> GameTextKeys => _gameTextKeys;
+
+    internal IReadOnlyList<string> NormalizedAnyTexts => _normalizedAnyTexts;
+
     internal BvLocator Clone()
     {
-        return new BvLocator(RecognitionObject, _cancellationToken, _anyTexts);
+        return new BvLocator(
+            RecognitionObject,
+            _cancellationToken,
+            _anyTexts,
+            _gameTextKeys,
+            _normalizedAnyTexts);
     }
 
     /// <summary>
@@ -82,6 +108,11 @@ public class BvLocator
         else if (RecognitionObject.RecognitionType == RecognitionTypes.Ocr)
         {
             var results = screen.FindMulti(RecognitionObject);
+            if (_gameTextKeys.Count > 0)
+            {
+                return results.FindAll(region => MatchesOcrText(region.Text));
+            }
+
             return FilterOcrResults(results, _anyTexts, RecognitionObject.Text);
         }
         else
@@ -104,6 +135,45 @@ public class BvLocator
         return string.IsNullOrEmpty(text)
             ? results
             : results.FindAll(region => region.Text.Contains(text, StringComparison.Ordinal));
+    }
+
+    internal bool MatchesOcrText(string text)
+    {
+        if (_gameTextKeys.Count > 0)
+        {
+            var normalizedText = GameTextNormalizer.Normalize(text);
+            return normalizedText.Length > 0
+                && _normalizedAnyTexts.Any(alias => alias.Length > 0
+                    && normalizedText.Contains(alias, StringComparison.Ordinal));
+        }
+
+        if (_anyTexts.Count > 0)
+        {
+            return _anyTexts.Any(candidate => text.Contains(candidate, StringComparison.Ordinal));
+        }
+
+        return string.IsNullOrEmpty(RecognitionObject.Text)
+            || text.Contains(RecognitionObject.Text, StringComparison.Ordinal);
+    }
+
+    internal string DescribeTarget()
+    {
+        if (_gameTextKeys.Count > 0)
+        {
+            return $"文字键[{string.Join('|', _gameTextKeys)}]（别名[{string.Join('|', _anyTexts)}]）";
+        }
+
+        if (_anyTexts.Count > 0)
+        {
+            return $"文字[{string.Join('|', _anyTexts)}]";
+        }
+
+        return RecognitionObject.RecognitionType switch
+        {
+            RecognitionTypes.Ocr => $"文字[{RecognitionObject.Text}]",
+            RecognitionTypes.TemplateMatch => $"图像[{RecognitionObject.Name}]",
+            _ => "识别元素"
+        };
     }
 
     public bool IsExist()
@@ -162,6 +232,11 @@ public class BvLocator
     {
         if (RecognitionObject.RecognitionType == RecognitionTypes.Ocr)
         {
+            if (_gameTextKeys.Count > 0)
+            {
+                return new TimeoutException($"识别{DescribeTarget()}在 {actualTimeout}ms 后超时未出现！");
+            }
+
             if (_anyTexts.Count > 0)
             {
                 return new TimeoutException(
