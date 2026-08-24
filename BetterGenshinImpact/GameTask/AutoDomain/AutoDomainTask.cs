@@ -89,14 +89,54 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
             ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
     }
 
-    private static RecognitionObject GetConfirmRa(IReadOnlyList<string> targetText)
+    private static RecognitionObject GetConfirmRa()
     {
         using var screenArea = CaptureToRectArea();
         var x = (int)(screenArea.Width * 0.5);
         var y = (int)(screenArea.Height * 0.5);
         var width = (int)(screenArea.Width * 0.5);
         var height = (int)(screenArea.Height * 0.5);
-        return RecognitionObject.OcrMatch(x, y, width, height, targetText.ToArray());
+        return RecognitionObject.Ocr(x, y, width, height);
+    }
+
+    private async Task<bool> WaitForConfirmTextAppear(string key, CancellationToken ct, int maxAttemptCount, int retryInterval)
+    {
+        var recognitionObject = GetConfirmRa();
+        for (var i = 0; i < maxAttemptCount; i++)
+        {
+            if (ct.IsCancellationRequested) return false;
+
+            await Delay(retryInterval, ct);
+            using var screen = CaptureToRectArea();
+            using var result = screen.Find(recognitionObject);
+            if (!result.IsEmpty() && _textRecognizer.IsConfirmText(result.Text, key))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private async Task<bool> WaitForConfirmTextDisappear(string key, Action<ImageRegion> retryAction, CancellationToken ct, int maxAttemptCount, int retryInterval)
+    {
+        var recognitionObject = GetConfirmRa();
+        for (var i = 0; i < maxAttemptCount; i++)
+        {
+            if (ct.IsCancellationRequested) return false;
+
+            using var screen = CaptureToRectArea();
+            using var result = screen.Find(recognitionObject);
+            if (result.IsEmpty() || !_textRecognizer.IsConfirmText(result.Text, key))
+            {
+                return true;
+            }
+
+            retryAction(screen);
+            await Delay(retryInterval, ct);
+        }
+
+        return false;
     }
 
     Task ISoloTask.Start(CancellationToken ct) => Start(ct);
@@ -381,13 +421,7 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
             20,
             500
         );
-        var menuFound = await NewRetry.WaitForElementAppear(
-            GetConfirmRa(_textRecognizer.SoloChallengeOcrMatchAliases),
-            null,//只等待,不执行操作
-            _ct,
-            20,
-            500
-        );
+        var menuFound = await WaitForConfirmTextAppear(GameTextKeys.Domain.SoloChallenge, _ct, 20, 500);
         if (!menuFound)
         {
             Logger.LogWarning("单人挑战 按键未出现，请检查是否已进入秘境页面");
@@ -514,8 +548,8 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
         }
 
         // 点击开始挑战确认并等待“开始挑战”文字消失
-        var startFightFound = await NewRetry.WaitForElementDisappear(
-            GetConfirmRa(_textRecognizer.StartChallengeOcrMatchAliases),
+        var startFightFound = await WaitForConfirmTextDisappear(
+            GameTextKeys.Domain.StartChallenge,
             screen =>
             {
                 screen.Find(RecognitionAssets.Get("AutoFight", "Confirm", screen), ra =>
@@ -1420,26 +1454,39 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
     public static (bool, int) PressUseResin(ImageRegion ra, string resinName, string logPrefix = "自动秘境")
     {
+        return PressUseResin(ra, resinName, CreateResinTextRecognizer(
+            App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.")), logPrefix);
+    }
+
+    internal static (bool, int) PressUseResin(ImageRegion ra, string resinName, DomainTextRecognizer textRecognizer, string logPrefix = "自动秘境")
+    {
         var regionList = ra.FindMulti(RecognitionObject.Ocr(ra.Width * 0.25, ra.Height * 0.2, ra.Width * 0.5, ra.Height * 0.6));
-        return PressUseResin(regionList, resinName, logPrefix);
+        return PressUseResin(regionList, resinName, textRecognizer, logPrefix);
     }
 
     public static (bool, int) PressUseResin(List<Region> regionList, string resinName, string logPrefix = "自动秘境")
     {
-        var textRecognizer = new RemainingGameTextRecognizer(
+        return PressUseResin(regionList, resinName, CreateResinTextRecognizer(
             App.GetService<IGameTextMatcher>()
-            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.")), logPrefix);
+    }
+
+    internal static DomainTextRecognizer CreateResinTextRecognizer(IGameTextMatcher matcher) => new(matcher);
+
+    internal static (bool, int) PressUseResin(List<Region> regionList, string resinName, DomainTextRecognizer textRecognizer, string logPrefix = "自动秘境")
+    {
         if (resinName == "原粹树脂20" || resinName == "原粹树脂40")
         {
             resinName = "原粹树脂";
         }
 
-        var resinKey = regionList.FirstOrDefault(t => t.Text.Contains(resinName));
+        var resinKey = regionList.FirstOrDefault(t => IsConfiguredResin(textRecognizer, t.Text, resinName));
         if (resinKey != null)
         {
             // 找到树脂名称对应的按键，关键词为使用，是同一行的（高度相交）
             var useList = regionList.Where(t =>
-                textRecognizer.IsMatch(t.Text, GameTextKeys.Common.Use)).ToList();
+                textRecognizer.IsUse(t.Text)).ToList();
             if (useList.Count != 0)
             {
                 // 找到使用按键
@@ -1469,6 +1516,15 @@ public class AutoDomainTask : ISoloTask<Dictionary<string, int>>
 
         return (false, 0);
     }
+
+    internal static bool IsConfiguredResin(DomainTextRecognizer textRecognizer, string recognizedText, string resinName) => resinName switch
+    {
+        "原粹树脂" => textRecognizer.IsOriginalResin(recognizedText),
+        "浓缩树脂" => textRecognizer.IsCondensedResin(recognizedText),
+        "脆弱树脂" => textRecognizer.IsFragileResin(recognizedText),
+        "须臾树脂" => textRecognizer.IsTransientResin(recognizedText),
+        _ => false
+    };
 
     private bool SwitchOriginalResinType(int expectedNum, CancellationToken ct)
     {

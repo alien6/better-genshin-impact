@@ -84,14 +84,16 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     private readonly CombatScriptBag? _combatScriptBag;
     private readonly string? _jsonCombatStrategyPath;
     private readonly StygianTextRecognizer _textRecognizer;
+    private readonly DomainTextRecognizer _resinTextRecognizer;
     private List<ResinUseRecord> _resinPriorityListWhenSpecifyUse;
     private LowerHeadThenWalkToTask? _lowerHeadThenWalkToTask;
     public AutoStygianOnslaughtTask(AutoStygianOnslaughtParam taskParam)
     {
         _taskParam = taskParam;
-        _textRecognizer = new StygianTextRecognizer(
-            App.GetService<IGameTextMatcher>()
-            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
+        var matcher = App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new StygianTextRecognizer(matcher);
+        _resinTextRecognizer = AutoDomainTask.CreateResinTextRecognizer(matcher);
         if (taskParam.CombatScriptBagPath.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
         {
             _jsonCombatStrategyPath = taskParam.CombatScriptBagPath;
@@ -109,9 +111,10 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
     public AutoStygianOnslaughtTask(AutoStygianOnslaughtParam taskParam, string path)
     {
         _taskParam = taskParam;
-        _textRecognizer = new StygianTextRecognizer(
-            App.GetService<IGameTextMatcher>()
-            ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
+        var matcher = App.GetService<IGameTextMatcher>()
+            ?? throw new InvalidOperationException("IGameTextMatcher is not registered.");
+        _textRecognizer = new StygianTextRecognizer(matcher);
+        _resinTextRecognizer = AutoDomainTask.CreateResinTextRecognizer(matcher);
         if (path.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
         {
             _jsonCombatStrategyPath = path;
@@ -757,12 +760,12 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
 
             if (resinStatus.CondensedResinCount > 0)
             {
-                AutoDomainTask.PressUseResin(ra, "浓缩树脂", Name);
+                AutoDomainTask.PressUseResin(ra, "浓缩树脂", _resinTextRecognizer, Name);
                 resinStatus.CondensedResinCount -= 1;
             }
             else if (resinStatus.OriginalResinCount >= 20)
             {
-                var (_, num) = AutoDomainTask.PressUseResin(ra, "原粹树脂", Name);
+                var (_, num) = AutoDomainTask.PressUseResin(ra, "原粹树脂", _resinTextRecognizer, Name);
                 resinStatus.OriginalResinCount -= num;
             }
 
@@ -777,7 +780,7 @@ public class AutoStygianOnslaughtTask : StateMachineBase<StygianState, BvPage>, 
             {
                 if (record.RemainCount > 0)
                 {
-                    var (success, _) = AutoDomainTask.PressUseResin(textList, record.Name, Name);
+                    var (success, _) = AutoDomainTask.PressUseResin(textList, record.Name, _resinTextRecognizer, Name);
                     if (success)
                     {
                         record.RemainCount -= 1;

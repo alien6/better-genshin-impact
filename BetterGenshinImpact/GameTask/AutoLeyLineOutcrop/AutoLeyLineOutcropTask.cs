@@ -1344,13 +1344,14 @@ public class AutoLeyLineOutcropTask : ISoloTask
                 foundText = RecognizeFightText(capture);
             }
 
-            if (_textRecognizer.IsFightSuccessNormalized(text))
+            var normalizedText = _textRecognizer.NormalizeOcrText(text);
+            if (_textRecognizer.IsFightSuccessNormalized(normalizedText))
             {
                 // OCR recognizes victory text; treat as success.
                 return true;
             }
 
-            if (_textRecognizer.IsFightFailureNormalized(text))
+            if (_textRecognizer.IsFightFailureNormalized(normalizedText))
             {
                 // OCR recognizes failure text; stop early.
                 return false;
@@ -1428,15 +1429,19 @@ public class AutoLeyLineOutcropTask : ISoloTask
 
     private bool IsLeyLineRewardReadyState(ImageRegion capture, string result1Text, string result2Text)
     {
-        if (ContainsFightText(result1Text))
+        if (ContainsFightTextNormalized(result1Text))
         {
             return false;
         }
 
-        return ContainsRewardPromptActionText(result2Text) || HasRewardPrompt(capture);
+        return ContainsRewardPromptActionTextNormalized(result2Text) || HasRewardPrompt(capture);
     }
 
-    private bool ContainsFightText(string text) => _textRecognizer.IsFightObjectiveNormalized(text);
+    private bool ContainsFightText(string text) =>
+        ContainsFightTextNormalized(_textRecognizer.NormalizeOcrText(text));
+
+    private bool ContainsFightTextNormalized(string normalizedText) =>
+        _textRecognizer.IsFightObjectiveNormalized(normalizedText);
 
     private async Task AutoNavigateToReward()
     {
@@ -1850,15 +1855,15 @@ public class AutoLeyLineOutcropTask : ISoloTask
         }
 
         var lineTexts = BuildPromptTextLines(promptRegions);
-        var isOriginalResinEmpty = lineTexts.Any(_textRecognizer.IsReplenish);
+        var isOriginalResinEmpty = lineTexts.Any(_textRecognizer.IsReplenishNormalized);
         var hasDoubleReward = lineTexts.Any(text => _textRecognizer.IsDoubleRewardNormalized(text)
                                                     || _textRecognizer.IsDoubleReward2xNormalized(text));
-        var originalResinLines = lineTexts.Where(_textRecognizer.IsOriginalResin).ToList();
+        var originalResinLines = lineTexts.Where(_textRecognizer.IsOriginalResinNormalized).ToList();
         var hasOriginal20 = !isOriginalResinEmpty && originalResinLines.Any(text => text.Contains("20", StringComparison.Ordinal));
         var hasOriginal40 = !isOriginalResinEmpty && originalResinLines.Any(text => text.Contains("40", StringComparison.Ordinal));
-        var hasCondensed = lineTexts.Any(_textRecognizer.IsCondensedResin);
-        var hasTransient = lineTexts.Any(_textRecognizer.IsTransientResin);
-        var hasFragile = lineTexts.Any(_textRecognizer.IsFragileResin);
+        var hasCondensed = lineTexts.Any(_textRecognizer.IsCondensedResinNormalized);
+        var hasTransient = lineTexts.Any(_textRecognizer.IsTransientResinNormalized);
+        var hasFragile = lineTexts.Any(_textRecognizer.IsFragileResinNormalized);
 
         // 双倍奖励下优先切到 40 树脂，避免误用 20 树脂。
         if (hasDoubleReward && hasOriginal20 && !hasOriginal40)
@@ -1873,15 +1878,15 @@ public class AutoLeyLineOutcropTask : ISoloTask
                 }
 
                 lineTexts = BuildPromptTextLines(promptRegions);
-                isOriginalResinEmpty = lineTexts.Any(_textRecognizer.IsReplenish);
+                isOriginalResinEmpty = lineTexts.Any(_textRecognizer.IsReplenishNormalized);
                 hasDoubleReward = lineTexts.Any(text => _textRecognizer.IsDoubleRewardNormalized(text)
                                                         || _textRecognizer.IsDoubleReward2xNormalized(text));
-                originalResinLines = lineTexts.Where(_textRecognizer.IsOriginalResin).ToList();
+                originalResinLines = lineTexts.Where(_textRecognizer.IsOriginalResinNormalized).ToList();
                 hasOriginal20 = !isOriginalResinEmpty && originalResinLines.Any(text => text.Contains("20", StringComparison.Ordinal));
                 hasOriginal40 = !isOriginalResinEmpty && originalResinLines.Any(text => text.Contains("40", StringComparison.Ordinal));
-                hasCondensed = lineTexts.Any(_textRecognizer.IsCondensedResin);
-                hasTransient = lineTexts.Any(_textRecognizer.IsTransientResin);
-                hasFragile = lineTexts.Any(_textRecognizer.IsFragileResin);
+                hasCondensed = lineTexts.Any(_textRecognizer.IsCondensedResinNormalized);
+                hasTransient = lineTexts.Any(_textRecognizer.IsTransientResinNormalized);
+                hasFragile = lineTexts.Any(_textRecognizer.IsFragileResinNormalized);
             }
         }
 
@@ -1975,7 +1980,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
 
     private bool IsRewardPromptTitleText(string text)
     {
-        return _textRecognizer.IsRewardBlossomTitle([text])
+        return _textRecognizer.IsRewardBlossomTitleNormalized([text])
                || (_textRecognizer.IsLeyLineNormalized(text) && _textRecognizer.IsOutcropNormalized(text));
     }
 
@@ -2027,7 +2032,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
 
         using var check = CaptureToRectArea();
         var lineTexts = BuildPromptTextLines(check.FindMulti(_ocrRoThis));
-        return lineTexts.Any(_textRecognizer.IsOriginalResin40Prompt);
+        return lineTexts.Any(_textRecognizer.IsOriginalResin40PromptNormalized);
     }
 
     private static Rect GetRewardPromptTitleRoi(ImageRegion capture)
@@ -2078,11 +2083,12 @@ public class AutoLeyLineOutcropTask : ISoloTask
             .Trim();
     }
 
-    private bool ContainsRewardPromptActionText(string text) => _textRecognizer.IsUseNormalized(text);
+    private bool ContainsRewardPromptActionTextNormalized(string normalizedText) =>
+        _textRecognizer.IsUseNormalized(normalizedText);
 
     private bool ContainsRewardPromptContentText(string text) =>
         _textRecognizer.IsAllowedResinOptionNormalized(text)
-        || _textRecognizer.IsRewardBlossomPrompt([text])
+        || _textRecognizer.IsRewardBlossomPromptNormalized([text])
         || _textRecognizer.IsReplenishNormalized(text)
         || (_textRecognizer.IsUseNormalized(text) && _textRecognizer.IsOriginalResinNormalized(text));
 

@@ -38,7 +38,7 @@ public class LeyLineTextRecognizerTests
     {
         var sut = Create("pt-BR");
 
-        Assert.True(sut.IsRewardBlossomPrompt(Normalize(sut, ["Selecione a forma", "de ativação", "da Flor da Linha Ley"])));
+        Assert.True(sut.IsRewardBlossomPrompt(["SELECIONE A FORMA", "DE ATIVACAO!", "DA FLOR, DA LINHA LEY"]));
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class LeyLineTextRecognizerTests
     {
         var sut = Create("en");
 
-        Assert.True(sut.IsRewardBlossomTitle(Normalize(sut, ["Select Activation Method"])));
+        Assert.True(sut.IsRewardBlossomTitle(["SELECT: ACTIVATION METHOD!"]));
     }
 
     [Fact]
@@ -54,7 +54,17 @@ public class LeyLineTextRecognizerTests
     {
         var sut = Create("en");
 
-        Assert.False(sut.IsRewardBlossomPrompt(Normalize(sut, ["Select"])));
+        Assert.False(sut.IsRewardBlossomPrompt(["SELECT"]));
+    }
+
+    [Fact]
+    public void NormalizedRewardBlossomCollections_AcceptOnlyBoundaryNormalizedText()
+    {
+        var sut = Create("pt-BR");
+        var normalized = Normalize(sut, ["SELECIONE A FORMA", "DE ATIVACAO!", "DA FLOR, DA LINHA LEY"]);
+
+        Assert.True(sut.IsRewardBlossomPromptNormalized(normalized));
+        Assert.True(sut.IsRewardBlossomTitleNormalized(normalized));
     }
 
     [Fact]

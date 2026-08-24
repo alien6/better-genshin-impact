@@ -1,25 +1,65 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using BetterGenshinImpact.GameTask.Localization;
-using BetterGenshinImpact.Helpers;
 
 namespace BetterGenshinImpact.GameTask.AutoDomain;
 
 public sealed class DomainTextRecognizer
 {
-    private readonly IGameTextMatcher _matcher;
-    private readonly CultureInfo? _culture;
+    private static readonly string[] Keys =
+    [
+        GameTextKeys.Domain.ChallengeCompleted,
+        GameTextKeys.Domain.AutoLeaving,
+        GameTextKeys.Domain.Skip,
+        GameTextKeys.Domain.LeyLineDisorder,
+        GameTextKeys.Common.ClickAnywhereToClose,
+        GameTextKeys.Artifact.QuickSelect,
+        GameTextKeys.Artifact.Star2,
+        GameTextKeys.Domain.LimitedTimeFullyOpen,
+        GameTextKeys.Domain.SoloChallenge,
+        GameTextKeys.Domain.StartChallenge,
+        GameTextKeys.Domain.PetrifiedTree,
+        GameTextKeys.Resin.Insufficient,
+        GameTextKeys.Resin.Replenish,
+        GameTextKeys.Domain.ResinUsePromptLead,
+        GameTextKeys.Domain.ResinUsePromptChallenge,
+        GameTextKeys.Domain.ResinUsePromptDomain,
+        GameTextKeys.Resin.Original,
+        GameTextKeys.Resin.Condensed,
+        GameTextKeys.Resin.Fragile,
+        GameTextKeys.Resin.Transient,
+        GameTextKeys.Common.Use,
+        GameTextKeys.Common.Cancel,
+    ];
+
+    private readonly FrozenDictionary<string, IReadOnlyList<string>> _rawAliases;
+    private readonly FrozenDictionary<string, IReadOnlyList<string>> _aliases;
 
     public DomainTextRecognizer(IGameTextMatcher matcher, CultureInfo? culture = null)
     {
-        _matcher = matcher ?? throw new ArgumentNullException(nameof(matcher));
-        _culture = culture;
-        SoloChallengeOcrMatchAliases = NormalizeForOcrMatch(
-            _matcher.GetAliases(GameTextKeys.Domain.SoloChallenge, _culture));
-        StartChallengeOcrMatchAliases = NormalizeForOcrMatch(
-            _matcher.GetAliases(GameTextKeys.Domain.StartChallenge, _culture));
+        ArgumentNullException.ThrowIfNull(matcher);
+        _rawAliases = Keys.ToFrozenDictionary(
+            key => key,
+            key => (IReadOnlyList<string>)matcher.GetAliases(key, culture)
+                .Where(alias => !string.IsNullOrWhiteSpace(alias))
+                .Distinct(StringComparer.Ordinal)
+                .ToArray()
+                .AsReadOnly(),
+            StringComparer.Ordinal);
+        _aliases = _rawAliases.ToFrozenDictionary(
+            pair => pair.Key,
+            pair => (IReadOnlyList<string>)pair.Value
+                .Select(GameTextNormalizer.Normalize)
+                .Where(alias => alias.Length > 0)
+                .Distinct(StringComparer.Ordinal)
+                .ToArray()
+                .AsReadOnly(),
+            StringComparer.Ordinal);
+        SoloChallengeOcrMatchAliases = _rawAliases[GameTextKeys.Domain.SoloChallenge];
+        StartChallengeOcrMatchAliases = _rawAliases[GameTextKeys.Domain.StartChallenge];
     }
 
     public IReadOnlyList<string> SoloChallengeOcrMatchAliases { get; }
@@ -88,9 +128,19 @@ public sealed class DomainTextRecognizer
     public bool IsCancel(string recognizedText) =>
         IsMatch(recognizedText, GameTextKeys.Common.Cancel);
 
-    private bool IsMatch(string recognizedText, string key) =>
-        _matcher.IsMatch(recognizedText, key, _culture);
+    internal bool IsConfirmText(string recognizedText, string key) =>
+        key switch
+        {
+            GameTextKeys.Domain.SoloChallenge => IsSoloChallenge(recognizedText),
+            GameTextKeys.Domain.StartChallenge => IsStartChallenge(recognizedText),
+            _ => throw new ArgumentOutOfRangeException(nameof(key), key, "Unsupported domain confirmation text key.")
+        };
 
-    private static IReadOnlyList<string> NormalizeForOcrMatch(IReadOnlyList<string> aliases) =>
-        aliases.Select(StringUtils.RemoveAllSpace).ToList().AsReadOnly();
+    private bool IsMatch(string recognizedText, string key)
+    {
+        var normalizedText = GameTextNormalizer.Normalize(recognizedText);
+        return normalizedText.Length > 0
+               && _aliases[key].Any(alias => normalizedText.Contains(alias, StringComparison.Ordinal));
+    }
+
 }

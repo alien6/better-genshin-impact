@@ -1,8 +1,6 @@
 using System.Globalization;
-using BetterGenshinImpact.Core.Recognition;
 using BetterGenshinImpact.GameTask.AutoDomain;
 using BetterGenshinImpact.GameTask.Localization;
-using BetterGenshinImpact.Helpers;
 
 namespace BetterGenshinImpact.UnitTest.GameTaskTests.AutoDomainTests;
 
@@ -42,19 +40,19 @@ public class DomainTextRecognizerTests
     {
         var sut = Create("pt-BR");
 
-        Assert.Equal(["DesafioSolo"], sut.SoloChallengeOcrMatchAliases);
-        Assert.Equal(["IniciarDesafio"], sut.StartChallengeOcrMatchAliases);
+        Assert.Equal(["Desafio Solo"], sut.SoloChallengeOcrMatchAliases);
+        Assert.Equal(["Iniciar Desafio"], sut.StartChallengeOcrMatchAliases);
         Assert.True(((ICollection<string>)sut.SoloChallengeOcrMatchAliases).IsReadOnly);
         Assert.True(((ICollection<string>)sut.StartChallengeOcrMatchAliases).IsReadOnly);
     }
 
     [Fact]
-    public void ChallengeAliasSnapshots_NormalizeEveryAliasWithoutDroppingAny()
+    public void ChallengeAliasSnapshots_PreserveEveryAliasWithoutDroppingAny()
     {
         var sut = new DomainTextRecognizer(new ChallengeAliasMatcher());
 
-        Assert.Equal(["SoloChallenge", "LegacySoloChallenge"], sut.SoloChallengeOcrMatchAliases);
-        Assert.Equal(["StartChallenge", "LegacyStartChallenge"], sut.StartChallengeOcrMatchAliases);
+        Assert.Equal(["Solo Challenge", "Legacy Solo Challenge"], sut.SoloChallengeOcrMatchAliases);
+        Assert.Equal(["Start Challenge", "Legacy Start Challenge"], sut.StartChallengeOcrMatchAliases);
         Assert.True(((ICollection<string>)sut.SoloChallengeOcrMatchAliases).IsReadOnly);
         Assert.True(((ICollection<string>)sut.StartChallengeOcrMatchAliases).IsReadOnly);
     }
@@ -69,7 +67,36 @@ public class DomainTextRecognizerTests
         var portuguese = new DomainTextRecognizer(matcher);
 
         Assert.Equal(["单人挑战"], simplifiedChinese.SoloChallengeOcrMatchAliases);
-        Assert.Equal(["DesafioSolo"], portuguese.SoloChallengeOcrMatchAliases);
+        Assert.Equal(["Desafio Solo"], portuguese.SoloChallengeOcrMatchAliases);
+    }
+
+    [Theory]
+    [InlineData(GameTextKeys.Domain.SoloChallenge, "DESAFIO, SOLO!")]
+    [InlineData(GameTextKeys.Domain.StartChallenge, "INICIAR - DESAFIO")]
+    public void ConfirmTextAtProductionBoundary_UsesSemanticMatchingForRawPortugueseOcr(
+        string key,
+        string recognizedText)
+    {
+        var sut = Create("pt-BR");
+
+        Assert.True(sut.IsConfirmText(recognizedText, key));
+    }
+
+    [Fact]
+    public void ResinTextSnapshots_AreReusedWithoutFreezingTheFirstCulture()
+    {
+        var matcher = new SwitchingResinMatcher();
+        var simplifiedChinese = AutoDomainTask.CreateResinTextRecognizer(matcher);
+        var callsAfterSimplifiedChineseSnapshot = matcher.GetAliasesCalls;
+
+        Assert.True(AutoDomainTask.IsConfiguredResin(simplifiedChinese, "原粹树脂", "原粹树脂"));
+        Assert.Equal(callsAfterSimplifiedChineseSnapshot, matcher.GetAliasesCalls);
+
+        matcher.UsePortuguese = true;
+        var portuguese = AutoDomainTask.CreateResinTextRecognizer(matcher);
+
+        Assert.True(AutoDomainTask.IsConfiguredResin(portuguese, "RESINA, FRAGIL!", "脆弱树脂"));
+        Assert.True(matcher.GetAliasesCalls > callsAfterSimplifiedChineseSnapshot);
     }
 
     [Theory]
@@ -79,27 +106,17 @@ public class DomainTextRecognizerTests
     [InlineData("en", "start", "Start Challenge")]
     [InlineData("fr", "solo", "Défi solo")]
     [InlineData("fr", "start", "Défi lancé")]
-    public void ChallengeAliasSnapshots_MatchAtActualOcrMatchBoundary(
+    public void ChallengeText_MatchesAtTheSemanticProductionBoundary(
         string culture,
         string decision,
         string recognizedText)
     {
         var sut = Create(culture);
-        var aliases = decision == "solo"
-            ? sut.SoloChallengeOcrMatchAliases
-            : sut.StartChallengeOcrMatchAliases;
-        var recognitionObject = RecognitionObject.OcrMatch(0, 0, 100, 100, aliases.ToArray());
+        var key = decision == "solo"
+            ? GameTextKeys.Domain.SoloChallenge
+            : GameTextKeys.Domain.StartChallenge;
 
-        // ImageRegion's OcrMatch path removes ASCII spaces/tabs from OCR text before containment.
-        var ocrBoundaryText = StringUtils.RemoveAllSpace(recognizedText);
-
-        Assert.All(recognitionObject.OneContainMatchText, alias =>
-        {
-            Assert.DoesNotContain(' ', alias);
-            Assert.DoesNotContain('\t', alias);
-        });
-        Assert.Contains(recognitionObject.OneContainMatchText,
-            alias => ocrBoundaryText.Contains(alias, StringComparison.Ordinal));
+        Assert.True(sut.IsConfirmText(recognizedText, key));
     }
 
     [Theory]
@@ -361,7 +378,7 @@ public class DomainTextRecognizerTests
         {
             GameTextKeys.Domain.SoloChallenge => ["Solo Challenge", "Legacy Solo Challenge"],
             GameTextKeys.Domain.StartChallenge => ["Start Challenge", "Legacy Start Challenge"],
-            _ => throw new KeyNotFoundException(key)
+            _ => [key]
         };
 
         public bool IsMatch(string recognizedText, string key, CultureInfo? culture = null) =>
@@ -382,10 +399,13 @@ public class DomainTextRecognizerTests
         {
             GameTextKeys.Domain.SoloChallenge => [UsePortuguese ? "Desafio Solo" : "单人挑战"],
             GameTextKeys.Domain.StartChallenge => [UsePortuguese ? "Iniciar Desafio" : "开始挑战"],
-            _ => throw new ArgumentOutOfRangeException(nameof(key), key, null)
+            _ => [key]
         };
 
-        public bool IsMatch(string recognizedText, string key, CultureInfo? culture = null) => throw new NotSupportedException();
+        public bool IsMatch(string recognizedText, string key, CultureInfo? culture = null) =>
+            GetAliases(key, culture)
+                .Select(GameTextNormalizer.Normalize)
+                .Any(alias => GameTextNormalizer.Normalize(recognizedText).Contains(alias, StringComparison.Ordinal));
         public bool IsAnyMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) => throw new NotSupportedException();
         public bool IsCombinedMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) => throw new NotSupportedException();
     }
@@ -393,5 +413,35 @@ public class DomainTextRecognizerTests
     private sealed class FixedGameCultureProvider(CultureInfo currentCulture) : IGameCultureProvider
     {
         public CultureInfo CurrentCulture { get; } = currentCulture;
+    }
+
+    private sealed class SwitchingResinMatcher : IGameTextMatcher
+    {
+        public bool UsePortuguese { get; set; }
+
+        public int GetAliasesCalls { get; private set; }
+
+        public IReadOnlyList<string> GetAliases(string key, CultureInfo? culture = null)
+        {
+            GetAliasesCalls++;
+            return key switch
+            {
+                GameTextKeys.Resin.Original => [UsePortuguese ? "Resina Original" : "原粹树脂"],
+                GameTextKeys.Resin.Condensed => [UsePortuguese ? "Resina Condensada" : "浓缩树脂"],
+                GameTextKeys.Resin.Fragile => [UsePortuguese ? "Resina Frágil" : "脆弱树脂"],
+                GameTextKeys.Resin.Transient => [UsePortuguese ? "Resina Transiente" : "须臾树脂"],
+                GameTextKeys.Common.Use => [UsePortuguese ? "Usar" : "使用"],
+                _ => [key]
+            };
+        }
+
+        public bool IsMatch(string recognizedText, string key, CultureInfo? culture = null) =>
+            GetAliases(key, culture)
+                .Select(GameTextNormalizer.Normalize)
+                .Any(alias => GameTextNormalizer.Normalize(recognizedText).Contains(alias, StringComparison.Ordinal));
+
+        public bool IsAnyMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) => throw new NotSupportedException();
+
+        public bool IsCombinedMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) => throw new NotSupportedException();
     }
 }
