@@ -1,6 +1,7 @@
 <Window x:Class="BetterGenshinImpact.View.HtmlMaskWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:behavior="clr-namespace:BetterGenshinImpact.View.Behavior"
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         Title="HtmlMaskWindow"
         WindowStyle="None"
@@ -8,7 +9,8 @@
         Background="Transparent"
         WindowStartupLocation="Manual"
         ShowInTaskbar="False"
-        Topmost="True">
+        Topmost="True"
+        behavior:AutoTranslateInterceptor.EnableAutoTranslate="True">
     <Border x:Name="ClickThroughBorder" Background="Transparent">
         <Grid>
             <wv2:WebView2 x:Name="WebView" DefaultBackgroundColor="Transparent"/>

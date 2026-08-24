@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -77,10 +78,66 @@ namespace BetterGenshinImpact.View.Behavior
             return map;
         }
 
+        private static bool TranslateBoundCurrentValue(
+            DependencyObject obj,
+            DependencyProperty property,
+            ITranslationService translator,
+            TranslationSourceInfo sourceInfo)
+        {
+            if (!BindingOperations.IsDataBound(obj, property))
+            {
+                return false;
+            }
+
+            // Only plain Binding is handled here. MultiBinding/PriorityBinding remain untouched.
+            var binding = BindingOperations.GetBinding(obj, property);
+            if (binding == null)
+            {
+                return false;
+            }
+
+            if (binding.Mode is BindingMode.TwoWay or BindingMode.OneWayToSource)
+            {
+                return false;
+            }
+
+            if (binding.Mode == BindingMode.Default
+                && property.GetMetadata(obj.GetType()) is FrameworkPropertyMetadata metadata
+                && metadata.BindsTwoWayByDefault)
+            {
+                return false;
+            }
+
+            if (obj.GetValue(property) is not string currentValue || string.IsNullOrWhiteSpace(currentValue))
+            {
+                return false;
+            }
+
+            var translated = translator.Translate(currentValue, sourceInfo);
+            if (string.Equals(currentValue, translated, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            // SetCurrentValue changes the effective target value without replacing the BindingExpression.
+            obj.SetCurrentValue(property, translated);
+            return true;
+        }
+
         private static void OnAnyElementLoaded(object sender, RoutedEventArgs e)
         {
             if (sender is not DependencyObject obj)
             {
+                return;
+            }
+
+            // Programmatically created top-level windows do not inherit an XAML translation scope.
+            // Enable one only when the window has not explicitly opted in or out.
+            if (obj is Window window
+                && window.ReadLocalValue(EnableAutoTranslateProperty) == DependencyProperty.UnsetValue
+                && window.GetValue(ScopeProperty) is not Scope)
+            {
+                SetEnableAutoTranslate(window, true);
                 return;
             }
 
@@ -184,6 +241,9 @@ namespace BetterGenshinImpact.View.Behavior
             private bool _applied;
             private readonly HashSet<ContextMenu> _trackedContextMenus = new();
             private readonly HashSet<ToolTip> _trackedToolTips = new();
+            private readonly HashSet<ComboBox> _trackedComboBoxes = new();
+            private readonly HashSet<(DependencyObject Object, DependencyProperty Property)> _trackedBoundProperties = new();
+            private readonly HashSet<(DependencyObject Object, DependencyProperty Property)> _translatingBoundProperties = new();
             private readonly HashSet<DependencyObject> _pendingApply = new();
             private bool _applyScheduled;
             private bool _refreshScheduled;
@@ -280,7 +340,7 @@ namespace BetterGenshinImpact.View.Behavior
                     return;
                 }
 
-                if (IsInComboBoxContext(obj))
+                if (IsInComboBoxContext(obj) && obj is not ComboBox && obj is not ComboBoxItem)
                 {
                     return;
                 }
@@ -352,6 +412,41 @@ namespace BetterGenshinImpact.View.Behavior
                         continue;
                     }
 
+                    TranslateAndTrackBoundValues(current, translator);
+
+                    if (current is ComboBox comboBox)
+                    {
+                        TranslateToolTip(comboBox, translator);
+                        TrackComboBox(comboBox);
+                        for (var i = 0; i < comboBox.Items.Count; i++)
+                        {
+                            if (comboBox.ItemContainerGenerator.ContainerFromIndex(i) is DependencyObject container)
+                            {
+                                queue.Enqueue(container);
+                            }
+                            else if (comboBox.Items[i] is DependencyObject dependencyItem)
+                            {
+                                queue.Enqueue(dependencyItem);
+                            }
+                        }
+                        continue;
+                    }
+
+                    if (current is ComboBoxItem comboBoxItem)
+                    {
+                        if (comboBoxItem.Content is string comboText)
+                        {
+                            TranslateIfNotBound(
+                                comboBoxItem,
+                                ContentControl.ContentProperty,
+                                comboText,
+                                s => comboBoxItem.Content = s,
+                                translator);
+                        }
+                        TranslateToolTip(comboBoxItem, translator);
+                        continue;
+                    }
+
                     if (IsInComboBoxContext(current))
                     {
                         continue;
@@ -389,6 +484,77 @@ namespace BetterGenshinImpact.View.Behavior
                             queue.Enqueue(inline);
                         }
                     }
+                }
+            }
+
+            private void TranslateAndTrackBoundValues(DependencyObject obj, ITranslationService translator)
+            {
+                var enumerator = obj.GetLocalValueEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    var property = enumerator.Current.Property;
+                    if ((property.PropertyType != typeof(string) && property.PropertyType != typeof(object))
+                        || !ShouldTranslatePropertyName(property.Name)
+                        || !BindingOperations.IsDataBound(obj, property))
+                    {
+                        continue;
+                    }
+
+                    TranslateTrackedBoundValue(obj, property, translator);
+
+                    var key = (obj, property);
+                    if (!_trackedBoundProperties.Add(key))
+                    {
+                        continue;
+                    }
+
+                    var descriptor = DependencyPropertyDescriptor.FromProperty(property, obj.GetType());
+                    if (descriptor == null)
+                    {
+                        continue;
+                    }
+
+                    EventHandler handler = (_, _) =>
+                    {
+                        if (!_applied)
+                        {
+                            return;
+                        }
+
+                        var currentTranslator = App.GetService<ITranslationService>();
+                        if (currentTranslator == null
+                            || currentTranslator.GetCurrentCulture().Name.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return;
+                        }
+
+                        TranslateTrackedBoundValue(obj, property, currentTranslator);
+                    };
+                    descriptor.AddValueChanged(obj, handler);
+                    _unsubscribe.Add(() => descriptor.RemoveValueChanged(obj, handler));
+                }
+            }
+
+            private void TranslateTrackedBoundValue(
+                DependencyObject obj,
+                DependencyProperty property,
+                ITranslationService translator)
+            {
+                var key = (obj, property);
+                if (!_translatingBoundProperties.Add(key))
+                {
+                    return;
+                }
+
+                try
+                {
+                    var sourceInfo = BuildSourceInfo(obj, property, MissingTextSource.UiDynamicBinding);
+                    sourceInfo.BindingPath = BindingOperations.GetBinding(obj, property)?.Path?.Path;
+                    TranslateBoundCurrentValue(obj, property, translator, sourceInfo);
+                }
+                finally
+                {
+                    _translatingBoundProperties.Remove(key);
                 }
             }
 
@@ -430,6 +596,24 @@ namespace BetterGenshinImpact.View.Behavior
                 };
                 tt.Opened += openedHandler;
                 _unsubscribe.Add(() => tt.Opened -= openedHandler);
+            }
+
+            private void TrackComboBox(ComboBox comboBox)
+            {
+                if (!_trackedComboBoxes.Add(comboBox))
+                {
+                    return;
+                }
+
+                EventHandler? openedHandler = null;
+                openedHandler = (_, _) =>
+                {
+                    _root.Dispatcher.BeginInvoke(
+                        () => Apply(comboBox),
+                        DispatcherPriority.Loaded);
+                };
+                comboBox.DropDownOpened += openedHandler;
+                _unsubscribe.Add(() => comboBox.DropDownOpened -= openedHandler);
             }
 
             private static IEnumerable<DependencyObject> EnumerateInlineObjects(FrameworkElement fe)

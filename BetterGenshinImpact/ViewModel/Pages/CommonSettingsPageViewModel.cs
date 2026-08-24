@@ -47,6 +47,12 @@ using Wpf.Ui;
 
 namespace BetterGenshinImpact.ViewModel.Pages;
 
+internal enum UiLanguageMissingRemoteResolution
+{
+    KeepInstalledTranslation,
+    ReportMissingTranslation
+}
+
 public partial class CommonSettingsPageViewModel : ViewModel
 {
     private readonly INavigationService _navigationService;
@@ -99,7 +105,7 @@ public partial class CommonSettingsPageViewModel : ViewModel
     public ObservableCollection<string> MapPathingTypes { get; } = ["SIFT", "TemplateMatch"];
 
     [ObservableProperty] private FrozenDictionary<string, string> _languageDict =
-        new[] { "zh-Hans", "zh-Hant", "en", "ja" }
+        new[] { "zh-Hans", "zh-Hant", "en", "ja", "pt-BR" }
             .ToFrozenDictionary(c => c, c => CultureInfoNameToKVPConverter.GetDisplayName(c));
 
     [RelayCommand]
@@ -160,10 +166,20 @@ public partial class CommonSettingsPageViewModel : ViewModel
             }
         }
 
+        var dir = Global.Absolute(@"User\I18n");
+        var path = Path.Combine(dir, $"{cultureName}.json");
+
         if (bytes == null)
         {
             if (allNotFound)
             {
+                if (ResolveMissingRemoteLanguage(File.Exists(path)) ==
+                    UiLanguageMissingRemoteResolution.KeepInstalledTranslation)
+                {
+                    await ThemedMessageBox.InformationAsync("未找到可用的在线语言更新，已保留当前翻译。");
+                    return;
+                }
+
                 await ThemedMessageBox.WarningAsync($"语言文件不存在：{cultureName}.json");
                 return;
             }
@@ -171,9 +187,7 @@ public partial class CommonSettingsPageViewModel : ViewModel
             throw new Exception($"下载语言文件失败：{cultureName}.json", lastError);
         }
 
-        var dir = Global.Absolute(@"User\I18n");
         Directory.CreateDirectory(dir);
-        var path = Path.Combine(dir, $"{cultureName}.json");
         var tmp = $"{path}.{Guid.NewGuid():N}.tmp";
         await File.WriteAllBytesAsync(tmp, bytes);
 
@@ -188,6 +202,13 @@ public partial class CommonSettingsPageViewModel : ViewModel
 
         var translator = App.GetService<ITranslationService>() ?? throw new NullReferenceException();
         translator.Reload();
+    }
+
+    internal static UiLanguageMissingRemoteResolution ResolveMissingRemoteLanguage(bool installedTranslationExists)
+    {
+        return installedTranslationExists
+            ? UiLanguageMissingRemoteResolution.KeepInstalledTranslation
+            : UiLanguageMissingRemoteResolution.ReportMissingTranslation;
     }
 
     public string SelectedCountry

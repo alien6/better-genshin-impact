@@ -1510,8 +1510,13 @@
                               Margin="0,0,36,0"
                               ItemsSource="{Binding LanguageDict}"
                               SelectedValuePath="Key"
-                              DisplayMemberPath="Value"
-                              SelectedItem="{Binding Config.AutoFishingConfig.UiCultureInfoName, Converter={StaticResource CultureInfoNameToKVPConverter}, Mode=TwoWay}" />
+                              SelectedItem="{Binding Config.AutoFishingConfig.UiCultureInfoName, Converter={StaticResource CultureInfoNameToKVPConverter}, Mode=TwoWay}" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Value, Converter={StaticResource TrConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </Grid>-->
                 <Grid Margin="16">
                     <Grid.RowDefinitions>
@@ -1537,6 +1542,31 @@
                                      Grid.Column="1"
                                      Margin="0,0,36,0"
                                      IsChecked="{Binding Config.OtherConfig.RestoreFocusOnLostEnabled, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBlock Grid.Row="0"
+                                  Grid.Column="0"
+                                  FontTypography="Body"
+                                  Text="禁用键鼠监听"
+                                  TextWrapping="Wrap" />
+                    <ui:TextBlock Grid.Row="1"
+                                  Grid.Column="0"
+                                  Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
+                                  Text="禁用后将暂停一键宏等键鼠触发的任务，需重启生效"
+                                  TextWrapping="Wrap" />
+                    <ui:ToggleSwitch Grid.Row="0"
+                                     Grid.RowSpan="2"
+                                     Grid.Column="1"
+                                     Margin="0,0,36,0"
+                                     IsChecked="{Binding Config.DisableInputMonitor, Mode=TwoWay}" />
                 </Grid>
                 <Grid Margin="16">
                     <Grid.RowDefinitions>

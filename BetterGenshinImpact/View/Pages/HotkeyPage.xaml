@@ -1,6 +1,7 @@
-﻿<UserControl x:Class="BetterGenshinImpact.View.Pages.HotKeyPage"
+<UserControl x:Class="BetterGenshinImpact.View.Pages.HotKeyPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:behavior="clr-namespace:BetterGenshinImpact.View.Behavior"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:controls="clr-namespace:BetterGenshinImpact.View.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,7 +17,8 @@
              ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
              FontFamily="{StaticResource TextThemeFontFamily}"
              Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+        behavior:AutoTranslateInterceptor.EnableAutoTranslate="True">
 
     <Grid Margin="{StaticResource PagePadding}">
         <Grid.RowDefinitions>
@@ -49,7 +51,7 @@
                             <ui:GridViewColumn Width="{Binding ActualWidth, ElementName=TreeColumnStar}" Header="功能">
                                 <ui:GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ui:TreeRowExpander Content="{Binding FunctionName}" />
+                                        <ui:TreeRowExpander Content="{Binding FunctionName, Converter={StaticResource TrConverter}}" />
                                     </DataTemplate>
                                 </ui:GridViewColumn.CellTemplate>
                             </ui:GridViewColumn>
@@ -59,7 +61,7 @@
                                         <ui:Button Height="33"
                                                    VerticalAlignment="Center"
                                                    Command="{Binding SwitchHotKeyTypeCommand}"
-                                                   Content="{Binding HotKeyTypeName, Mode=OneWay}"
+                                                   Content="{Binding HotKeyTypeName, Converter={StaticResource TrConverter}, Mode=OneWay}"
                                                    IsEnabled="{Binding SwitchHotkeyTypeEnabled, Mode=OneWay}"
                                                    Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityRevertConverter}, Mode=OneWay}" />
                                     </DataTemplate>
