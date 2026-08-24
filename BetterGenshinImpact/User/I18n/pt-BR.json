@@ -1244,6 +1244,7 @@
   "补充缺失的右引号": "Completar as aspas direitas que faltam",
   "应用程序启动失败打印日志时又失败了: {ex2.Message}": "Falha no aplicativo, e falha ao tentar imprimir o log de erro: {ex2.Message}",
   "语言文件不存在：{cultureName}.json": "Arquivo de idioma não encontrado: {cultureName}.json",
+  "未找到可用的在线语言更新，已保留当前翻译。": "Nenhuma atualização online do idioma está disponível; a tradução instalada foi mantida.",
   "急速拾取": "Coleta rápida",
   "文字识别": "Reconhecimento de texto",
   "魔女的花园": "Jardim da Bruxa",
