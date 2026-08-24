@@ -4358,6 +4358,11 @@
           "value": "换下",
           "source": "curated",
           "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "卸下",
+          "source": "curated",
+          "reason": "BetterGI 0.64.0 music instrument equipment button OCR gate."
         }
       ],
       "zh-Hant": [
@@ -4365,6 +4370,11 @@
           "value": "換下",
           "source": "curated",
           "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Ruling 12."
+        },
+        {
+          "value": "卸下",
+          "source": "curated",
+          "reason": "Traditional Chinese counterpart for the BetterGI 0.64.0 music instrument equipment button OCR gate."
         }
       ],
       "en": [
@@ -4918,6 +4928,11 @@
           "value": "更换",
           "source": "curated",
           "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        },
+        {
+          "value": "替换",
+          "source": "curated",
+          "reason": "BetterGI 0.64.0 music instrument equipment button OCR gate."
         }
       ],
       "zh-Hant": [
@@ -4925,6 +4940,11 @@
           "value": "更換",
           "source": "curated",
           "reason": "Localized OCR alias curated for the first-party GameTask gate migrated by Task 14 Fix Round 2 under Ruling 12."
+        },
+        {
+          "value": "替換",
+          "source": "curated",
+          "reason": "Traditional Chinese counterpart for the BetterGI 0.64.0 music instrument equipment button OCR gate."
         }
       ],
       "en": [

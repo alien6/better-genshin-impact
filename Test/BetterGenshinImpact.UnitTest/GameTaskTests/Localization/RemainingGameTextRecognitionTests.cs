@@ -97,6 +97,24 @@ public sealed class RemainingGameTextRecognitionTests
         Assert.True(recognizer.IsMatch("Usar", GameTextKeys.Common.Use));
     }
 
+    [Theory]
+    [InlineData("pt-BR", "SUBSTITUIR", "Remover")]
+    [InlineData("en", "Replace", "Remove")]
+    [InlineData("zh-Hans", "替换", "卸下")]
+    [InlineData("zh-Hant", "替換", "卸下")]
+    public void MusicInstrumentButtons_RecognizeLocalizedReplaceAndRemove(
+        string culture,
+        string replaceText,
+        string removeText)
+    {
+        var recognizer = new RemainingGameTextRecognizer(new GameTextMatcher(
+            new FixedGameCultureProvider(CultureInfo.GetCultureInfo(culture)),
+            new EmbeddedGameTextCatalogProvider()));
+
+        Assert.True(recognizer.IsMatch(replaceText, GameTextKeys.Party.Replace));
+        Assert.True(recognizer.IsMatch(removeText, GameTextKeys.Party.Remove));
+    }
+
     [Fact]
     public void HiddenHelperApiLabels_RecognizePortugueseCharacterCraftingAndPartyUi()
     {

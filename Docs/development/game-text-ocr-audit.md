@@ -22,7 +22,7 @@ The successful Task 14 baseline is:
 
 ```text
 0 unclassified OCR-dependent literal comparisons
-16 intentional non-OCR literals
+17 intentional non-OCR literals
 ```
 
 The command exits non-zero when a new candidate is unclassified or an allowlist entry becomes stale. The allowlist deliberately does not use line numbers as identity.
@@ -35,6 +35,7 @@ The command exits non-zero when a new candidate is unclassified or an allowlist 
 | `GetGridIconsTask` | artifact “set includes” marker | Migrated to `artifact.set_contains`; raw recognized item and flower names stay raw. |
 | `CharacterDevelopmentTask` | category tabs, talent info, talent type, and talent-level bonus label | Migrated to `character.*`; the level and `+3` number remain separately parsed. |
 | `AutoAlbumTask.StartOneAlbum` | music album “All” page label | Ruling 11 migration to existing `common.all`. `AutoMusicGameTask` itself has no OCR text gate; its configuration values and logs remain unchanged. |
+| `MusicInstrumentSwitcher` | instrument “Replace” and “Remove” equipment buttons added in BetterGI 0.64.0 | Migrated to existing `party.replace` and `party.remove` semantic keys, with the 0.64.0 Simplified/Traditional Chinese button variants added as compatibility aliases. |
 | `AutoWoodTask` | obtained marker and recognized wood product names | Migrated to `common.obtained` and `wood.material`; quantities and OCR-extracted material text remain separate. |
 | `GameLoadingTrigger` | age-rating/guardian splash prompt | Migrated to `game_loading.age_prompt`; launcher window titles remain literal. |
 | `CountInventoryItem` | enhancement-ore product names | Migrated to `inventory.enhancement_ore`; recognized item names and counts remain raw. |
@@ -65,4 +66,4 @@ The commented AutoPick OCR image-dump block and its obsolete literal comparison 
 
 ## Catalog provenance
 
-All six supported catalogs contain the new semantic keys. Normal attack, elemental skill, and elemental burst aliases are pinned to exact TextMap hashes from AnimeGameData commit `26df1dfbdf05a82bbb1d97506859f3e1c40718d8`. OCR UI fragments and material/product labels that are not reliable standalone TextMap values are explicitly marked `curated` with reasons in `source-manifest.json`.
+All six supported catalogs contain the new semantic keys. The current 1,236 aliases verify against AnimeGameData commit `26df1dfbdf05a82bbb1d97506859f3e1c40718d8`. Normal attack, elemental skill, and elemental burst aliases are pinned to exact TextMap hashes. OCR UI fragments, material/product labels, and the BetterGI 0.64.0 instrument-button variants that are not reliable standalone TextMap values are explicitly marked `curated` with reasons in `source-manifest.json`.

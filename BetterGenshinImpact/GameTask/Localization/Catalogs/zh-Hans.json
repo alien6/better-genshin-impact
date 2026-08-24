@@ -382,13 +382,15 @@
       "队伍配置"
     ],
     "party.remove": [
-      "换下"
+      "换下",
+      "卸下"
     ],
     "party.friendship": [
       "好感"
     ],
     "party.replace": [
-      "更换"
+      "更换",
+      "替换"
     ],
     "party.join": [
       "加入"

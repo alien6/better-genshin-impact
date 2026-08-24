@@ -5,6 +5,7 @@ using BetterGenshinImpact.Core.Simulator;
 using BetterGenshinImpact.Core.Simulator.Extensions;
 using BetterGenshinImpact.GameTask.AutoArtifactSalvage;
 using BetterGenshinImpact.GameTask.Common.Job;
+using BetterGenshinImpact.GameTask.Localization;
 using BetterGenshinImpact.GameTask.Model.GameUI;
 using Microsoft.Extensions.Logging;
 using OpenCvSharp;
@@ -20,6 +21,12 @@ namespace BetterGenshinImpact.GameTask.Music.Service;
 public sealed class MusicInstrumentSwitcher : IMusicInstrumentSwitcher
 {
     private readonly ILogger<MusicInstrumentSwitcher> _logger = App.GetLogger<MusicInstrumentSwitcher>();
+    private readonly RemainingGameTextRecognizer _textRecognizer;
+
+    public MusicInstrumentSwitcher(IGameTextMatcher matcher)
+    {
+        _textRecognizer = new RemainingGameTextRecognizer(matcher);
+    }
 
     public async Task<bool> SwitchToAsync(string instrumentName, CancellationToken cancellationToken)
     {
@@ -60,12 +67,12 @@ public sealed class MusicInstrumentSwitcher : IMusicInstrumentSwitcher
             }
 
             var buttonText = await WaitForEquipButtonTextAsync(cancellationToken);
-            if (buttonText.Contains("替换", StringComparison.Ordinal))
+            if (_textRecognizer.IsMatch(buttonText, GameTextKeys.Party.Replace))
             {
                 ClickEquipButton();
                 await Delay(500, cancellationToken);
             }
-            else if (!buttonText.Contains("卸下", StringComparison.Ordinal))
+            else if (!_textRecognizer.IsMatch(buttonText, GameTextKeys.Party.Remove))
             {
                 _logger.LogWarning(
                     "无法确认乐器 {InstrumentName} 的装备按钮，识别结果：{ButtonText}",
@@ -123,7 +130,7 @@ public sealed class MusicInstrumentSwitcher : IMusicInstrumentSwitcher
         return false;
     }
 
-    private static async Task<string> WaitForEquipButtonTextAsync(CancellationToken cancellationToken)
+    private async Task<string> WaitForEquipButtonTextAsync(CancellationToken cancellationToken)
     {
         var result = string.Empty;
         for (var i = 0; i < 6; i++)
@@ -131,8 +138,8 @@ public sealed class MusicInstrumentSwitcher : IMusicInstrumentSwitcher
             using var capture = CaptureToRectArea(forceNew: true);
             using var buttonRegion = capture.DeriveCrop(GetEquipButtonRect());
             result = OcrFactory.Paddle.Ocr(buttonRegion.SrcMat);
-            if (result.Contains("替换", StringComparison.Ordinal)
-                || result.Contains("卸下", StringComparison.Ordinal))
+            if (_textRecognizer.IsMatch(result, GameTextKeys.Party.Replace)
+                || _textRecognizer.IsMatch(result, GameTextKeys.Party.Remove))
             {
                 return result;
             }

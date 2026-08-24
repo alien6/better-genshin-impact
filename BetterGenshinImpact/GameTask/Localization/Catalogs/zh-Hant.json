@@ -389,13 +389,15 @@
       "隊伍配置"
     ],
     "party.remove": [
-      "換下"
+      "換下",
+      "卸下"
     ],
     "party.friendship": [
       "好感"
     ],
     "party.replace": [
-      "更換"
+      "更換",
+      "替換"
     ],
     "party.join": [
       "加入"
