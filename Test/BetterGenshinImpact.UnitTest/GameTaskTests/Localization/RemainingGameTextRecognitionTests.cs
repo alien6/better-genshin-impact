@@ -1,3 +1,4 @@
+using System.Globalization;
 using BetterGenshinImpact.GameTask.Localization;
 using Xunit;
 
@@ -16,6 +17,19 @@ public sealed class RemainingGameTextRecognitionTests
     }
 
     [Fact]
+    public void EmbeddedPortugueseCatalog_RecognizesActualTask14AndTalentAliases()
+    {
+        var recognizer = new RemainingGameTextRecognizer(new GameTextMatcher(
+            new FixedGameCultureProvider(CultureInfo.GetCultureInfo("pt-BR")),
+            new EmbeddedGameTextCatalogProvider()));
+
+        Assert.True(recognizer.HasTalentBonus("Nível do Talento + 3"));
+        Assert.True(recognizer.ShouldSuppressPickup("Lua Gélida Oficina"));
+        Assert.True(recognizer.IsMatch("Resgatar", GameTextKeys.Common.Claim));
+        Assert.True(recognizer.IsMatch("Confirmar Filtro", GameTextKeys.Party.ConfirmFilter));
+    }
+
+    [Fact]
     public void TalentInfo_ClassifiesPortugueseTypesAndSeparatesBonusNumberParsing()
     {
         var recognizer = CreatePortugueseRecognizer();
@@ -26,8 +40,8 @@ public sealed class RemainingGameTextRecognitionTests
         Assert.Equal(GameTextKeys.Character.NormalAttack, recognizer.GetTalentTypeKey("Ataque Normal"));
         Assert.Equal(GameTextKeys.Character.ElementalSkill, recognizer.GetTalentTypeKey("Habilidade Elemental"));
         Assert.Equal(GameTextKeys.Character.ElementalBurst, recognizer.GetTalentTypeKey("Supremo"));
-        Assert.True(recognizer.HasTalentBonus("Nível de Talento + 3"));
-        Assert.False(recognizer.HasTalentBonus("Nível de Talento + 2"));
+        Assert.True(recognizer.HasTalentBonus("Nível do Talento + 3"));
+        Assert.False(recognizer.HasTalentBonus("Nível do Talento + 2"));
     }
 
     [Fact]
@@ -174,13 +188,18 @@ public sealed class RemainingGameTextRecognitionTests
         Assert.True(recognizer.IsCompanionshipExpUnavailable("无法领取好感经验"));
     }
 
+    private sealed class FixedGameCultureProvider(CultureInfo currentCulture) : IGameCultureProvider
+    {
+        public CultureInfo CurrentCulture { get; } = currentCulture;
+    }
+
     private static RemainingGameTextRecognizer CreatePortugueseRecognizer() =>
         CreateRecognizer(
             "pt-BR",
             suppressed: "Clinc-Clanc",
             tribeLead: "Estou com",
             tribeMarker: "Reputação",
-            frostmoon: "Lua Gelada",
+            frostmoon: "Lua Gélida",
             workshop: "Oficina",
             eggRoll: "Bolo Crocante",
             setContains: "O conjunto inclui",
@@ -188,7 +207,7 @@ public sealed class RemainingGameTextRecognitionTests
             normalAttack: "Ataque Normal",
             elementalSkill: "Habilidade Elemental",
             elementalBurst: "Supremo",
-            talentLevel: "Nível de Talento",
+            talentLevel: "Nível do Talento",
             obtained: "Obtido",
             agePrompt: "classificação etária|respons",
             ore: "Minério de Refinamento|Minério de Refinamento Fino|Minério de Refinamento Místico",

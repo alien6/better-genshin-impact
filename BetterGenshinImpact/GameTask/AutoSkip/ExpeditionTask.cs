@@ -99,7 +99,7 @@ public class ExpeditionTask
                 TaskControl.Sleep(100);
                 // 重新截图 找领取
                 result = CaptureAndOcr(content);
-                rect = result.FindRectByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Claim));
+                rect = FindRectByTextKey(result, GameTextKeys.Common.Claim);
                 if (rect != default)
                 {
                     using var ra = content.CaptureRectArea.Derive(rect);
@@ -112,7 +112,7 @@ public class ExpeditionTask
 
                     // 选择角色
                     result = CaptureAndOcr(content);
-                    rect = result.FindRectByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Expedition.SelectCharacter));
+                    rect = FindRectByTextKey(result, GameTextKeys.Expedition.SelectCharacter);
                     if (rect != default)
                     {
                         content.CaptureRectArea.Derive(rect).Click();
@@ -140,7 +140,7 @@ public class ExpeditionTask
     {
         var captureRect = TaskContext.Instance().SystemInfo.CaptureAreaRect;
         var result = CaptureAndOcr(content, new Rect(0, 0, captureRect.Width / 2, captureRect.Height));
-        if (result.RegionHasText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Expedition.CharacterSelection)))
+        if (result.Regions.Any(region => _textRecognizer.MatchesKey(region.Text, GameTextKeys.Expedition.CharacterSelection)))
         {
             var cards = GetCharacterCards(result);
             if (cards.Count > 0)
@@ -176,6 +176,9 @@ public class ExpeditionTask
             assetScale,
             _textRecognizer);
     }
+
+    private Rect FindRectByTextKey(OcrResult result, string key) =>
+        result.Regions.FirstOrDefault(region => _textRecognizer.MatchesKey(region.Text, key)).Rect.BoundingRect();
 
     internal static List<ExpeditionCharacterCard> BuildCharacterCards(
         IEnumerable<PaddleOcrResultRect> fragments,

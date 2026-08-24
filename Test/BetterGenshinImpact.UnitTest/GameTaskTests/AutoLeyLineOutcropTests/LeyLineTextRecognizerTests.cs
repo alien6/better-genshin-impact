@@ -94,6 +94,16 @@ public class LeyLineTextRecognizerTests
         Assert.False(sut.IsFightSuccess("Desafio Fracassado"));
     }
 
+    [Fact]
+    public void PublicPredicates_NormalizeRawOcrWithoutRequiringCallersToPreNormalize()
+    {
+        var sut = Create("pt-BR");
+
+        Assert.True(sut.IsOriginalResin("  RESINA-ORIGINAL! "));
+        Assert.True(sut.IsBlossomOfWealth("Afloramento da Linha Ley: Flor da Riqueza"));
+        Assert.True(sut.IsReplenish("REPOR resina original"));
+    }
+
     public static IEnumerable<object[]> LocalizedDecisionCases()
     {
         yield return ["zh-Hans", "resin-original", "原粹树脂"];

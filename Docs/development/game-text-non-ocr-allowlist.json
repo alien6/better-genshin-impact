@@ -128,6 +128,14 @@
       "path": "BetterGenshinImpact/GameTask/AutoFight/Model/Avatar.cs",
       "symbol": "IsBurstReadyByClassify",
       "literal": "energy 1 cd 0"
+    },
+    {
+      "id": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs::ReadTalentDetailWithRetry::<解析失败>",
+      "category": "internal-identifier",
+      "reason": "Internal diagnostic sentinel for an unsuccessful OCR parse; it is never compared with recognized game UI text.",
+      "path": "BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs",
+      "symbol": "ReadTalentDetailWithRetry",
+      "literal": "<解析失败>"
     }
   ]
 }

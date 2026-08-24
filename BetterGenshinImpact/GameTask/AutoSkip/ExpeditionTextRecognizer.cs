@@ -52,6 +52,9 @@ public sealed class ExpeditionTextRecognizer
 
     public string GetPrimaryAlias(string key) => _rawAliases[key][0];
 
+    public bool MatchesKey(string recognizedText, string key) =>
+        IsMatch(NormalizeOcrText(recognizedText), key);
+
     public IReadOnlyList<string> NormalizeOcrTexts(IEnumerable<string> recognizedTexts)
     {
         ArgumentNullException.ThrowIfNull(recognizedTexts);

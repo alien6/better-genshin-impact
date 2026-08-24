@@ -27,6 +27,21 @@ public class BvGameTextTests
     }
 
     [Fact]
+    public void GetByTextKey_MatchesNormalizedNoiseAgainstASecondaryAlias()
+    {
+        var matcher = GameTextTestFactory.Create(
+            "pt-BR",
+            (GameTextKeys.Redemption.Success, "Resgate realizado com sucesso"),
+            (GameTextKeys.Redemption.Success, "Código resgatado"));
+
+        var locator = new BvPage(gameTextMatcher: matcher)
+            .GetByTextKey(GameTextKeys.Redemption.Success);
+
+        Assert.True(locator.MatchesOcrText("CÓDIGO-resgatado!"));
+        Assert.False(locator.MatchesOcrText("resgate indisponível"));
+    }
+
+    [Fact]
     public void Clone_PreservesSemanticMetadataAndMatching()
     {
         var matcher = GameTextTestFactory.Create(

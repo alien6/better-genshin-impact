@@ -1856,7 +1856,7 @@
       "zh-Hans": [{ "value": "紊乱爆发期", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
       "zh-Hant": [{ "value": "紊亂爆發期", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
       "en": [{ "value": "Turbulent Outbreak Phase", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
-      "ja": [{ "value": "紊乱爆发期", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
+      "ja": [{ "value": "乱流爆発期", "source": "curated", "reason": "Pinned AnimeGameData has no standalone version-specific reward-phase UI label; curated Japanese UI wording for the English 'Turbulent Outbreak Phase', kept distinct from the Simplified Chinese source phrase." }],
       "fr": [{ "value": "Phase d'explosion turbulente", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }],
       "pt-BR": [{ "value": "Período de Erupção de Caos", "source": "curated", "reason": "Current version-specific reward-phase OCR wording; key remains stable across event wording changes." }]
     },

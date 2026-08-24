@@ -108,9 +108,14 @@ $directMethodPattern = [regex]::new(
     '(?is)\b(?<receiver>[A-Za-z_]\w*(?:\s*\.\s*[A-Za-z_]\w*)*)\s*\.\s*(?:Contains|StartsWith|EndsWith|Equals)\s*\(\s*"(?<literal>(?:[^"\\]|\\.)+)"')
 $directEqualityPattern = [regex]::new(
     '(?is)(?:\b(?<receiver>[A-Za-z_]\w*(?:\s*\.\s*[A-Za-z_]\w*)*)\s*(?:==|!=)\s*"(?<literal>(?:[^"\\]|\\.)+)"|"(?<reverseLiteral>(?:[^"\\]|\\.)+)"\s*(?:==|!=)\s*\b(?<reverseReceiver>[A-Za-z_]\w*(?:\s*\.\s*[A-Za-z_]\w*)*))')
+$regexOcrPattern = [regex]::new(
+    '(?is)\bRegex\s*\.\s*IsMatch\s*\(\s*(?<receiver>[A-Za-z_]\w*(?:\s*\.\s*[A-Za-z_]\w*)*)\s*,\s*"(?<literal>(?:[^"\\]|\\.)+)"')
+$scalarDeclarationPattern = [regex]::new(
+    '(?is)\b(?:var|string)\s+(?<name>[A-Za-z_]\w*)\s*=\s*"(?<literal>(?:[^"\\]|\\.)+)"\s*;')
 $collectionDeclarationPatterns = @(
     [regex]::new('(?is)\b(?<name>[A-Za-z_]\w*)\s*=\s*new\s*\[\s*\]\s*\{(?<items>.{0,1500}?)\}\s*;'),
-    [regex]::new('(?is)\b(?<name>[A-Za-z_]\w*)\s*=\s*\[(?<items>.{0,1500}?)\]\s*;')
+    [regex]::new('(?is)\b(?<name>[A-Za-z_]\w*)\s*=\s*\[(?<items>.{0,1500}?)\]\s*;'),
+    [regex]::new('(?is)\b(?<name>[A-Za-z_]\w*)\s*=\s*new\s+(?:List|IList|IReadOnlyList)\s*<\s*string\s*>\s*\{(?<items>.{0,1500}?)\}\s*;')
 )
 
 foreach ($path in $candidatePaths) {
@@ -140,6 +145,23 @@ foreach ($path in $candidatePaths) {
         if ($receiver -notmatch '(?i)text|ocr|region|title|classname') { continue }
         $literalGroup = if ($comparisonMatch.Groups['literal'].Success) { $comparisonMatch.Groups['literal'] } else { $comparisonMatch.Groups['reverseLiteral'] }
         Add-Candidate $path $literalGroup.Index $literalGroup.Value
+    }
+
+    foreach ($regexMatch in $regexOcrPattern.Matches($source)) {
+        if ($regexMatch.Groups['receiver'].Value -match '(?i)text|ocr|region|title|classname') {
+            Add-Candidate $path $regexMatch.Groups['literal'].Index $regexMatch.Groups['literal'].Value
+        }
+    }
+
+    foreach ($scalarMatch in $scalarDeclarationPattern.Matches($source)) {
+        $name = [regex]::Escape($scalarMatch.Groups['name'].Value)
+        $tailLength = [Math]::Min(3000, $source.Length - ($scalarMatch.Index + $scalarMatch.Length))
+        $tail = $source.Substring($scalarMatch.Index + $scalarMatch.Length, $tailLength)
+        $directUse = "(?is)\b[A-Za-z_]\w*(?:text|ocr|region)\w*\s*\.\s*(?:Contains|StartsWith|EndsWith|Equals)\s*\(\s*$name\b"
+        $indirectUse = "(?is)\b[A-Za-z_]\w*\s*\(\s*[^)]*\b[A-Za-z_]\w*(?:text|ocr|region)\w*\b[^)]*\b$name\b"
+        if ($tail -match $directUse -or $tail -match $indirectUse) {
+            Add-Candidate $path $scalarMatch.Groups['literal'].Index $scalarMatch.Groups['literal'].Value
+        }
     }
 
     foreach ($collectionDeclarationPattern in $collectionDeclarationPatterns) {

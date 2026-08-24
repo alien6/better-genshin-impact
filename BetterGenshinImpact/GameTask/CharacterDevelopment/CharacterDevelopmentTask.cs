@@ -399,7 +399,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     {
         return _workflowState == CharacterDevelopmentState.FindAndClickAvatar
                && IsCharacterList(capture)
-               && !CharacterSelectionHelper.IsFilterPanel(capture, _assetScale);
+               && !CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer);
     }
 
     [StateDetector(CharacterDevelopmentState.SelectedCharacter, Order = 13)]
@@ -443,13 +443,13 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private bool DetectSelectElementFilter(ImageRegion capture)
     {
         return _workflowState == CharacterDevelopmentState.SelectElementFilter
-               && CharacterSelectionHelper.IsFilterPanel(capture, _assetScale);
+               && CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer);
     }
 
     [StateDetector(CharacterDevelopmentState.SelectWeaponFilter, Order = 21)]
     private bool DetectSelectWeaponFilter(ImageRegion capture)
     {
-        if (!CharacterSelectionHelper.IsFilterPanel(capture, _assetScale))
+        if (!CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer))
         {
             return false;
         }
@@ -465,7 +465,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     [StateDetector(CharacterDevelopmentState.ConfirmFilterPanel, Order = 22)]
     private bool DetectConfirmFilterPanel(ImageRegion capture)
     {
-        if (!CharacterSelectionHelper.IsFilterPanel(capture, _assetScale))
+        if (!CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer))
         {
             return false;
         }
@@ -482,7 +482,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private bool DetectFilterPanel(ImageRegion capture)
     {
         return _workflowState == CharacterDevelopmentState.FilterPanel
-               && CharacterSelectionHelper.IsFilterPanel(capture, _assetScale);
+               && CharacterSelectionHelper.IsFilterPanel(capture, _assetScale, _textRecognizer);
     }
 
     [StateDetector(CharacterDevelopmentState.ReadCategory, Order = 30)]
@@ -577,7 +577,7 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private Task<StateHandlerResult> HandleFilterPanel(BvPage page)
     {
         using var capture = CaptureToRectArea();
-        if (CharacterSelectionHelper.IsFilterApplied(capture, _assetScale))
+        if (CharacterSelectionHelper.IsFilterApplied(capture, _assetScale, _textRecognizer))
         {
             CharacterSelectionHelper.ClearFilter(page, _assetScale, _logger);
             return Task.FromResult(StateHandlerResult.Wait);
@@ -660,9 +660,9 @@ internal sealed class CharacterDevelopmentStateMachineTask : StateMachineBase<Ch
     private async Task<StateHandlerResult> HandleConfirmFilterPanel(BvPage page)
     {
         _workflowState = CharacterDevelopmentState.ConfirmFilterPanel;
-        if (!CharacterSelectionHelper.TryClickText(
+        if (!CharacterSelectionHelper.TryClickTextKey(
                 page,
-                _textRecognizer.GetPrimaryAlias(GameTextKeys.Party.ConfirmFilter),
+                GameTextKeys.Party.ConfirmFilter,
                 CharacterSelectionHelper.GetConfirmFilterRoi(_assetScale)))
         {
             return StateHandlerResult.Retry;

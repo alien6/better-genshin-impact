@@ -253,6 +253,19 @@ public class GameTextCatalogTests
     }
 
     [Fact]
+    public void EmbeddedCatalogLoader_RejectsDuplicateJsonProperties()
+    {
+        const string duplicateKeyCatalog = """
+            {"schemaVersion":1,"culture":"pt-BR","entries":{"common.use":["Usar"],"common.use":["Utilizar"]}}
+            """;
+
+        var error = Assert.Throws<InvalidOperationException>(() =>
+            EmbeddedGameTextCatalogProvider.LoadCatalog("Catalogs.pt-BR.json", duplicateKeyCatalog));
+
+        Assert.Contains("duplicate", error.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void SourceManifest_UsesPinnedAnimeGameDataBaselineAndCoversEveryAlias()
     {
         var provider = new EmbeddedGameTextCatalogProvider();

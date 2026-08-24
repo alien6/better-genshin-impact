@@ -25,6 +25,15 @@ public class StygianTextRecognizerTests
     }
 
     [Fact]
+    public void EmbeddedJapaneseRewardPhase_UsesJapaneseWordingAndRejectsChineseAlias()
+    {
+        var sut = Create("ja");
+
+        Assert.True(sut.IsRewardPhaseEnded(sut.NormalizeOcrTexts(["乱流爆発期", "終了"])));
+        Assert.False(sut.IsRewardPhaseEnded(sut.NormalizeOcrTexts(["紊乱爆发期", "结束"])));
+    }
+
+    [Fact]
     public void AliasSnapshots_AreResolvedOnlyAtConstruction()
     {
         var matcher = new CountingMatcher();

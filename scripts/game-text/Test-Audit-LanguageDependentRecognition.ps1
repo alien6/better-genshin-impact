@@ -139,6 +139,59 @@ if ($extractedComparisonResult.Output.IndexOf('战斗失败', [StringComparison]
     $assertionFailures.Add("extracted-text comparison fixture: second extracted collection was missed.`n$($extractedComparisonResult.Output)")
 }
 
+$scalarVariableResult = Invoke-AuditFixture @'
+namespace Fixture;
+public sealed class ScalarVariableGate
+{
+    public bool Detect(string ocrText)
+    {
+        var expected = "领取";
+        return ocrText.Contains(expected);
+    }
+}
+'@ @()
+Assert-NegativeAudit 'scalar variable OCR comparison fixture' $scalarVariableResult 'UNCLASSIFIED'
+
+$regexResult = Invoke-AuditFixture @'
+using System.Text.RegularExpressions;
+namespace Fixture;
+public sealed class RegexGate
+{
+    public bool Detect(string ocrText) => Regex.IsMatch(ocrText, "领取");
+}
+'@ @()
+Assert-NegativeAudit 'Regex OCR gate fixture' $regexResult 'UNCLASSIFIED'
+
+$listInitializerResult = Invoke-AuditFixture @'
+using System.Collections.Generic;
+using System.Linq;
+namespace Fixture;
+public sealed class ListInitializerGate
+{
+    public bool Detect(string ocrText)
+    {
+        var labels = new List<string> { "领取", "确认" };
+        return labels.Any(ocrText.Contains);
+    }
+}
+'@ @()
+Assert-NegativeAudit 'List initializer OCR comparison fixture' $listInitializerResult 'UNCLASSIFIED'
+
+$indirectHelperResult = Invoke-AuditFixture @'
+namespace Fixture;
+public sealed class IndirectHelperGate
+{
+    public bool Detect(string ocrText)
+    {
+        var expected = "领取";
+        return MatchesExpected(ocrText, expected);
+    }
+
+    private static bool MatchesExpected(string actualText, string expected) => actualText.Contains(expected);
+}
+'@ @()
+Assert-NegativeAudit 'indirect helper OCR comparison fixture' $indirectHelperResult 'UNCLASSIFIED'
+
 $staleId = 'BetterGenshinImpact/GameTask/Fixture/AuditFixture.cs::Missing::stale'
 $staleResult = Invoke-AuditFixture 'namespace Fixture; public sealed class NoGate { }' @(
     [ordered]@{
@@ -155,4 +208,4 @@ if ($assertionFailures.Count -gt 0) {
     throw ($assertionFailures -join "`n`n")
 }
 
-Write-Host 'Audit regression fixtures passed: RegionHasText, TryClickAnyText, WaitUntilText, C# collection expression, helper API, multiline invocation, extracted comparison, and stale allowlist all fail closed.'
+Write-Host 'Audit regression fixtures passed: RegionHasText, TryClickAnyText, WaitUntilText, C# collection expression, helper API, multiline invocation, extracted comparison, scalar variable, Regex, List initializer, indirect helper, and stale allowlist all fail closed.'

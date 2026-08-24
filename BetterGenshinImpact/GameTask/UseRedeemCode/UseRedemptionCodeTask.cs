@@ -24,10 +24,6 @@ public class UseRedemptionCodeTask : ISoloTask
 
 
     private readonly List<RedeemCode> _list;
-    private readonly RemainingGameTextRecognizer _textRecognizer = new(
-        App.GetService<IGameTextMatcher>()
-        ?? throw new InvalidOperationException("IGameTextMatcher is not registered."));
-
     public UseRedemptionCodeTask(List<RedeemCode> list)
     {
         this._list = list;
@@ -66,14 +62,14 @@ public class UseRedemptionCodeTask : ISoloTask
 
             // 点击账户
             _logger.LogInformation("使用兑换码: {Msg}", "点击账户 —— 前往兑换");
-            await page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Redemption.Account)).WithRoi(captureRect.CutLeft(0.2)).Click();
+            await page.GetByTextKey(GameTextKeys.Redemption.Account).WithRoi(captureRect.CutLeft(0.2)).Click();
             await page.Wait(300);
 
             // 点击前往兑换
-            await page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Redemption.GoToRedeem)).WithRoi(captureRect.CutRight(0.3)).Click();
+            await page.GetByTextKey(GameTextKeys.Redemption.GoToRedeem).WithRoi(captureRect.CutRight(0.3)).Click();
 
             // 等待兑换码输入框出现
-            await page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Redemption.RedeemReward)).WaitFor();
+            await page.GetByTextKey(GameTextKeys.Redemption.RedeemReward).WaitFor();
 
 
             foreach (var redeemCode in _list)
@@ -109,12 +105,12 @@ public class UseRedemptionCodeTask : ISoloTask
         // 将要输入的文本复制到剪贴板
         UIDispatcherHelper.Invoke(() => Clipboard.SetDataObject(redeemCode.Code!));
         // 粘贴兑换码
-        await page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Paste)).WithRoi(captureRect.CutRight(0.5)).Click();
+        await page.GetByTextKey(GameTextKeys.Common.Paste).WithRoi(captureRect.CutRight(0.5)).Click();
         // 点击兑换
         await page.Locator(ElementRecognition.Get("BtnWhiteConfirm")).Click();
 
         // 兑换成功
-        var list = await page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Redemption.Success)).TryWaitFor(1000);
+        var list = await page.GetByTextKey(GameTextKeys.Redemption.Success).TryWaitFor(1000);
         if (list.Count > 0)
         {
             _logger.LogInformation("兑换码 {Code} 兑换成功", redeemCode.Code);
@@ -126,7 +122,7 @@ public class UseRedemptionCodeTask : ISoloTask
         {
             _logger.LogWarning("兑换码 {Code} 兑换失败，可能是过期、错误或已被使用", redeemCode.Code);
             // 点击清除
-            await page.GetByText(_textRecognizer.GetPrimaryAlias(GameTextKeys.Common.Clear)).WithRoi(captureRect.CutRight(0.5)).Click();
+            await page.GetByTextKey(GameTextKeys.Common.Clear).WithRoi(captureRect.CutRight(0.5)).Click();
         }
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace BetterGenshinImpact.GameTask.Localization;
@@ -34,7 +35,24 @@ public sealed class EmbeddedGameTextCatalogProvider : IGameTextCatalogProvider
         using var stream = assembly.GetManifestResourceStream(resourceName)
             ?? throw new InvalidOperationException($"Embedded game text catalog resource '{resourceName}' could not be opened.");
         using var reader = new StreamReader(stream);
-        var document = JObject.Parse(reader.ReadToEnd());
+        return LoadCatalog(resourceName, reader.ReadToEnd());
+    }
+
+    internal static GameTextCatalog LoadCatalog(string resourceName, string json)
+    {
+        JObject document;
+        try
+        {
+            using var reader = new JsonTextReader(new StringReader(json));
+            document = JObject.Load(reader, new JsonLoadSettings
+            {
+                DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error
+            });
+        }
+        catch (JsonReaderException exception)
+        {
+            throw new InvalidOperationException($"Embedded game text catalog '{resourceName}' contains invalid or duplicate JSON properties: {exception.Message}", exception);
+        }
 
         if (document["schemaVersion"]?.Type != JTokenType.Integer || document.Value<int?>("schemaVersion") != 1)
         {

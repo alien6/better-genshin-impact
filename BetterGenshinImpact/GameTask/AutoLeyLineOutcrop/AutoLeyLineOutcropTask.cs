@@ -937,7 +937,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
             return true;
         }
 
-        if (_textRecognizer.IsLeyLine(result2MatchText) && _textRecognizer.IsOutcrop(result2MatchText))
+        if (_textRecognizer.IsLeyLineNormalized(result2MatchText) && _textRecognizer.IsOutcropNormalized(result2MatchText))
         {
             _logger.LogDebug("识别到地脉之花入口，尝试接触");
             Simulation.SendInput.SimulateAction(GIActions.PickUpOrInteract);
@@ -960,7 +960,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
             }
         }
 
-        if (_textRecognizer.IsOutcrop(result2MatchText))
+        if (_textRecognizer.IsOutcropNormalized(result2MatchText))
         {
             _logger.LogDebug("识别到溢口提示，尝试交互");
             Simulation.SendInput.SimulateAction(GIActions.PickUpOrInteract);
@@ -1344,13 +1344,13 @@ public class AutoLeyLineOutcropTask : ISoloTask
                 foundText = RecognizeFightText(capture);
             }
 
-            if (_textRecognizer.IsFightSuccess(text))
+            if (_textRecognizer.IsFightSuccessNormalized(text))
             {
                 // OCR recognizes victory text; treat as success.
                 return true;
             }
 
-            if (_textRecognizer.IsFightFailure(text))
+            if (_textRecognizer.IsFightFailureNormalized(text))
             {
                 // OCR recognizes failure text; stop early.
                 return false;
@@ -1436,7 +1436,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
         return ContainsRewardPromptActionText(result2Text) || HasRewardPrompt(capture);
     }
 
-    private bool ContainsFightText(string text) => _textRecognizer.IsFightObjective(text);
+    private bool ContainsFightText(string text) => _textRecognizer.IsFightObjectiveNormalized(text);
 
     private async Task AutoNavigateToReward()
     {
@@ -1562,10 +1562,10 @@ public class AutoLeyLineOutcropTask : ISoloTask
         foreach (var res in list)
         {
             var matchText = _textRecognizer.NormalizeOcrText(res.Text);
-            if (_textRecognizer.IsAllowedResinOption(matchText)
-                || _textRecognizer.IsTouch(matchText)
-                || _textRecognizer.IsLeyLine(matchText)
-                || _textRecognizer.IsOutcrop(matchText))
+            if (_textRecognizer.IsAllowedResinOptionNormalized(matchText)
+                || _textRecognizer.IsTouchNormalized(matchText)
+                || _textRecognizer.IsLeyLineNormalized(matchText)
+                || _textRecognizer.IsOutcropNormalized(matchText))
             {
                 return true;
             }
@@ -1600,7 +1600,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
         var list = capture.FindMulti(_ocrRoThis);
         foreach (var res in list)
         {
-            if (_textRecognizer.IsRevive(_textRecognizer.NormalizeOcrText(res.Text)))
+            if (_textRecognizer.IsReviveNormalized(_textRecognizer.NormalizeOcrText(res.Text)))
             {
                 res.Click();
                 await Delay(2000, _ct);
@@ -1851,8 +1851,8 @@ public class AutoLeyLineOutcropTask : ISoloTask
 
         var lineTexts = BuildPromptTextLines(promptRegions);
         var isOriginalResinEmpty = lineTexts.Any(_textRecognizer.IsReplenish);
-        var hasDoubleReward = lineTexts.Any(text => _textRecognizer.IsDoubleReward(text)
-                                                    || _textRecognizer.IsDoubleReward2x(text));
+        var hasDoubleReward = lineTexts.Any(text => _textRecognizer.IsDoubleRewardNormalized(text)
+                                                    || _textRecognizer.IsDoubleReward2xNormalized(text));
         var originalResinLines = lineTexts.Where(_textRecognizer.IsOriginalResin).ToList();
         var hasOriginal20 = !isOriginalResinEmpty && originalResinLines.Any(text => text.Contains("20", StringComparison.Ordinal));
         var hasOriginal40 = !isOriginalResinEmpty && originalResinLines.Any(text => text.Contains("40", StringComparison.Ordinal));
@@ -1874,8 +1874,8 @@ public class AutoLeyLineOutcropTask : ISoloTask
 
                 lineTexts = BuildPromptTextLines(promptRegions);
                 isOriginalResinEmpty = lineTexts.Any(_textRecognizer.IsReplenish);
-                hasDoubleReward = lineTexts.Any(text => _textRecognizer.IsDoubleReward(text)
-                                                        || _textRecognizer.IsDoubleReward2x(text));
+                hasDoubleReward = lineTexts.Any(text => _textRecognizer.IsDoubleRewardNormalized(text)
+                                                        || _textRecognizer.IsDoubleReward2xNormalized(text));
                 originalResinLines = lineTexts.Where(_textRecognizer.IsOriginalResin).ToList();
                 hasOriginal20 = !isOriginalResinEmpty && originalResinLines.Any(text => text.Contains("20", StringComparison.Ordinal));
                 hasOriginal40 = !isOriginalResinEmpty && originalResinLines.Any(text => text.Contains("40", StringComparison.Ordinal));
@@ -1976,7 +1976,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
     private bool IsRewardPromptTitleText(string text)
     {
         return _textRecognizer.IsRewardBlossomTitle([text])
-               || (_textRecognizer.IsLeyLine(text) && _textRecognizer.IsOutcrop(text));
+               || (_textRecognizer.IsLeyLineNormalized(text) && _textRecognizer.IsOutcropNormalized(text));
     }
 
     private List<Region> CaptureRewardPromptRegions()
@@ -1994,10 +1994,10 @@ public class AutoLeyLineOutcropTask : ISoloTask
         var normalizedRegions = promptRegions
             .Select(region => (Region: region, MatchText: _textRecognizer.NormalizeOcrText(region.Text)))
             .ToList();
-        var resinKey = normalizedRegions.FirstOrDefault(region => _textRecognizer.IsConfiguredResin(region.MatchText, resinName)).Region;
+        var resinKey = normalizedRegions.FirstOrDefault(region => _textRecognizer.IsConfiguredResinNormalized(region.MatchText, resinName)).Region;
         var useKey = resinKey == null
             ? null
-            : normalizedRegions.FirstOrDefault(region => _textRecognizer.IsUse(region.MatchText)
+            : normalizedRegions.FirstOrDefault(region => _textRecognizer.IsUseNormalized(region.MatchText)
                                                          && region.Region.X > TaskContext.Instance().SystemInfo.ScaleMax1080PCaptureRect.Width / 2
                                                          && IsHeightOverlap(region.Region, resinKey)).Region;
         if (useKey != null)
@@ -2078,13 +2078,13 @@ public class AutoLeyLineOutcropTask : ISoloTask
             .Trim();
     }
 
-    private bool ContainsRewardPromptActionText(string text) => _textRecognizer.IsUse(text);
+    private bool ContainsRewardPromptActionText(string text) => _textRecognizer.IsUseNormalized(text);
 
     private bool ContainsRewardPromptContentText(string text) =>
-        _textRecognizer.IsAllowedResinOption(text)
+        _textRecognizer.IsAllowedResinOptionNormalized(text)
         || _textRecognizer.IsRewardBlossomPrompt([text])
-        || _textRecognizer.IsReplenish(text)
-        || (_textRecognizer.IsUse(text) && _textRecognizer.IsOriginalResin(text));
+        || _textRecognizer.IsReplenishNormalized(text)
+        || (_textRecognizer.IsUseNormalized(text) && _textRecognizer.IsOriginalResinNormalized(text));
 
     private static bool IsHeightOverlap(Region first, Region second) =>
         first.Y < second.Bottom && first.Bottom > second.Y;
@@ -2343,7 +2343,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
         var normalizedRegions = list
             .Select(region => (Region: region, MatchText: _textRecognizer.NormalizeOcrText(region.Text)))
             .ToList();
-        var stop = normalizedRegions.FirstOrDefault(region => _textRecognizer.IsStop(region.MatchText)).Region;
+        var stop = normalizedRegions.FirstOrDefault(region => _textRecognizer.IsStopNormalized(region.MatchText)).Region;
         if (stop != null)
         {
             stop.Click();
@@ -2351,7 +2351,7 @@ public class AutoLeyLineOutcropTask : ISoloTask
         }
 
         var leyLine = normalizedRegions.FirstOrDefault(region =>
-            _textRecognizer.IsLeyLine(region.MatchText) || _textRecognizer.IsOutcrop(region.MatchText)).Region;
+            _textRecognizer.IsLeyLineNormalized(region.MatchText) || _textRecognizer.IsOutcropNormalized(region.MatchText)).Region;
         if (leyLine != null)
         {
             leyLine.Click();

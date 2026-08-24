@@ -50,27 +50,49 @@ public sealed class LeyLineTextRecognizer
             StringComparer.Ordinal);
     }
 
-    public bool IsOriginalResin(string recognizedText) => IsMatch(recognizedText, GameTextKeys.Resin.Original);
-    public bool IsCondensedResin(string recognizedText) => IsMatch(recognizedText, GameTextKeys.Resin.Condensed);
-    public bool IsTransientResin(string recognizedText) => IsMatch(recognizedText, GameTextKeys.Resin.Transient);
-    public bool IsFragileResin(string recognizedText) => IsMatch(recognizedText, GameTextKeys.Resin.Fragile);
-    public bool IsReplenish(string recognizedText) => IsMatch(recognizedText, GameTextKeys.Resin.Replenish);
-    public bool IsDoubleReward(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.DoubleReward);
-    public bool IsDoubleReward2x(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.DoubleReward2x);
-    public bool IsTouch(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.Touch);
-    public bool IsActivate(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.Activate);
-    public bool IsSelect(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.Select);
-    public bool IsLeyLine(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.Line);
-    public bool IsOutcrop(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.Outcrop);
-    public bool IsBlossomOfWealth(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.BlossomOfWealth);
-    public bool IsBlossomOfRevelation(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.BlossomOfRevelation);
-    public bool IsRevive(string recognizedText) => IsMatch(recognizedText, GameTextKeys.Common.Revive);
-    public bool IsUse(string recognizedText) => IsMatch(recognizedText, GameTextKeys.Common.Use);
-    public bool IsStop(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.Stop);
-    public bool IsOriginalResin40Prompt(string recognizedText) => IsMatch(recognizedText, GameTextKeys.LeyLine.OriginalResin40Prompt);
-    public bool IsFightSuccess(string recognizedText) => IsMatch(NormalizeOcrText(recognizedText), GameTextKeys.LeyLine.FightSuccess);
-    public bool IsFightFailure(string recognizedText) => IsMatch(NormalizeOcrText(recognizedText), GameTextKeys.LeyLine.FightFailure);
-    public bool IsFightObjective(string recognizedText) => IsMatch(NormalizeOcrText(recognizedText), GameTextKeys.LeyLine.FightObjective);
+    public bool IsOriginalResin(string recognizedText) => IsOriginalResinNormalized(NormalizeOcrText(recognizedText));
+    public bool IsCondensedResin(string recognizedText) => IsCondensedResinNormalized(NormalizeOcrText(recognizedText));
+    public bool IsTransientResin(string recognizedText) => IsTransientResinNormalized(NormalizeOcrText(recognizedText));
+    public bool IsFragileResin(string recognizedText) => IsFragileResinNormalized(NormalizeOcrText(recognizedText));
+    public bool IsReplenish(string recognizedText) => IsReplenishNormalized(NormalizeOcrText(recognizedText));
+    public bool IsDoubleReward(string recognizedText) => IsDoubleRewardNormalized(NormalizeOcrText(recognizedText));
+    public bool IsDoubleReward2x(string recognizedText) => IsDoubleReward2xNormalized(NormalizeOcrText(recognizedText));
+    public bool IsTouch(string recognizedText) => IsTouchNormalized(NormalizeOcrText(recognizedText));
+    public bool IsActivate(string recognizedText) => IsActivateNormalized(NormalizeOcrText(recognizedText));
+    public bool IsSelect(string recognizedText) => IsSelectNormalized(NormalizeOcrText(recognizedText));
+    public bool IsLeyLine(string recognizedText) => IsLeyLineNormalized(NormalizeOcrText(recognizedText));
+    public bool IsOutcrop(string recognizedText) => IsOutcropNormalized(NormalizeOcrText(recognizedText));
+    public bool IsBlossomOfWealth(string recognizedText) => IsBlossomOfWealthNormalized(NormalizeOcrText(recognizedText));
+    public bool IsBlossomOfRevelation(string recognizedText) => IsBlossomOfRevelationNormalized(NormalizeOcrText(recognizedText));
+    public bool IsRevive(string recognizedText) => IsReviveNormalized(NormalizeOcrText(recognizedText));
+    public bool IsUse(string recognizedText) => IsUseNormalized(NormalizeOcrText(recognizedText));
+    public bool IsStop(string recognizedText) => IsStopNormalized(NormalizeOcrText(recognizedText));
+    public bool IsOriginalResin40Prompt(string recognizedText) => IsOriginalResin40PromptNormalized(NormalizeOcrText(recognizedText));
+    public bool IsFightSuccess(string recognizedText) => IsFightSuccessNormalized(NormalizeOcrText(recognizedText));
+    public bool IsFightFailure(string recognizedText) => IsFightFailureNormalized(NormalizeOcrText(recognizedText));
+    public bool IsFightObjective(string recognizedText) => IsFightObjectiveNormalized(NormalizeOcrText(recognizedText));
+
+    internal bool IsOriginalResinNormalized(string text) => IsMatch(text, GameTextKeys.Resin.Original);
+    internal bool IsCondensedResinNormalized(string text) => IsMatch(text, GameTextKeys.Resin.Condensed);
+    internal bool IsTransientResinNormalized(string text) => IsMatch(text, GameTextKeys.Resin.Transient);
+    internal bool IsFragileResinNormalized(string text) => IsMatch(text, GameTextKeys.Resin.Fragile);
+    internal bool IsReplenishNormalized(string text) => IsMatch(text, GameTextKeys.Resin.Replenish);
+    internal bool IsDoubleRewardNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.DoubleReward);
+    internal bool IsDoubleReward2xNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.DoubleReward2x);
+    internal bool IsTouchNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.Touch);
+    internal bool IsActivateNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.Activate);
+    internal bool IsSelectNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.Select);
+    internal bool IsLeyLineNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.Line);
+    internal bool IsOutcropNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.Outcrop);
+    internal bool IsBlossomOfWealthNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.BlossomOfWealth);
+    internal bool IsBlossomOfRevelationNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.BlossomOfRevelation);
+    internal bool IsReviveNormalized(string text) => IsMatch(text, GameTextKeys.Common.Revive);
+    internal bool IsUseNormalized(string text) => IsMatch(text, GameTextKeys.Common.Use);
+    internal bool IsStopNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.Stop);
+    internal bool IsOriginalResin40PromptNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.OriginalResin40Prompt);
+    internal bool IsFightSuccessNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.FightSuccess);
+    internal bool IsFightFailureNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.FightFailure);
+    internal bool IsFightObjectiveNormalized(string text) => IsMatch(text, GameTextKeys.LeyLine.FightObjective);
 
     public string NormalizeOcrText(string recognizedText) => GameTextNormalizer.Normalize(recognizedText);
 
@@ -79,6 +101,12 @@ public sealed class LeyLineTextRecognizer
         || IsCondensedResin(recognizedText)
         || IsTransientResin(recognizedText)
         || IsFragileResin(recognizedText);
+
+    internal bool IsAllowedResinOptionNormalized(string text) =>
+        IsOriginalResinNormalized(text)
+        || IsCondensedResinNormalized(text)
+        || IsTransientResinNormalized(text)
+        || IsFragileResinNormalized(text);
 
     public bool IsRewardBlossomPrompt(IEnumerable<string> recognizedTexts)
     {
@@ -101,6 +129,15 @@ public sealed class LeyLineTextRecognizer
         "浓缩树脂" => IsCondensedResin(recognizedText),
         "须臾树脂" => IsTransientResin(recognizedText),
         "脆弱树脂" => IsFragileResin(recognizedText),
+        _ => false
+    };
+
+    internal bool IsConfiguredResinNormalized(string text, string resinName) => resinName switch
+    {
+        "原粹树脂" => IsOriginalResinNormalized(text),
+        "浓缩树脂" => IsCondensedResinNormalized(text),
+        "须臾树脂" => IsTransientResinNormalized(text),
+        "脆弱树脂" => IsFragileResinNormalized(text),
         _ => false
     };
 

@@ -59,6 +59,19 @@ public class DomainTextRecognizerTests
         Assert.True(((ICollection<string>)sut.StartChallengeOcrMatchAliases).IsReadOnly);
     }
 
+    [Fact]
+    public void NewRecognizerSnapshot_UsesCultureAfterAConfiguredLanguageSwitch()
+    {
+        var matcher = new SwitchingChallengeAliasMatcher();
+        var simplifiedChinese = new DomainTextRecognizer(matcher);
+
+        matcher.UsePortuguese = true;
+        var portuguese = new DomainTextRecognizer(matcher);
+
+        Assert.Equal(["单人挑战"], simplifiedChinese.SoloChallengeOcrMatchAliases);
+        Assert.Equal(["DesafioSolo"], portuguese.SoloChallengeOcrMatchAliases);
+    }
+
     [Theory]
     [InlineData("pt-BR", "solo", "Desafio Solo")]
     [InlineData("pt-BR", "start", "Iniciar Desafio")]
@@ -359,6 +372,22 @@ public class DomainTextRecognizerTests
 
         public bool IsCombinedMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) =>
             throw new NotSupportedException();
+    }
+
+    private sealed class SwitchingChallengeAliasMatcher : IGameTextMatcher
+    {
+        public bool UsePortuguese { get; set; }
+
+        public IReadOnlyList<string> GetAliases(string key, CultureInfo? culture = null) => key switch
+        {
+            GameTextKeys.Domain.SoloChallenge => [UsePortuguese ? "Desafio Solo" : "单人挑战"],
+            GameTextKeys.Domain.StartChallenge => [UsePortuguese ? "Iniciar Desafio" : "开始挑战"],
+            _ => throw new ArgumentOutOfRangeException(nameof(key), key, null)
+        };
+
+        public bool IsMatch(string recognizedText, string key, CultureInfo? culture = null) => throw new NotSupportedException();
+        public bool IsAnyMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) => throw new NotSupportedException();
+        public bool IsCombinedMatch(IEnumerable<string> recognizedTexts, string key, CultureInfo? culture = null) => throw new NotSupportedException();
     }
 
     private sealed class FixedGameCultureProvider(CultureInfo currentCulture) : IGameCultureProvider
